@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globengel: World Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/group-cards.css">
+
+    <!-- CSS for Services Section -->
+    <style>
+        .glob-services-container {
+            width: 100%;
+            height: 520px;
+            /* Further reduced height for better fit */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glob-services {
+            height: 480px !important;
+            /* Match container height */
+            display: flex;
+            width: 100%;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.5s ease;
+            background-attachment: scroll;
+        }
+
+        .glob-service-item {
+            flex: 1;
+            position: relative;
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 20px 14px 24px 14px;
+            /* More bottom padding for text */
+            z-index: 2;
+            transition: all 0.3s ease;
+            overflow: visible;
+            /* Allow text to expand */
+            min-width: 0;
+        }
+
+        .glob-service-item:last-child {
+            border-right: none;
+        }
+
+        /* Mobile styles for services section */
+        @media (max-width: 768px) {
+            .glob-services-container {
+                display: none;
+                /* Hide the desktop version */
+            }
+
+            .glob-service-mobile-card {
+                height: 200px;
+                border-radius: 12px;
+                background-size: cover;
+                background-position: center;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-end;
+                padding: 20px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .glob-service-mobile-card::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 60%);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="1"]::after,
+            .glob-service-mobile-card[data-bg="2"]::after,
+            .glob-service-mobile-card[data-bg="5"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(233, 142, 111, 0.4);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="3"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(140, 85, 69, 0.5);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="4"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(72, 109, 149, 0.4);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card .glob-service-text {
+                position: relative;
+                z-index: 2;
+                transition: transform 0.3s ease;
+                width: 100%;
+            }
+
+            .glob-service-mobile-card .glob-service-description {
+                position: relative;
+                z-index: 2;
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+                transform: translateY(20px);
+                color: white;
+                font-size: 14px;
+                line-height: 1.4;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+                padding-top: 10px;
+                width: 100%;
+            }
+
+            .glob-service-mobile-card.tapped .glob-service-text {
+                transform: translateY(-10px);
+            }
+
+            .glob-service-mobile-card.tapped .glob-service-description {
+                opacity: 1;
+                max-height: 200px;
+                transform: translateY(0);
+            }
+
+            .glob-service-mobile-card:active,
+            .glob-service-mobile-card.tapped {
+                transform: scale(0.98);
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+                height: auto;
+                min-height: 250px;
+                background-position: top center;
+            }
+        }
+
+        /* Hide mobile cards on desktop */
+        @media (min-width: 769px) {
+            .glob-mobile-services {
+                display: none;
+            }
+        }
+
+        /* Color overlays for each section - matching the image */
+        /* .glob-service-item:nth-child(1) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    }
+    
+    .glob-service-item:nth-child(2) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    }
+    
+    .glob-service-item:nth-child(3) {
+        background-color: rgba(140, 85, 69, 0.6); 
+    }
+    
+    .glob-service-item:nth-child(4) {
+        background-color: rgba(72, 109, 149, 0.4); 
+    }
+    
+    .glob-service-item:nth-child(5) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    } */
+
+        /* Text style */
+        .glob-service-text {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.3;
+            z-index: 2;
+            position: relative;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+            transition: transform 0.3s ease, height 0.3s ease;
+            letter-spacing: 1px;
+            padding-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .glob-service-item:hover .glob-service-text {
+            transform: translateY(-10px);
+        }
+
+        .glob-service-description {
+            color: white;
+            font-size: 13px;
+            line-height: 1.4;
+            z-index: 2;
+            position: relative;
+            opacity: 0;
+            max-height: 0;
+            overflow: visible;
+            transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+            transform: translateY(20px);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+            padding-top: 2px;
+            margin-bottom: 0;
+            background: none;
+        }
+
+        .glob-service-item:hover .glob-service-description,
+        .glob-service-mobile-card:active .glob-service-description,
+        .glob-service-mobile-card.tapped .glob-service-description {
+            opacity: 1;
+            max-height: 120px;
+            transform: translateY(0);
+        }
+
+        /* Plus icon */
+        .glob-plus-icon {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hover effects for sections */
+        .glob-service-item {
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .glob-services:hover .glob-service-item {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Service with active class */
+        .glob-service-item.glob-active {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-services {
+            background-color: #FFF6F3;
+        }
+
+        /* Flip animation styles */
+        .glob-service-item {
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .glob-service-item.flip {
+            transform: rotateY(180deg);
+        }
+
+
+        /* Penguien section style */
+
+        .cruise-section {
+            background: #f8f2ec;
+            padding: 60px 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+
+        .cruise-wrapper {
+            display: flex;
+            align-items: flex-start;
+            max-width: 1000px;
+            margin: 0 auto;
+            gap: 80px;
+        }
+
+        .cruise-img img {
+            width: 400px;
+            height: 450px;
+            /* object-fit: cover; */
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            background: #fff;
+            display: block;
+        }
+
+        .cruise-content {
+            flex: 1;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cruise-content h2 {
+            font-size: 35px;
+            font-weight: 400;
+            color: #444;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Miller Display', Georgia, serif;
+        }
+
+        .cruise-script {
+            font-size: 65px;
+            font-weight: 400;
+            color: #444;
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        .cruise-content p {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 12px;
+            line-height: 1.7;
+            text-align: justify;
+            font-family: 'Miller Display', Georgia, serif;
+        }
+
+        @media (max-width: 900px) {
+
+            .cruise-wrapper {
+                flex-direction: column;
+                gap: 24px;
+                max-width: 98vw;
+                align-items: center;
+            }
+
+            .cruise-img img {
+                width: 98vw;
+                max-width: 340px;
+                height: auto;
+            }
+
+            .cruise-content {
+                margin-top: 0;
+            }
+        }
+
+        /* Curies line partners section */
+        .cruise-partners-section {
+            background: #fff;
+            padding: 60px 0 60px 0;
+            text-align: center;
+        }
+
+        .cruise-partners-title {
+            font-size: 35px;
+            font-weight: 400;
+            color: #444;
+            margin-bottom: 28px;
+            font-family: 'Miller Display', Georgia, serif;
+        }
+
+        .cruise-partners-script {
+            font-size: 65px;
+            font-weight: 400;
+            color: #444;
+            margin: 0 2px;
+            vertical-align: middle;
+        }
+
+        .cruise-logos-marquee {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            padding: 12px 0;
+        }
+
+        .cruise-logos-track {
+            display: flex;
+            gap: 38px;
+            align-items: center;
+            width: max-content;
+            animation: cruise-marquee 30s linear infinite;
+        }
+
+        .cruise-logo {
+            height: 80px;
+            max-width: 200px;
+            object-fit: contain;
+            /* background: #fff; */
+            border-radius: 8px;
+            /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); */
+            margin: 0 8px;
+        }
+
+        @keyframes cruise-marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .cruise-logo {
+                height: 32px;
+                max-width: 110px;
+            }
+
+            .cruise-logos-track {
+                gap: 18px;
+            }
+        }
+
+        .cruise-logos-marquee-rtl {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            padding: 12px 0;
+            padding-top: 50px;
+        }
+
+        .cruise-logos-track-rtl {
+            display: flex;
+            gap: 38px;
+            align-items: center;
+            width: max-content;
+            animation: cruise-marquee-rtl 30s linear infinite;
+        }
+
+        .cruise-logo-rtl {
+            height: 80px;
+            max-width: 200px;
+            object-fit: contain;
+            /* background: #fff; */
+            border-radius: 8px;
+            /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); */
+            margin: 0 8px;
+        }
+
+        @keyframes cruise-marquee-rtl {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0%);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .cruise-logo-rtl {
+                height: 32px;
+                max-width: 110px;
+            }
+
+            .cruise-logos-track-rtl {
+                gap: 18px;
+            }
+        }
+
+
+        /* Cruise booking card styes */
+        .region-cruise-cards {
+            background: #fff;
+            padding: 60px 0 60px 0;
+            /* max-width: 1200px; */
+            margin: 0 auto;
+        }
+
+        .region-title {
+            font-size: 25px;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 26px;
+            font-family: 'Miller Display', Georgia, serif;
+            text-align: left;
+            margin-left: 95px;
+        }
+
+        .region-cards-row {
+            display: flex;
+            gap: 28px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cruise-card {
+            background: #fff;
+            border: 1.5px solid #e0e0e0;
+            /* box-shadow: 0 0px 10px rgba(0, 0, 0, 1); */
+            width: 320px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cruise-card-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            /* border-bottom: 1px solid #e0e0e0; */
+            background: #fff;
+            display: block;
+            padding: 12px;
+        }
+
+        .cruise-card-body {
+            padding: 0px 12px 5px 18px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .cruise-card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 12px 0;
+            font-size: 10px;
+            color: #444;
+        }
+
+        .cruise-card-list li {
+            /* margin-bottom: 4px; */
+            /* line-height: 1.5; */
+            display: grid;
+            grid-template-columns: 135px auto;
+            /* Left: fixed width for labels */
+            gap: 0px;
+        }
+
+        .cruise-card-list b {
+            color: #222;
+            font-weight: 600;
+            font-size: 12px;
+            font-family: 'Miller Display', Georgia, serif;
+        }
+
+        .cruise-card-list span {
+            color: #555;
+        }
+
+        .cruise-card-list .price {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .cruise-card-btn {
+            display: block;
+            /* width: 90%; */
+            margin: 0 auto;
+            background: #fa7a2f;
+            color: #fff;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            /* border-radius: 3px; */
+            padding: 2px 7px;
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+            transition: background 0.2s;
+        }
+
+        .cruise-card-btn:hover {
+            background: #d85f1d;
+        }
+
+        .region-cruise-cards .swiper-button-prev,
+        .region-cruise-cards .swiper-button-next {
+            background: rgba(255,255,255,0.09);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            width: 40px;
+            height: 40px;
+            color: #ff5a3c;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .region-cruise-cards .swiper-button-prev:after,
+        .region-cruise-cards .swiper-button-next:after {
+            font-size: 22px;
+        }
+
+        @media (max-width: 1100px) {
+            .region-cards-row {
+                flex-direction: column;
+                gap: 18px;
+                align-items: center;
+            }
+
+            .cruise-card {
+                width: 100%;
+                /* max-width: 340px; */
+            }
+        }
+
+        @media (max-width: 700px) {
+            .region-cards-row {
+                flex-direction: column;
+                gap: 18px;
+                align-items: center;
+            }
+
+            .cruise-card {
+                width: 100%;
+                /* max-width: 340px; */
+            }
+        }
+
+        .hero-slider-section,
+        .hero-slider-section .swiper,
+        .hero-slider-section .swiper-slide,
+        .hero-section {
+            width: 100%;
+            height: 100vh;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section {
+            display: flex;
+            align-items: end;
+            justify-content: start;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .hero-content {
+            z-index: 2;
+            color: #fff;
+        }
+
+        .swiper-button-prev,
+        .swiper-button-next {
+            color: #fff;
+        }
+
+        .swiper-pagination {
+            bottom: 40px !important;
+        }
+
+        @media (max-width: 900px) {
+
+            .hero-slider-section,
+            .hero-slider-section .swiper,
+            .hero-slider-section .swiper-slide,
+            .hero-section {
+                height: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <ul class="navbar-nav d-none d-lg-flex">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#">DESTINATIONS</a>
+                    <div class="mega-menu destinations-menu">
+                        <!-- Left Side -->
+                        <div class="mega-left">
+                            <ul>
+                                <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
+                                <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
+                                <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
+                                <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
+                                <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
+                                <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
+                                <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
+                                <li data-target="polar">POLAR <span class="arrow">&#8250;</span></li>
+                            </ul>
+                        </div>
+                        <!-- Right Side -->
+                        <div class="mega-right">
+                            <div class="content" id="africa">
+                                <div class="column">
+                                    <a href="#">Ascension Island</a>
+                                    <a href="#">Botswana</a>
+                                    <a href="#">Ethiopia</a>
+                                    <a href="#">Kenya</a>
+                                    <a href="#">Madagascar</a>
+                                    <a href="s10.html">Mauritius</a>
+                                    <a href="#">Morocco</a>
+                                    <a href="#">Namibia</a>
+                                    <a href="#">ReUnion Island</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Saint Helena Island</a>
+                                    <a href="#">Seychelles</a>
+                                    <a href="#">South Africa</a>
+                                    <a href="#">TanZania</a>
+                                    <a href="#">Zanzibar</a>
+                                    <a href="#">Tristan Da Cunha</a>
+                                    <a href="#">Zimbabwe</a>
+                                </div>
+                            </div>
+                            <div class="content" id="asia">
+                                <div class="column">
+                                    <a href="#">Armenia</a>
+                                    <a href="#">Azerbaijan</a>
+                                    <a href="#">Cambodia</a>
+                                    <a href="#">Georgia</a>
+                                    <a href="#">Hong Kong & Macau</a>
+                                    <a href="s9.html">Indonesia</a>
+                                    <a href="Destination.html">Japan</a>
+                                    <a href="#">Kazakhstan</a>
+                                    <a href="#">Laos</a>
+                                    <a href="#">Malaysia</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Maldives</a>
+                                    <a href="#">Mongolia</a>
+                                    <a href="#">Philippines</a>
+                                    <a href="#">Russia</a>
+                                    <a href="#">Singapore</a>
+                                    <a href="#">Taiwan</a>
+                                    <a href="#">South Korea</a>
+                                    <a href="s6.html">Thailand</a>
+                                    <a href="#">Uzbekistan</a>
+                                    <a href="s1.html">Vietnam</a>
+                                </div>
+                            </div>
+                            <div class="content" id="australasia">
+                                <div class="column">
+                                    <a href="#">Argentina</a>
+                                    <a href="#">Brazil</a>
+                                    <a href="#">Canada</a>
+                                    <a href="#">Caribbean</a>
+                                    <a href="#">Chile</a>
+                                    <a href="#">Colombia</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Equador</a>
+                                    <a href="#">Mexico</a>
+                                    <a href="#">Peru</a>
+                                    <a href="#">Uruguay</a>
+                                    <a href="#">USA</a>
+                                </div>
+                            </div>
+                            <div class="content" id="europe">
+                                <div class="column">
+                                    <a href="#">Austria</a>
+                                    <a href="#">Belgium</a>
+                                    <a href="#">Bosnia & Herzegovinia</a>
+                                    <a href="#">Croatia</a>
+                                    <a href="#">Cyprus</a>
+                                    <a href="#">Czechia</a>
+                                    <a href="#">Denmark</a>
+                                    <a href="s2.html">Finland</a>
+                                    <a href="#">France</a>
+                                    <a href="#">Germany</a>
+                                    <a href="#">Greece</a>
+                                    <a href="#">Hungary</a>
+                                    <a href="#">Iceland</a>
+                                    <a href="#">Ireland</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Italy</a>
+                                    <a href="#">Netherlands</a>
+                                    <a href="#">Norway</a>
+                                    <a href="#">Poland</a>
+                                    <a href="#">Portugal</a>
+                                    <a href="#">Romania</a>
+                                    <a href="#">Scotland</a>
+                                    <a href="#">Slovakia</a>
+                                    <a href="#">Slovenia</a>
+                                    <a href="#">Spain</a>
+                                    <a href="#">Sweden</a>
+                                    <a href="#">Switzerland</a>
+                                    <a href="#">United Kingdom</a>
+                                </div>
+                            </div>
+                            <div class="content" id="indian">
+                                <div class="column">
+                                    <a href="#">India</a>
+                                    <a href="#">Nepal</a>
+                                    <a href="s8.html">Sri Lanka</a>
+                                </div>
+                                <div class="column">
+                                    <a href="s5.html">Bhutan</a>
+                                    <a href="s7.html">Maldives</a>
+                                </div>
+                            </div>
+                            <div class="content" id="latin">
+                                <div class="column">
+                                    <a href="s3.html">Australia</a>
+                                    <a href="#">Fiji</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">French Polynesia</a>
+                                    <a href="s4.html">New Zealand</a>
+                                </div>
+                            </div>
+                            <div class="content" id="middleeast">
+                                <div class="column">
+                                    <a href="#">Bahrain</a>
+                                    <a href="#">Egypt</a>
+                                    <a href="#">Jordan</a>
+                                    <a href="s11.html">Oman</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Qatar</a>
+                                    <a href="#">Saudi Arabia</a>
+                                    <a href="#">Turkey</a>
+                                    <a href="#">UAE</a>
+                                </div>
+                            </div>
+                            <div class="content" id="polar">
+                                <div class="column">
+                                    <a href="#">Antarctica</a>
+                                    <a href="#">Arctic</a>
+                                    <a href="#">Greenland</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Iceland</a>
+                                    <a href="#">Norway</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#">LUXURY</a>
+                    <div class="mega-menu itinerary-menu">
+                        <div class="mega-left">
+                            <ul>
+                                <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
+                                <li data-target="adventure"><a href="">JAPAN</a></li>
+                                <li data-target="luxury"><a href="">KENYA</a></li>
+                                <li data-target="classic"><a href="">NORWAY</a></li>
+                                <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
+                                <li data-target="luxury"><a href="">TANZANIA</a></li>
+                                <li data-target="classic"><a href="">ZANZIBAR</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="tourpakages.html">GROUP TOURS</a>
+                    <!-- <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family">LATIN AMERICA</li>
+            <li data-target="friends">AUSTRALIA</li>
+            <li data-target="corporate">CANADA</li>
+            <li data-target="couples">EUROPE</li>
+            <li data-target="family">GREECE</li>
+            <li data-target="friends">ICELAND</li>
+            <li data-target="corporate">JAPAN</li>
+            <li data-target="couples">MOROCCO</li>
+            <li data-target="family">NEW ZEALAND</li>
+            <li data-target="friends">SOUTH AFRICA</li>
+            <li data-target="corporate">UNITED KINGDOM</li>
+            <li data-target="couples">USA</li>
+            <li data-target="friends">VIETNAM</li>
+          </ul>
+        </div>
+      </div> -->
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="Voyages.html">VOYAGES</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#">BEYOND HOLIDAYS</a>
+                    <div class="mega-menu group-menu">
+                        <div class="mega-left">
+                            <ul>
+                                <li data-target="family"><a href="business.html">BUSINESS TRAVEL</a></li>
+                                <li data-target="friends"><a href="Eduwings.html">EDUWINGS (STUDY ABROAD)</a></li>
+                                <li data-target="corporate"><a href="celebration.html">DESTINATION CELEBRATIONS</a></li>
+                                <li data-target="couples"><a href="sky.html">PRIVATE CHARTERS</a></li>
+                                <li data-target="couples"><a href="sports.html">SPORTS TRAVEL</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <a class="navbar-brand mx-auto" href="index.html">
+                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;" alt="Globengel Logo" class="logo">
+
+            </a>
+
+            <div class="d-flex align-items-center ">
+                <div class="contact-info d-none d-lg-block me-3">
+                    CALL US AT:<br>
+                    <a href="tel:+919793405883">+91 97934-05883</a>
+                </div>
+                <span class="signin d-none d-lg-block"><img src="./iocon/account.png"
+                        style="display:block; font-size:1.5rem; margin:0 auto 2px auto; width: 30px;"></img>Sign
+                    In</span>
+
+                <!-- Mobile Toggle -->
+                <button class="navbar-toggler ms-2" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sliding Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="menu-header">
+            <a class="menu-logo" href="index.html">
+                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
+            </a>
+            <div class="close-btn">&times;</div>
+        </div>
+        <a class="nav-link" href="Destination.html">DESTINATIONS</a>
+        <a class="nav-link" href="Luxury.html">LUXURY</a>
+        <a class="nav-link" href="GroupTours.html">GROUP TOURS</a>
+        <a class="nav-link" href="#">VOYAGES</a>
+        <a class="nav-link" href="#">BEYOND LEISURE</a>
+        <a class="nav-link mt-3" href="#">Sign In</a>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-slider-section" style="position:relative; width:100%; height:100vh; overflow:hidden;">
+    <!-- Fixed background image only -->
+    <div class="hero-bg" style="background: url('./images/worldHeroImg.webp') no-repeat center center/cover; width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1;"></div>
+     
+    <!-- For video -->
+        <!-- <video class="hero-bg" autoplay muted loop playsinline
+           style="width:100%; height:100vh; object-fit:cover; position:absolute; top:0; left:0; z-index:1;">
+         <source src="./videos/your-video.mp4" type="video/mp4">
+           Your browser does not support the video tag.
+        </video> -->
+    <!-- Fixed Content -->
+    <div class="hero-content" style="position: absolute; bottom: 70px; left: 0; z-index: 2; width: 100%;">
+        <h5 class="hero-title"
+            style="font-size:60px; text-align: start; margin-left: 55px; font-weight: 400; font-family: 'Miller Display', Georgia, serif;">
+            Only The World's Best – For Your Next
+            <span class="hero-subtitle silver-South-family"
+                style="font-size: 75px; font-weight: 100; font-style: normal;"> Voyage </span>
+        </h5>
+        <p style="font-size: 20px; text-align: start; margin-left: 55px;font-family: 'Miller Display', Georgia, serif;">
+            From sun-soaked Mediterranean coasts to the ice-blue edges of Antarctica - discover the world in unparalleled style
+        </p>
+    </div>
+</section>
+
+    <!-- Penguien Section -->
+
+    <section class="cruise-section">
+        <div class="cruise-wrapper">
+            <div class="cruise-img">
+                <img src="./images/penguinImg.jpg" alt="Penguins Antarctica">
+            </div>
+            <div class="cruise-content">
+                <h2>
+                    Journeys Beyond the
+                    <span class="cruise-script silver-South-family">Horizon</span>
+                </h2>
+                <p>
+                    With a curated network of the world’s most distinguished cruise lines, we bring you journeys that
+                    transcend
+                    travel — from the sun-drenched romance of the Mediterranean to the untamed beauty of Alaska, and the
+                    pristine,
+                    icy majesty of Antarctica.
+                </p>
+                <p>
+                    Each cruise line we select is chosen for its commitment to refined service, immersive itineraries,
+                    and
+                    exceptional value. Whether you dream of crossing vast oceans in grandeur or exploring hidden shores
+                    aboard an
+                    intimate yacht, your journey begins here — imagined with precision, elegance, and the art of true
+                    voyaging.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our cruise line partners -->
+
+    <section class="cruise-partners-section">
+        <div class="cruise-partners-wrapper">
+            <h2 class="cruise-partners-title">
+                Our <span class="cruise-partners-script silver-South-family">Cruise</span> line partners
+            </h2>
+            <div class="cruise-logos-marquee">
+                <div class="cruise-logos-track">
+                    <img src="./images/hollandamericalogo.webp" alt="Holland America Line" class="cruise-logo">
+                    <img src="./images/royalcaribbeanlogo.png" alt="Royal Caribbean" class="cruise-logo">
+                    <img src="./images/ponentlogo.png" alt="Ponant" class="cruise-logo">
+                    <img src="./images/silverseacruiseslogo.png" alt="Silversea" class="cruise-logo">
+                    <img src="./CruisesLogo/A-ROSA_Logo_international.svg" alt="Azamara" class="cruise-logo">
+                    <img src="./images/seabournlogo.png" alt="Seabourn" class="cruise-logo">
+                    <img src="./images/regentlogo.png" alt="Regent" class="cruise-logo">
+                    <img src="./images/CelebrityCruisesLogo.jpg" alt="Celebrity Cruises" class="cruise-logo">
+                    <img src="./images/MSCruiseslogo.png" alt="MSC Cruises" class="cruise-logo">
+                    <img src="./CruisesLogo/Aurora_Expeditions_Logo.png" alt="Regent" class="cruise-logo">
+                    <img src="./CruisesLogo/celestyal-cruises-logo.png" alt="Celebrity Cruises" class="cruise-logo">
+                    <img src="./CruisesLogo/disney-cruise-line-logo.png" alt="MSC Cruises" class="cruise-logo">
+                    <img src="./CruisesLogo/download.svg" alt="MSC Cruises" class="cruise-logo">
+                    <!-- Repeat logos for seamless loop -->
+                    <img src="./images/hollandamericalogo.webp" alt="Holland America Line" class="cruise-logo">
+                    <img src="./images/royalcaribbeanlogo.png" alt="Royal Caribbean" class="cruise-logo">
+                    <img src="./images/ponentlogo.png" alt="Ponant" class="cruise-logo">
+                    <img src="./images/silverseacruiseslogo.png" alt="Silversea" class="cruise-logo">
+                    <img src="./CruisesLogo/A-ROSA_Logo_international.svg" alt="Azamara" class="cruise-logo">
+                    <img src="./images/seabournlogo.png" alt="Seabourn" class="cruise-logo">
+                    <img src="./images/regentlogo.png" alt="Regent" class="cruise-logo">
+                    <img src="./images/CelebrityCruisesLogo.jpg" alt="Celebrity Cruises" class="cruise-logo">
+                    <img src="./images/MSCruiseslogo.png" alt="MSC Cruises" class="cruise-logo">
+                    <img src="./CruisesLogo/Aurora_Expeditions_Logo.png" alt="Regent" class="cruise-logo">
+                    <img src="./CruisesLogo/celestyal-cruises-logo.png" alt="Celebrity Cruises" class="cruise-logo">
+                    <img src="./CruisesLogo/disney-cruise-line-logo.png" alt="MSC Cruises" class="cruise-logo">
+                    <img src="./CruisesLogo/download.svg" alt="MSC Cruises" class="cruise-logo">
+                </div>
+            </div>
+
+            <div class="cruise-logos-marquee-rtl">
+                <div class="cruise-logos-track-rtl">
+                    <img src="./CruisesLogo/NCL.png" alt="Holland America Line" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Oceania.png" alt="Royal Caribbean" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/POCruisesNewLogo48px.svg" alt="Ponant" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/princess-cruises-1-logo-svg-vector.svg" alt="Silversea" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Resorts-World-Cruises_EN_Horizontal_Red.png" alt="Azamara" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/VARIETY CRUISES (1)-png.png" alt="Seabourn" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Viking.png" alt="Regent" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/windstar-cruises-best-travel-agents.png" alt="Celebrity Cruises" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Albatros Expeditions.svg" alt="MSC Cruises" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Dream_Cruises_Logo.png" alt="Regent" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/logocord.png" alt="Regent" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/logocosta.svg" alt="Regent" class="cruise-logo-rtl">
+                    <!-- Repeat logos for seamless loop -->
+                    <img src="./CruisesLogo/NCL.png" alt="Holland America Line" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Oceania.png" alt="Royal Caribbean" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/POCruisesNewLogo48px.svg" alt="Ponant" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/princess-cruises-1-logo-svg-vector.svg" alt="Silversea" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Resorts-World-Cruises_EN_Horizontal_Red.png" alt="Azamara" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/VARIETY CRUISES (1)-png.png" alt="Seabourn" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Viking.png" alt="Regent" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/windstar-cruises-best-travel-agents.png" alt="Celebrity Cruises" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Albatros Expeditions.svg" alt="MSC Cruises" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/Dream_Cruises_Logo.png" alt="Regent" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/logocord.png" alt="Regent" class="cruise-logo-rtl">
+                    <img src="./CruisesLogo/logocosta.svg" alt="Regent" class="cruise-logo-rtl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secondary Menu Section -->
+    <section class="secondary-menu-section" id="secondaryMenu">
+        <div class="container-fluid">
+            <nav class="secondary-menu">
+                <ul class="secondary-nav">
+                    <li><a href="#americas">THE AMERICAS & CARIBBEAN</a></li>
+                    <li><a href="#europea">EUROPE & MEDITERRANEAN</a></li>
+                    <li><a href="#polars">POLAR EXPEDITIONS</a></li>
+                    <li><a href="#asias">ASIA & PACIFIC</a></li>
+                    <li><a href="#africas">AFRICA & INDIAN OCEAN</a></li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Cruise Booking Card section 1-->
+
+    <section class="region-cruise-cards" id="americas">
+        <h3 class="region-title">THE AMERICAS & CARIBBEAN</h3>
+        <div class="swiper cruiseSwiper">
+            <div class="swiper-wrapper">
+                <!-- Card 1 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+    <!-- Cruise Booking Card section 2-->
+
+    <section class="region-cruise-cards" id="europea">
+        <h3 class="region-title">EUROPE &amp; THE MEDITERRANEAN</h3>
+        <div class="swiper cruiseSwiper">
+            <div class="swiper-wrapper">
+                <!-- Card 1 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+
+    <!-- Cruise Booking Card section 3-->
+
+    <section class="region-cruise-cards" id="polars">
+        <h3 class="region-title">POLAR EXPEDITIONS</h3>
+        <div class="swiper cruiseSwiper">
+            <div class="swiper-wrapper">
+                <!-- Card 1 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+
+    <!-- Cruise Booking Card section 4-->
+
+    <section class="region-cruise-cards" id="asias">
+        <h3 class="region-title">ASIA &amp; PACIFIC</h3>
+        <div class="swiper cruiseSwiper">
+            <div class="swiper-wrapper">
+                <!-- Card 1 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+
+    <!-- Cruise Booking Card section 5-->
+
+    <section class="region-cruise-cards" id="africas">
+        <h3 class="region-title">AFRICA &amp; INDIAN OCEAN</h3>
+        <div class="swiper cruiseSwiper">
+            <div class="swiper-wrapper">
+                <!-- Card 1 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="swiper-slide">
+                    <div class="cruise-card">
+                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
+                        <div class="cruise-card-body">
+                            <ul class="cruise-card-list">
+                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
+                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
+                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
+                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
+                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
+                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
+                                <li><b>Sailing Date(s):</b>
+                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="cruise-card-btn">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+
+    <!-- World Travel Section -->
+    <section class="curate-trip-section">
+        <div class="curate-content">
+            <h2 style="margin-bottom: 35px;">
+                Set <span class="script-text silver-South-family"> Sail </span> with us
+            </h2>
+            <a href="#" class="curate-btn">CONTACT US</a>
+        </div>
+    </section>
+
+
+    <!-- Partner Section -->
+
+    <section class="logo-slider-section">
+        <div class="logo-marquee">
+            <div class="logo-track">
+                <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
+                <img src="./images/polandPartner.png" alt="wanderwell logo" />
+                <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
+                <img src="./images/par1.jpeg" alt="wanderwell logo" />
+                <img src="./images/par2.jpeg" alt="plasticbank logo" />
+                <img src="./images/par3.jpeg" alt="climate neutral now" />
+                <img src="./images/par4.jpeg" alt="eden reforestation" />
+                <img src="./images/par5.jpeg" alt="ally travel council" />
+                <img src="./images/par1.jpeg" alt="wanderwell logo" />
+                <img src="./images/par2.jpeg" alt="plasticbank logo" />
+                <img src="./images/par3.jpeg" alt="climate neutral now" />
+                <img src="./images/par4.jpeg" alt="eden reforestation" />
+                <img src="./images/par5.jpeg" alt="ally travel council" />
+                <!-- Repeat for seamless loop -->
+                <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
+                <img src="./images/polandPartner.png" alt="wanderwell logo" />
+                <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
+                <img src="./images/par1.jpeg" alt="wanderwell logo" />
+                <img src="./images/par2.jpeg" alt="plasticbank logo" />
+                <img src="./images/par3.jpeg" alt="climate neutral now" />
+                <img src="./images/par4.jpeg" alt="eden reforestation" />
+                <img src="./images/par5.jpeg" alt="ally travel council" />
+                <img src="./images/par1.jpeg" alt="wanderwell logo" />
+                <img src="./images/par2.jpeg" alt="plasticbank logo" />
+                <img src="./images/par3.jpeg" alt="climate neutral now" />
+                <img src="./images/par4.jpeg" alt="eden reforestation" />
+                <img src="./images/par5.jpeg" alt="ally travel council" />
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .logo-slider-section {
+            background: #fff;
+            padding: 60px 0;
+            overflow: hidden;
+        }
+
+        .logo-marquee {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo-track {
+            display: flex;
+            gap: 32px;
+            animation: marquee 38s linear infinite;
+            width: max-content;
+            align-items: center;
+        }
+
+        .logo-track img {
+            width: 150px;
+            height: 100px !important;
+            object-fit: contain;
+            display: block;
+            margin: 0 8px;
+            filter: none;
+            /* background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); */
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+
+    <!-- Footer Section -->
+    <!-- footer 2 -->
+    <footer class="site-footer">
+        <div class="footer-top">
+
+            <!-- Newsletter -->
+            <div class="footer-newsletter">
+                <h4>LET'S BUILD EXPERIENCES TOGETHER</h4>
+                <form class="heading_font_family">
+                    <input type="text" placeholder="First Name*" required>
+                    <input type="text" placeholder="Last Name*" required>
+                    <input type="email" placeholder="Email*" required>
+                    <label class="checkbox heading_font_family">
+                        <input type="checkbox">
+                        I am happy to receive emails from Globengel, including upcoming events and information.*
+                    </label>
+                    <button type="submit" class="signup-btn">Sign Up</button>
+                </form>
+            </div>
+
+            <!-- Award Badge -->
+            <div class="footer-badge">
+                <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Award 2025">
+            </div>
+
+
+            <!-- Destinations -->
+            <div class="footer-destinations">
+                <h4 class="heading_font_family" style="font-size: 18px;">Home</h4>
+                <ul class="heading_font_family">
+
+                    <!-- <li><a href="Destination.html">Destinations</a></li>
+                    <li><a href="Luxury.html">Luxury</a></li> -->
+                    <li><a href="tourpakages.html">Group Tours</a></li>
+                    <li><a href="voyages.html">Voyages</a></li>
+                    <li><a href="business.html">Business Travel</a></li>
+                    <li><a href="celebration.html">Destination Celebration</a></li>
+                    <li><a href="Eduwings.html">Eduwings (STUDY ABROAD)</a></li>
+                    <li><a href="sky.html">Private Charter</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="Contactus.html">Contact Us</a></li>
+
+
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact">
+                <h4 class="heading_font_family">Get in Touch</h4>
+                <p><a href="tel:+919910405255">+91 99104-05255</a></p>
+                <p class="heading_font_family"><a href="mailto:info@globengel.com">info@globengel.com</a></p>
+
+                <h4 class="heading_font_family">Find us on</h4>
+                <!-- Social Media Icons -->
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/globengel" class="social-icon-box"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@globengel" class="social-icon-box"><i class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/globengel" class="social-icon-box"><i class="fab fa-x"></i></a>
+                    <a href="https://www.instagram.com/globengel" class="social-icon-box"><i class="fab fa-instagram"></i></a>
+                    <a href="http://www.linkedin.com/company/globengel" class="social-icon-box"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+
+                <div class="footer-tagline">
+                    <h2 class="heading_font_family">DREAM. <br>
+                        EXPLORE. <br>
+                        DISCOVER. <br>
+                    </h2>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <div class="footer-logo">
+                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 130px;" alt="MITÉRA Goddess Logo">
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <p>Copyright 2019-2025 GLOBENGEL</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- JS -->
+    <!-- JavaScript for Services Section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const serviceItems = document.querySelectorAll('.glob-service-item');
+            const servicesContainer = document.querySelector('.glob-services');
+
+            // Set the first service as active by default
+            serviceItems[0].classList.add('glob-active');
+
+            // Store the default background
+            const defaultBg = window.getComputedStyle(servicesContainer).backgroundImage;
+
+            // Function to check if mobile view
+            function isMobileView() {
+                return window.innerWidth <= 768;
+            }
+
+            // Set initial background images based on viewport
+            function setInitialBackgrounds() {
+                if (isMobileView()) {
+                    // For mobile: Set individual backgrounds for each card
+                    serviceItems.forEach((item, index) => {
+                        const bgNum = item.getAttribute('data-bg');
+                        let bgImage = '/images/Vietnam.jpg'; // default
+
+                        if (bgNum === '1') bgImage = './images/Vietnam.jpg';
+                        else if (bgNum === '2') bgImage = './images/Japan.jpg';
+                        else if (bgNum === '3') bgImage = './images/Finland.jpg';
+                        else if (bgNum === '4') bgImage = './images/Australia.jpg';
+                        else if (bgNum === '5') bgImage = './images/New Zealand.jpg';
+
+                        item.style.backgroundImage = `url('./images/${bgImage}')`;
+                    });
+                } else {
+                    // For desktop: Set container background
+                    servicesContainer.style.backgroundImage = `url('./images/Vietnam.jpg')`;
+                }
+            }
+
+            // Initialize backgrounds
+            setInitialBackgrounds();
+
+            // Handle window resize to adjust backgrounds
+            window.addEventListener('resize', setInitialBackgrounds);
+
+            serviceItems.forEach((serviceItem, index) => {
+                serviceItem.addEventListener('mouseenter', function () {
+                    const bgNum = this.getAttribute('data-bg');
+                    // Store reference to current element
+                    const currentElement = this;
+
+                    // Apply immediate color change to ALL sections
+                    serviceItems.forEach(s => s.classList.add('glob-active'));
+
+                    // Only change container background on desktop view
+                    if (!isMobileView()) {
+                        // Delay background image change for smooth transition
+                        setTimeout(() => {
+                            if (bgNum === '1') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Vietnam.jpg")';
+                            } else if (bgNum === '2') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Japan.jpg")';
+                            } else if (bgNum === '3') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Finland.jpg")';
+                            } else if (bgNum === '4') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Australia.jpg")';
+                            } else if (bgNum === '5') {
+                                servicesContainer.style.backgroundImage = 'url("./images/New Zealand.jpg")';
+                            }
+                        }, 200); // 200ms delay for smooth transition
+                    }
+                });
+
+                // Add touch event for mobile
+                serviceItem.addEventListener('touchstart', function () {
+                    serviceItems.forEach(s => s.classList.add('glob-active'));
+                });
+            });    // Handle mobile card interactions
+            const mobileCards = document.querySelectorAll('.glob-service-mobile-card');
+
+            mobileCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Reset other cards
+                    mobileCards.forEach(otherCard => {
+                        if (otherCard !== this) {
+                            otherCard.classList.remove('tapped');
+                            otherCard.style.height = '200px';
+                        }
+                    });
+
+                    // Toggle tapped state for current card
+                    this.classList.toggle('tapped');
+
+                    // Adjust card height based on content
+                    if (this.classList.contains('tapped')) {
+                        const description = this.querySelector('.glob-service-description');
+                        const textHeight = this.querySelector('.glob-service-text').offsetHeight;
+                        const descHeight = description.scrollHeight;
+
+                        // Set a min height to ensure there's space for the content
+                        const newHeight = Math.max(250, textHeight + descHeight + 60);
+                        this.style.height = `${newHeight}px`;
+
+                        // Make description visible with a slight delay
+                        setTimeout(() => {
+                            description.style.opacity = '1';
+                            description.style.maxHeight = '200px';
+                            description.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        this.style.height = '200px';
+
+                        // Hide description
+                        const description = this.querySelector('.glob-service-description');
+                        description.style.opacity = '0';
+                        description.style.maxHeight = '0';
+                        description.style.transform = 'translateY(20px)';
+                    }
+                });
+
+                // Add touch event listener for better mobile experience
+                card.addEventListener('touchstart', function () {
+                    this.classList.add('touch-active');
+                });
+
+                card.addEventListener('touchend', function () {
+                    this.classList.remove('touch-active');
+                });
+            });
+
+            // Add event listener for mouseleave on the entire services container
+            servicesContainer.addEventListener('mouseleave', function () {
+                // Remove active class from all services when mouse leaves the entire container
+                serviceItems.forEach(s => s.classList.remove('glob-active'));
+            });
+        });
+
+        // Add this in your existing DOMContentLoaded function after defining serviceItems
+        serviceItems.forEach((item, index) => {
+            setTimeout(() => {
+                // Add flip class to start animation
+                item.classList.add('flip');
+
+                // Remove flip after 3 seconds
+                setTimeout(() => {
+                    item.classList.remove('flip');
+                }, 3000);
+
+            }, index * 300); // delay each box animation slightly for a wave effect
+        });
+    </script>
+
+     <script>
+// Secondary Menu Sticky Functionality
+window.addEventListener('scroll', function() {
+    const secondaryMenu = document.getElementById('secondaryMenu');
+    const scrollPosition = window.scrollY;
+    const heroHeight = document.querySelector('.hero-slider-section').offsetHeight;
+
+    if (scrollPosition >= heroHeight - 80) {
+        secondaryMenu.classList.add('fixed');
+    } else {
+        secondaryMenu.classList.remove('fixed');
+    }
+});
+
+// Active menu item on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.secondary-nav a');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Optional: Smooth scroll to section
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+});
+</script>
+
+
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new Swiper('.heroSwiper', {
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false
+                },
+                navigation: {
+                    nextEl: '.hero-slider-section .swiper-button-next',
+                    prevEl: '.hero-slider-section .swiper-button-prev',
+                },
+                pagination: {
+                    el: '.hero-slider-section .swiper-pagination',
+                    clickable: true,
+                }
+            });
+        });
+    </script> -->
+   <script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Get all cruiseSwiper sliders
+    document.querySelectorAll('.cruiseSwiper').forEach(function(swiperEl) {
+        const swiperInstance = new Swiper(swiperEl, {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false
+            },
+            navigation: {
+                nextEl: swiperEl.querySelector('.swiper-button-next'),
+                prevEl: swiperEl.querySelector('.swiper-button-prev'),
+            },
+            breakpoints: {
+                700: { slidesPerView: 2, spaceBetween: 12 },
+                1100: { slidesPerView: 4, spaceBetween: 18 }
+            }
+        });
+
+        // Pause autoplay on mouseenter, resume on mouseleave for each slider
+        swiperEl.addEventListener('mouseenter', function () {
+            swiperInstance.autoplay.stop();
+        });
+        swiperEl.addEventListener('mouseleave', function () {
+            swiperInstance.autoplay.start();
+        });
+    });
+});
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/group-tours.js"></script>
+<!-- Swiper initialization is in script.js -->
+
+
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:99999; align-items:center; justify-content:center;">
+  <div id="authModalInner" style="background:#fff6f3; border-radius:16px; max-width:900px; width:95vw; padding:32px 28px 24px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative; display:flex; gap:32px; flex-wrap:wrap;">
+    <!-- Left: Forms -->
+    <div style="flex:1 1 350px; min-width:320px;">
+      <button id="closeAuthModal" style="position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px; color:#e55d17; cursor:pointer;">&times;</button>
+      <!-- Tabs -->
+      <div style="display:flex; justify-content:center; gap:24px; margin-bottom: 10px;">
+        <button id="signInTab" class="auth-tab active" style="background:none; border:none; font-size:18px; font-weight:600; color:#e55d17; cursor:pointer;">Sign In</button>
+        <button id="createTab" class="auth-tab" style="background:none; border:none; font-size:18px; font-weight:600; color:#888; cursor:pointer;">Create Account</button>
+      </div>
+      <!-- Sign In Form -->
+      <form id="signInForm" style="display:block;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:18px;">Sign In to Your Account</h3>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Email or Mobile Number*</label>
+          <input type="text" id="loginEmailOrMobile" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Password*</label>
+          <input type="password" id="loginPassword" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:17px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign In</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Don't have an account? <span id="gotoCreate" style="color:#e55d17; cursor:pointer; font-weight:500;">Create Account</span>
+        </div>
+      </form>
+      <!-- Create Account Form -->
+      <form id="createForm" style="display:none;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:10px;">Create an Account</h3>
+        <p style="margin-bottom: 10px; font-size: 14px;" >Enter the below details to start setting up your ENGEL CLUB account. If you already have an account, please <span style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span> to continue.</p>
+        <!-- ...your create account fields as before... -->
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">First Name*</label>
+            <input type="text" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Last Name*</label>
+            <input type="text" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Gender</label>
+            <input type="text" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Date of Birth</label>
+            <input type="text" placeholder="DD/MM/YYYY" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+      <label style="font-size:14px;">Mobile Number*</label>
+      <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
+        <select style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
+          <option value="+91">+91</option>
+          <option value="+1">+1</option>
+          <option value="+44">+44</option>
+          <option value="+61">+61</option>
+          <option value="+81">+81</option>
+          <!-- Add more country codes as needed -->
+        </select>
+        <input type="text" required style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
+      </div>
+    </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:14px;">Email*</label>
+          <input type="email" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Confirm Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:13px;">
+            <input type="checkbox" style="margin-right:6px;">
+            I wish to receive news and promotions from GLOBENGEL. You may unsubscribe at any time by updating your account preferences.
+          </label>
+          <p style="margin-bottom: 0; font-size: 13px;" >By submitting this form, I agree to Maharaja Club Terms and Conditions and Privacy Notice.</p>
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:15px; font-weight:600; border:none; padding:5px 0; margin-top:8px;">Sign Up</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Already have an account? <span id="gotoSignIn" style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span>
+        </div>
+      </form>
+    </div>
+    <!-- Right: ENGEL CLUB Info Card -->
+    <div id="engelClubCard" style="flex:1 1 320px; min-width:280px; background: #fad7c0; border-radius:12px; padding:28px 22px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <img src="./images/engleClubLogo.png" alt="ENGEL CLUB" style="width:150px; margin-bottom:12px;">
+      <h4 style="font-size:18px; font-weight:600; color:#444; margin-bottom:18px;">SIGN UP FOR ENGEL CLUB</h4>
+      <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:15px; color:#444;">
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Earn rewards every time you travel with us.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-arrow-up" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Unlock special upgrades &amp; priority assistance.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-users" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Access member-only deals on holidays &amp; services.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Surprise perks for milestone trips (honeymoons, anniversaries, etc.).
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-lightbulb" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Early access to new offers
+        </li>
+      </ul>
+      <button id="engelSignUpBtn" style="background:#e55d17; color:#fff; font-size:16px; font-weight:600; border:none; border-radius:6px; padding:10px 32px; margin-top:8px;">SIGN-UP</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Responsive styles for auth modal */
+@media (max-width: 700px) {
+  #authModalInner {
+    flex-direction: column !important;
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 18px 8px 18px 8px !important;
+    gap: 0 !important;
+    align-items: stretch !important;
+  }
+  #authModalInner > div {
+    min-width: 0 !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    margin-bottom: 18px !important;
+  }
+  #engelClubCard {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 18px 8px !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+  }
+  #closeAuthModal {
+    top: 8px !important;
+    right: 8px !important;
+    font-size: 28px !important;
+  }
+  .auth-tab {
+    font-size: 16px !important;
+    padding: 6px 0 !important;
+  }
+  #signInForm, #createForm {
+    padding: 0 !important;
+  }
+  #engelClubCard img {
+    width: 90px !important;
+    margin-bottom: 8px !important;
+  }
+  #engelClubCard h3, #engelClubCard h4 {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelClubCard ul {
+    font-size: 13px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelSignUpBtn {
+    font-size: 15px !important;
+    padding: 8px 18px !important;
+    margin-top: 6px !important;
+  }
+}
+/* Responsive styles for Create Account form fields */
+@media (max-width: 700px) {
+  #createForm .display-flex,
+  #createForm .display-flex > div,
+  #createForm .display-flex > div > div {
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+  }
+  #createForm .display-flex > div {
+    margin-bottom: 12px !important;
+  }
+  #createForm input,
+  #createForm select {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    border-radius: 6px !important;
+    font-size: 15px !important;
+  }
+  #createForm label {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+  }
+  #createForm .display-flex {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Open modal on Sign In click
+  document.querySelector('.signin').addEventListener('click', function() {
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+  });
+
+  // Mobile menu Sign In link
+  document.querySelector('.mobile-menu .nav-link.mt-3').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+    // Optionally close mobile menu if you have a function for that
+    document.querySelector('.mobile-menu').classList.remove('open');
+    document.querySelector('.overlay').style.display = 'none';
+  });
+
+  // Close modal
+  document.getElementById('closeAuthModal').onclick = function() {
+    document.getElementById('authModal').style.display = 'none';
+  };
+
+  // Tab switching
+  document.getElementById('signInTab').onclick = function() { showTab('signIn'); };
+  document.getElementById('createTab').onclick = function() { showTab('create'); };
+  document.getElementById('gotoCreate').onclick = function() { showTab('create'); };
+  document.getElementById('gotoSignIn').onclick = function() { showTab('signIn'); };
+
+  // ENGEL CLUB card sign-up button opens create account
+  document.getElementById('engelSignUpBtn').onclick = function() {
+    showTab('create');
+  };
+
+  // Show/hide ENGEL CLUB card based on tab
+  function showTab(tab) {
+    if(tab === 'signIn') {
+      document.getElementById('signInForm').style.display = 'block';
+      document.getElementById('createForm').style.display = 'none';
+      document.getElementById('signInTab').classList.add('active');
+      document.getElementById('createTab').classList.remove('active');
+      document.getElementById('engelClubCard').style.display = 'flex';
+    } else {
+      document.getElementById('signInForm').style.display = 'none';
+      document.getElementById('createForm').style.display = 'block';
+      document.getElementById('signInTab').classList.remove('active');
+      document.getElementById('createTab').classList.add('active');
+      document.getElementById('engelClubCard').style.display = 'none';
+    }
+  }
+
+  // Login API integration for signInForm
+  document.getElementById('signInForm').onsubmit = function(e) {
+    e.preventDefault();
+    var emailOrMobile = document.getElementById('loginEmailOrMobile').value;
+    var password = document.getElementById('loginPassword').value;
+    var payload = {
+      email: emailOrMobile,
+      password: password
+    };
+    fetch('http://globe.ridealmobility.com/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(async response => {
+      console.log('Login response status:', response.status);
+      let data;
+      try {
+        data = await response.json();
+      } catch (err) {
+        alert('Invalid JSON response from login API');
+        return;
+      }
+      if (!response.ok) {
+        alert('Login failed: ' + (data.message || 'Invalid email or password'));
+        return;
+      }
+      
+      // Login successful
+      console.log('Login response: ' + JSON.stringify(data));
+      
+      // Store user data if available
+      if (data.token) {
+        localStorage.setItem('authToken', data.token);
+        
+        // Fetch user profile after successful login
+        fetchUserProfile(data.token);
+      }
+      if (data.user) {
+        localStorage.setItem('userData', JSON.stringify(data.user));
+      }
+      
+      // Show success message
+      alert('🎉 Login Successful! Fetching profile...');
+      
+      // Close the modal
+      const modal = document.querySelector('.modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    })
+    .catch(error => {
+      console.error('Login error details:', error);
+      alert('Login Network Error: ' + error.message + '\nPlease check:\n1. Server is running\n2. Internet connection\n3. API endpoint is correct');
+    });
+  };
+
+  // Profile functions
+  function fetchUserProfile(token) {
+    fetch('http://globe.ridealmobility.com/api/auth/profile', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(async response => {
+      let profileData;
+      try {
+        profileData = await response.json();
+      } catch (err) {
+        redirectToDashboard();
+        return;
+      }
+      
+      if (!response.ok) {
+        redirectToDashboard();
+        return;
+      }
+      
+      localStorage.setItem('userProfile', JSON.stringify(profileData));
+      alert('🎉 Profile loaded! Welcome ' + (profileData.firstName || 'User') + '! Redirecting to dashboard...');
+      redirectToDashboard();
+    })
+    .catch(error => {
+      alert('Profile fetch failed, but login was successful. Redirecting to dashboard...');
+      redirectToDashboard();
+    });
+  }
+
+  function redirectToDashboard() {
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 1000);
+  }
+});
+</script>
+
+<!-- Continents API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch continents from API
+    async function fetchContinents() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/continents');
+            if (!response.ok) {
+                throw new Error('Failed to fetch continents');
+            }
+            const continents = await response.json();
+            console.log('Continents loaded from API:', continents);
+            return continents;
+        } catch (error) {
+            console.error('Error fetching continents:', error);
+            // Return fallback data to maintain UI functionality
+            return [
+                { name: 'AFRICA' },
+                { name: 'ASIA' },
+                { name: 'AMERICAS' },
+                { name: 'EUROPE' },
+                { name: 'INDIAN SUBCONTINENT' },
+                { name: 'OCEANIA' },
+                { name: 'MIDDLE EAST' },
+                { name: 'POLAR' }
+            ];
+        }
+    }
+
+    // Function to map continent names to data-target IDs
+    function getTargetId(continentName) {
+        const mapping = {
+            'AFRICA': 'africa',
+            'ASIA': 'asia',
+            'AMERICAS': 'australasia', // Keeping existing data-target
+            'EUROPE': 'europe',
+            'INDIAN SUBCONTINENT': 'indian',
+            'OCEANIA': 'latin', // Keeping existing data-target
+            'MIDDLE EAST': 'middleeast',
+            'POLAR': 'polar'
+        };
+        return mapping[continentName] || continentName.toLowerCase().replace(/\s+/g, '');
+    }
+
+    // Initialize destinations dropdown with API data
+    async function initializeDestinationsDropdown() {
+        const continents = await fetchContinents();
+        const megaLeftUl = document.querySelector('.destinations-menu .mega-left ul');
+        
+        if (megaLeftUl) {
+            // Clear existing content (but we'll keep the structure)
+            const existingItems = megaLeftUl.querySelectorAll('li');
+            
+            // Update existing items or add new ones based on API data
+            continents.forEach((continent, index) => {
+                const targetId = getTargetId(continent.name);
+                
+                if (existingItems[index]) {
+                    // Update existing item
+                    existingItems[index].setAttribute('data-target', targetId);
+                    existingItems[index].innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                } else {
+                    // Add new item if more continents than existing
+                    const li = document.createElement('li');
+                    li.setAttribute('data-target', targetId);
+                    li.innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                    megaLeftUl.appendChild(li);
+                }
+            });
+            
+            // Remove extra items if there are fewer continents in API
+            for (let i = continents.length; i < existingItems.length; i++) {
+                if (existingItems[i]) {
+                    existingItems[i].remove();
+                }
+            }
+            
+            console.log('Destinations dropdown updated with API data');
+        } else {
+            console.warn('Destinations dropdown not found');
+        }
+    }
+
+    // Initialize the dropdown
+    initializeDestinationsDropdown();
+});
+</script>
+
+</body>
+
+</html>

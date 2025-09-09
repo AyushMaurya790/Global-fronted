@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clean Map with Moving Ball</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+    .leaflet-popup-content {
+      font-size: 16px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Initialize the map
+    const map = L.map('map').setView([28.5, 77.5], 7);
+
+    // Add CLEAN basemap (Carto Light Positron)
+    L.tileLayer('https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Predefined locations
+    const locations = [
+      { name: "Modinagar", coords: [28.8291, 77.5784] },
+      { name: "Delhi", coords: [28.6139, 77.2090] },
+      { name: "Agra", coords: [27.1767, 78.0081] }
+    ];
+
+    const globengelOrange = "#FF7900";
+
+    // Add markers with numbers
+    const markers = locations.map((loc, i) => {
+      const icon = L.divIcon({
+        className: "number-icon",
+        html: `<div style="background:${globengelOrange}; color:white; 
+                  border-radius:50%; width:30px; height:30px; 
+                  display:flex; align-items:center; justify-content:center; 
+                  font-weight:bold;">${i+1}</div>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+      });
+
+      // Use tooltip instead of popup (shows name only on hover)
+      return L.marker(loc.coords, { icon })
+        .addTo(map)
+        .bindTooltip(loc.name, { permanent: false, direction: "top" });
+    });
+
+    // Fit map to all markers
+    const group = new L.featureGroup(markers);
+    map.fitBounds(group.getBounds().pad(0.2));
+
+    // Coordinates for line
+    const lineCoords = locations.map(loc => loc.coords);
+
+    // Add SOLID line instead of dotted
+    L.polyline(lineCoords, {
+      color: globengelOrange,
+      weight: 3,
+      opacity: 0.9
+    }).addTo(map);
+
+    // --- Moving orange ball marker ---
+    let ballIcon = L.divIcon({
+      html: `<div style="background:${globengelOrange}; border-radius:50%; width:20px; height:20px;"></div>`,
+      className: "ball-icon",
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
+    });
+
+    let movingMarker = L.marker(lineCoords[0], { icon: ballIcon }).addTo(map);
+
+    let step = 0;
+    function animateBall() {
+      step += 1;
+      if (step >= lineCoords.length * 200) { // loop
+        step = 0;
+      }
+      const t = (step % 200) / 200;
+      const idx = Math.floor(step / 200);
+      const start = lineCoords[idx];
+      const end = lineCoords[(idx + 1) % lineCoords.length];
+
+      // Linear interpolation
+      const lat = start[0] + (end[0] - start[0]) * t;
+      const lng = start[1] + (end[1] - start[1]) * t;
+
+      movingMarker.setLatLng([lat, lng]);
+      requestAnimationFrame(animateBall);
+    }
+
+    animateBall();
+  </script>
+</body>
+</html>

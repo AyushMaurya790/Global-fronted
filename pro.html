@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #fafbfc;
+      margin: 0;
+    }
+    .profile-wrapper {
+      max-width: 1200px;
+      margin: 32px auto;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      display: flex;
+      gap: 0;
+      overflow: hidden;
+    }
+    .profile-sidebar {
+      min-width: 230px;
+      background: #fafbfc;
+      border-right: 1px solid #eee;
+      padding: 32px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .profile-sidebar ul {
+      list-style: none;
+      padding: 0 0 0 24px;
+      margin: 0;
+    }
+    .profile-sidebar li {
+      padding: 12px 16px;
+      color: #222;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .profile-sidebar li.active {
+      background: #eaf2fb;
+      color: #e55d17;
+      font-weight: 600;
+    }
+    .profile-sidebar li.active .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #e55d17;
+      border-radius: 50%;
+      margin-left: 8px;
+    }
+    .profile-sidebar li i {
+      font-size: 18px;
+      color: #bdbdbd;
+    }
+    .profile-sidebar li.active i {
+      color: #e55d17;
+    }
+    .profile-sidebar .sidebar-divider {
+      border-top: 1px solid #eaeaea;
+      margin: 18px 0;
+    }
+    .profile-main {
+      flex: 1;
+      padding: 38px 38px 38px 38px;
+    }
+    .profile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .profile-header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 0;
+      color: #222;
+    }
+    .profile-save-btn {
+      background: #ededed;
+      color: #222;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 32px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .profile-save-btn:hover {
+      background: #e55d17;
+      color: #fff;
+    }
+    .profile-progress {
+      background: linear-gradient(90deg, #ffe5d0 65%, #fffbe5 100%);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 15px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .profile-progress .circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid #e55d17;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #e55d17;
+      font-size: 15px;
+      margin-right: 12px;
+    }
+    .profile-progress .progress-text {
+      flex: 1;
+      color: #222;
+      font-weight: 500;
+    }
+    .profile-progress .progress-link {
+      color: #1a73e8;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 15px;
+      text-decoration: none;
+    }
+    .profile-section {
+      margin-bottom: 32px;
+    }
+    .profile-section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 8px;
+      margin-top: 18px;
+    }
+    .profile-section-desc {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 18px;
+    }
+    .profile-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    .profile-field {
+      flex: 1 1 260px;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 8px;
+    }
+    .profile-field label {
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .profile-field input,
+    .profile-field select {
+      padding: 12px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #f8f9fa;
+      outline: none;
+      transition: border 0.2s;
+      font-weight: 600;
+      color: #222;
+    }
+
+    .profile-field input:focus,
+    .profile-field select:focus {
+      border-color: #e55d17;
+    }
+    .profile-field input[readonly] {
+      background: #f3f3f3;
+      color: #222;
+      font-weight: 700;
+      border: 1px solid #e5e7eb;
+    }
+    .profile-field .check {
+      color: #2ecc71;
+      font-size: 18px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .profile-fields .profile-field-group {
+      display: flex;
+      gap: 18px;
+      width: 100%;
+    }
+    .profile-add-link {
+      color: #1a73e8;
+      font-size: 15px;
+      font-weight: 500;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 12px 18px;
+      cursor: pointer;
+      margin-left: 18px;
+      transition: border 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .profile-add-link:hover {
+      border-color: #e55d17;
+      background: #f8f9fa;
+    }
+    .profile-note {
+      font-size: 13px;
+      color: #e55d17;
+      margin-top: 8px;
+    }
+    .profile-section-divider {
+      border-top: 1px solid #eaeaea;
+      margin: 28px 0 18px 0;
+    }
+    .profile-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .profile-btn {
+      background: #e55d17;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 32px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .profile-btn:hover {
+      background: #d04e0f;
+    }
+    .profile-frequent {
+      margin-top: 18px;
+    }
+    .profile-frequent .profile-section-title {
+      margin-bottom: 8px;
+    }
+    .profile-frequent .profile-add-link {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+    /* Style Select2 to match input fields */
+    .select2-container .select2-selection--single {
+      padding: 12px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #222;
+      height: auto;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+      color: #222;
+      line-height: normal;
+      padding-left: 0;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+      height: 100%;
+      right: 10px;
+    }
+    .select2-dropdown {
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    @media (max-width: 900px) {
+      .profile-wrapper {
+        flex-direction: column;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+      }
+      .profile-sidebar {
+        min-width: 0;
+        padding: 18px 0 0 0;
+      }
+      .profile-main {
+        padding: 18px 8px 18px 8px;
+      }
+      .profile-fields {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .profile-field,
+      .profile-field-group {
+        min-width: 0;
+        width: 100%;
+      }
+      .profile-save-btn,
+      .profile-btn {
+        width: 100%;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-wrapper">
+    <nav class="profile-sidebar">
+      <ul>
+        <li class="active">
+          <i class="fa fa-user"></i> My Profile
+          <span class="dot"></span>
+        </li>
+        <li><i class="fa fa-heart"></i> Wishlist</li>
+        <div class="sidebar-divider"></div>
+        <li><i class="fa fa-key"></i> Reset Password</li>
+        <li><i class="fa fa-sign-out-alt"></i> Logout</li>
+      </ul>
+    </nav>
+    <main class="profile-main">
+      <div id="profileContent">
+        <div class="profile-header">
+          <h2>My Profile</h2>
+          <button class="profile-save-btn">SAVE</button>
+        </div>
+        <div class="profile-progress">
+          <span style="display:flex; align-items:center;">
+            <span class="circle">65%</span>
+            <span class="progress-text"><b>Complete your profile</b><br>
+            Share your Email ID to receive booking updates and other critical information.</span>
+          </span>
+          <a href="#" class="progress-link">Add Email</a>
+        </div>
+        <!-- General Information -->
+        <div class="profile-section">
+          <div class="profile-section-title">General Information</div>
+          <div class="profile-fields">
+            <div class="profile-field">
+              <label>FIRST & MIDDLE NAME</label>
+              <input type="text" placeholder="First & Middle Name">
+            </div>
+            <div class="profile-field">
+              <label>LAST NAME</label>
+              <input type="text" placeholder="Last Name">
+            </div>
+            <div class="profile-field">
+              <label>GENDER</label>
+              <select class="select2">
+                <option value="">Select Gender</option>
+                <option>MALE</option>
+                <option>FEMALE</option>
+                <option>OTHER</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label>DATE OF BIRTH</label>
+              <input type="date" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="profile-field">
+              <label>NATIONALITY</label>
+              <input type="text" placeholder="Nationality">
+            </div>
+            <div class="profile-field">
+              <label>MARITAL STATUS</label>
+              <select class="select2">
+                <option value="">Select Status</option>
+                <option>SINGLE</option>
+                <option>MARRIED</option>
+                <option>OTHER</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label>ANNIVERSARY</label>
+              <input type="date" placeholder="Anniversary">
+            </div>
+            <div class="profile-field">
+              <label>CITY OF RESIDENCE</label>
+              <input type="text" placeholder="City">
+            </div>
+            <div class="profile-field">
+              <label>STATE</label>
+              <input type="text" placeholder="State">
+              <span style="font-size:12px; color:#888;">Required for GST purpose on your tax invoice</span>
+            </div>
+          </div>
+        </div>
+        <div class="profile-section-divider"></div>
+        <!-- Contact Details -->
+        <div class="profile-section">
+          <div class="profile-section-title">Contact Details</div>
+          <div class="profile-section-desc">Add contact information to receive booking details & other alerts</div>
+          <div class="profile-fields">
+            <div class="profile-field-group">
+              <div class="profile-field" style="flex:2;">
+                <label>MOBILE NUMBER</label>
+                <input type="tel" placeholder="+91-XXXXXXXXXX">
+              </div>
+              <a href="#" class="profile-add-link">ADD EMAIL ID</a>
+            </div>
+          </div>
+        </div>
+        <div class="profile-section-divider"></div>
+        <!-- Documents Details -->
+        <div class="profile-section">
+          <div class="profile-section-title">Documents Details</div>
+          <div class="profile-fields">
+            <div class="profile-field">
+              <label>PASSPORT NO.</label>
+              <input type="text" placeholder="Passport Number">
+            </div>
+            <div class="profile-field">
+              <label>EXPIRY DATE</label>
+              <input type="date" placeholder="DD/MM/YYYY">
+            </div>
+            <div class="profile-field">
+              <label>ISSUING COUNTRY</label>
+              <select class="select2" name="country">
+                <option value="">Select Country</option>
+                <option>India</option>
+                <option>USA</option>
+                <option>UK</option>
+                <!-- Add more countries -->
+              </select>
+            </div>
+            <div class="profile-field">
+              <label>PAN CARD NUMBER</label>
+              <input type="text" placeholder="PAN Card Number">
+            </div>
+          </div>
+          <div class="profile-note">
+            NOTE: Your PAN No. will only be used for international bookings as per RBI Guidelines
+          </div>
+        </div>
+        <div class="profile-section-divider"></div>
+        <!-- Preferences -->
+        <div class="profile-section">
+          <div class="profile-section-title">Your Preferences</div>
+          <div class="profile-section-desc">
+            This ensures a seamless insurance purchase and ensures protection for future bookings.
+            <i class="fa fa-info-circle" style="color:#888;"></i>
+          </div>
+          <div class="profile-fields">
+            <div class="profile-field">
+              <label>Domestic Trip Protection Plan</label>
+              <select class="select2">
+                <option>Domestic Trip Protection Plan</option>
+                <option>Basic</option>
+                <option>Premium</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label>International Travel Insurance Plan</label>
+              <select class="select2">
+                <option>International Travel Insurance Plan</option>
+                <option>Basic</option>
+                <option>Premium</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="profile-section-divider"></div>
+        <!-- Frequent Flyer Details -->
+        <div class="profile-frequent">
+          <div class="profile-section-title">Frequent Flyer Details</div>
+          <div id="frequentFlyerList"></div>
+          <a href="#" class="profile-add-link" id="addFrequentFlyerBtn">+ Add</a>
+        </div>
+      </div>
+      <div id="wishlistContent" style="display:none;">
+        <div class="profile-header">
+          <h2>Wishlist</h2>
+        </div>
+        <div class="profile-section">
+          <div class="profile-section-title">Saved Flights</div>
+          <div class="profile-fields">
+            <div class="profile-field">
+              <label>Airline</label>
+              <input type="text" value="IndiGo" readonly>
+            </div>
+            <div class="profile-field">
+              <label>Flight Number</label>
+              <input type="text" value="6E-203" readonly>
+            </div>
+            <div class="profile-field">
+              <label>Departure</label>
+              <input type="text" value="Delhi (DEL)" readonly>
+            </div>
+            <div class="profile-field">
+              <label>Arrival</label>
+              <input type="text" value="Mumbai (BOM)" readonly>
+            </div>
+            <div class="profile-field">
+              <label>Date</label>
+              <input type="date" value="2025-09-10" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="profile-section-divider"></div>
+        <div class="profile-section">
+          <div class="profile-section-title">Saved Hotels</div>
+          <div class="profile-fields">
+            <div class="profile-field">
+              <label>Hotel Name</label>
+              <input type="text" value="The Taj Mahal Palace" readonly>
+            </div>
+            <div class="profile-field">
+              <label>City</label>
+              <input type="text" value="Mumbai" readonly>
+            </div>
+            <div class="profile-field">
+              <label>Check-in</label>
+              <input type="date" value="2025-09-10" readonly>
+            </div>
+            <div class="profile-field">
+              <label>Check-out</label>
+              <input type="date" value="2025-09-12" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="profile-section-divider"></div>
+        <div class="profile-section">
+          <div class="profile-section-title">Saved Preferences</div>
+          <div class="profile-fields">
+            <div class="profile-field">
+              <label>Preferred Airline</label>
+              <input type="text" value="Vistara" readonly>
+            </div>
+            <div class="profile-field">
+              <label>Preferred Hotel Chain</label>
+              <input type="text" value="ITC Hotels" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div id="addEmailModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:14px; max-width:400px; width:95vw; padding:28px 24px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative;">
+      <h2 style="font-size:20px; font-weight:700; margin-bottom:8px;">Add Email</h2>
+      <div style="font-size:15px; color:#444; margin-bottom:18px;">
+        For a faster booking experience, exclusive offers and rewards
+      </div>
+      <form id="addEmailForm">
+        <label style="font-size:15px; font-weight:600; margin-bottom:6px; display:block;">Email ID</label>
+        <input type="email" required placeholder="eg. johndoe@gmail.com" style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:8px; font-size:16px; margin-bottom:22px;">
+        <div style="display:flex; gap:18px;">
+          <button type="button" id="cancelAddEmail" style="flex:1; background:#fff; color:#0070f3; border:1.5px solid #0070f3; border-radius:8px; font-size:17px; font-weight:600; padding:10px 0; cursor:pointer;">Cancel</button>
+          <button type="submit" style="flex:1; background:linear-gradient(90deg,#2196f3,#0070f3); color:#fff; border:none; border-radius:8px; font-size:17px; font-weight:600; padding:10px 0; cursor:pointer;">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="resetPasswordModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:14px; max-width:500px; width:95vw; padding:32px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative;">
+      <h2 style="font-size:22px; font-weight:700; margin-bottom:8px;">
+        <i class="fa fa-key" style="color:#888; margin-right:8px;"></i> Reset Password
+      </h2>
+      <div style="font-size:15px; color:#444; margin-bottom:18px;">
+        Your password must be at least 8 characters long and include both small and uppercase letters, numbers, and special characters (e.g., $!@%)
+      </div>
+      <form id="resetPasswordForm">
+        <div style="margin-bottom:18px;">
+          <label style="font-size:15px; font-weight:600; margin-bottom:6px; display:block;">OLD PASSWORD</label>
+          <div style="position:relative;">
+            <input type="password" required placeholder="OLD PASSWORD" style="width:90%; padding:14px 44px 14px 14px; border:1px solid #e5e7eb; border-radius:10px; font-size:16px; background:#f8f9fa; font-weight:600; color:#222;">
+            <span class="toggle-password" style="position:absolute; right:14px; top:50%; transform:translateY(-50%); cursor:pointer; color:#888;">
+              <i class="fa fa-eye"></i>
+            </span>
+          </div>
+        </div>
+        <div style="margin-bottom:18px;">
+          <label style="font-size:15px; font-weight:600; margin-bottom:6px; display:block;">NEW PASSWORD</label>
+          <div style="position:relative;">
+            <input type="password" required placeholder="NEW PASSWORD" style="width:90%; padding:14px 44px 14px 14px; border:1px solid #e5e7eb; border-radius:10px; font-size:16px; background:#f8f9fa; font-weight:600; color:#222;">
+            <span class="toggle-password" style="position:absolute; right:14px; top:50%; transform:translateY(-50%); cursor:pointer; color:#888;">
+              <i class="fa fa-eye"></i>
+            </span>
+          </div>
+        </div>
+        <a href="#" style="color:#0070f3; font-weight:600; font-size:15px; text-decoration:none; display:block; margin-bottom:18px;">Forgot your password?</a>
+        <div style="display:flex; gap:18px;">
+          <button type="button" id="cancelResetPassword" style="flex:1; background:#fff; color:#0070f3; border:1.5px solid #0070f3; border-radius:8px; font-size:17px; font-weight:600; padding:12px 0; cursor:pointer;">Cancel</button>
+          <button type="submit" style="flex:1; background:linear-gradient(90deg,#2196f3,#0070f3); color:#fff; border:none; border-radius:8px; font-size:17px; font-weight:600; padding:12px 0; cursor:pointer;">RESET PASSWORD</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="logoutModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:14px; max-width:420px; width:95vw; padding:32px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative;">
+      <h2 style="font-size:22px; font-weight:700; margin-bottom:8px;">
+        <i class="fa fa-sign-out-alt" style="color:#888; margin-right:8px;"></i> Logout
+      </h2>
+      <div style="font-size:15px; color:#444; margin-bottom:28px;">
+        Are you sure you want to logout?
+      </div>
+      <div style="display:flex; gap:18px;">
+        <button type="button" id="cancelLogout" style="flex:1; background:#fff; color:#0070f3; border:1.5px solid #0070f3; border-radius:8px; font-size:17px; font-weight:600; padding:12px 0; cursor:pointer;">Cancel</button>
+        <button type="button" id="confirmLogout" style="flex:1; background:linear-gradient(90deg,#2196f3,#0070f3); color:#fff; border:none; border-radius:8px; font-size:17px; font-weight:600; padding:12px 0; cursor:pointer;">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+$(document).ready(function() {
+  $('.select2').select2({
+    width: '100%',
+    placeholder: 'Select an option'
+  });
+});
+
+  // Show modal on "Add Email" or "ADD EMAIL ID" click
+  document.querySelector('.progress-link').onclick = function(e) {
+    e.preventDefault();
+    document.getElementById('addEmailModal').style.display = 'flex';
+  };
+  document.querySelector('.profile-add-link').onclick = function(e) {
+    e.preventDefault();
+    document.getElementById('addEmailModal').style.display = 'flex';
+  };
+  // Hide modal on Cancel
+  document.getElementById('cancelAddEmail').onclick = function() {
+    document.getElementById('addEmailModal').style.display = 'none';
+  };
+  // Optional: Hide modal on submit
+  document.getElementById('addEmailForm').onsubmit = function(e) {
+    e.preventDefault();
+    document.getElementById('addEmailModal').style.display = 'none';
+    // You can add your email submit logic here
+  };
+
+  // Show modal on "Reset Password" sidebar click
+  document.querySelectorAll('.profile-sidebar li').forEach(function(item) {
+    if(item.textContent.trim().includes('Reset Password')) {
+      item.onclick = function() {
+        document.getElementById('resetPasswordModal').style.display = 'flex';
+      };
+    }
+  });
+  // Hide modal on Cancel
+  document.getElementById('cancelResetPassword').onclick = function() {
+    document.getElementById('resetPasswordModal').style.display = 'none';
+  };
+  // Optional: Hide modal on submit
+  document.getElementById('resetPasswordForm').onsubmit = function(e) {
+    e.preventDefault();
+    document.getElementById('resetPasswordModal').style.display = 'none';
+    // Add your password reset logic here
+  };
+
+  // Toggle password visibility
+  document.querySelectorAll('#resetPasswordModal .toggle-password').forEach(function(toggle) {
+    toggle.onclick = function() {
+      const input = this.parentElement.querySelector('input');
+      if(input.type === 'password') {
+        input.type = 'text';
+        this.innerHTML = '<i class="fa fa-eye-slash"></i>';
+      } else {
+        input.type = 'password';
+        this.innerHTML = '<i class="fa fa-eye"></i>';
+      }
+    };
+  });
+
+  // Sample airlines list
+  const airlines = [
+    "Air India", "IndiGo", "Vistara", "SpiceJet", "Go First", "Emirates", "Qatar Airways", "Singapore Airlines"
+  ];
+
+  function createFlyerRow(index) {
+    // Create container
+    const row = document.createElement('div');
+    row.className = 'profile-fields';
+    row.style.marginBottom = '10px';
+    row.style.alignItems = 'center';
+    row.dataset.index = index;
+
+    // Airline select
+    const airlineDiv = document.createElement('div');
+    airlineDiv.className = 'profile-field';
+    const airlineSelect = document.createElement('select');
+    airlineSelect.className = 'select2';
+    airlineSelect.style.width = '100%';
+    airlineSelect.innerHTML = `<option value="">AIRLINE</option>` +
+      airlines.map(a => `<option>${a}</option>`).join('');
+    airlineDiv.appendChild(airlineSelect);
+
+    // Frequent Flyer Number input
+    const numberDiv = document.createElement('div');
+    numberDiv.className = 'profile-field';
+    const numberInput = document.createElement('input');
+    numberInput.type = 'text';
+    numberInput.placeholder = 'Frequent Flyer Number';
+    numberDiv.appendChild(numberInput);
+
+    // Remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.innerHTML = '<i class="fa fa-times"></i>';
+    removeBtn.style.background = '#f8f9fa';
+    removeBtn.style.border = 'none';
+    removeBtn.style.fontSize = '22px';
+    removeBtn.style.cursor = 'pointer';
+    removeBtn.style.marginLeft = '10px';
+    removeBtn.style.borderRadius = '50%';
+    removeBtn.style.width = '32px';
+    removeBtn.style.height = '32px';
+    removeBtn.style.display = 'flex';
+    removeBtn.style.alignItems = 'center';
+    removeBtn.style.justifyContent = 'center';
+
+    removeBtn.onclick = function() {
+      row.remove();
+    };
+
+    row.appendChild(airlineDiv);
+    row.appendChild(numberDiv);
+    row.appendChild(removeBtn);
+
+    // After adding to DOM, initialize select2
+    setTimeout(() => {
+      $(airlineSelect).select2({ width: '100%', placeholder: 'AIRLINE' });
+    }, 0);
+
+    return row;
+  }
+
+  document.getElementById('addFrequentFlyerBtn').onclick = function(e) {
+    e.preventDefault();
+    const list = document.getElementById('frequentFlyerList');
+    const index = list.children.length;
+    list.appendChild(createFlyerRow(index));
+  };
+
+  // Show modal on "Logout" sidebar click
+  document.querySelectorAll('.profile-sidebar li').forEach(function(item) {
+    if(item.textContent.trim().includes('Logout')) {
+      item.onclick = function() {
+        document.getElementById('logoutModal').style.display = 'flex';
+      };
+    }
+  });
+  // Hide modal on Cancel
+  document.getElementById('cancelLogout').onclick = function() {
+    document.getElementById('logoutModal').style.display = 'none';
+  };
+  // Handle Logout button
+  document.getElementById('confirmLogout').onclick = function() {
+    document.getElementById('logoutModal').style.display = 'none';
+    // Add your logout logic here (e.g., redirect, clear session)
+    // window.location.href = '/login';
+  };
+
+  // Sidebar tab switching logic
+  document.querySelectorAll('.profile-sidebar li').forEach(function(item) {
+    item.onclick = function() {
+      document.querySelectorAll('.profile-sidebar li').forEach(li => li.classList.remove('active'));
+      item.classList.add('active');
+      if(item.textContent.trim().includes('Wishlist')) {
+        document.getElementById('profileContent').style.display = 'none';
+        document.getElementById('wishlistContent').style.display = 'block';
+      } else if(item.textContent.trim().includes('My Profile')) {
+        document.getElementById('profileContent').style.display = 'block';
+        document.getElementById('wishlistContent').style.display = 'none';
+      }
+      // Keep modal logic for Reset Password and Logout as before
+      if(item.textContent.trim().includes('Reset Password')) {
+        document.getElementById('resetPasswordModal').style.display = 'flex';
+      }
+      if(item.textContent.trim().includes('Logout')) {
+        document.getElementById('logoutModal').style.display = 'flex';
+      }
+    };
+  });
+</script>
+
+
+</body>
+</html>

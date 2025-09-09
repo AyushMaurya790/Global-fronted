@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Globengel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+
+ <link rel="stylesheet" href="./CSS/style.css">
+ <link rel="stylesheet" href="./CSS/group-cards.css">
+ 
+ <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+ <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Montserrat', Arial, sans-serif; }
+.hero {
+    position: relative;
+    height: 100vh;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Change from center to left */
+    text-align: left;            /* Change from center to left */
+    overflow: hidden;
+    background: url('images/banner.webp') no-repeat center center/cover;
+}
+.hero-overlay {
+    background: rgba(0,0,0,0.35);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+}
+.hero-content {
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-left: 5vw;            /* Add some left margin for spacing */
+    margin-right: 0;
+    /* padding: 20px; */
+    position: relative;
+    text-align: left;
+    align-items: flex-start;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.hero p.subheading {
+    font-size: 1.2rem;
+    margin: 10px 0 24px;
+    font-weight: 500;
+}
+.btn {
+    padding: 12px 28px;
+    border-radius: 25px;
+    border: none;
+    margin: 5px 10px 20px 0;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.btn-primary {
+    background: linear-gradient(90deg, #a259ff 0%, #8a2be2 100%);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(138,43,226,0.18);
+    border: none;
+}
+.btn-primary:hover {
+    background: linear-gradient(90deg, #8a2be2 0%, #a259ff 100%);
+    color: #fff;
+}
+.btn-outline {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    font-weight: 500;
+}
+.btn-outline:hover {
+    background: #fff;
+    color: #8a2be2;
+}
+.experience {
+    font-size: 75px;
+    margin-top: 40px;
+    margin-bottom: 0;
+    font-weight: 400;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.experience span {
+    font-family: 'Miller Display', Georgia, serif;
+    font-weight: 500;
+    font-size: 60px;
+    margin-left: 10px;
+}
+.hero-content > p:not(.subheading):not(.experience) {
+  font-family: 'Miller Display', Georgia, serif;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+.info-bar {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0px 0px 30px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 1.1rem;
+    z-index: 2;
+    gap: 0;
+    background: none !important;
+}
+.info-col {
+    text-align: left;
+    min-width: 120px;
+    padding: 0px 79px 0px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-left: 2px solid rgb(183, 176, 176);
+}
+.info-col::after {
+    content: none;
+}
+.info-bar strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.98em;
+    font-weight: 600;
+    color: #fff;
+    opacity: 0.85;
+    font-family: 'Miller Display', Georgia, serif;
+}
+.info-value {
+    font-weight: bold;
+    color: #fff;
+    font-size: 1.05em;
+    margin-top: 2px;
+    font-family: 'Miller Display', Georgia, serif;
+}
+.bar-sep {
+    border-left: 1.5px solid black;
+    margin: 0;
+    height: 100%;
+    align-self: stretch;
+}
+.map-outline {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+    max-height: 320px;
+    z-index: 2;
+}
+@media (min-width: 1200px) {
+    .travel-image{
+       margin-top: 305px !important;
+       margin-left: -65px !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero h1 { font-size: 2.2rem; }
+    .experience, .experience span { font-size: 1.5rem; }
+    .map-outline { right: 10px; max-height: 180px; }
+    .info-bar { 
+        font-size: 0.9rem; 
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 15px 10px;
+    }
+    .info-col {
+        min-width: 100px;
+        padding: 0px 15px 0px 15px;
+        border-left: 1px solid rgb(183, 176, 176);
+    }
+    .bar-sep {
+        display: none;
+    }
+  #travel-tips > div {
+    flex-direction: column !important;
+    gap: 18px !important;
+    padding: 0 4px !important;
+    align-items: stretch !important;
+  }
+  #travel-tips > div > div:first-child {
+    max-width: 100% !important;
+    margin: 0 0 18px 0 !important;
+    flex: none !important;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    order: 1 !important; /* Image below tips by default */
+  }
+  #travel-tips img {
+    margin-top: 0 !important;
+    max-width: 220px !important;
+    width: 100% !important;
+    border-radius: 10px !important;
+    display: block;
+  }
+  #travel-tips h2 {
+    font-size: 1.3rem !important;
+    margin-bottom: 18px !important;
+    text-align: center !important;
+  }
+  #travel-tips ul {
+    gap: 12px !important;
+  }
+  #travel-tips li {
+    margin-left: 0 !important;
+    padding: 8px 4px !important;
+    border-radius: 8px !important;
+    
+    box-shadow: 0 1px 4px rgba(191,161,106,0.04) !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  #travel-tips li span img {
+    height: 32px !important;
+    width: 24px !important;
+  }
+  #travel-tips li div span[style*="font-size:1.04rem"] {
+    font-size: 0.98rem !important;
+  }
+  /* Move Travel Tips content above image */
+  #travel-tips > div > div:last-child {
+    order: 0 !important;
+  }
+    .hero-content {
+        margin-left: 2vw;
+        padding: 10px;
+    }
+}
+@media (max-width: 600px) {
+    .hero-content { padding: 10px; }
+    .info-bar { 
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        gap: 5px;
+        padding: 12px 5px;
+        flex-wrap: wrap;
+    }
+    .info-col {
+        min-width: 90px;
+        padding: 8px 5px;
+        text-align: center;
+        border-left: none;
+        border-bottom: 1px solid rgba(255,255,255,0.3);
+        margin-bottom: 5px;
+        flex: 1;
+        max-width: 45%;
+    }
+    .info-col:nth-child(odd) {
+        border-right: 1px solid rgba(255,255,255,0.3);
+    }
+    .map-outline { display: none; }
+    .bar-sep { display: none; }
+    .info-bar strong {
+        font-size: 0.85em;
+        margin-bottom: 2px;
+    }
+    .info-value {
+        font-size: 0.9em;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+      <ul class="navbar-nav d-none d-lg-flex">
+      <li class="nav-item dropdown">
+        <a  class="nav-link" href="#">DESTINATIONS</a>
+         <div class="mega-menu destinations-menu">
+        <!-- Left Side -->
+        <div class="mega-left">
+          <ul>
+            <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
+            <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
+            <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
+            <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
+            <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
+            <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
+            <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
+            <li data-target="polar">POLAR <span class="arrow">&#8250;</span></li>
+          </ul>
+        </div>
+        <!-- Right Side -->
+       <div class="mega-right">
+          <div class="content" id="africa">
+            <div class="column">
+              <a href="#">Ascension Island</a>
+              <a href="#">Botswana</a>
+              <a href="#">Ethiopia</a>
+              <a href="#">Kenya</a>
+              <a href="#">Madagascar</a>
+              <a href="s10.html">Mauritius</a>
+              <a href="#">Morocco</a>
+              <a href="#">Namibia</a>
+              <a href="#">ReUnion Island</a>
+            </div>
+            <div class="column">
+              <a href="#">Saint Helena Island</a>
+              <a href="#">Seychelles</a>
+              <a href="#">South Africa</a>
+              <a href="#">TanZania</a>
+              <a href="#">Zanzibar</a>
+              <a href="#">Tristan Da Cunha</a>
+              <a href="#">Zimbabwe</a>
+            </div>
+          </div>
+          <div class="content" id="asia">
+            <div class="column">
+              <a href="#">Armenia</a>
+              <a href="#">Azerbaijan</a>
+              <a href="#">Cambodia</a>
+              <a href="#">Georgia</a>
+              <a href="#">Hong Kong & Macau</a>
+              <a href="s9.html">Indonesia</a>
+              <a href="Destination.html">Japan</a>
+              <a href="#">Kazakhstan</a>
+              <a href="#">Laos</a>
+              <a href="#">Malaysia</a>
+            </div>
+            <div class="column">
+              <a href="#">Maldives</a>
+              <a href="#">Mongolia</a>
+              <a href="#">Philippines</a>
+              <a href="#">Russia</a>
+              <a href="#">Singapore</a>
+              <a href="#">Taiwan</a>
+              <a href="#">South Korea</a>
+              <a href="s6.html">Thailand</a>
+              <a href="#">Uzbekistan</a>
+              <a href="s1.html">Vietnam</a>
+            </div>
+          </div>
+          <div class="content" id="australasia">
+            <div class="column">
+              <a href="#">Argentina</a>
+              <a href="#">Brazil</a>
+              <a href="#">Canada</a>
+              <a href="#">Caribbean</a>
+              <a href="#">Chile</a>
+              <a href="#">Colombia</a>
+            </div>
+            <div class="column">
+              <a href="#">Equador</a>
+              <a href="#">Mexico</a>
+              <a href="#">Peru</a>
+              <a href="#">Uruguay</a>
+              <a href="#">USA</a>
+            </div>
+          </div>
+          <div class="content" id="europe">
+            <div class="column">
+              <a href="#">Austria</a>
+              <a href="#">Belgium</a>
+              <a href="#">Bosnia & Herzegovinia</a>
+              <a href="#">Croatia</a>
+              <a href="#">Cyprus</a>
+              <a href="#">Czechia</a>
+              <a href="#">Denmark</a>
+              <a href="s2.html">Finland</a>
+              <a href="#">France</a>
+              <a href="#">Germany</a>
+              <a href="#">Greece</a>
+              <a href="#">Hungary</a>
+              <a href="#">Iceland</a>
+              <a href="#">Ireland</a>
+            </div>
+            <div class="column">
+              <a href="#">Italy</a>
+              <a href="#">Netherlands</a>
+              <a href="#">Norway</a>
+              <a href="#">Poland</a>
+              <a href="#">Portugal</a>
+              <a href="#">Romania</a>
+              <a href="#">Scotland</a>
+              <a href="#">Slovakia</a>
+              <a href="#">Slovenia</a>
+              <a href="#">Spain</a>
+              <a href="#">Sweden</a>
+              <a href="#">Switzerland</a>
+              <a href="#">United Kingdom</a>
+            </div>
+          </div>
+          <div class="content" id="indian">
+            <div class="column">
+              <a href="#">India</a>
+              <a href="#">Nepal</a>
+              <a href="s8.html">Sri Lanka</a>
+            </div>
+            <div class="column">
+              <a href="s5.html">Bhutan</a>
+              <a href="s7.html">Maldives</a>
+            </div>
+          </div>
+          <div class="content" id="latin">
+            <div class="column">
+              <a href="s3.html">Australia</a>
+              <a href="#">Fiji</a>
+            </div>
+            <div class="column">
+              <a href="#">French Polynesia</a>
+              <a href="s4.html">New Zealand</a>
+            </div>
+          </div>
+          <div class="content" id="middleeast">
+            <div class="column">
+              <a href="#">Bahrain</a>
+              <a href="#">Egypt</a>
+              <a href="#">Jordan</a>
+              <a href="s11.html">Oman</a>
+            </div>
+            <div class="column">
+              <a href="#">Qatar</a>
+              <a href="#">Saudi Arabia</a>
+              <a href="#">Turkey</a>
+              <a href="#">UAE</a>
+            </div>
+          </div>
+          <div class="content" id="polar">
+            <div class="column">
+              <a href="#">Antarctica</a>
+              <a href="#">Arctic</a>
+              <a href="#">Greenland</a>
+            </div>
+            <div class="column">
+              <a href="#">Iceland</a>
+              <a href="#">Norway</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">LUXURY</a>
+         <div class="mega-menu itinerary-menu">
+        <div class="mega-left">
+          <ul>
+  <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
+  <li data-target="adventure"><a href="">JAPAN</a></li>
+  <li data-target="luxury"><a href="">KENYA</a></li>
+  <li data-target="classic"><a href="">NORWAY</a></li>
+  <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
+  <li data-target="luxury"><a href="">TANZANIA</a></li>
+  <li data-target="classic"><a href="">ZANZIBAR</a></li>
+</ul>
+        </div>
+        
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="tourpakages.html">GROUP TOURS</a>
+         <!-- <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family">LATIN AMERICA</li>
+            <li data-target="friends">AUSTRALIA</li>
+            <li data-target="corporate">CANADA</li>
+            <li data-target="couples">EUROPE</li>
+            <li data-target="family">GREECE</li>
+            <li data-target="friends">ICELAND</li>
+            <li data-target="corporate">JAPAN</li>
+            <li data-target="couples">MOROCCO</li>
+            <li data-target="family">NEW ZEALAND</li>
+            <li data-target="friends">SOUTH AFRICA</li>
+            <li data-target="corporate">UNITED KINGDOM</li>
+            <li data-target="couples">USA</li>
+            <li data-target="friends">VIETNAM</li>
+          </ul>
+        </div>
+      </div> -->
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="Voyages.html">VOYAGES</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">BEYOND HOLIDAYS</a>
+         <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family"><a href="business.html">BUSINESS TRAVEL</a></li>
+            <li data-target="friends"><a href="Eduwings.html">EDUWINGS (STUDY ABROAD)</a></li>
+            <li data-target="corporate"><a href="celebration.html">DESTINATION CELEBRATIONS</a></li>
+            <li data-target="couples"><a href="sky.html">PRIVATE CHARTERS</a></li>
+            <li data-target="couples"><a href="sports.html">SPORTS TRAVEL</a></li>
+
+          </ul>
+        </div>
+      </div>
+      </li>
+    </ul>
+
+    <a class="navbar-brand mx-auto" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      
+    </a>
+
+     <div class="d-flex align-items-center ">
+      <div class="contact-info d-none d-lg-block me-3">
+        CALL US AT:<br>
+        <a href="tel:+919793405883">+91 97934-05883</a>
+      </div>
+      <span class="signin d-none d-lg-block"><img src="./iocon/account.png" style="display:block; font-size:1.5rem; margin:0 auto 2px auto; width: 30px;"></img>Sign In</span>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler ms-2" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<!-- Sliding Mobile Menu -->
+<div class="mobile-menu">
+  <div class="menu-header">
+    <a class="menu-logo" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;"  alt="Globengel Logo" class="logo">
+    </a>
+    <div class="close-btn">&times;</div>
+  </div>
+  <a class="nav-link" href="Destination.html">DESTINATIONS</a>
+  <a class="nav-link" href="Luxury.html">LUXURY</a>
+  <a class="nav-link" href="GroupTours.html">GROUP TOURS</a>
+  <a class="nav-link" href="#">VOYAGES</a>
+  <a class="nav-link" href="#">BEYOND LEISURE</a>
+  <a class="nav-link mt-3" href="#">Sign In</a>
+</div>
+<div class="overlay"></div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content" style="margin-top: 200px;">
+        
+        <p class="experience silver-South-family">Uncover <span> Indonesia </span></p>
+        <p>Temples, beaches, and vibrant cultural experiences</p>
+    </div>
+    <div class="info-bar">
+        <div class="info-col">
+            <strong>Best time to visit</strong>
+            <span class="info-value">May to September</span>
+        </div>
+        <div class="bar-sep"></div>
+        <div class="info-col">
+            <strong>Capital</strong>
+            <span class="info-value">Jakarta</span>
+        </div>
+        <div class="bar-sep"></div>
+        <div class="info-col">
+            <strong>Currency</strong>
+            <span class="info-value">Indonesian Rupiah</span>
+        </div>
+        <div class="bar-sep"></div>        <div class="info-col">
+            <strong>Time zone</strong>
+            <span class="info-value">+1.3 Hours from IST</span>
+        </div>
+        <div class="bar-sep"></div>
+        <div class="info-col">
+            <strong>Visa</strong>
+            <span class="info-value">Required</span>
+        </div>
+    </div>    <img src="./images/japan-map-removebg-preview.png" alt="Japan Map" class="map-outline">
+</section>
+
+<!-- Secondary Menu Section -->
+<section class="secondary-menu-section" id="secondaryMenu">
+    <div class="container-fluid">
+        <nav class="secondary-menu">
+            <ul class="secondary-nav">
+              <li><a href="#overview">OVERVIEW</a></li>
+              <li><a href="#curated-journeys">CURATED JOURNEYS</a></li>
+              <li><a href="#group-tours">GROUP TOURS</a></li>
+              <li><a href="#get-inspired">GET INSPIRED</a></li>
+              <li><a href="#travel-tips">TRAVEL TIPS</a></li>
+              <li><a href="#faqs">FAQS</a></li>
+               
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Overview Features Section -->
+<section class="japan-features-section" id="overview">
+  <div class="japan-features-row">
+    <div class="japan-feature-box">
+      <img src="./images/ov1.jpeg" alt="Mount Fuji">
+      <h4>Buzzing Beach Life: Kuta, Seminyak & Legian</h4>
+      <p>Soak in Bali's high-energy beach towns, filled with surf, cafés, shopping, and nightlife</p>
+    </div>
+    <div class="japan-feature-box">
+      <img src="./images/ov2.jpeg" alt="Temples">
+      <h4>Serene Luxury at Nusa Dua</h4>
+      <p>Bali's elegant coastline offering tranquil beaches, luxury resorts, and spa escapes</p>
+    </div>
+    <div class="japan-feature-box">
+      <img src="./images/ov4.jpeg" alt="Cuisine">
+      <h4>Nusa Penida & the Blue Beyond</h4>
+      <p>Embark on day trips to stunning cliff viewpoints, hidden coves, and turquoise lagoons</p>
+    </div>
+    <div class="japan-feature-box">
+      <img src="./images/ov3.jpeg" alt="Festivals">
+      <h4>Gili Islands Offbeat Island Escapes</h4>
+      <p>Unplug in these car-free islands-ideal for snorkelling, cycling, and relaxed island charm.</p>
+    </div>
+    <div class="japan-feature-box">
+      <img src="./images/ov5.jpeg" alt="Cities">
+      <h4>Cultural Immersion in Ubud & Beyond</h4>
+      <p>Walk through rice terraces, explore temples, and experience Bali's unique Hindu heritage.</p>
+    </div>
+  </div>
+
+  <div class="japan-overview-flex">
+    <div class="japan-overview-text">
+      <h3 class="silver-South-family">Overview</h3>
+      <p>
+Indonesia - especially Bali - offers Indian travellers the perfect mix of vibrant coastlines, cultural warmth, and spiritual comfort. Whether it's the lively shores of Kuta, the tranquil luxury of Nusa Dua, or the postcard-perfect views of Nusa Penida, there's a destination for every pace and preference. The island's temples, traditional rituals, and art forms often echo Indian values, making it feel both exciting and familiar. Add to that great Indian food options, friendly locals, and a variety of stays - from beachfront villas to boutique resorts - and you have a destination that fits honeymoons, family trips, wellness breaks, and celebrations alike. Bali doesn't just offer a holiday; it offers an experience you carry home.
+</p>
+    </div>
+    <div class="japan-overview-image"style="height: 337px;">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Japan">
+      <!-- <div class="japan-image-text">
+        <h4>When is the Best Time to Visit Japan?</h4>
+        -- <a href="#">Read more</a> --
+      </div> -->
+    </div>
+  </div>
+</section>
+
+<!-- Curated Journeys Section -->
+<section class="cj-section" id="curated-journeys">
+    <h2 class="cj-title silver-South-family">Curated <span style="font-size: 35px; font-family: 'Miller Display', Georgia, serif; font-weight: 500;">Journeys</span>
+    </h2>
+    <div class="cj-container">
+
+        <!-- Card 1 -->
+        <div class="cj-card">
+            <img src="./images/bm1.webp" alt="Krabi & Phuket">
+            <div class="cj-card-content">
+                <div class="cj-card-header">
+                    <h3>Spectacular Krabi & Phuket Getaway ...</h3>
+                    <span class="cj-days">5N/6D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
+                
+                <div class="cj-features-grid">
+                    <ul class="cj-features">
+                        <li>Round Trip Flights</li>
+                        <li>Airport Transfers</li>
+                        <li>Selected Meals</li>
+                    </ul>
+                    <ul class="cj-features">
+                        <li>4 Star Hotels</li>
+                        <li>5 Activities</li>
+                    </ul>
+                </div>
+                
+                <!-- <ul class="cj-features-checked">
+                    <li>7 Islands Sunset Tour</li>
+                    <li>Ferry Transfer</li>
+                    <li>Phi Phi Island Tour</li>
+                </ul> -->
+                
+                <div class="cj-price-box">
+                    <div class="cj-price-left">
+                        <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
+                    </div>
+                    <div class="cj-price-right">
+                        <p class="cj-price">₹55,751</p>
+                        <div class="cj-price-details">
+                            <div>/Person</div>
+                            <div>Total Price ₹1,11,502</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="cj-card">
+            <img src="./images/bm2.webp" alt="Couples Choice">
+            <div class="cj-card-content">
+                <div class="cj-card-header">
+                    <h3>Couples Choice - Seal Deal</h3>
+                    <span class="cj-days">6N/7D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 1N Phi Phi Island • 3N Phuket</p>
+                
+                <div class="cj-features-grid">
+                    <ul class="cj-features">
+                        <li>Round Trip Flights</li>
+                        <li>Airport Transfers</li>
+                        <li>Selected Meals</li>
+                    </ul>
+                    <ul class="cj-features">
+                        <li>4 Star Hotels</li>
+                        <li>7 Activities</li>
+                    </ul>
+                </div>
+                
+                <!-- <ul class="cj-features-checked">
+                    <li>Honeymoon Hamper</li>
+                    <li>7 Islands Sunset Tour</li>
+                    <li>Ferry Transfer</li>
+                </ul> -->
+                
+                <div class="cj-price-box">
+                    <div class="cj-price-left">
+                        <p class="cj-note">This price is lower than the average price in September</p>
+                    </div>
+                    <div class="cj-price-right">
+                        <p class="cj-price">₹59,664</p>
+                        <div class="cj-price-details">
+                            <div>/Person</div>
+                            <div>Total Price ₹1,19,328</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="cj-card">
+            <img src="./images/bw1.jpeg" alt="Krabi & Phuket">
+            <div class="cj-card-content">
+                <div class="cj-card-header">
+                    <h3>Spectacular Krabi & Phuket Getaway ...</h3>
+                    <span class="cj-days">5N/6D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
+                
+                <div class="cj-features-grid">
+                    <ul class="cj-features">
+                        <li>Round Trip Flights</li>
+                        <li>Airport Transfers</li>
+                        <li>Selected Meals</li>
+                    </ul>
+                    <ul class="cj-features">
+                        <li>4 Star Hotels</li>
+                        <li>5 Activities</li>
+                    </ul>
+                </div>
+                
+                <!-- <ul class="cj-features-checked">
+                    <li>7 Islands Sunset Tour</li>
+                    <li>Ferry Transfer</li>
+                    <li>Phi Phi Island Tour</li>
+                </ul> -->
+                
+                <div class="cj-price-box">
+                    <div class="cj-price-left">
+                        <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
+                    </div>
+                    <div class="cj-price-right">
+                        <p class="cj-price">₹55,751</p>
+                        <div class="cj-price-details">
+                            <div>/Person</div>
+                            <div>Total Price ₹1,11,502</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <!-- Card 1 -->
+        <div class="cj-card">
+            <img src="./images/bm1.webp" alt="Krabi & Phuket">
+            <div class="cj-card-content">
+                <div class="cj-card-header">
+                    <h3>Spectacular Krabi & Phuket Getaway ...</h3>
+                    <span class="cj-days">5N/6D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
+                
+                <div class="cj-features-grid">
+                    <ul class="cj-features">
+                        <li>Round Trip Flights</li>
+                        <li>Airport Transfers</li>
+                        <li>Selected Meals</li>
+                    </ul>
+                    <ul class="cj-features">
+                        <li>4 Star Hotels</li>
+                        <li>5 Activities</li>
+                    </ul>
+                </div>
+                
+               
+                
+                <div class="cj-price-box">
+                    <div class="cj-price-left">
+                        <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
+                    </div>
+                    <div class="cj-price-right">
+                        <p class="cj-price">₹55,751</p>
+                        <div class="cj-price-details">
+                            <div>/Person</div>
+                            <div>Total Price ₹1,11,502</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="cj-card">
+            <img src="./images/bm2.webp" alt="Couples Choice">
+            <div class="cj-card-content">
+                <div class="cj-card-header">
+                    <h3>Couples Choice - Seal Deal</h3>
+                    <span class="cj-days">6N/7D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 1N Phi Phi Island • 3N Phuket</p>
+                
+                <div class="cj-features-grid">
+                    <ul class="cj-features">
+                        <li>Round Trip Flights</li>
+                        <li>Airport Transfers</li>
+                        <li>Selected Meals</li>
+                    </ul>
+                    <ul class="cj-features">
+                        <li>4 Star Hotels</li>
+                        <li>7 Activities</li>
+                    </ul>
+                </div>
+                 
+                <div class="cj-price-box">
+                    <div class="cj-price-left">
+                        <p class="cj-note">This price is lower than the average price in September</p>
+                    </div>
+                    <div class="cj-price-right">
+                        <p class="cj-price">₹59,664</p>
+                        <div class="cj-price-details">
+                            <div>/Person</div>
+                            <div>Total Price ₹1,19,328</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="cj-card">
+            <img src="./images/bw1.jpeg" alt="Krabi & Phuket">
+            <div class="cj-card-content">
+                <div class="cj-card-header">
+                    <h3>Spectacular Krabi & Phuket Getaway ...</h3>
+                    <span class="cj-days">5N/6D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
+                
+                <div class="cj-features-grid">
+                    <ul class="cj-features">
+                        <li>Round Trip Flights</li>
+                        <li>Airport Transfers</li>
+                        <li>Selected Meals</li>
+                    </ul>
+                    <ul class="cj-features">
+                        <li>4 Star Hotels</li>
+                        <li>5 Activities</li>
+                    </ul>
+                </div>
+                
+                
+                
+                <div class="cj-price-box">
+                    <div class="cj-price-left">
+                        <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
+                    </div>
+                    <div class="cj-price-right">
+                        <p class="cj-price">₹55,751</p>
+                        <div class="cj-price-details">
+                            <div>/Person</div>
+                            <div>Total Price ₹1,11,502</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Grouup Departures -->
+<section class="group-departures" id="group-tours" style="background-color: #FEF7F3;">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="section-title"><span class="silver-South-family" style="font-size: 65px; font-weight: 400;"> Group </span> Tours</h2>
+      <!-- <p class="section-subtitle">Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing.</p> -->
+    </div>
+      <!-- Swiper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+      <!-- Slide 1 -->
+      <div class="swiper-slide">
+        <div class="gt-travel-card">
+          <!-- <div class="gt-trip-tag-corner">Timeless Europe</div> -->
+          <img src="./images/banner.webp" alt="Timeless Europe Journey">
+          <div class="gt-travel-content">
+            <h3>TIMELESS EUROPE JOURNEY</h3>
+            <p>9 Days | 3 Countries | 4 Cities</p>
+            <p>Departures- Oct | Nov | Dec</p>
+            <div class="gt-travel-price">INR 1,19,000/- <span>(Per Person)</span></div>
+          </div>
+        </div>
+      </div>
+        <!-- Slide 2 -->
+      <div class="swiper-slide">
+        <div class="gt-travel-card">
+          <!-- <div class="gt-trip-tag-corner">Amazing Dubai</div> -->
+          <img src="./images/trip1.jpeg" alt="Amazing Dubai">
+          <div class="gt-travel-content">
+            <h3>AMAZING DUBAI</h3>
+            <p>7 Days | 1 Country | 3 Cities</p>
+            <p>Departures- Sep | Oct | Nov</p>
+            <div class="gt-travel-price">INR 89,000/- <span>(Per Person)</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 3 -->
+      <div class="swiper-slide">
+        <div class="gt-travel-card">
+          <!-- <div class="gt-trip-tag-corner">Bali Paradise</div> -->
+          <img src="./images/trip2.avif" alt="Bali Paradise">
+          <div class="gt-travel-content">
+            <h3>BALI PARADISE</h3>
+            <p>8 Days | 1 Country | 4 Cities</p>
+            <p>Departures- Oct | Dec | Jan</p>
+            <div class="gt-travel-price">INR 95,000/- <span>(Per Person)</span></div>
+          </div>
+        </div>
+      </div>
+        <!-- Slide 4 -->
+      <div class="swiper-slide">
+        <div class="gt-travel-card">
+          <!-- <div class="gt-trip-tag-corner">Asian Explorer</div> -->
+          <img src="./images/banner.webp" alt="Asian Explorer">
+          <div class="gt-travel-content">
+            <h3>ASIAN EXPLORER</h3>
+            <p>12 Days | 3 Countries | 6 Cities</p>
+            <p>Departures- Sep | Oct | Nov</p>
+            <div class="gt-travel-price">INR 1,45,000/- <span>(Per Person)</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 5 -->
+      <div class="swiper-slide">
+        <div class="gt-travel-card">
+          <!-- <div class="gt-trip-tag-corner">Majestic Turkey</div> -->
+          <img src="./images/trip1.jpeg" alt="Majestic Turkey">
+          <div class="gt-travel-content">
+            <h3>MAJESTIC TURKEY</h3>
+            <p>10 Days | 1 Country | 5 Cities</p>
+            <p>Departures- Sep | Oct | Nov</p>
+            <div class="gt-travel-price">INR 1,05,000/- <span>(Per Person)</span></div>
+          </div>
+        </div>
+      </div>        <!-- Slide 6 -->
+      <div class="swiper-slide">
+        <div class="gt-travel-card">
+          <!-- <div class="gt-trip-tag-corner">Egypt Wonder</div> -->
+          <img src="./images/trip2.avif" alt="Egypt Wonder">
+          <div class="gt-travel-content">
+            <h3>EGYPT WONDER</h3>
+            <p>9 Days | 1 Country | 4 Cities</p>
+            <p>Departures- Oct | Nov | Dec</p>
+            <div class="gt-travel-price">INR 1,25,000/- <span>(Per Person)</span></div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- Manual navigation buttons (make sure they are inside swiper container) -->
+      <div class="swiper-button-prev" style="z-index:10;"></div>
+      <div class="swiper-button-next" style="z-index:10;"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Get Inspired -->
+<section class="inspired-section" id="get-inspired">
+    <h2 class="inspired-title">Get <span class="silver-South-family"> Inspired </span></h2>
+    
+    <!-- Row 1 -->
+    <div class="inspired-row inspired-row-1">
+        <div class="inspired-card">
+            <img src="./images/bm1.webp" alt="Cherry Blossoms">
+            <div class="inspired-overlay">
+                Mount Batur Sunrise Trek - Active volcano hike for adventure seekers
+            </div>
+        </div>
+        <div class="inspired-card">
+            <img src="./images/bm2.webp" alt="Nara Heritage">
+            <div class="inspired-overlay">
+                Sacred Monkey Forest Sanctuary (Ubud) Temple ruins with playful macaques
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="inspired-row inspired-row-2">
+        <div class="inspired-card">
+            <img src="./images/bm3.webp" alt="Mount Fuji">
+            <div class="inspired-overlay">
+                Balinese Traditional Markets & Art Villages
+            </div>
+        </div>
+        <div class="inspired-card">
+            <img src="./images/bm1.webp" alt="Tokyo Nightlife">
+            <div class="inspired-overlay">
+                Uluwatu Temple & Kecak Dance - Clifftop sunsets & fire dance shows
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- Map -->
+<section class="things-section">
+    <!-- <h2 class="things-title">Top things to do</h2> -->
+    <div id="things-map"></div>
+</section>
+
+<!-- Travel Tips Section -->
+<section style="background:#FEF7F3; padding:60px 10px;" id="travel-tips">
+  <div style="max-width:1050px; margin:0 auto; display:flex; gap:48px; align-items:flex-start; color:#4a3d36;">
+    <!-- Left: Image -->
+    <div style="flex:0 0 340px; max-width:340px;">
+      <img class="travel-image" src="./images/travels-removebg-preview.png" alt="Traveling" style="width:100%; max-width:340px; border-radius:10px; ">
+    </div>
+    <!-- Right: Tips -->
+    <div style="flex:1;">
+      <h2 style="font-family: 'Miller Display', Georgia, serif; font-size: 35px; color:#444; margin-bottom:0px; letter-spacing:1px;">
+        <span class="silver-South-family" style="font-size:65px; font-weight:400;">Travel</span> Tips
+      </h2>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:22px;">
+        <li style="display:flex; align-items:flex-start; gap:14px; margin-left: -14rem;">
+          <span style="font-size:1.3rem; margin-top:2px;"><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="" style="height: 40px; width: 30px;"></span>
+          <div>
+            <span style="font-family: 'Miller Display', Georgia, serif; font-weight:400; color:#333; font-size: 25px;">Visa</span><br>
+            <span style="font-size: 18px;  font-family: 'Miller Display', Georgia, serif;">Indian passport holders are eligible for a Visa on Arrival (VOA) in Indonesia for tourism (valid for 30 days). Make sure your passport is valid for at least 6 months.</span>
+          </div>
+        </li>
+        <li style="display:flex; align-items:flex-start; gap:14px; margin-left: -9rem;">
+          <span style="font-size:1.3rem; margin-top:2px;"><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="" style="height: 40px; width: 30px;"></span>
+
+          <div>
+            <span style="font-family: 'Miller Display', Georgia, serif; font-weight:400; color:#333; font-size: 25px;">Best time to visit</span><br>
+            <span style="font-size: 18px;  font-family: 'Miller Display', Georgia, serif;">April to October (dry season) is perfect for beach, cultural, and adventure experiences. Avoid monsoon (Nov-March) if you plan island-hopping.</span>
+          </div>
+        </li>
+        <li style="display:flex; align-items:flex-start; gap:14px; margin-left: -3rem;">
+                <span style="font-size:1.3rem; margin-top:2px;"><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="" style="height: 40px; width: 30px;"></span>
+          <div>
+            <span style="font-family: 'Miller Display', Georgia, serif; font-weight:400; color:#333; font-size: 25px;">Currency</span><br>
+            <span style="font-size: 18px;  font-family: 'Miller Display', Georgia, serif;">Indonesian Rupiah (IDR). Cards are accepted in most areas, but keep cash for markets or local cafes.</span>
+          </div>
+        </li>
+        <li style="display:flex; align-items:flex-start; gap:14px; margin-left: 2rem;">
+              <span style="font-size:1.3rem; margin-top:2px;"><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="" style="height: 40px; width: 30px;"></span>
+          <div>
+            <span style="font-family: 'Miller Display', Georgia, serif; font-weight:400; color:#333; font-size: 25px;">Language</span><br>
+            <span style="font-size: 18px;  font-family: 'Miller Display', Georgia, serif;">Bahasa Indonesia is official. English is spoken in most tourist areas. Knowing a few local words is appreciated.</span>
+          </div>
+        </li>
+        <li style="display:flex; align-items:flex-start; gap:14px; margin-left: -3rem;">
+                <span style="font-size:1.3rem; margin-top:2px;"><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="" style="height: 40px; width: 30px;"></span>
+          <div>
+            <span style="font-family: 'Miller Display', Georgia, serif; font-weight:400; color:#333; font-size: 25px;">Food options</span><br>
+            <span style="font-size: 18px;  font-family: 'Miller Display', Georgia, serif;">While Balinese cuisine includes seafood and meat, Indian restaurants are available, especially in Seminyak, Ubud, and Kuta. Vegetarian-friendly options are widespread in cafes and resorts.</span>
+          </div>
+        </li>
+        <li style="display:flex; align-items:flex-start; gap:14px; margin-left: -9rem;">
+              <span style="font-size:1.3rem; margin-top:2px;"><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="" style="height: 40px; width: 30px;"></span>
+          <div>
+            <span style="font-family: 'Miller Display', Georgia, serif; font-weight:400; color:#333; font-size: 25px;">Connectivity</span><br>
+            <span style="font-size: 18px;  font-family: 'Miller Display', Georgia, serif;">Buy a local SIM at the airport or use hotel Wi-Fi. Coverage is strong even in remote areas.</span>
+          </div>
+        </li>
+        <li style="display:flex; align-items:flex-start; gap:14px; margin-left: -14rem;">
+              <span style="font-size:1.3rem; margin-top:2px;"><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="" style="height: 40px; width: 30px;"></span>
+          <div>
+            <span style="font-family: 'Miller Display', Georgia, serif; font-weight:400; color:#333; font-size: 25px;">Transport</span><br>
+            <span style="font-size: 18px;  font-family: 'Miller Display', Georgia, serif;">Use taxis, private chauffeurs, or scooter rentals for local commuting. GLOBENGEL can arrange guided transport with English-speaking drivers.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section: With + - toggle -->
+<section style="background:#fff; padding:60px 10px;" id="faqs">
+  <div style="max-width:900px; margin:0 auto; font-family:'Montserrat', Arial, sans-serif; color:#333;">
+    <h2 style="text-align:center; font-family: 'Miller Display', Georgia, serif; font-size: 35px; color:#444; margin-bottom:32px; letter-spacing:1px;">
+      Frequently Asked <span class="silver-South-family" style="font-size: 65px; font-weight:400;">Questions</span>
+    </h2>
+    <div class="faq-list" style="display:flex; flex-direction:column; gap:18px;">
+      <!-- FAQ 1 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">Do Indians need a visa for Bali?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> Yes, but it's simple-Visa on Arrival (VOA) is available at Denpasar Airport. Fees apply and can be paid in cash or card.
+        </div>
+      </div>
+      <!-- FAQ 2 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">Is Bali good for honeymooners and families alike?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> Absolutely. Bali caters to honeymooners, families, solo travellers, and spiritual seekers with a wide range of experiences.
+        </div>
+      </div>
+      <!-- FAQ 3 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">Is Bali vegetarian-friendly?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> Yes. Many cafes offer vegetarian, vegan, and even jain-friendly options, especially in Ubud and Canggu
+        </div>
+      </div>
+      <!-- FAQ 4 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">How many days should I plan for Bali?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> 6 to 8 days is ideal to explore beaches, temples, culture, and island-hopping.
+        </div>
+      </div>
+      <!-- FAQ 5 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">Can I include Gili Islands or Nusa Penida?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> Yes-both are popular day trips or overnight escapes. GLOBENGEL can customise transfers, boat rides, and island tours.
+        </div>
+      </div>
+      <!-- FAQ 6 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">What kind of shopping is recommended?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> Handmade souvenirs, local batik textiles, spa products, silver jewelry, rattan bags, and artisan crafts from Ubud.
+        </div>
+      </div>
+      <!-- FAQ 7 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">Is Bali safe for solo women travellers?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span>  Yes, it's considered one of the safest Southeast Asian destinations, with a strong wellness community and female-friendly stays.
+        </div>
+      </div>
+      <!-- FAQ 8 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">Can I combine Bali with other Indonesian destinations?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> Yes, You can explore Jakarta, Yogyakarta (Borobudur), or Komodo Islands for extended trips.
+        </div>
+      </div>
+      <!-- FAQ 9 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">What are the cultural do's and don'ts?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> Dress modestly in temples, remove footwear before entering, and avoid pointing feet or touching locals on the head. Respect ceremonies and traditional customs.
+        </div>
+      </div>
+      <!-- FAQ 10 -->
+      <div class="faq-item">
+        <div class="faq-question">
+          <span style="font-weight:700; color:#222;">Can I experience Indian festivals or food in Bali?</span>
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer" style="display:none;">
+          <span style="font-weight:600; color:#a2595a;">Answer:</span> Yes, Bali celebrates Nyepi (Balinese New Year) and some Indian-owned restaurants host Diwali or Holi specials in tourist hubs.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.faq-item {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 18px 18px 8px 18px;
+  box-shadow: 0 2px 8px rgba(191,161,106,0.07);
+  transition: box-shadow 0.2s;
+}
+.faq-item.active {
+  box-shadow: 0 4px 16px rgba(191,161,106,0.13);
+}
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.faq-question span {
+  font-size: 20px;
+  font-family: 'Miller Display', Georgia, serif;
+}
+.faq-toggle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #234a97;
+  margin-left: 18px;
+  user-select: none;
+  transition: color 0.2s;
+}
+.faq-item.active .faq-toggle {
+  color: #a2595a;
+}
+.faq-answer {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #444;
+  transition: all 0.2s;
+  font-family: 'Miller Display', Georgia, serif;
+}
+
+.faq-answer span {
+  font-size: 18px;
+  font-family: 'Miller Display', Georgia, serif;
+}
+</style>
+
+<script>
+// filepath: c:\Users\dell\Desktop\Globengel_Self\Destination.html
+document.querySelectorAll('.faq-question').forEach(function(q){
+  q.addEventListener('click', function(){
+    var item = this.parentElement;
+    var answer = item.querySelector('.faq-answer');
+    var toggle = this.querySelector('.faq-toggle');
+    var isOpen = item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(function(i){
+      i.classList.remove('active');
+      i.querySelector('.faq-answer').style.display = 'none';
+      i.querySelector('.faq-toggle').textContent = '+';
+    });
+    if(!isOpen){
+      item.classList.add('active');
+      answer.style.display = 'block';
+      toggle.textContent = '−';
+    }
+  });
+});
+</script>
+
+<!-- let -->
+ <section class="curate-trip-section">
+  <div class="curate-content">
+    <h2>
+      Let’s <span class="script-text silver-South-family">Curate</span> your trip
+    </h2>
+    <a href="#" class="curate-btn">CONTACT US</a>
+  </div>
+</section>
+
+
+<!-- Partner Section -->
+
+<section class="logo-slider-section">
+  <div class="logo-marquee">
+    <div class="logo-track">
+      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
+      <img src="./images/polandPartner.png" alt="wanderwell logo" />
+      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <!-- Repeat for seamless loop -->
+      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
+      <img src="./images/polandPartner.png" alt="wanderwell logo" />
+      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+    </div>
+  </div>
+</section>
+
+<style>
+.logo-slider-section {
+  background: #fff;
+  padding: 60px 0;
+  overflow: hidden;
+}
+.logo-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.logo-track {
+  display: flex;
+  gap: 32px;
+  animation: marquee 38s linear infinite;
+  width: max-content;
+  align-items: center;
+}
+.logo-track img {
+  width: 150px;
+  height: 100px !important;
+  object-fit: contain;
+  display: block;
+  margin: 0 8px;
+  filter: none;
+  /* background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04); */
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+</style>
+
+<!-- Footer Section -->
+ <!-- footer 2 -->
+<footer class="site-footer">
+    <div class="footer-top">
+
+      <!-- Newsletter -->
+      <div class="footer-newsletter">
+        <h4>LET'S BUILD EXPERIENCES TOGETHER</h4>
+        <form class="heading_font_family">
+          <input type="text" placeholder="First Name*" required>
+          <input type="text" placeholder="Last Name*" required>
+          <input type="email" placeholder="Email*" required>
+          <label class="checkbox heading_font_family">
+            <input type="checkbox">
+            I am happy to receive emails from Globengel, including upcoming events and information.*
+          </label>
+          <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+      </div>
+
+      <!-- Award Badge -->
+      <div class="footer-badge">
+        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Award 2025">
+      </div>
+
+
+      <!-- Destinations -->
+      <div class="footer-destinations">
+        <h4 class="heading_font_family" style="font-size: 18px;">Home</h4>
+        <ul class="heading_font_family">
+
+                    <!-- <li><a href="Destination.html">Destinations</a></li>
+                    <li><a href="Luxury.html">Luxury</a></li> -->
+                    <li><a href="tourpakages.html">Group Tours</a></li>
+                    <li><a href="voyages.html">Voyages</a></li>
+                    <li><a href="business.html">Business Travel</a></li>
+                    <li><a href="celebration.html">Destination Celebration</a></li>
+                    <li><a href="Eduwings.html">Eduwings (STUDY ABROAD)</a></li> 
+                    <li><a href="sky.html">Private Charter</a></li> 
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="Contactus.html">Contact Us</a></li>
+          
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h4 class="heading_font_family">Get in Touch</h4>
+        <p><a href="tel:+919910405255">+91 99104-05255</a></p>
+        <p class="heading_font_family"><a href="mailto:info@globengel.com">info@globengel.com</a></p>
+
+        <h4 class="heading_font_family">Find us on</h4>
+        <!-- Social Media Icons -->
+<div class="footer-social">
+  <a href="https://www.facebook.com/globengel" class="social-icon-box"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@globengel" class="social-icon-box"><i class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/globengel" class="social-icon-box"><i class="fab fa-x"></i></a>
+                    <a href="https://www.instagram.com/globengel" class="social-icon-box"><i class="fab fa-instagram"></i></a>
+  <a href="http://www.linkedin.com/company/globengel" class="social-icon-box"><i class="fab fa-linkedin-in"></i></a>
+</div>
+
+        <div class="footer-tagline">
+          <h2 class="heading_font_family">DREAM. <br>
+EXPLORE. <br>
+DISCOVER. <br>
+
+</h2>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 130px;" alt="MITÉRA Goddess Logo">
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+        <p>Copyright 2019-2025 GLOBENGEL</p>
+      </div>
+    </div>
+</footer>
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script src="./js/script.js"></script>
+<script src="./js/group-tours.js"></script>
+
+
+<script>
+// Secondary Menu Sticky Functionality
+window.addEventListener('scroll', function() {
+    const secondaryMenu = document.getElementById('secondaryMenu');
+    const scrollPosition = window.scrollY;
+    const heroHeight = document.querySelector('.hero').offsetHeight;
+    
+    if (scrollPosition >= heroHeight - 80) {
+        secondaryMenu.classList.add('fixed');
+    } else {
+        secondaryMenu.classList.remove('fixed');
+    }
+});
+
+// Active menu item on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.secondary-nav a');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Optional: Smooth scroll to section
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+});
+</script>
+
+<script>
+// Center map on Japan
+var map = L.map('things-map', {
+    minZoom: 4,
+    maxZoom: 10
+}).setView([36.2048, 138.2529], 5);
+
+// Use CartoDB Positron (light, English, clean look)
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap contributors & CartoDB'
+}).addTo(map);
+
+// Limit map to Japan's bounding box
+var japanBounds = [
+    [20.4253, 122.9346], // Southwest corner
+    [45.5515, 153.9867]  // Northeast corner
+];
+map.setMaxBounds(japanBounds);
+map.on('drag', function() {
+    map.panInsideBounds(japanBounds, { animate: false });
+});
+
+// Popup card content
+var popupContent = `
+<div class="popup-card">
+    <img src="./images/bm1.webp" alt="Dogo Onsen">
+    <p>Soak in an onsen (hot spring) – Historic Dogo Onsen in Matsuyama is a top place to plunge</p>
+</div>
+`;
+
+// Add marker for Dogo Onsen
+L.marker([33.8416, 132.7654]).addTo(map)
+    .bindPopup(popupContent)
+    .openPopup();
+</script>
+<style>
+/* Map container style for same look */
+#things-map {
+    width: 100%;
+    height: 420px;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    margin: 0px 0 10px 0;
+    border: 1.5px solid #e5e5e5;
+    overflow: hidden;
+}
+
+/* Popup card style for same design */
+.leaflet-popup-content-wrapper {
+    border-radius: 12px !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10) !important;
+    background: #fff !important;
+    border: 1px solid #eee !important;
+}
+.leaflet-popup-content {
+    margin: 8px 8px 8px 8px !important;
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #444;
+    font-size: 14px;
+}
+.popup-card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    max-width: 220px;
+    display: block;
+}
+.popup-card p {
+    margin: 0;
+    font-size: 13px;
+    color: #333;
+}
+</style>
+
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:99999; align-items:center; justify-content:center;">
+  <div id="authModalInner" style="background:#fff6f3; border-radius:16px; max-width:900px; width:95vw; padding:32px 28px 24px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative; display:flex; gap:32px; flex-wrap:wrap;">
+    <!-- Left: Forms -->
+    <div style="flex:1 1 350px; min-width:320px;">
+      <button id="closeAuthModal" style="position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px; color:#e55d17; cursor:pointer;">&times;</button>
+      <!-- Tabs -->
+      <div style="display:flex; justify-content:center; gap:24px; margin-bottom: 10px;">
+        <button id="signInTab" class="auth-tab active" style="background:none; border:none; font-size:18px; font-weight:600; color:#e55d17; cursor:pointer;">Sign In</button>
+        <button id="createTab" class="auth-tab" style="background:none; border:none; font-size:18px; font-weight:600; color:#888; cursor:pointer;">Create Account</button>
+      </div>
+      <!-- Sign In Form -->
+      <form id="signInForm" style="display:block;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:18px;">Sign In to Your Account</h3>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Email or Mobile Number*</label>
+          <input type="text" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Password*</label>
+          <input type="password" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:17px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign In</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Don't have an account? <span id="gotoCreate" style="color:#e55d17; cursor:pointer; font-weight:500;">Create Account</span>
+        </div>
+      </form>
+      <!-- Create Account Form -->
+      <form id="createForm" style="display:none;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:10px;">Create an Account</h3>
+        <p style="margin-bottom: 10px; font-size: 14px;" >Enter the below details to start setting up your ENGEL CLUB account. If you already have an account, please <span style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span> to continue.</p>
+        <!-- ...your create account fields as before... -->
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">First Name*</label>
+            <input type="text" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Last Name*</label>
+            <input type="text" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Gender</label>
+            <input type="text" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Date of Birth</label>
+            <input type="text" placeholder="DD/MM/YYYY" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+      <label style="font-size:14px;">Mobile Number*</label>
+      <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
+        <select style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
+          <option value="+91">+91</option>
+          <option value="+1">+1</option>
+          <option value="+44">+44</option>
+          <option value="+61">+61</option>
+          <option value="+81">+81</option>
+          <!-- Add more country codes as needed -->
+        </select>
+        <input type="text" required style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
+      </div>
+    </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:14px;">Email*</label>
+          <input type="email" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Confirm Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:13px;">
+            <input type="checkbox" style="margin-right:6px;">
+            I wish to receive news and promotions from GLOBENGEL. You may unsubscribe at any time by updating your account preferences.
+          </label>
+          <p style="margin-bottom: 0; font-size: 13px;" >By submitting this form, I agree to Maharaja Club Terms and Conditions and Privacy Notice.</p>
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:15px; font-weight:600; border:none; padding:5px 0; margin-top:8px;">Sign Up</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Already have an account? <span id="gotoSignIn" style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span>
+        </div>
+      </form>
+    </div>
+    <!-- Right: ENGEL CLUB Info Card -->
+    <div id="engelClubCard" style="flex:1 1 320px; min-width:280px; background: #fad7c0; border-radius:12px; padding:28px 22px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <img src="./images/engleClubLogo.png" alt="ENGEL CLUB" style="width:150px; margin-bottom:12px;">
+      <h4 style="font-size:18px; font-weight:600; color:#444; margin-bottom:18px;">SIGN UP FOR ENGEL CLUB</h4>
+      <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:15px; color:#444;">
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Earn rewards every time you travel with us.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-arrow-up" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Unlock special upgrades &amp; priority assistance.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-users" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Access member-only deals on holidays &amp; services.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Surprise perks for milestone trips (honeymoons, anniversaries, etc.).
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-lightbulb" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Early access to new offers
+        </li>
+      </ul>
+      <button id="engelSignUpBtn" style="background:#e55d17; color:#fff; font-size:16px; font-weight:600; border:none; border-radius:6px; padding:10px 32px; margin-top:8px;">SIGN-UP</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Responsive styles for auth modal */
+@media (max-width: 700px) {
+  #authModalInner {
+    flex-direction: column !important;
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 18px 8px 18px 8px !important;
+    gap: 0 !important;
+    align-items: stretch !important;
+  }
+  #authModalInner > div {
+    min-width: 0 !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    margin-bottom: 18px !important;
+  }
+  #engelClubCard {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 18px 8px !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+  }
+  #closeAuthModal {
+    top: 8px !important;
+    right: 8px !important;
+    font-size: 28px !important;
+  }
+  .auth-tab {
+    font-size: 16px !important;
+    padding: 6px 0 !important;
+  }
+  #signInForm, #createForm {
+    padding: 0 !important;
+  }
+  #engelClubCard img {
+    width: 90px !important;
+    margin-bottom: 8px !important;
+  }
+  #engelClubCard h3, #engelClubCard h4 {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelClubCard ul {
+    font-size: 13px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelSignUpBtn {
+    font-size: 15px !important;
+    padding: 8px 18px !important;
+    margin-top: 6px !important;
+  }
+}
+/* Responsive styles for Create Account form fields */
+@media (max-width: 700px) {
+  #createForm .display-flex,
+  #createForm .display-flex > div,
+  #createForm .display-flex > div > div {
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+  }
+  #createForm .display-flex > div {
+    margin-bottom: 12px !important;
+  }
+  #createForm input,
+  #createForm select {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    border-radius: 6px !important;
+    font-size: 15px !important;
+  }
+  #createForm label {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+  }
+  #createForm .display-flex {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Open modal on Sign In click
+  document.querySelector('.signin').addEventListener('click', function() {
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+  });
+
+  // Mobile menu Sign In link
+  document.querySelector('.mobile-menu .nav-link.mt-3').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+    // Optionally close mobile menu if you have a function for that
+    document.querySelector('.mobile-menu').classList.remove('open');
+    document.querySelector('.overlay').style.display = 'none';
+  });
+
+  // Close modal
+  document.getElementById('closeAuthModal').onclick = function() {
+    document.getElementById('authModal').style.display = 'none';
+  };
+
+  // Tab switching
+  document.getElementById('signInTab').onclick = function() { showTab('signIn'); };
+  document.getElementById('createTab').onclick = function() { showTab('create'); };
+  document.getElementById('gotoCreate').onclick = function() { showTab('create'); };
+  document.getElementById('gotoSignIn').onclick = function() { showTab('signIn'); };
+
+  // ENGEL CLUB card sign-up button opens create account
+  document.getElementById('engelSignUpBtn').onclick = function() {
+    showTab('create');
+  };
+
+  // Show/hide ENGEL CLUB card based on tab
+  function showTab(tab) {
+    if(tab === 'signIn') {
+      document.getElementById('signInForm').style.display = 'block';
+      document.getElementById('createForm').style.display = 'none';
+      document.getElementById('signInTab').classList.add('active');
+      document.getElementById('createTab').classList.remove('active');
+      document.getElementById('engelClubCard').style.display = 'flex';
+    } else {
+      document.getElementById('signInForm').style.display = 'none';
+      document.getElementById('createForm').style.display = 'block';
+      document.getElementById('signInTab').classList.remove('active');
+      document.getElementById('createTab').classList.add('active');
+      document.getElementById('engelClubCard').style.display = 'none';
+    }
+  }
+});
+</script>
+</body>
+</html>

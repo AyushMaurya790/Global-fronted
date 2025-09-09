@@ -1,0 +1,2214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Globengel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+
+ <link rel="stylesheet" href="./CSS/style.css">
+ <link rel="stylesheet" href="./CSS/group-cards.css">
+ 
+ <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+ <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Montserrat', Arial, sans-serif; }
+.hero {
+    position: relative;
+    height: 100vh;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: start;
+    overflow: hidden;
+    background: url('images/aeroplane.webp') no-repeat center center/cover;
+}
+.hero-overlay {
+    background: rgba(0,0,0,0.35);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+}
+.hero-content {
+    z-index: 2;
+    max-width: 900px;
+    /* margin: 0 auto; */
+    padding: 20px;
+    position: relative;
+    left: 40px;
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.hero p.subheading {
+    font-size: 1.2rem;
+    margin: 10px 0 24px;
+    font-weight: 500;
+}
+.btn {
+    padding: 12px 28px;
+    border-radius: 25px;
+    border: none;
+    margin: 5px 10px 20px 0;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-family: inherit;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.btn-primary {
+    background: linear-gradient(90deg, #a259ff 0%, #8a2be2 100%);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(138,43,226,0.18);
+    border: none;
+}
+.btn-primary:hover {
+    background: linear-gradient(90deg, #8a2be2 0%, #a259ff 100%);
+    color: #fff;
+}
+.btn-outline {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    font-weight: 500;
+}
+.btn-outline:hover {
+    background: #fff;
+    color: #8a2be2;
+}
+.experience {
+    font-family: 'MyCustomSliverSouth', sans-serif;
+    font-size: 75px;
+    margin-top: 40px;
+    margin-bottom: 0;
+    font-weight: 400;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+.experience span {
+    font-family: 'Miller Display', Georgia, serif;
+    font-weight: 500;
+    font-size: 60px;
+    margin-left: 10px;
+}
+.hero-content > p:not(.subheading):not(.experience) {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-weight: 400;
+   font-family: 'Miller Display', Georgia, serif;
+}
+.info-bar {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 18px 0 45px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 1rem;
+    z-index: 2;
+    gap: 0;
+    background: none !important;
+}
+.info-col {
+    text-align: left;
+    min-width: 120px;
+    padding: 0px 104px 0px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-left: 2px solid rgb(183, 176, 176);
+}
+.info-col::after {
+    content: none;
+}
+.info-bar strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.98em;
+    font-weight: 600;
+    color: #fff;
+    opacity: 0.85;
+}
+.info-value {
+    font-weight: bold;
+    color: #fff;
+    font-size: 1.05em;
+    margin-top: 2px;
+}
+.bar-sep {
+    border-left: 1.5px solid black;
+    margin: 0;
+    height: 100%;
+    align-self: stretch;
+}
+.map-outline {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+    max-height: 320px;
+    z-index: 2;
+}
+@media (min-width: 1200px) {
+    .travel-image{
+      margin-top: 250px !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero h1 { font-size: 2.2rem; }
+    .experience, .experience span { font-size: 1.5rem; }
+    .map-outline { right: 10px; max-height: 180px; }
+    .info-bar { 
+        font-size: 0.9rem; 
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 15px 10px;
+    }
+    .info-col {
+        min-width: 100px;
+        padding: 0px 15px 0px 15px;
+        border-left: 1px solid rgb(183, 176, 176);
+    }
+    .bar-sep {
+        display: none;
+    }
+  #travel-tips > div {
+    flex-direction: column !important;
+    gap: 18px !important;
+    padding: 0 4px !important;
+    align-items: stretch !important;
+  }
+  #travel-tips > div > div:first-child {
+    max-width: 100% !important;
+    margin: 0 0 18px 0 !important;
+    flex: none !important;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    order: 1 !important; /* Image below tips by default */
+  }
+  #travel-tips img {
+    margin-top: 0 !important;
+    max-width: 220px !important;
+    width: 100% !important;
+    border-radius: 10px !important;
+    display: block;
+  }
+  #travel-tips h2 {
+    font-size: 1.3rem !important;
+    margin-bottom: 18px !important;
+    text-align: center !important;
+  }
+  #travel-tips ul {
+    gap: 12px !important;
+  }
+  #travel-tips li {
+    margin-left: 0 !important;
+    padding: 8px 4px !important;
+    border-radius: 8px !important;
+    
+    box-shadow: 0 1px 4px rgba(191,161,106,0.04) !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  #travel-tips li span img {
+    height: 32px !important;
+    width: 24px !important;
+  }
+  #travel-tips li div span[style*="font-size:1.04rem"] {
+    font-size: 0.98rem !important;
+  }
+  /* Move Travel Tips content above image */
+  #travel-tips > div > div:last-child {
+    order: 0 !important;
+  }
+}
+@media (max-width: 600px) {
+    .hero-content { padding: 10px; }
+    .info-bar { 
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        gap: 5px;
+        padding: 12px 5px;
+        flex-wrap: wrap;
+    }
+    .info-col {
+        min-width: 90px;
+        padding: 8px 5px;
+        text-align: center;
+        border-left: none;
+        border-bottom: 1px solid rgba(255,255,255,0.3);
+        margin-bottom: 5px;
+        flex: 1;
+        max-width: 45%;
+    }
+    .info-col:nth-child(odd) {
+        border-right: 1px solid rgba(255,255,255,0.3);
+    }
+    .map-outline { display: none; }
+    .bar-sep { display: none; }
+    .info-bar strong {
+        font-size: 0.85em;
+        margin-bottom: 2px;
+    }
+    .info-value {
+        font-size: 0.9em;
+    }
+}
+.overview-section {
+  width: 100%;
+  background: #fdf6f3;
+  padding: 0;
+  margin: 0;
+}
+.overview-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 0 60px 0;
+  gap: 0;
+}
+.overview-left {
+  flex: 1 1 0;
+  min-width: 260px;
+  /* max-width: 540px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 80px;
+}
+.overview-title {
+  font-size: 65px;
+  color: #444;
+  font-weight: 500;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+.overview-desc p {
+  font-size: 18px;
+  color: #444;
+  font-family: 'Miller Display', Georgia, serif;
+
+}
+
+.overview-desc b {
+  font-size: 20px;
+  color: #444;
+  font-family: 'Miller Display', Georgia, serif;
+}
+.overview-desc strong {
+  font-size: 20px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 12px;
+ font-family: 'Miller Display', Georgia, serif;
+}
+.overview-desc ul {
+  margin-top: 12px;
+  margin-bottom: 0;
+  padding-left: 18px;
+}
+.overview-desc li {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #444;
+  font-family: 'Miller Display', Georgia, serif;
+}
+.overview-right {
+  flex: 0 0 370px;
+  max-width: 370px;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overview-right img {
+  width: 100%;
+  max-width: 370px;
+  aspect-ratio: 1/1;
+  border-radius: 0;
+  object-fit: cover;
+  box-shadow: 0 2px 16px rgba(191,161,106,0.10);
+  background: #eee;
+  height: 517px;
+}
+@media (max-width: 900px) {
+  .overview-wrapper {
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 0 18px 0;
+    align-items: stretch;
+  }
+  .overview-left {
+    padding-right: 0;
+    max-width: 100vw;
+    margin-bottom: 18px;
+  }
+  .overview-title {
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+  .overview-right {
+    max-width: 98vw;
+    margin: 0 auto;
+    justify-content: flex-start;
+  }
+  .overview-right img {
+    max-width: 98vw;
+    aspect-ratio: 1/1;
+  }
+  .overview-desc ul {
+    margin-top: 8px;
+    padding-left: 14px;
+  }
+  .overview-desc li {
+    font-size: 0.98rem;
+    margin-bottom: 6px;
+  }
+}
+.who-we-fly-section {
+  width: 100%;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+}
+.who-we-fly-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 0 60px 0;
+  text-align: center;
+}
+.who-we-fly-title {
+  font-size: 35px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 38px;
+  font-family: 'Miller Display', Georgia, serif;
+  letter-spacing: 0.5px;
+}
+.who-we-fly-script {
+  font-family: 'MyCustomSliverSouth', sans-serif;
+  font-size: 65px;
+  color: #444;
+  font-weight: 500;
+  margin: 0 4px;
+  letter-spacing: 1px;
+  vertical-align: middle;
+}
+.who-we-fly-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 38px 24px;
+  justify-items: center;
+}
+.who-we-fly-card {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  max-width: 320px;
+}
+.who-we-fly-icon img {
+  width: 110px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 18px;
+  opacity: 0.8;
+}
+.who-we-fly-card-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 8px;
+  font-family: 'Miller Display', Georgia, serif;
+}
+.who-we-fly-card-desc {
+  font-size: 18px;
+  color: #444;
+  font-family: 'Miller Display', Georgia, serif;
+  font-weight: 500;
+  line-height: 1.4;
+}
+@media (max-width: 900px) {
+  .who-we-fly-title {
+    font-size: 1.3rem;
+    margin-bottom: 22px;
+  }
+  .who-we-fly-script {
+    font-size: 1.3rem;
+  }
+  .who-we-fly-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 12px;
+  }
+  .who-we-fly-card {
+    max-width: 98vw;
+  }
+  .who-we-fly-icon img {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 12px;
+  }
+  .who-we-fly-card-title {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  .who-we-fly-card-desc {
+    font-size: 0.92rem;
+  }
+}
+@media (max-width: 600px) {
+  .who-we-fly-grid {
+    grid-template-columns: 1fr;
+    gap: 18px 0;
+  }
+  .who-we-fly-card {
+    max-width: 98vw;
+  }
+}
+.why-charters-section {
+  width: 100%;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+}
+.why-charters-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 48px 0 32px 0;
+}
+.why-charters-left {
+  flex: 0 0 320px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 220px;
+  max-width: 320px;
+  padding-right: 24px;
+}
+.why-charters-title {
+  font-size: 2rem;
+  color: #444;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 700;
+  text-align: left;
+  line-height: 1.1;
+}
+.why-charters-script {
+  font-family: 'Shadows Into Light', 'Pacifico', cursive;
+  font-size: 2.1rem;
+  color: #888;
+  font-weight: 600;
+  letter-spacing: 1px;
+  vertical-align: middle;
+  display: inline-block;
+}
+.why-charters-bold {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #444;
+  display: inline-block;
+}
+.why-charters-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 180px 180px;
+  gap: 18px 18px;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 820px;
+  position: relative;
+}
+.why-charters-img {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: 0 2px 16px rgba(191,161,106,0.10);
+  background: #eee;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.why-charters-img-large {
+  grid-column: span 2;
+  height: 180px;
+}
+.why-charters-img-small {
+  height: 180px;
+}
+.why-charters-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.why-charters-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 18px 12px 12px 18px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.45) 70%, rgba(0,0,0,0.01) 100%);
+  color: #fff;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1rem;
+  text-align: left;
+}
+.why-charters-caption strong {
+  display: block;
+  font-size: 1.08rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.why-charters-caption span {
+  font-size: 0.98rem;
+  font-weight: 400;
+  opacity: 0.95;
+}
+@media (max-width: 900px) {
+  .why-charters-wrapper {
+    flex-direction: column;
+    gap: 18px;
+    padding: 24px 0 18px 0;
+    align-items: stretch;
+  }
+  .why-charters-left {
+    padding-right: 0;
+    max-width: 100vw;
+    margin-bottom: 18px;
+    justify-content: flex-start;
+  }
+  .why-charters-title {
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+  .why-charters-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 140px 140px 140px;
+    gap: 12px 12px;
+    max-width: 100vw;
+  }
+  .why-charters-img-large {
+    grid-column: span 2;
+    height: 140px;
+  }
+  .why-charters-img-small {
+    height: 140px;
+  }
+}
+@media (max-width: 600px) {
+  .why-charters-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 120px);
+    gap: 10px 0;
+  }
+  .why-charters-img-large,
+  .why-charters-img-small {
+    grid-column: span 1;
+    height: 120px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+      <ul class="navbar-nav d-none d-lg-flex">
+      <li class="nav-item dropdown">
+        <a  class="nav-link" href="#">DESTINATIONS</a>
+         <div class="mega-menu destinations-menu">
+        <!-- Left Side -->
+        <div class="mega-left">
+          <ul>
+            <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
+            <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
+            <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
+            <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
+            <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
+            <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
+            <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
+            <li data-target="polar">POLAR <span class="arrow">&#8250;</span></li>
+          </ul>
+        </div>
+        <!-- Right Side -->
+       <div class="mega-right">
+          <div class="content" id="africa">
+            <div class="column">
+              <a href="#">Ascension Island</a>
+              <a href="#">Botswana</a>
+              <a href="#">Ethiopia</a>
+              <a href="#">Kenya</a>
+              <a href="#">Madagascar</a>
+              <a href="s10.html">Mauritius</a>
+              <a href="#">Morocco</a>
+              <a href="#">Namibia</a>
+              <a href="#">ReUnion Island</a>
+            </div>
+            <div class="column">
+              <a href="#">Saint Helena Island</a>
+              <a href="#">Seychelles</a>
+              <a href="#">South Africa</a>
+              <a href="#">TanZania</a>
+              <a href="#">Zanzibar</a>
+              <a href="#">Tristan Da Cunha</a>
+              <a href="#">Zimbabwe</a>
+            </div>
+          </div>
+          <div class="content" id="asia">
+            <div class="column">
+              <a href="#">Armenia</a>
+              <a href="#">Azerbaijan</a>
+              <a href="#">Cambodia</a>
+              <a href="#">Georgia</a>
+              <a href="#">Hong Kong & Macau</a>
+              <a href="s9.html">Indonesia</a>
+              <a href="Destination.html">Japan</a>
+              <a href="#">Kazakhstan</a>
+              <a href="#">Laos</a>
+              <a href="#">Malaysia</a>
+            </div>
+            <div class="column">
+              <a href="#">Maldives</a>
+              <a href="#">Mongolia</a>
+              <a href="#">Philippines</a>
+              <a href="#">Russia</a>
+              <a href="#">Singapore</a>
+              <a href="#">Taiwan</a>
+              <a href="#">South Korea</a>
+              <a href="s6.html">Thailand</a>
+              <a href="#">Uzbekistan</a>
+              <a href="s1.html">Vietnam</a>
+            </div>
+          </div>
+          <div class="content" id="australasia">
+            <div class="column">
+              <a href="#">Argentina</a>
+              <a href="#">Brazil</a>
+              <a href="#">Canada</a>
+              <a href="#">Caribbean</a>
+              <a href="#">Chile</a>
+              <a href="#">Colombia</a>
+            </div>
+            <div class="column">
+              <a href="#">Equador</a>
+              <a href="#">Mexico</a>
+              <a href="#">Peru</a>
+              <a href="#">Uruguay</a>
+              <a href="#">USA</a>
+            </div>
+          </div>
+          <div class="content" id="europe">
+            <div class="column">
+              <a href="#">Austria</a>
+              <a href="#">Belgium</a>
+              <a href="#">Bosnia & Herzegovinia</a>
+              <a href="#">Croatia</a>
+              <a href="#">Cyprus</a>
+              <a href="#">Czechia</a>
+              <a href="#">Denmark</a>
+              <a href="s2.html">Finland</a>
+              <a href="#">France</a>
+              <a href="#">Germany</a>
+              <a href="#">Greece</a>
+              <a href="#">Hungary</a>
+              <a href="#">Iceland</a>
+              <a href="#">Ireland</a>
+            </div>
+            <div class="column">
+              <a href="#">Italy</a>
+              <a href="#">Netherlands</a>
+              <a href="#">Norway</a>
+              <a href="#">Poland</a>
+              <a href="#">Portugal</a>
+              <a href="#">Romania</a>
+              <a href="#">Scotland</a>
+              <a href="#">Slovakia</a>
+              <a href="#">Slovenia</a>
+              <a href="#">Spain</a>
+              <a href="#">Sweden</a>
+              <a href="#">Switzerland</a>
+              <a href="#">United Kingdom</a>
+            </div>
+          </div>
+          <div class="content" id="indian">
+            <div class="column">
+              <a href="#">India</a>
+              <a href="#">Nepal</a>
+              <a href="s8.html">Sri Lanka</a>
+            </div>
+            <div class="column">
+              <a href="s5.html">Bhutan</a>
+              <a href="s7.html">Maldives</a>
+            </div>
+          </div>
+          <div class="content" id="latin">
+            <div class="column">
+              <a href="s3.html">Australia</a>
+              <a href="#">Fiji</a>
+            </div>
+            <div class="column">
+              <a href="#">French Polynesia</a>
+              <a href="s4.html">New Zealand</a>
+            </div>
+          </div>
+          <div class="content" id="middleeast">
+            <div class="column">
+              <a href="#">Bahrain</a>
+              <a href="#">Egypt</a>
+              <a href="#">Jordan</a>
+              <a href="s11.html">Oman</a>
+            </div>
+            <div class="column">
+              <a href="#">Qatar</a>
+              <a href="#">Saudi Arabia</a>
+              <a href="#">Turkey</a>
+              <a href="#">UAE</a>
+            </div>
+          </div>
+          <div class="content" id="polar">
+            <div class="column">
+              <a href="#">Antarctica</a>
+              <a href="#">Arctic</a>
+              <a href="#">Greenland</a>
+            </div>
+            <div class="column">
+              <a href="#">Iceland</a>
+              <a href="#">Norway</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">LUXURY</a>
+         <div class="mega-menu itinerary-menu">
+        <div class="mega-left">
+          <ul>
+  <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
+  <li data-target="adventure"><a href="">JAPAN</a></li>
+  <li data-target="luxury"><a href="">KENYA</a></li>
+  <li data-target="classic"><a href="">NORWAY</a></li>
+  <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
+  <li data-target="luxury"><a href="">TANZANIA</a></li>
+  <li data-target="classic"><a href="">ZANZIBAR</a></li>
+</ul>
+        </div>
+        
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="tourpakages.html">GROUP TOURS</a>
+         <!-- <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family">LATIN AMERICA</li>
+            <li data-target="friends">AUSTRALIA</li>
+            <li data-target="corporate">CANADA</li>
+            <li data-target="couples">EUROPE</li>
+            <li data-target="family">GREECE</li>
+            <li data-target="friends">ICELAND</li>
+            <li data-target="corporate">JAPAN</li>
+            <li data-target="couples">MOROCCO</li>
+            <li data-target="family">NEW ZEALAND</li>
+            <li data-target="friends">SOUTH AFRICA</li>
+            <li data-target="corporate">UNITED KINGDOM</li>
+            <li data-target="couples">USA</li>
+            <li data-target="friends">VIETNAM</li>
+          </ul>
+        </div>
+      </div> -->
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="Voyages.html">VOYAGES</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">BEYOND HOLIDAYS</a>
+         <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family"><a href="business.html">BUSINESS TRAVEL</a></li>
+            <li data-target="friends"><a href="Eduwings.html">EDUWINGS (STUDY ABROAD)</a></li>
+            <li data-target="corporate"><a href="celebration.html">DESTINATION CELEBRATIONS</a></li>
+            <li data-target="couples"><a href="sky.html">PRIVATE CHARTERS</a></li>
+            <li data-target="couples"><a href="sports.html">SPORTS TRAVEL</a></li>
+
+          </ul>
+        </div>
+      </div>
+      </li>
+    </ul>
+
+    <a class="navbar-brand mx-auto" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      
+    </a>
+
+     <div class="d-flex align-items-center ">
+      <div class="contact-info d-none d-lg-block me-3">
+        CALL US AT:<br>
+        <a href="tel:+919793405883">+91 97934-05883</a>
+      </div>
+      <span class="signin d-none d-lg-block"><img src="./iocon/account.png" style="display:block; font-size:1.5rem; margin:0 auto 2px auto; width: 30px;"></img>Sign In</span>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler ms-2" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Sliding Mobile Menu -->
+<div class="mobile-menu">
+  <div class="menu-header">
+    <a class="menu-logo" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;"  alt="Globengel Logo" class="logo">
+    </a>
+    <div class="close-btn">&times;</div>
+  </div>
+  <a class="nav-link" href="Destination.html">DESTINATIONS</a>
+  <a class="nav-link" href="Luxury.html">LUXURY</a>
+  <a class="nav-link" href="GroupTours.html">GROUP TOURS</a>
+  <a class="nav-link" href="#">VOYAGES</a>
+  <a class="nav-link" href="#">BEYOND LEISURE</a>
+  <a class="nav-link mt-3" href="#">Sign In</a>
+</div>
+<div class="overlay"></div>
+
+<!-- Hero Section -->
+<section class="hero" style="position:relative; width:100%; height:100vh; overflow:hidden;">
+  <!-- Swiper for background images only -->
+  <div class="swiper heroSkySwiper" style="width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1;">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" style="width:100%; height:100vh;">
+        <div style="background: url('./WebsiteData/jet-flying-over-clouds-banner.jpeg') no-repeat center center/cover; width:100%; height:100vh;"></div>
+      </div>
+      <div class="swiper-slide" style="width:100%; height:100vh;">
+        <div style="background: url('./WebsiteData/1-6-2000x1250.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
+      </div>
+      <div class="swiper-slide" style="width:100%; height:100vh;">
+        <div style="background: url('./WebsiteData/angkor-wat.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Overlay -->
+  <div class="hero-overlay"></div>
+  <!-- Fixed Content -->
+  <div class="hero-content" style="margin-top: 300px; position:relative; z-index:2;">
+    <p class="experience silver-South-family"><span style="margin-left:0px;">The Sky,</span> Reserved <span style="margin-left:0px;">for You</span></span>
+    </p>
+    <p>From private jets to purpose-led group travel - your skies, your rules.</p>
+  </div>
+</section>
+
+<!-- Secondary Menu Section -->
+<section class="secondary-menu-section" id="secondaryMenu">
+    <div class="container-fluid">
+        <nav class="secondary-menu">
+            <ul class="secondary-nav">
+              <li><a href="#overview">OVERVIEW</a></li>
+              <li><a href="#curated-journeys">WHO WE FLY</a></li>
+              <li><a href="#group-tours">FLEET & SPECIFICATIONS</a></li>
+              <li><a href="#get-inspired">WHY US</a></li>
+              <li><a href="#travel-tips">GALLERY</a></li>
+
+               
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Overview Section: Screenshot Style -->
+<section id="overview" class="overview-section" style="background: #fdf6f3;">
+  <div class="overview-wrapper">
+    <!-- Left: Text Content -->
+    <div class="overview-left">
+      <h2 class="overview-title silver-South-family">Overview</h2>
+      <div class="overview-desc">
+        <strong>Step into a world where you don’t adjust to schedules — the schedule adjusts to you.</strong>
+        <p>
+          GLOBENGEL Charters redefine private and group air travel with curated options across the globe.
+        </p>
+        <p>
+          Whether you're planning a luxurious getaway or an urgent medical evacuation, our charter experiences are driven by comfort, confidentiality, and class.
+        </p>
+        <p><b>What we offer:</b></p>
+        <ul>
+          <li>Global & Domestic Private Jets</li>
+          <li>Group Charters for Leisure or Business</li>
+          <li>Custom Routing & Airport Access</li>
+          <li>End-to-End Ground & Inflight Services</li>
+        </ul>
+      </div>
+    </div>
+    <!-- Right: Image -->
+    <div class="overview-right">
+      <img src="./images/aerointerior.webp" alt="Private Jet Dining" />
+    </div>
+  </div>
+</section>
+
+<!-- Who We Fly Section: Screenshot Style -->
+<section class="who-we-fly-section" id="curated-journeys" style="background: #fff; padding: 0;">
+  <div class="who-we-fly-wrapper">
+    <h2 class="who-we-fly-title">
+      Who we fly – <span class="who-we-fly-script">Tailored</span> for every purpose
+    </h2>
+    <div class="who-we-fly-grid">
+      <!-- Card 1 -->
+      <div class="who-we-fly-card">
+        <div class="who-we-fly-icon">
+          <img src="./images/aeroicon.png" alt="Private Jet Charters" />
+        </div>
+        <div class="who-we-fly-card-title">Private Jet Charters</div>
+        <div class="who-we-fly-card-desc">For VIPs, celebrities, HNIs & high-priority travel</div>
+      </div>
+      <!-- Card 2 -->
+      <div class="who-we-fly-card">
+        <div class="who-we-fly-icon">
+          <img src="./images/daruIcon.png" alt="Weddings & Celebrations" />
+        </div>
+        <div class="who-we-fly-card-title">Weddings & Celebrations</div>
+        <div class="who-we-fly-card-desc">Full-flight charters for destination weddings & intimate gatherings</div>
+      </div>
+      <!-- Card 3 -->
+      <div class="who-we-fly-card">
+        <div class="who-we-fly-icon">
+          <img src="./images/luxgrpvacIcon.png" alt="Luxury Group Vacations" />
+        </div>
+        <div class="who-we-fly-card-title">Luxury Group Vacations</div>
+        <div class="who-we-fly-card-desc">Fly as a family or tribe – because shared memories begin in the skies</div>
+      </div>
+      <!-- Card 4 -->
+      <div class="who-we-fly-card">
+        <div class="who-we-fly-icon">
+          <img src="./images/miceIcons.png" alt="MICE & Corporate Travel" />
+        </div>
+        <div class="who-we-fly-card-title">MICE & Corporate Travel</div>
+        <div class="who-we-fly-card-desc">Custom-configured aircraft for events, offsites & incentive travel</div>
+      </div>
+      <!-- Card 5 -->
+      <div class="who-we-fly-card">
+        <div class="who-we-fly-icon">
+          <img src="./images/studentIcon.png" alt="Student & Educational Groups" />
+        </div>
+        <div class="who-we-fly-card-title">Student & Educational Groups</div>
+        <div class="who-we-fly-card-desc">Safe, coordinated airlifts for universities, study groups, and institutions</div>
+      </div>
+      <!-- Card 6 -->
+      <div class="who-we-fly-card">
+        <div class="who-we-fly-icon">
+          <img src="./images/airAmblunceIcon.png" alt="Air Ambulance & Medical Charters" />
+        </div>
+        <div class="who-we-fly-card-title">Air Ambulance & Medical Charters</div>
+        <div class="who-we-fly-card-desc">Critical care charters for emergency, repatriation & organ transport</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Beyoned Section -->
+
+<section id="group-tours" class="beyond-leisure py-5" style="background-color: #FFF6F3;">
+  <div class="container text-center">
+    <!-- Section Heading -->
+    <h2 class="beyond-heading">
+      <span>Private Charters</span> Categories
+    </h2>
+    <!-- <p class="beyond-subtitle">
+      Not all journeys are for leisure. Some build futures, close deals, or mark life’s milestones. 
+      At GLOBENGEL, we understand the difference — and deliver experiences crafted for every purpose.
+    </p> -->
+
+    <!-- Cards -->
+    <div class="row g-4 mt-4 justify-content-center">
+      <!-- Card 1 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="beyond-card">
+          <img src="./images/bm1.webp" alt="Corporate Travel" class="beyond-img">
+          <div class="beyond-overlay">
+            <h4>The Best Places to Visit in 2025</h4>
+            <p>Corporate Travel</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="beyond-card">
+          <img src="./images/bm2.webp" alt="Education Travel" class="beyond-img">
+          <div class="beyond-overlay">
+            <h4>19 Top Luxury Hotels Worldwide for Stargazing</h4>
+            <p>Education Travel</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="beyond-card">
+          <img src="./images/bm3.webp" alt="Celebrations" class="beyond-img">
+          <div class="beyond-overlay">
+            <h4>The 9 Best Wellness Retreats Destinations</h4>
+            <p>Celebrations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Handpicked Luxury Resorts Section -->
+
+<section id="get-inspired" class="handpicked-resorts-section" style="background: #fff;">
+  <div class="handpicked-resorts-wrapper">
+   
+    <!-- Right: Title -->
+    <div class="handpicked-resorts-title">
+      <div class="handpicked-script silver-South-family">Why</div>
+      <div class="handpicked-main-title">GLOBENGEL Charters</div>
+    </div>
+
+     <!-- Left: Resort Grid -->
+    <div class="handpicked-resorts-grid">
+      <!-- Top Left Large Card -->
+      <div class="resort-card resort-card-lg" style="background-image:url('./images/Australia.jpg'); width: 181px; height:200px; left: 87px; top: 0;">
+        <div class="resort-card-content">
+          <div class="resort-card-title">Arctic TreeHouse Hotel</div>
+          <div class="resort-card-desc">Lapland’s Iconic Hideaway</div>
+        </div>
+      </div>
+      <!-- Top Right Two Small Cards -->
+      <div class="resort-card resort-card-sm resort-card-sm-1" style="background-image:url('./images/itieneary.jpg'); width:180px; height:212px; left:274px; top:22px;">
+        <div class="resort-card-content">
+          <div class="resort-card-title">Levi Spirit Villas</div>
+          <div class="resort-card-desc">Private Villas with Concierge</div>
+        </div>
+      </div>
+      <div class="resort-card resort-card-sm resort-card-sm-2" style="background-image:url('./images/Japan.jpg'); width:215px; height:183px; left:460px; top: 51px;;">
+        <div class="resort-card-content">
+          <div class="resort-card-title">Hotel Haven, Helsinki</div>
+          <div class="resort-card-desc">Urban Luxe by the Harbour</div>
+        </div>
+      </div>
+      <!-- Bottom Left Large Card -->
+      <div class="resort-card resort-card-lg resort-card-lg-2" style="background-image:url('./images/Finland.jpg'); width:260px; height:192px; left:0; top: 203px;">
+        <div class="resort-card-content">
+          <div class="resort-card-title">Kakslauttanen Arctic Resort</div>
+          <div class="resort-card-desc">Glass Igloos & Chalets</div>
+        </div>
+      </div>
+      <!-- Bottom Right Large Card -->
+      <div class="resort-card resort-card-lg resort-card-lg-3" style="background-image:url('./images/Australia.jpg'); width: 332px; height: 193px; left:267px; top:238px;">
+        <div class="resort-card-content">
+          <div class="resort-card-title">Javri Lodge</div>
+          <div class="resort-card-desc">Adults-Only Boutique Lodge with Spa</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.handpicked-resorts-section {
+  width: 100%;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+}
+.handpicked-resorts-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 0 20px 0;
+  gap: 0;
+}
+.handpicked-resorts-grid {
+  position: relative;
+  width: 650px;
+  min-width: 320px;
+  height: 480px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.resort-card {
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  /* border-radius: 10px; */
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+  display: flex;
+  align-items: flex-end;
+}
+.resort-card-lg {
+  width: 220px;
+  height: 220px;
+}
+.resort-card-sm {
+  width: 200px;
+  height: 265px;
+}
+.resort-card-lg {
+  left: 0;
+  top: 0;
+}
+.resort-card-sm-1 {
+  left: 240px;
+  top: 0;
+}
+.resort-card-sm-2 {
+  left: 460px;
+  top: 0;
+}
+.resort-card-lg-2 {
+  left: 0;
+  top: 240px;
+}
+.resort-card-lg-3 {
+  left: 240px;
+  top: 280px;
+  width: 420px;
+  height: 220px;
+}
+.resort-card-content {
+  background: linear-gradient(0deg,rgba(0,0,0,0.55) 80%,rgba(0,0,0,0.01) 100%);
+  color: #fff;
+  padding: 18px 14px 14px 14px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.resort-card-title {
+  font-size: 17px;
+  font-weight: 400;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+   font-family: 'Miller Display', Georgia, serif;
+}
+.resort-card-desc {
+  font-size: 13px;
+  font-weight: 400;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  font-family: 'Miller Display', Georgia, serif;
+}
+
+.handpicked-resorts-title {
+  flex: 0 0 370px;
+  min-width: 220px;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* padding-left: 87px; */
+}
+.handpicked-script {
+  font-size: 65px;
+  color: #444;
+  font-weight: 400;
+  margin-bottom: 0;
+  letter-spacing: 1px;
+  text-align: left;
+}
+.handpicked-main-title {
+  font-size: 35px;
+  font-weight: 400;
+  color: #444;
+  margin-top: 10px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  font-family: 'Miller Display', Georgia, serif;
+}
+@media (max-width: 1100px) {
+  .handpicked-resorts-wrapper {
+    flex-direction: column-reverse;
+    gap: 18px;
+    padding: 32px 0 18px 0;
+  }
+  .handpicked-resorts-title {
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 0;
+    margin-bottom: 18px;
+  }
+  .handpicked-main-title {
+    font-size: 20px;
+    margin-top: 0;
+    margin-left: 0;
+    text-align: center;
+  }
+  .handpicked-script {
+    font-size: 24px;
+    text-align: center;
+  }
+  .handpicked-resorts-grid {
+    width: 98vw;
+    min-width: 0;
+    height: 420px;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 700px) {
+  .handpicked-resorts-wrapper {
+    flex-direction: column-reverse;
+    gap: 10px;
+    padding: 18px 0 10px 0;
+  }
+  .handpicked-resorts-title {
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 0;
+    margin-bottom: 10px;
+  }
+  .handpicked-main-title {
+    font-size: 15px;
+    margin-top: 0;
+    margin-left: 0;
+    text-align: center;
+  }
+  .handpicked-script {
+    font-size: 14px;
+    text-align: center;
+  }
+  .handpicked-resorts-grid {
+    position: static;
+    width: 100vw;
+    min-width: 0;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .resort-card,
+  .resort-card-lg,
+  .resort-card-sm,
+  .resort-card-lg-2,
+  .resort-card-lg-3,
+  .resort-card-sm-1,
+  .resort-card-sm-2 {
+    position: static !important;
+    width: 92vw !important;
+    min-width: 0 !important;
+    height: 180px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+  }
+  .resort-card-content {
+    padding: 12px 8px 10px 8px;
+  }
+  .resort-card-title {
+    font-size: 15px;
+  }
+  .resort-card-desc {
+    font-size: 11px;
+  }
+}
+</style>
+
+<!-- Gallery section -->
+
+ <section class="gallery-section" id="travel-tips">
+  <div class="container">
+    <h2 class="section-title">
+      <span class="highlight">Past</span> mission & stories
+    </h2>
+
+    <div class="gallery-grid">
+
+      <!-- Large Wide Card -->
+      <div class="gallery-card wide">
+        <img src="./images/Australia.jpg" alt="Manila City">
+        <div class="overlay">
+          <h3>Manila City</h3>
+          <p>30 Place</p>
+        </div>
+      </div>
+
+      <!-- Normal Card -->
+      <div class="gallery-card">
+        <img src="./images/Finland.jpg" alt="Turkey">
+        <div class="overlay">
+          <h3>Turkey</h3>
+          <p>10 Place</p>
+        </div>
+      </div>
+
+      <!-- Normal Card -->
+      <div class="gallery-card">
+        <img src="./images/Japan.jpg" alt="Los Angeles">
+        <div class="overlay">
+          <h3>Los Angeles</h3>
+          <p>14 Place</p>
+        </div>
+      </div>
+
+      <!-- Tall Card -->
+      <div class="gallery-card">
+        <img src="images/vietnam.jpg" alt="Vietnam">
+        <div class="overlay">
+          <h3>Vietnam</h3>
+          <p>10 Place</p>
+        </div>
+      </div>
+
+      <!-- Wide Card -->
+      <div class="gallery-card">
+        <img src="./images/itieneary.jpg" alt="China Tours">
+        <div class="overlay">
+          <h3>China Tours</h3>
+          <p>30 Place</p>
+        </div>
+      </div>
+
+      <!-- Normal Card -->
+      <div class="gallery-card wide">
+        <img src="./images/Australia.jpg" alt="Germany">
+        <div class="overlay">
+          <h3>Germany</h3>
+          <p>16 Place</p>
+        </div>
+      </div>
+
+      <!-- Normal Card -->
+      <div class="gallery-card wide">
+        <img src="./images/Finland.jpg" alt="Los Angeles">
+        <div class="overlay">
+          <h3>Los Angeles</h3>
+          <p>11 Place</p>
+        </div>
+      </div>
+
+      <!-- Tall Card -->
+      <div class="gallery-card">
+        <img src="./images/Japan.jpg" alt="Turkey">
+        <div class="overlay">
+          <h3>Turkey</h3>
+          <p>15 Place</p>
+        </div>
+      </div>
+
+      <!-- Wide Card -->
+      <div class="gallery-card">
+        <img src="./images/itieneary.jpg" alt="Manila City">
+        <div class="overlay">
+          <h3>Manila City</h3>
+          <p>30 Place</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Section Styling */
+.gallery-section {
+  background: #faf6f4;
+  padding: 60px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 35px;
+  font-weight: 500;
+  margin-bottom: 40px;
+  font-family: 'Miller Display', Georgia, serif;
+
+}
+
+.section-title .highlight {
+  font-family: 'MyCustomSliverSouth', sans-serif;
+  font-size: 65px;
+  font-weight: 500;
+  color: #444;
+  margin-right: 8px;
+}
+
+/* Masonry Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 220px;
+  gap: 20px;
+}
+
+/* Card Styles */
+.gallery-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Overlay */
+.gallery-card .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  color: #fff;
+  background: none;
+  display: block;
+  z-index: 2;
+}
+
+.gallery-card .overlay h3 {
+  font-size: 22px;
+  margin: 0;
+  font-family: 'Miller Display', Georgia, serif;
+}
+
+.gallery-card .overlay p {
+  font-size: 18px;
+  margin-top: 4px;
+  opacity: 0.9;
+  font-family: 'Miller Display', Georgia, serif;
+}
+
+/* Special Sizes */
+.gallery-card.wide {
+  grid-column: span 2; /* spans 2 columns */
+}
+
+.gallery-card.tall {
+  grid-row: span 2; /* spans 2 rows */
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .gallery-card.wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 200px;
+  }
+  .gallery-card.wide,
+  .gallery-card.tall {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+</style>
+
+
+
+
+<!-- let -->
+ <section class="curate-trip-section">
+  <div class="curate-content">
+    <h2>
+      Let’s <span class="script-text silver-South-family">Elevate</span> your next journey
+    </h2>
+    <a href="#" class="curate-btn">CONTACT US</a>
+  </div>
+</section>
+
+
+<!-- Partner Section -->
+
+<section class="logo-slider-section">
+  <div class="logo-marquee">
+    <div class="logo-track">
+      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
+      <img src="./images/polandPartner.png" alt="wanderwell logo" />
+      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <!-- Repeat for seamless loop -->
+      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
+      <img src="./images/polandPartner.png" alt="wanderwell logo" />
+      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+    </div>
+  </div>
+</section>
+
+<style>
+.logo-slider-section {
+  background: #fff;
+  padding: 60px 0;
+  overflow: hidden;
+}
+.logo-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.logo-track {
+  display: flex;
+  gap: 32px;
+  animation: marquee 38s linear infinite;
+  width: max-content;
+  align-items: center;
+}
+.logo-track img {
+  width: 150px;
+  height: 100px !important;
+  object-fit: contain;
+  display: block;
+  margin: 0 8px;
+  filter: none;
+  /* background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04); */
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+</style>
+
+
+
+ <!-- footer 2 -->
+<footer class="site-footer">
+    <div class="footer-top">
+
+      <!-- Newsletter -->
+      <div class="footer-newsletter">
+        <h4>LET'S BUILD EXPERIENCES TOGETHER</h4>
+        <form class="heading_font_family">
+          <input type="text" placeholder="First Name*" required>
+          <input type="text" placeholder="Last Name*" required>
+          <input type="email" placeholder="Email*" required>
+          <label class="checkbox heading_font_family">
+            <input type="checkbox">
+            I am happy to receive emails from Globengel, including upcoming events and information.*
+          </label>
+          <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+      </div>
+
+      <!-- Award Badge -->
+      <div class="footer-badge">
+        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Award 2025">
+      </div>
+
+
+      <!-- Destinations -->
+      <div class="footer-destinations">
+        <h4 class="heading_font_family" style="font-size: 18px;">Home</h4>
+        <ul class="heading_font_family">
+
+                    <!-- <li><a href="Destination.html">Destinations</a></li>
+                    <li><a href="Luxury.html">Luxury</a></li> -->
+                    <li><a href="tourpakages.html">Group Tours</a></li>
+                    <li><a href="voyages.html">Voyages</a></li>
+                    <li><a href="business.html">Business Travel</a></li>
+                    <li><a href="celebration.html">Destination Celebration</a></li>
+                    <li><a href="Eduwings.html">Eduwings (STUDY ABROAD)</a></li> 
+                    <li><a href="sky.html">Private Charter</a></li> 
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="Contactus.html">Contact Us</a></li>
+
+          
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h4 class="heading_font_family">Get in Touch</h4>
+        <p><a href="tel:+919910405255">+91 99104-05255</a></p>
+        <p class="heading_font_family"><a href="mailto:info@globengel.com">info@globengel.com</a></p>
+
+        <h4 class="heading_font_family">Find us on</h4>
+        <!-- Social Media Icons -->
+<div class="footer-social">
+<a href="https://www.facebook.com/globengel" class="social-icon-box"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@globengel" class="social-icon-box"><i class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/globengel" class="social-icon-box"><i class="fab fa-x"></i></a>
+                    <a href="https://www.instagram.com/globengel" class="social-icon-box"><i class="fab fa-instagram"></i></a>
+  <a href="http://www.linkedin.com/company/globengel" class="social-icon-box"><i class="fab fa-linkedin-in"></i></a>
+</div>
+
+        <div class="footer-tagline">
+          <h2 class="heading_font_family">DREAM. <br>
+EXPLORE. <br>
+DISCOVER. <br>
+
+</h2>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 130px;" alt="MITÉRA Goddess Logo">
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+        <p>Copyright 2019-2025 GLOBENGEL</p>
+      </div>
+    </div>
+</footer>
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script src="./js/script.js"></script>
+<script src="./js/group-tours.js"></script>
+
+
+<script>
+// Secondary Menu Sticky Functionality
+window.addEventListener('scroll', function() {
+    const secondaryMenu = document.getElementById('secondaryMenu');
+    const scrollPosition = window.scrollY;
+    const heroHeight = document.querySelector('.hero').offsetHeight;
+    
+    if (scrollPosition >= heroHeight - 80) {
+        secondaryMenu.classList.add('fixed');
+    } else {
+        secondaryMenu.classList.remove('fixed');
+    }
+});
+
+// Active menu item on scroll
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.secondary-nav a');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Optional: Smooth scroll to section
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Swiper('.heroSkySwiper', {
+    loop: true,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false
+    }
+  });
+});
+</script>
+
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:99999; align-items:center; justify-content:center;">
+  <div id="authModalInner" style="background:#fff6f3; border-radius:16px; max-width:900px; width:95vw; padding:32px 28px 24px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative; display:flex; gap:32px; flex-wrap:wrap;">
+    <!-- Left: Forms -->
+    <div style="flex:1 1 350px; min-width:320px;">
+      <button id="closeAuthModal" style="position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px; color:#e55d17; cursor:pointer;">&times;</button>
+      <!-- Tabs -->
+      <div style="display:flex; justify-content:center; gap:24px; margin-bottom: 10px;">
+        <button id="signInTab" class="auth-tab active" style="background:none; border:none; font-size:18px; font-weight:600; color:#e55d17; cursor:pointer;">Sign In</button>
+        <button id="createTab" class="auth-tab" style="background:none; border:none; font-size:18px; font-weight:600; color:#888; cursor:pointer;">Create Account</button>
+      </div>
+      <!-- Sign In Form -->
+      <form id="signInForm" style="display:block;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:18px;">Sign In to Your Account</h3>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Email or Mobile Number*</label>
+          <input type="text" id="loginEmailOrMobile" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Password*</label>
+          <input type="password" id="loginPassword" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:17px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign In</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Don't have an account? <span id="gotoCreate" style="color:#e55d17; cursor:pointer; font-weight:500;">Create Account</span>
+        </div>
+      </form>
+      <!-- Create Account Form -->
+      <form id="createForm" style="display:none;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:10px;">Create an Account</h3>
+        <p style="margin-bottom: 10px; font-size: 14px;" >Enter the below details to start setting up your ENGEL CLUB account. If you already have an account, please <span style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span> to continue.</p>
+        <!-- ...your create account fields as before... -->
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">First Name*</label>
+            <input type="text" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Last Name*</label>
+            <input type="text" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Gender</label>
+            <input type="text" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Date of Birth</label>
+            <input type="text" placeholder="DD/MM/YYYY" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+      <label style="font-size:14px;">Mobile Number*</label>
+      <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
+        <select style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
+          <option value="+91">+91</option>
+          <option value="+1">+1</option>
+          <option value="+44">+44</option>
+          <option value="+61">+61</option>
+          <option value="+81">+81</option>
+          <!-- Add more country codes as needed -->
+        </select>
+        <input type="text" required style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
+      </div>
+    </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:14px;">Email*</label>
+          <input type="email" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Confirm Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:13px;">
+            <input type="checkbox" style="margin-right:6px;">
+            I wish to receive news and promotions from GLOBENGEL. You may unsubscribe at any time by updating your account preferences.
+          </label>
+          <p style="margin-bottom: 0; font-size: 13px;" >By submitting this form, I agree to Maharaja Club Terms and Conditions and Privacy Notice.</p>
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:15px; font-weight:600; border:none; padding:5px 0; margin-top:8px;">Sign Up</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Already have an account? <span id="gotoSignIn" style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span>
+        </div>
+      </form>
+    </div>
+    <!-- Right: ENGEL CLUB Info Card -->
+    <div id="engelClubCard" style="flex:1 1 320px; min-width:280px; background: #fad7c0; border-radius:12px; padding:28px 22px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <img src="./images/engleClubLogo.png" alt="ENGEL CLUB" style="width:150px; margin-bottom:12px;">
+      <h4 style="font-size:18px; font-weight:600; color:#444; margin-bottom:18px;">SIGN UP FOR ENGEL CLUB</h4>
+      <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:15px; color:#444;">
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Earn rewards every time you travel with us.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-arrow-up" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Unlock special upgrades &amp; priority assistance.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-users" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Access member-only deals on holidays &amp; services.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Surprise perks for milestone trips (honeymoons, anniversaries, etc.).
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-lightbulb" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Early access to new offers
+        </li>
+      </ul>
+      <button id="engelSignUpBtn" style="background:#e55d17; color:#fff; font-size:16px; font-weight:600; border:none; border-radius:6px; padding:10px 32px; margin-top:8px;">SIGN-UP</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Responsive styles for auth modal */
+@media (max-width: 700px) {
+  #authModalInner {
+    flex-direction: column !important;
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 18px 8px 18px 8px !important;
+    gap: 0 !important;
+    align-items: stretch !important;
+  }
+  #authModalInner > div {
+    min-width: 0 !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    margin-bottom: 18px !important;
+  }
+  #engelClubCard {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 18px 8px !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+  }
+  #closeAuthModal {
+    top: 8px !important;
+    right: 8px !important;
+    font-size: 28px !important;
+  }
+  .auth-tab {
+    font-size: 16px !important;
+    padding: 6px 0 !important;
+  }
+  #signInForm, #createForm {
+    padding: 0 !important;
+  }
+  #engelClubCard img {
+    width: 90px !important;
+    margin-bottom: 8px !important;
+  }
+  #engelClubCard h3, #engelClubCard h4 {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelClubCard ul {
+    font-size: 13px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelSignUpBtn {
+    font-size: 15px !important;
+    padding: 8px 18px !important;
+    margin-top: 6px !important;
+  }
+}
+/* Responsive styles for Create Account form fields */
+@media (max-width: 700px) {
+  #createForm .display-flex,
+  #createForm .display-flex > div,
+  #createForm .display-flex > div > div {
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+  }
+  #createForm .display-flex > div {
+    margin-bottom: 12px !important;
+  }
+  #createForm input,
+  #createForm select {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    border-radius: 6px !important;
+    font-size: 15px !important;
+  }
+  #createForm label {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+  }
+  #createForm .display-flex {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Open modal on Sign In click
+  document.querySelector('.signin').addEventListener('click', function() {
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+  });
+
+  // Mobile menu Sign In link
+  document.querySelector('.mobile-menu .nav-link.mt-3').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+    // Optionally close mobile menu if you have a function for that
+    document.querySelector('.mobile-menu').classList.remove('open');
+    document.querySelector('.overlay').style.display = 'none';
+  });
+
+  // Close modal
+  document.getElementById('closeAuthModal').onclick = function() {
+    document.getElementById('authModal').style.display = 'none';
+  };
+
+  // Tab switching
+  document.getElementById('signInTab').onclick = function() { showTab('signIn'); };
+  document.getElementById('createTab').onclick = function() { showTab('create'); };
+  document.getElementById('gotoCreate').onclick = function() { showTab('create'); };
+  document.getElementById('gotoSignIn').onclick = function() { showTab('signIn'); };
+
+  // ENGEL CLUB card sign-up button opens create account
+  document.getElementById('engelSignUpBtn').onclick = function() {
+    showTab('create');
+  };
+
+  // Show/hide ENGEL CLUB card based on tab
+  function showTab(tab) {
+    if(tab === 'signIn') {
+      document.getElementById('signInForm').style.display = 'block';
+      document.getElementById('createForm').style.display = 'none';
+      document.getElementById('signInTab').classList.add('active');
+      document.getElementById('createTab').classList.remove('active');
+      document.getElementById('engelClubCard').style.display = 'flex';
+    } else {
+      document.getElementById('signInForm').style.display = 'none';
+      document.getElementById('createForm').style.display = 'block';
+      document.getElementById('signInTab').classList.remove('active');
+      document.getElementById('createTab').classList.add('active');
+      document.getElementById('engelClubCard').style.display = 'none';
+    }
+  }
+
+  // Login API integration for signInForm
+  document.getElementById('signInForm').onsubmit = function(e) {
+    e.preventDefault();
+    var emailOrMobile = document.getElementById('loginEmailOrMobile').value;
+    var password = document.getElementById('loginPassword').value;
+    var payload = {
+      email: emailOrMobile,
+      password: password
+    };
+    fetch('http://globe.ridealmobility.com/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(async response => {
+      console.log('Login response status:', response.status);
+      let data;
+      try {
+        data = await response.json();
+      } catch (err) {
+        alert('Invalid JSON response from login API');
+        return;
+      }
+      if (!response.ok) {
+        alert('Login failed: ' + (data.message || 'Invalid email or password'));
+        return;
+      }
+      
+      // Login successful
+      console.log('Login response: ' + JSON.stringify(data));
+      
+      // Store user data if available
+      if (data.token) {
+        localStorage.setItem('authToken', data.token);
+      }
+      if (data.user) {
+        localStorage.setItem('userData', JSON.stringify(data.user));
+      }
+      
+      // Show success message
+      alert('🎉 Login Successful! Redirecting to dashboard...');
+      
+      // Close the modal
+      const modal = document.querySelector('.modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+      
+      // Redirect to dashboard after a short delay
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1000);
+    })
+    .catch(error => {
+      console.error('Login error details:', error);
+      alert('Login Network Error: ' + error.message + '\nPlease check:\n1. Server is running\n2. Internet connection\n3. API endpoint is correct');
+    });
+  };
+});
+</script>
+
+<!-- Continents API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch continents from API
+    async function fetchContinents() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/continents');
+            if (!response.ok) {
+                throw new Error('Failed to fetch continents');
+            }
+            const continents = await response.json();
+            console.log('Continents loaded from API:', continents);
+            return continents;
+        } catch (error) {
+            console.error('Error fetching continents:', error);
+            // Return fallback data to maintain UI functionality
+            return [
+                { name: 'AFRICA' },
+                { name: 'ASIA' },
+                { name: 'AMERICAS' },
+                { name: 'EUROPE' },
+                { name: 'INDIAN SUBCONTINENT' },
+                { name: 'OCEANIA' },
+                { name: 'MIDDLE EAST' },
+                { name: 'POLAR' }
+            ];
+        }
+    }
+
+    // Function to map continent names to data-target IDs
+    function getTargetId(continentName) {
+        const mapping = {
+            'AFRICA': 'africa',
+            'ASIA': 'asia',
+            'AMERICAS': 'australasia', // Keeping existing data-target
+            'EUROPE': 'europe',
+            'INDIAN SUBCONTINENT': 'indian',
+            'OCEANIA': 'latin', // Keeping existing data-target
+            'MIDDLE EAST': 'middleeast',
+            'POLAR': 'polar'
+        };
+        return mapping[continentName] || continentName.toLowerCase().replace(/\s+/g, '');
+    }
+
+    // Initialize destinations dropdown with API data
+    async function initializeDestinationsDropdown() {
+        const continents = await fetchContinents();
+        const megaLeftUl = document.querySelector('.destinations-menu .mega-left ul');
+        
+        if (megaLeftUl) {
+            // Clear existing content (but we'll keep the structure)
+            const existingItems = megaLeftUl.querySelectorAll('li');
+            
+            // Update existing items or add new ones based on API data
+            continents.forEach((continent, index) => {
+                const targetId = getTargetId(continent.name);
+                
+                if (existingItems[index]) {
+                    // Update existing item
+                    existingItems[index].setAttribute('data-target', targetId);
+                    existingItems[index].innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                } else {
+                    // Add new item if more continents than existing
+                    const li = document.createElement('li');
+                    li.setAttribute('data-target', targetId);
+                    li.innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                    megaLeftUl.appendChild(li);
+                }
+            });
+            
+            // Remove extra items if there are fewer continents in API
+            for (let i = continents.length; i < existingItems.length; i++) {
+                if (existingItems[i]) {
+                    existingItems[i].remove();
+                }
+            }
+            
+            console.log('Destinations dropdown updated with API data');
+        } else {
+            console.warn('Destinations dropdown not found');
+        }
+    }
+
+    // Initialize the dropdown
+    initializeDestinationsDropdown();
+});
+</script>
+
+</body>
+</html>

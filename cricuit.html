@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Globengel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+
+ <link rel="stylesheet" href="./CSS/style.css">
+ <link rel="stylesheet" href="./CSS/group-cards.css">
+ <style>
+   .hero-section {
+     position: relative;
+     height: 100vh;
+     overflow: hidden;
+   }
+   
+   .heroSwiper {
+     width: 100%;
+     height: 100%;
+   }
+   
+   .hero-slide {
+     width: 100%;
+     height: 100vh;
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     position: relative;
+   }
+   
+   .hero-slide::before {
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background: rgba(0, 0, 0, 0.4);
+   }
+   
+   .hero-content {
+     text-align: center;
+     color: white;
+     z-index: 1;
+     position: relative;
+   }
+   
+   .hero-content h1 {
+     font-size: 3.5rem;
+     margin-bottom: 1rem;
+     font-weight: 700;
+   }
+   
+   .hero-content p {
+     font-size: 1.5rem;
+     margin-bottom: 2rem;
+   }
+   
+   .hero-btn {
+     display: inline-block;
+     padding: 12px 30px;
+     background: #fff;
+     color: #333;
+     text-decoration: none;
+     border-radius: 30px;
+     transition: all 0.3s;
+   }
+   
+   .hero-btn:hover {
+     background: #f0f0f0;
+     transform: translateY(-2px);
+   }
+   
+   .heroSwiper .swiper-button-next,
+   .heroSwiper .swiper-button-prev {
+     color: white;
+   }
+   
+   .heroSwiper .swiper-pagination-bullet {
+     background: white;
+     opacity: 0.7;
+   }
+   
+   .heroSwiper .swiper-pagination-bullet-active {
+     opacity: 1;
+   }
+   
+   @media (max-width: 768px) {
+     .hero-content h1 {
+       font-size: 2rem;
+     }
+     
+     .hero-content p {
+       font-size: 1rem;
+     }
+   }
+
+  /* Flip Card Styles - Horizontal Flip */
+  .flip-card {
+    width: 100%;
+    height: 400px;
+    perspective: 1000px;
+  }
+  
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  
+  /* Horizontal flip on hover */
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .flip-card-front {
+    z-index: 2;
+  }
+  
+  /* Back side rotated for horizontal flip */
+  .flip-card-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+  }
+  
+  .flip-card-back button:hover {
+    background: #e55a2b !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+  }
+  
+  /* Disable flip on mobile for better UX */
+  @media (max-width: 768px) {
+    .flip-card:hover .flip-card-inner {
+      transform: none;
+    }
+    
+    .flip-card-back {
+      display: none;
+    }
+  }
+  
+  /* ...rest of your existing styles... */
+ </style>
+ <!-- CSS for Services Section -->
+</head>
+<body>
+
+<!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+      <ul class="navbar-nav d-none d-lg-flex">
+      <li class="nav-item dropdown">
+        <a  class="nav-link" href="#">DESTINATIONS</a>
+         <div class="mega-menu destinations-menu">
+        <!-- Left Side -->
+        <div class="mega-left">
+          <ul>
+            <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
+            <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
+            <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
+            <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
+            <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
+            <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
+            <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
+            <li data-target="polar">POLAR <span class="arrow">&#8250;</span></li>
+          </ul>
+        </div>
+        <!-- Right Side -->
+       <div class="mega-right">
+          <div class="content" id="africa">
+            <div class="column">
+              <a href="#">Ascension Island</a>
+              <a href="#">Botswana</a>
+              <a href="#">Ethiopia</a>
+              <a href="#">Kenya</a>
+              <a href="#">Madagascar</a>
+              <a href="s10.html">Mauritius</a>
+              <a href="#">Morocco</a>
+              <a href="#">Namibia</a>
+              <a href="#">ReUnion Island</a>
+            </div>
+            <div class="column">
+              <a href="#">Saint Helena Island</a>
+              <a href="#">Seychelles</a>
+              <a href="#">South Africa</a>
+              <a href="#">TanZania</a>
+              <a href="#">Zanzibar</a>
+              <a href="#">Tristan Da Cunha</a>
+              <a href="#">Zimbabwe</a>
+            </div>
+          </div>
+          <div class="content" id="asia">
+            <div class="column">
+              <a href="#">Armenia</a>
+              <a href="#">Azerbaijan</a>
+              <a href="#">Cambodia</a>
+              <a href="#">Georgia</a>
+              <a href="#">Hong Kong & Macau</a>
+              <a href="s9.html">Indonesia</a>
+              <a href="Destination.html">Japan</a>
+              <a href="#">Kazakhstan</a>
+              <a href="#">Laos</a>
+              <a href="#">Malaysia</a>
+            </div>
+            <div class="column">
+              <a href="#">Maldives</a>
+              <a href="#">Mongolia</a>
+              <a href="#">Philippines</a>
+              <a href="#">Russia</a>
+              <a href="#">Singapore</a>
+              <a href="#">Taiwan</a>
+              <a href="#">South Korea</a>
+              <a href="s6.html">Thailand</a>
+              <a href="#">Uzbekistan</a>
+              <a href="s1.html">Vietnam</a>
+            </div>
+          </div>
+          <div class="content" id="australasia">
+            <div class="column">
+              <a href="#">Argentina</a>
+              <a href="#">Brazil</a>
+              <a href="#">Canada</a>
+              <a href="#">Caribbean</a>
+              <a href="#">Chile</a>
+              <a href="#">Colombia</a>
+            </div>
+            <div class="column">
+              <a href="#">Equador</a>
+              <a href="#">Mexico</a>
+              <a href="#">Peru</a>
+              <a href="#">Uruguay</a>
+              <a href="#">USA</a>
+            </div>
+          </div>
+          <div class="content" id="europe">
+            <div class="column">
+              <a href="#">Austria</a>
+              <a href="#">Belgium</a>
+              <a href="#">Bosnia & Herzegovinia</a>
+              <a href="#">Croatia</a>
+              <a href="#">Cyprus</a>
+              <a href="#">Czechia</a>
+              <a href="#">Denmark</a>
+              <a href="s2.html">Finland</a>
+              <a href="#">France</a>
+              <a href="#">Germany</a>
+              <a href="#">Greece</a>
+              <a href="#">Hungary</a>
+              <a href="#">Iceland</a>
+              <a href="#">Ireland</a>
+            </div>
+            <div class="column">
+              <a href="#">Italy</a>
+              <a href="#">Netherlands</a>
+              <a href="#">Norway</a>
+              <a href="#">Poland</a>
+              <a href="#">Portugal</a>
+              <a href="#">Romania</a>
+              <a href="#">Scotland</a>
+              <a href="#">Slovakia</a>
+              <a href="#">Slovenia</a>
+              <a href="#">Spain</a>
+              <a href="#">Sweden</a>
+              <a href="#">Switzerland</a>
+              <a href="#">United Kingdom</a>
+            </div>
+          </div>
+          <div class="content" id="indian">
+            <div class="column">
+              <a href="#">India</a>
+              <a href="#">Nepal</a>
+              <a href="s8.html">Sri Lanka</a>
+            </div>
+            <div class="column">
+              <a href="s5.html">Bhutan</a>
+              <a href="s7.html">Maldives</a>
+            </div>
+          </div>
+          <div class="content" id="latin">
+            <div class="column">
+              <a href="s3.html">Australia</a>
+              <a href="#">Fiji</a>
+            </div>
+            <div class="column">
+              <a href="#">French Polynesia</a>
+              <a href="s4.html">New Zealand</a>
+            </div>
+          </div>
+          <div class="content" id="middleeast">
+            <div class="column">
+              <a href="#">Bahrain</a>
+              <a href="#">Egypt</a>
+              <a href="#">Jordan</a>
+              <a href="s11.html">Oman</a>
+            </div>
+            <div class="column">
+              <a href="#">Qatar</a>
+              <a href="#">Saudi Arabia</a>
+              <a href="#">Turkey</a>
+              <a href="#">UAE</a>
+            </div>
+          </div>
+          <div class="content" id="polar">
+            <div class="column">
+              <a href="#">Antarctica</a>
+              <a href="#">Arctic</a>
+              <a href="#">Greenland</a>
+            </div>
+            <div class="column">
+              <a href="#">Iceland</a>
+              <a href="#">Norway</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">LUXURY</a>
+         <div class="mega-menu itinerary-menu">
+        <div class="mega-left">
+          <ul>
+  <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
+  <li data-target="adventure"><a href="">JAPAN</a></li>
+  <li data-target="luxury"><a href="">KENYA</a></li>
+  <li data-target="classic"><a href="">NORWAY</a></li>
+  <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
+  <li data-target="luxury"><a href="">TANZANIA</a></li>
+  <li data-target="classic"><a href="">ZANZIBAR</a></li>
+</ul>
+        </div>
+        
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="tourpakages.html">GROUP TOURS</a>
+       
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="Voyages.html">VOYAGES</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">BEYOND HOLIDAYS</a>
+         <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family"><a href="business.html">BUSINESS TRAVEL</a></li>
+            <li data-target="friends"><a href="Eduwings.html">EDUWINGS (STUDY ABROAD)</a></li>
+            <li data-target="corporate"><a href="celebration.html">DESTINATION CELEBRATIONS</a></li>
+            <li data-target="couples"><a href="sky.html">PRIVATE CHARTER</a></li>
+
+          </ul>
+        </div>
+      </div>
+      </li>
+    </ul>
+
+    <a class="navbar-brand mx-auto" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      
+    </a>
+
+     <div class="d-flex align-items-center ">
+      <div class="contact-info d-none d-lg-block me-3">
+        CALL US AT:<br>
+        <a href="tel:+919793405883">+91 97934-05883</a>
+      </div>
+      <span class="signin d-none d-lg-block"><img src="./iocon/account.png" style="display:block; font-size:1.5rem; margin:0 auto 2px auto; width: 30px;"></img>Sign In</span>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler ms-2" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Sliding Mobile Menu -->
+<div class="mobile-menu">
+  <div class="menu-header">
+    <a class="menu-logo" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;"  alt="Globengel Logo" class="logo">
+    </a>
+    <div class="close-btn">&times;</div>
+  </div>
+  <a class="nav-link" href="Destination.html">DESTINATIONS</a>
+  <a class="nav-link" href="Luxury.html">LUXURY</a>
+  <a class="nav-link" href="GroupTours.html">GROUP TOURS</a>
+  <a class="nav-link" href="#">VOYAGES</a>
+  <a class="nav-link" href="#">BEYOND LEISURE</a>
+  <a class="nav-link mt-3" href="#">Sign In</a>
+</div>
+<div class="overlay"></div>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="swiper heroSwiper">
+    <div class="swiper-wrapper">
+      <!-- Slide 1 -->
+      <div class="swiper-slide">
+        <div class="hero-slide" style="background-image: url('./images/Australia.jpg')">
+          <div class="hero-content">
+            <h1>Explore the World</h1>
+            <p>Discover amazing destinations</p>
+            <a href="#" class="hero-btn">Learn More</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 2 -->
+      <div class="swiper-slide">
+        <div class="hero-slide" style="background-image: url('./images/azamaralogo.jpg')">
+          <div class="hero-content">
+            <h1>Luxury Travel</h1>
+            <p>Experience premium journeys</p>
+            <a href="#" class="hero-btn">Learn More</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 3 -->
+      <div class="swiper-slide">
+        <div class="hero-slide" style="background-image: url('./images/celeContactImgs.jpg')">
+          <div class="hero-content">
+            <h1>Group Adventures</h1>
+            <p>Join our curated group tours</p>
+            <a href="#" class="hero-btn">Learn More</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 4 -->
+      <div class="swiper-slide">
+        <div class="hero-slide" style="background-image: url('./images/CelebrityCruisesLogo.jpg')">
+          <div class="hero-content">
+            <h1>Ocean Voyages</h1>
+            <p>Sail to exotic destinations</p>
+            <a href="#" class="hero-btn">Learn More</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slide 5 -->
+      <div class="swiper-slide">
+        <div class="hero-slide" style="background-image: url('./images/celeContactImgs.jpg')">
+          <div class="hero-content">
+            <h1>Beyond Holidays</h1>
+            <p>Business travel & celebrations</p>
+            <a href="#" class="hero-btn">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Add pagination -->
+    <div class="swiper-pagination"></div>
+    
+    <!-- Add navigation -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+</section>
+
+<!-- Cricut -->
+
+
+
+<!-- Cricket Events Section -->
+<section class="cricket-events-section" style="padding: 80px 0; background-color: #f8f9fa;">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 style="font-size: 2.5rem; color: #333; margin-bottom: 1rem;">Your Passport to the World's Biggest <span style="font-family: 'Shadows Into Light', cursive; color: #ff6b35;">Games</span></h2>
+      <p style="color: #666; font-size: 1.1rem;">Choose your sporting moment — from cricket stadiums to racing tracks, football arenas to tennis courts.</p>
+    </div>
+    
+    <div class="swiper cricketSwiper">
+      <div class="swiper-wrapper">
+        <!-- Event 1 - Asia Cup -->
+        <div class="swiper-slide">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <!-- Front Side -->
+              <div class="flip-card-front">
+                <div class="event-card" style="position: relative; height: 400px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+                  <div class="event-bg" style="position: absolute; inset: 0; background: url('./images/Australia.jpg') center/cover; opacity: 0.3;"></div>
+                  <div class="event-content" style="position: relative; height: 100%; padding: 30px; display: flex; flex-direction: column; justify-content: flex-end; color: white;">
+                    <h3 style="font-size: 3rem; font-weight: 800; margin: 0; text-transform: uppercase; letter-spacing: -1px;">ASIA</h3>
+                    <h3 style="font-size: 3rem; font-weight: 800; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: -1px;">CUP</h3>
+                    <h4 style="font-size: 2rem; font-weight: 300; margin: 0 0 20px 0;">2025</h4>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                      <i class="fas fa-map-marker-alt" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">United Arab Emirates</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <i class="far fa-calendar" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">Sep 09, 25 - Sep 28, 25</p>
+                    </div>
+                  </div>
+                  <div class="event-overlay" style="position: absolute; inset: 0; background: linear-gradient(45deg, rgba(106,27,154,0.7), rgba(17,52,172,0.7), rgba(0,150,199,0.7)); mix-blend-mode: multiply;"></div>
+                </div>
+              </div>
+              
+              <!-- Back Side -->
+              <div class="flip-card-back">
+                <div style="height: 400px; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center;">
+                  <h3 style="color: #1a1a2e; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">Asia Cup 2025</h3>
+                  <p style="color: #666; font-size: 1.1rem; margin-bottom: 15px;">United Arab Emirates</p>
+                  <p style="color: #666; font-size: 1rem; margin-bottom: 30px;">Sep 09, 25 - Nov 08, 25</p>
+                  <button style="background: #ff6b35; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;" onclick="openAsiaPopup()">Register Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Event 2 - India Tour of Australia -->
+        <div class="swiper-slide">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <!-- Front Side -->
+              <div class="flip-card-front">
+                <div class="event-card" style="position: relative; height: 400px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);">
+                  <div class="event-bg" style="position: absolute; inset: 0; background: url('./images/ind-aus-bg.jpg') center/cover; opacity: 0.3;"></div>
+                  <div class="event-content" style="position: relative; height: 100%; padding: 30px; display: flex; flex-direction: column; justify-content: flex-end; color: white;">
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin: 0; text-transform: uppercase;">IND</h3>
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin: 0 0 10px 0; text-transform: uppercase;">AUS</h3>
+                    <p style="font-size: 1.2rem; margin: 0 0 20px 0;">India Tour of Australia 2025</p>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                      <i class="fas fa-map-marker-alt" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">Australia</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <i class="far fa-calendar" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">Oct 19, 25 - Nov 08, 25</p>
+                    </div>
+                  </div>
+                  <div class="event-overlay" style="position: absolute; inset: 0; background: linear-gradient(45deg, rgba(255,87,51,0.6), rgba(255,195,0,0.6), rgba(46,213,115,0.6)); mix-blend-mode: multiply;"></div>
+                </div>
+              </div>
+              
+              <!-- Back Side -->
+              <div class="flip-card-back">
+                <div style="height: 400px; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center;">
+                  <h3 style="color: #1a1a2e; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">India Tour of Australia 2025</h3>
+                  <p style="color: #666; font-size: 1.1rem; margin-bottom: 15px;">Australia</p>
+                  <p style="color: #666; font-size: 1rem; margin-bottom: 30px;">Oct 19, 25 - Nov 08, 25</p>
+                  <button style="background: #ff6b35; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">Register Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event 3 - ICC T20 World Cup -->
+        <div class="swiper-slide">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <!-- Front Side -->
+              <div class="flip-card-front">
+                <div class="event-card" style="position: relative; height: 400px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+                  <div class="event-bg" style="position: absolute; inset: 0; background: url('./images/t20-wc-bg.jpg') center/cover; opacity: 0.3;"></div>
+                  <div class="event-content" style="position: relative; height: 100%; padding: 30px; display: flex; flex-direction: column; justify-content: flex-end; color: white;">
+                    <h3 style="font-size: 2rem; font-weight: 800; margin: 0;">ICC MEN'S</h3>
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin: 0;">T20 WORLD</h3>
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin: 0 0 20px 0;">CUP 2026</h3>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                      <i class="fas fa-map-marker-alt" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">India, Sri Lanka</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <i class="far fa-calendar" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">Feb 01, 26 - Mar 31, 26</p>
+                    </div>
+                  </div>
+                  <div class="event-overlay" style="position: absolute; inset: 0; background: linear-gradient(45deg, rgba(0,123,255,0.6), rgba(40,167,69,0.6)); mix-blend-mode: multiply;"></div>
+                </div>
+              </div>
+              
+              <!-- Back Side -->
+              <div class="flip-card-back">
+                <div style="height: 400px; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center;">
+                  <h3 style="color: #1a1a2e; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">ICC Men's T20 World Cup 2026</h3>
+                  <p style="color: #666; font-size: 1.1rem; margin-bottom: 15px;">India, Sri Lanka</p>
+                  <p style="color: #666; font-size: 1rem; margin-bottom: 30px;">Feb 01, 26 - Mar 31, 26</p>
+                  <button style="background: #ff6b35; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">Register Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event 4 - India Tour of England -->
+        <div class="swiper-slide">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <!-- Front Side -->
+              <div class="flip-card-front">
+                <div class="event-card" style="position: relative; height: 400px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #232526 0%, #414345 100%);">
+                  <div class="event-bg" style="position: absolute; inset: 0; background: url('./images/ind-eng-bg.jpg') center/cover; opacity: 0.3;"></div>
+                  <div class="event-content" style="position: relative; height: 100%; padding: 30px; display: flex; flex-direction: column; justify-content: flex-end; color: white;">
+                    <h3 style="font-size: 2rem; font-weight: 800; margin: 0;">TOUR</h3>
+                    <h3 style="font-size: 3rem; font-weight: 800; margin: 0;">IND</h3>
+                    <h3 style="font-size: 3rem; font-weight: 800; margin: 0 0 10px 0;">ENG</h3>
+                    <p style="font-size: 1.2rem; margin: 0 0 20px 0;">India Tour of England 2026</p>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                      <i class="fas fa-map-marker-alt" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">United Kingdom</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <i class="far fa-calendar" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">Jul 01, 26 - Jul 19, 26</p>
+                    </div>
+                  </div>
+                  <div class="event-overlay" style="position: absolute; inset: 0; background: linear-gradient(45deg, rgba(123,67,151,0.6), rgba(220,36,48,0.6), rgba(0,119,182,0.6)); mix-blend-mode: multiply;"></div>
+                </div>
+              </div>
+              
+              <!-- Back Side -->
+              <div class="flip-card-back">
+                <div style="height: 400px; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center;">
+                  <h3 style="color: #1a1a2e; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">India Tour of England 2026</h3>
+                  <p style="color: #666; font-size: 1.1rem; margin-bottom: 15px;">United Kingdom</p>
+                  <p style="color: #666; font-size: 1rem; margin-bottom: 30px;">Jul 01, 26 - Jul 19, 26</p>
+                  <button style="background: #ff6b35; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">Register Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event 5 - Champions Trophy -->
+        <div class="swiper-slide">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <!-- Front Side -->
+              <div class="flip-card-front">
+                <div class="event-card" style="position: relative; height: 400px; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #141e30 0%, #243b55 100%);">
+                  <div class="event-bg" style="position: absolute; inset: 0; background: url('./images/champions-trophy-bg.jpg') center/cover; opacity: 0.3;"></div>
+                  <div class="event-content" style="position: relative; height: 100%; padding: 30px; display: flex; flex-direction: column; justify-content: flex-end; color: white;">
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin: 0;">CHAMPIONS</h3>
+                    <h3 style="font-size: 2.5rem; font-weight: 800; margin: 0 0 10px 0;">TROPHY</h3>
+                    <p style="font-size: 1.5rem; margin: 0 0 20px 0;">2025</p>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                      <i class="fas fa-map-marker-alt" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">Pakistan</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <i class="far fa-calendar" style="opacity: 0.8;"></i>
+                      <p style="margin: 0; opacity: 0.9;">Feb 19, 25 - Mar 09, 25</p>
+                    </div>
+                  </div>
+                  <div class="event-overlay" style="position: absolute; inset: 0; background: linear-gradient(45deg, rgba(0,172,193,0.6), rgba(255,255,255,0.3)); mix-blend-mode: multiply;"></div>
+                </div>
+              </div>
+              
+              <!-- Back Side -->
+              <div class="flip-card-back">
+                <div style="height: 400px; border-radius: 20px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center;">
+                  <h3 style="color: #1a1a2e; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">Champions Trophy 2025</h3>
+                  <p style="color: #666; font-size: 1.1rem; margin-bottom: 15px;">Pakistan</p>
+                  <p style="color: #666; font-size: 1rem; margin-bottom: 30px;">Feb 19, 25 - Mar 09, 25</p>
+                  <button style="background: #ff6b35; color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">Register Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+      
+      <!-- Navigation -->
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Add this modal/popup HTML after the cricket events section -->
+<div id="asiaPopup" class="event-popup" style="display: none;">
+  <div class="popup-overlay" onclick="closePopup()"></div>
+  <div class="popup-content">
+    <div class="popup-header">
+      <h2>Asia Cup 2025 Schedule & Results</h2>
+      <span class="close-popup" onclick="closePopup()">&times;</span>
+    </div>
+    <div class="popup-body">
+      <!-- Match 1 -->
+      <div class="match-card">
+        <div class="match-date">
+          <span class="day">Tue, 09 Sep '25</span>
+          <span class="match-info">1st Match, Group B (N) • Abu Dhabi, Men's T20 Asia Cup</span>
+        </div>
+        <div class="teams-info">
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/af.png" alt="Afghanistan">
+            <span>Afghanistan</span>
+          </div>
+          <div class="match-time">
+            <span>8:00 PM</span>
+            <span class="local-time">2:30 pm GMT | 6:30 pm Local</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/hk.png" alt="Hong Kong">
+            <span>Hong Kong</span>
+          </div>
+        </div>
+        <div class="match-footer">
+          <span>Match yet to begin</span>
+          <button class="series-btn">Series</button>
+        </div>
+      </div>
+
+      <!-- Match 2 -->
+      <div class="match-card">
+        <div class="match-date">
+          <span class="day">Wed, 10 Sep '25</span>
+          <span class="match-info">2nd Match, Group A (N) • Dubai (DICS), Men's T20 Asia Cup</span>
+        </div>
+        <div class="teams-info">
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/ae.png" alt="UAE">
+            <span>United Arab Emirates</span>
+          </div>
+          <div class="match-time">
+            <span>8:00 PM</span>
+            <span class="local-time">2:30 pm GMT | 6:30 pm Local</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/in.png" alt="India">
+            <span>India</span>
+          </div>
+        </div>
+        <div class="match-footer">
+          <span>Match yet to begin</span>
+          <button class="series-btn">Series</button>
+        </div>
+      </div>
+
+      <!-- Match 3 -->
+      <div class="match-card">
+        <div class="match-date">
+          <span class="day">Thu, 11 Sep '25</span>
+          <span class="match-info">3rd Match, Group B (N) • Abu Dhabi, Men's T20 Asia Cup</span>
+        </div>
+        <div class="teams-info">
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/bd.png" alt="Bangladesh">
+            <span>Bangladesh</span>
+          </div>
+          <div class="match-time">
+            <span>8:00 PM</span>
+            <span class="local-time">2:30 pm GMT | 6:30 pm Local</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/hk.png" alt="Hong Kong">
+            <span>Hong Kong</span>
+          </div>
+        </div>
+        <div class="match-footer">
+          <span>Match yet to begin</span>
+          <button class="series-btn">Series</button>
+        </div>
+      </div>
+
+      <!-- Match 4 -->
+      <div class="match-card">
+        <div class="match-date">
+          <span class="day">Fri, 12 Sep '25</span>
+          <span class="match-info">4th Match, Group A (N) • Dubai (DICS), Men's T20 Asia Cup</span>
+        </div>
+        <div class="teams-info">
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/om.png" alt="Oman">
+            <span>Oman</span>
+          </div>
+          <div class="match-time">
+            <span>8:00 PM</span>
+            <span class="local-time">2:30 pm GMT | 6:30 pm Local</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/pk.png" alt="Pakistan">
+            <span>Pakistan</span>
+          </div>
+        </div>
+        <div class="match-footer">
+          <span>Match yet to begin</span>
+          <button class="series-btn">Series</button>
+        </div>
+      </div>
+
+      <!-- Match 5 -->
+      <div class="match-card">
+        <div class="match-date">
+          <span class="day">Sat, 13 Sep '25</span>
+          <span class="match-info">5th Match, Group B (N) • Abu Dhabi, Men's T20 Asia Cup</span>
+        </div>
+        <div class="teams-info">
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/bd.png" alt="Bangladesh">
+            <span>Bangladesh</span>
+          </div>
+          <div class="match-time">
+            <span>8:00 PM</span>
+            <span class="local-time">2:30 pm GMT | 6:30 pm Local</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/lk.png" alt="Sri Lanka">
+            <span>Sri Lanka</span>
+          </div>
+        </div>
+        <div class="match-footer">
+          <span>Match yet to begin</span>
+          <button class="series-btn">Series</button>
+        </div>
+      </div>
+
+      <!-- Match 6 -->
+      <div class="match-card">
+        <div class="match-date">
+          <span class="day">Sun, 14 Sep '25</span>
+          <span class="match-info">6th Match, Group A (N) • Dubai (DICS), Men's T20 Asia Cup</span>
+        </div>
+        <div class="teams-info">
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/in.png" alt="India">
+            <span>India</span>
+          </div>
+          <div class="match-time">
+            <span>8:00 PM</span>
+            <span class="local-time">2:30 pm GMT | 6:30 pm Local</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/24x18/pk.png" alt="Pakistan">
+            <span>Pakistan</span>
+          </div>
+        </div>
+        <div class="match-footer">
+          <span>Match yet to begin</span>
+          <button class="series-btn">Series</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- let -->
+ <section class="curate-trip-section">
+  <div class="curate-content">
+    <h2>
+      Let’s <span class="script-text">Curate</span> your trip
+    </h2>
+    <a href="#" class="curate-btn">CONTACT US</a>
+  </div>
+</section>
+
+
+<!-- Partner Section -->
+
+<section class="logo-slider-section">
+  <div class="container">
+    <div class="swiper logoSwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="./images/par1.jpeg" alt="wanderwell logo" />
+        </div>
+        <div class="swiper-slide">
+          <img src="./images/par2.jpeg" alt="plasticbank logo" />
+        </div>
+        <div class="swiper-slide">
+          <img src="./images/par3.jpeg" alt="climate neutral now" />
+        </div>
+        <div class="swiper-slide">
+          <img src="./images/par4.jpeg" alt="eden reforestation" />
+        </div>
+        <div class="swiper-slide">
+          <img src="./images/par5.jpeg" alt="ally travel council" />
+        </div>
+        <!-- Repeat if needed -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer Section -->
+ <!-- footer 2 -->
+<footer class="site-footer">
+    <div class="footer-top">
+
+      <!-- Newsletter -->
+      <div class="footer-newsletter">
+        <h4>LET'S BUILD EXPERIENCES TOGETHER</h4>
+        <form class="heading_font_family">
+          <input type="text" placeholder="First Name*" required>
+          <input type="text" placeholder="Last Name*" required>
+          <input type="email" placeholder="Email*" required>
+          <label class="checkbox heading_font_family">
+            <input type="checkbox">
+            I am happy to receive emails from Globengel, including upcoming events and information.*
+          </label>
+          <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+      </div>
+
+      <!-- Award Badge -->
+      <div class="footer-badge">
+        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Award 2025">
+      </div>
+
+
+      <!-- Destinations -->
+      <div class="footer-destinations">
+        <h4 class="heading_font_family" style="font-size: 18px;">Home</h4>
+        <ul class="heading_font_family">
+
+          <li><a href="ourstory.html">Destinations</a></li>
+          <li><a href="group-tours.html">Group Tours</a></li>
+          <li><a href="voyages.html">Voyages</a></li>
+          <li><a href="beyond-leisure.html">Beyond Leisure</a></li>
+          <li><a href="inspiration.html">Inspiration</a></li>
+          <li><a href="about-us.html">About Us</a></li>
+          <!-- <li><a href="careers.html">Careers</a></li> -->
+          <li><a href="contact.html"></a>Contact Us</li>
+
+          
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h4 class="heading_font_family">Get in Touch</h4>
+        <p><a href="tel:+919910405255">+919910405255</a></p>
+        <p class="heading_font_family"><a href="mailto:info@globengel.com">info@globengel.com</a></p>
+
+        <h4 class="heading_font_family">Find us on</h4>
+        <!-- Social Media Icons -->
+<div class="footer-social">
+  <a href="#" class="social-icon-box"><i class="fab fa-facebook-f"></i></a>
+  <a href="#" class="social-icon-box"><i class="fab fa-youtube"></i></a>
+  <a href="#" class="social-icon-box"><i class="fab fa-vimeo-v"></i></a>
+  <a href="#" class="social-icon-box"><i class="fab fa-instagram"></i></a>
+</div>
+
+        <div class="footer-tagline">
+          <h2 class="heading_font_family">DREAM. <br>
+EXPLORE. <br>
+DISCOVER. <br>
+
+</h2>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 130px;" alt="MITÉRA Goddess Logo">
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+      <p>Copyright 2019-2025 GLOBENGEL</p>
+    </div>
+</footer>
+
+<!-- JS -->
+ <!-- JavaScript for Services Section -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./js/script.js"></script>
+<script src="./js/group-tours.js"></script>
+
+<!-- Hero Swiper Initialization -->
+<script>
+  // Initialize Hero Swiper with auto-slide
+  document.addEventListener('DOMContentLoaded', function() {
+    const heroSwiper = new Swiper('.heroSwiper', {
+      loop: true,
+      autoplay: {
+        delay: 3000, // 3 seconds per slide
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      effect: 'fade', // Smooth fade effect
+      fadeEffect: {
+        crossFade: true
+      },
+      speed: 1000, // Transition speed in ms
+    });
+    
+    // Initialize Logo Swiper if needed
+    const logoSwiper = new Swiper('.logoSwiper', {
+      loop: true,
+      autoplay: {
+        delay: 2000,
+        disableOnInteraction: false,
+      },
+      slidesPerView: 5,
+      spaceBetween: 30,
+      breakpoints: {
+        320: {
+          slidesPerView: 2,
+          spaceBetween: 20
+        },
+        640: {
+          slidesPerView: 3,
+          spaceBetween: 20
+        },
+        768: {
+          slidesPerView: 4,
+          spaceBetween: 25
+        },
+        1024: {
+          slidesPerView: 5,
+          spaceBetween: 30
+        }
+      }
+    });
+
+    // Initialize Cricket Events Swiper
+    const cricketSwiper = new Swiper('.cricketSwiper', {
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
+      },
+      slidesPerView: 3,
+      spaceBetween: 30,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+          spaceBetween: 20
+        },
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 30
+        }
+      }
+    });
+  });
+
+  function openAsiaPopup() {
+    document.getElementById('asiaPopup').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup() {
+    document.getElementById('asiaPopup').style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  // Close popup on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closePopup();
+    }
+  });
+</script>
+
+<!-- Add this CSS -->
+<style>
+  /* Popup Styles */
+  .event-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+  }
+
+  .popup-content {
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 20px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .popup-header {
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .popup-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+  }
+
+  .close-popup {
+    font-size: 30px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s;
+  }
+
+  .close-popup:hover {
+    color: #333;
+  }
+
+  .popup-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(90vh - 80px);
+  }
+
+  .match-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .match-date {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+
+  .match-date .day {
+    font-weight: 600;
+    color: #333;
+    font-size: 1rem;
+  }
+
+  .match-date .match-info {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+
+  .teams-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 15px 0;
+  }
+
+  .team {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .team img {
+    width: 24px;
+    height: 18px;
+    border: 1px solid #ddd;
+  }
+
+  .team span {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .match-time {
+    text-align: center;
+    flex: 0 0 auto;
+  }
+
+  .match-time span {
+    display: block;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .match-time .local-time {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 400;
+    margin-top: 5px;
+  }
+
+  .match-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+  }
+
+  .match-footer span {
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .series-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 5px 20px;
+    border-radius: 20px;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .series-btn:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+  }
+
+  @media (max-width: 768px) {
+    .popup-content {
+      width: 95%;
+      max-height: 95vh;
+    }
+
+    .teams-info {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .team {
+      justify-content: center;
+    }
+
+    .match-time {
+      width: 100%;
+    }
+  }
+</style>
+
+</body>
+</html>

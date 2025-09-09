@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globengel: My Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" /> -->
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap"
+        rel="stylesheet">
+
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/group-cards.css">
+
+    <!-- CSS for Services Section -->
+    <style>
+        .glob-services-container {
+            width: 100%;
+            height: 520px;
+            /* Further reduced height for better fit */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glob-services {
+            height: 480px !important;
+            /* Match container height */
+            display: flex;
+            width: 100%;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.5s ease;
+            background-attachment: scroll;
+        }
+
+        .glob-service-item {
+            flex: 1;
+            position: relative;
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 20px 14px 24px 14px;
+            /* More bottom padding for text */
+            z-index: 2;
+            transition: all 0.3s ease;
+            overflow: visible;
+            /* Allow text to expand */
+            min-width: 0;
+        }
+
+        .glob-service-item:last-child {
+            border-right: none;
+        }
+
+        /* Mobile styles for services section */
+        @media (max-width: 768px) {
+            .glob-services-container {
+                display: none;
+                /* Hide the desktop version */
+            }
+
+            .glob-service-mobile-card {
+                height: 200px;
+                border-radius: 12px;
+                background-size: cover;
+                background-position: center;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-end;
+                padding: 20px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .glob-service-mobile-card::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 60%);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="1"]::after,
+            .glob-service-mobile-card[data-bg="2"]::after,
+            .glob-service-mobile-card[data-bg="5"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(233, 142, 111, 0.4);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="3"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(140, 85, 69, 0.5);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="4"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(72, 109, 149, 0.4);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card .glob-service-text {
+                position: relative;
+                z-index: 2;
+                transition: transform 0.3s ease;
+                width: 100%;
+            }
+
+            .glob-service-mobile-card .glob-service-description {
+                position: relative;
+                z-index: 2;
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+                transform: translateY(20px);
+                color: white;
+                font-size: 14px;
+                line-height: 1.4;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+                padding-top: 10px;
+                width: 100%;
+            }
+
+            .glob-service-mobile-card.tapped .glob-service-text {
+                transform: translateY(-10px);
+            }
+
+            .glob-service-mobile-card.tapped .glob-service-description {
+                opacity: 1;
+                max-height: 200px;
+                transform: translateY(0);
+            }
+
+            .glob-service-mobile-card:active,
+            .glob-service-mobile-card.tapped {
+                transform: scale(0.98);
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+                height: auto;
+                min-height: 250px;
+                background-position: top center;
+            }
+        }
+
+        /* Hide mobile cards on desktop */
+        @media (min-width: 769px) {
+            .glob-mobile-services {
+                display: none;
+            }
+        }
+
+        /* Color overlays for each section - matching the image */
+        /* .glob-service-item:nth-child(1) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    }
+    
+    .glob-service-item:nth-child(2) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    }
+    
+    .glob-service-item:nth-child(3) {
+        background-color: rgba(140, 85, 69, 0.6); 
+    }
+    
+    .glob-service-item:nth-child(4) {
+        background-color: rgba(72, 109, 149, 0.4); 
+    }
+    
+    .glob-service-item:nth-child(5) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    } */
+
+        /* Text style */
+        .glob-service-text {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.3;
+            z-index: 2;
+            position: relative;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+            transition: transform 0.3s ease, height 0.3s ease;
+            letter-spacing: 1px;
+            padding-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .glob-service-item:hover .glob-service-text {
+            transform: translateY(-10px);
+        }
+
+        .glob-service-description {
+            color: white;
+            font-size: 13px;
+            line-height: 1.4;
+            z-index: 2;
+            position: relative;
+            opacity: 0;
+            max-height: 0;
+            overflow: visible;
+            transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+            transform: translateY(20px);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+            padding-top: 2px;
+            margin-bottom: 0;
+            background: none;
+        }
+
+        .glob-service-item:hover .glob-service-description,
+        .glob-service-mobile-card:active .glob-service-description,
+        .glob-service-mobile-card.tapped .glob-service-description {
+            opacity: 1;
+            max-height: 120px;
+            transform: translateY(0);
+        }
+
+        /* Plus icon */
+        .glob-plus-icon {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hover effects for sections */
+        .glob-service-item {
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .glob-services:hover .glob-service-item {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Service with active class */
+        .glob-service-item.glob-active {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-services {
+            background-color: #FFF6F3;
+        }
+
+        /* Flip animation styles */
+        .glob-service-item {
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .glob-service-item.flip {
+            transform: rotateY(180deg);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg" style="padding: 0.5rem 2rem; transition: all 0.3s ease; background: #fff; position: sticky; width: 100%; z-index: 1000;" >
+  <div class="container-fluid">
+      <ul class="navbar-nav d-none d-lg-flex">
+      <li class="nav-item dropdown">
+        <a  class="nav-link" href="#">DESTINATIONS</a>
+         <div class="mega-menu destinations-menu">
+        <!-- Left Side -->
+        <div class="mega-left">
+          <ul>
+            <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
+            <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
+            <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
+            <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
+            <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
+            <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
+            <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
+            <li data-target="polar">POLAR <span class="arrow">&#8250;</span></li>
+          </ul>
+        </div>
+        <!-- Right Side -->
+       <div class="mega-right">
+          <div class="content" id="africa">
+            <div class="column">
+              <a href="#">Ascension Island</a>
+              <a href="#">Botswana</a>
+              <a href="#">Ethiopia</a>
+              <a href="#">Kenya</a>
+              <a href="#">Madagascar</a>
+              <a href="s10.html">Mauritius</a>
+              <a href="#">Morocco</a>
+              <a href="#">Namibia</a>
+              <a href="#">ReUnion Island</a>
+            </div>
+            <div class="column">
+              <a href="#">Saint Helena Island</a>
+              <a href="#">Seychelles</a>
+              <a href="#">South Africa</a>
+              <a href="#">TanZania</a>
+              <a href="#">Zanzibar</a>
+              <a href="#">Tristan Da Cunha</a>
+              <a href="#">Zimbabwe</a>
+            </div>
+          </div>
+          <div class="content" id="asia">
+            <div class="column">
+              <a href="#">Armenia</a>
+              <a href="#">Azerbaijan</a>
+              <a href="#">Cambodia</a>
+              <a href="#">Georgia</a>
+              <a href="#">Hong Kong & Macau</a>
+              <a href="s9.html">Indonesia</a>
+              <a href="Destination.html">Japan</a>
+              <a href="#">Kazakhstan</a>
+              <a href="#">Laos</a>
+              <a href="#">Malaysia</a>
+            </div>
+            <div class="column">
+              <a href="#">Maldives</a>
+              <a href="#">Mongolia</a>
+              <a href="#">Philippines</a>
+              <a href="#">Russia</a>
+              <a href="#">Singapore</a>
+              <a href="#">Taiwan</a>
+              <a href="#">South Korea</a>
+              <a href="s6.html">Thailand</a>
+              <a href="#">Uzbekistan</a>
+              <a href="s1.html">Vietnam</a>
+            </div>
+          </div>
+          <div class="content" id="australasia">
+            <div class="column">
+              <a href="#">Argentina</a>
+              <a href="#">Brazil</a>
+              <a href="#">Canada</a>
+              <a href="#">Caribbean</a>
+              <a href="#">Chile</a>
+              <a href="#">Colombia</a>
+            </div>
+            <div class="column">
+              <a href="#">Equador</a>
+              <a href="#">Mexico</a>
+              <a href="#">Peru</a>
+              <a href="#">Uruguay</a>
+              <a href="#">USA</a>
+            </div>
+          </div>
+          <div class="content" id="europe">
+            <div class="column">
+              <a href="#">Austria</a>
+              <a href="#">Belgium</a>
+              <a href="#">Bosnia & Herzegovinia</a>
+              <a href="#">Croatia</a>
+              <a href="#">Cyprus</a>
+              <a href="#">Czechia</a>
+              <a href="#">Denmark</a>
+              <a href="s2.html">Finland</a>
+              <a href="#">France</a>
+              <a href="#">Germany</a>
+              <a href="#">Greece</a>
+              <a href="#">Hungary</a>
+              <a href="#">Iceland</a>
+              <a href="#">Ireland</a>
+            </div>
+            <div class="column">
+              <a href="#">Italy</a>
+              <a href="#">Netherlands</a>
+              <a href="#">Norway</a>
+              <a href="#">Poland</a>
+              <a href="#">Portugal</a>
+              <a href="#">Romania</a>
+              <a href="#">Scotland</a>
+              <a href="#">Slovakia</a>
+              <a href="#">Slovenia</a>
+              <a href="#">Spain</a>
+              <a href="#">Sweden</a>
+              <a href="#">Switzerland</a>
+              <a href="#">United Kingdom</a>
+            </div>
+          </div>
+          <div class="content" id="indian">
+            <div class="column">
+              <a href="#">India</a>
+              <a href="#">Nepal</a>
+              <a href="s8.html">Sri Lanka</a>
+            </div>
+            <div class="column">
+              <a href="s5.html">Bhutan</a>
+              <a href="s7.html">Maldives</a>
+            </div>
+          </div>
+          <div class="content" id="latin">
+            <div class="column">
+              <a href="s3.html">Australia</a>
+              <a href="#">Fiji</a>
+            </div>
+            <div class="column">
+              <a href="#">French Polynesia</a>
+              <a href="s4.html">New Zealand</a>
+            </div>
+          </div>
+          <div class="content" id="middleeast">
+            <div class="column">
+              <a href="#">Bahrain</a>
+              <a href="#">Egypt</a>
+              <a href="#">Jordan</a>
+              <a href="s11.html">Oman</a>
+            </div>
+            <div class="column">
+              <a href="#">Qatar</a>
+              <a href="#">Saudi Arabia</a>
+              <a href="#">Turkey</a>
+              <a href="#">UAE</a>
+            </div>
+          </div>
+          <div class="content" id="polar">
+            <div class="column">
+              <a href="#">Antarctica</a>
+              <a href="#">Arctic</a>
+              <a href="#">Greenland</a>
+            </div>
+            <div class="column">
+              <a href="#">Iceland</a>
+              <a href="#">Norway</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">LUXURY</a>
+         <div class="mega-menu itinerary-menu">
+        <div class="mega-left">
+          <ul>
+        <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
+        <li data-target="adventure"><a href="">JAPAN</a></li>
+        <li data-target="luxury"><a href="">KENYA</a></li>
+        <li data-target="classic"><a href="">NORWAY</a></li>
+        <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
+        <li data-target="luxury"><a href="">TANZANIA</a></li>
+        <li data-target="classic"><a href="">ZANZIBAR</a></li>
+</ul>
+        </div>
+        
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="tourpakages.html">GROUP TOURS</a>
+         <!-- <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family">LATIN AMERICA</li>
+            <li data-target="friends">AUSTRALIA</li>
+            <li data-target="corporate">CANADA</li>
+            <li data-target="couples">EUROPE</li>
+            <li data-target="family">GREECE</li>
+            <li data-target="friends">ICELAND</li>
+            <li data-target="corporate">JAPAN</li>
+            <li data-target="couples">MOROCCO</li>
+            <li data-target="family">NEW ZEALAND</li>
+            <li data-target="friends">SOUTH AFRICA</li>
+            <li data-target="corporate">UNITED KINGDOM</li>
+            <li data-target="couples">USA</li>
+            <li data-target="friends">VIETNAM</li>
+          </ul>
+        </div>
+      </div> -->
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="Voyages.html">VOYAGES</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">BEYOND HOLIDAYS</a>
+         <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family"><a href="business.html">BUSINESS TRAVEL</a></li>
+            <li data-target="friends"><a href="Eduwings.html">EDUWINGS (STUDY ABROAD)</a></li>
+            <li data-target="corporate"><a href="celebration.html">DESTINATION CELEBRATIONS</a></li>
+            <li data-target="couples"><a href="sky.html">PRIVATE CHARTERS</a></li>
+            <li data-target="couples"><a href="sports.html">SPORTS TRAVEL</a></li>
+
+          </ul>
+        </div>
+      </div>
+      </li>
+    </ul>
+
+    <a class="navbar-brand mx-auto" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      
+    </a>
+
+     <div class="d-flex align-items-center ">
+      <div class="contact-info d-none d-lg-block me-3">
+        CALL US AT:<br>
+        <a href="tel:+919793405883">+91 97934-05883</a>
+      </div>
+      <span class="signin d-none d-lg-block"><img src="./iocon/account.png" style="display:block; font-size:1.5rem; margin:0 auto 2px auto; width: 30px;"></img>Sign In</span>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler ms-2" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+    <!-- Sliding Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="menu-header">
+            <a class="menu-logo" href="index.html">
+                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
+            </a>
+            <div class="close-btn">&times;</div>
+        </div>
+        <a class="nav-link" href="Destination.html">DESTINATIONS</a>
+        <a class="nav-link" href="Luxury.html">LUXURY</a>
+        <a class="nav-link" href="GroupTours.html">GROUP TOURS</a>
+        <a class="nav-link" href="#">VOYAGES</a>
+        <a class="nav-link" href="#">BEYOND LEISURE</a>
+        <a class="nav-link mt-3" href="#">Sign In</a>
+    </div>
+    <div class="overlay"></div>
+    <!-- Hero Section -->
+
+<!-- Profile Hero Section Start -->
+
+<section class="profile-hero">
+  <div class="profile-hero-bg"></div>
+  <div class="profile-hero-content">
+    <div class="profile-hero-left">
+      <div class="profile-photo">
+        <span class="photo-icon"><i class="fa fa-camera"></i></span>
+        <span class="photo-add" style="font-family: 'Miller Display', Georgia, serif;">Add Photo</span>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name" style="font-family: 'Miller Display', Georgia, serif;" >Rakesh</div>
+        <div class="profile-contact">
+          <span style="font-family: 'Miller Display', Georgia, serif;" ><i class="fa fa-phone"></i> 9304285586</span>
+          <span style="font-family: 'Miller Display', Georgia, serif;" ><i class="fa fa-envelope"></i> Add Email Address</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.profile-hero {
+  position: relative;
+  width: 100%;
+  min-height: 160px;
+  background: #222;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.profile-hero-bg {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url('./images/profileImg.avif') center center/cover no-repeat;
+  filter: brightness(0.75);
+  z-index: 1;
+}
+.profile-hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 40px 24px 40px;
+  color: #fff;
+  flex-wrap: wrap;
+}
+.profile-hero-left {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.profile-photo {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #2ad6a3 70%, #3ec6e0 100%);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  position: relative;
+  margin-right: 8px;
+}
+.photo-icon {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+.photo-add {
+  font-size: 17px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.profile-name {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.profile-contact {
+  display: flex;
+  gap: 18px;
+  font-size: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.profile-contact i {
+  margin-right: 6px;
+}
+.profile-hero-right {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.profile-cash-btn,
+.profile-gift-btn {
+  background: rgba(24,28,58,0.85);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 10px 28px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(24,28,58,0.10);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+.profile-cash-btn i,
+.profile-gift-btn i {
+  font-size: 18px;
+}
+.profile-cash-btn:hover,
+.profile-gift-btn:hover {
+  background: #e55d17;
+  color: #fff;
+}
+@media (max-width: 900px) {
+  .profile-hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 12px 18px 12px;
+    gap: 18px;
+  }
+  .profile-hero-left {
+    flex-direction: row;
+    gap: 16px;
+    align-items: center;
+  }
+  .profile-photo {
+    width: 80px;
+    height: 80px;
+    font-size: 22px;
+  }
+  .profile-name {
+    font-size: 22px;
+  }
+  .profile-contact {
+    font-size: 14px;
+    gap: 10px;
+  }
+  .profile-cash-btn,
+  .profile-gift-btn {
+    font-size: 15px;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+}
+@media (max-width: 600px) {
+  .profile-hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 6px 12px 6px;
+    gap: 12px;
+  }
+  .profile-photo {
+    width: 60px;
+    height: 60px;
+    font-size: 16px;
+  }
+  .photo-icon{
+    font-size: 24px;
+    margin-bottom: 0px;
+  }
+  .photo-add{
+    font-size: 8px;
+    margin-top: 0px;
+  }
+  .profile-name {
+    font-size: 16px;
+  }
+  .profile-contact {
+    font-size: 12px;
+    gap: 6px;
+  }
+  .profile-cash-btn,
+  .profile-gift-btn {
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+}
+</style>
+
+
+
+<!-- 🔹 Profile Section Start -->
+ <style>
+    .profile-wrapper {
+      max-width: 1200px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      display: flex;
+      gap: 0;
+      overflow: hidden;
+    }
+    .profile-sidebar {
+      min-width: 230px;
+      background: #fafbfc;
+      border-right: 1px solid #eee;
+      padding: 32px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .profile-sidebar ul {
+      list-style: none;
+      padding: 0 0 0 24px;
+      margin: 0;
+    }
+    .profile-sidebar li {
+      padding: 12px 16px;
+      color: #222;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s;
+      position: relative;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-sidebar li.active {
+      background: #eaf2fb;
+      color: #e55d17;
+      font-weight: 600;
+    }
+    .profile-sidebar li.active .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #e55d17;
+      border-radius: 50%;
+      margin-left: 8px;
+    }
+    .profile-sidebar li i {
+      font-size: 18px;
+      color: #bdbdbd;
+    }
+    .profile-sidebar li.active i {
+      color: #e55d17;
+    }
+    .profile-sidebar .sidebar-divider {
+      border-top: 1px solid #eaeaea;
+      margin: 18px 0;
+    }
+    .profile-main {
+      flex: 1;
+      padding: 38px 38px 38px 38px;
+    }
+    .profile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .profile-header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 0;
+      color: #222;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-save-btn {
+      background: #ededed;
+      color: #222;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 32px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-save-btn:hover {
+      background: #e55d17;
+      color: #fff;
+    }
+    .profile-progress {
+      background: linear-gradient(90deg, #ffe5d0 65%, #fffbe5 100%);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 15px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .profile-progress .circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid #e55d17;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #e55d17;
+      font-size: 15px;
+      margin-right: 12px;
+    }
+    .profile-progress .progress-text {
+      flex: 1;
+      color: #222;
+      font-weight: 500;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-progress .progress-link {
+      color: #1a73e8;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 15px;
+      text-decoration: none;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-section {
+      margin-bottom: 32px;
+    }
+    .profile-section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 8px;
+      margin-top: 18px;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-section-desc {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 18px;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    .profile-field {
+      flex: 1 1 260px;
+      min-width: 220px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 8px;
+    }
+    .profile-field label {
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 4px;
+      font-weight: 500;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-field input,
+    .profile-field select {
+      padding: 12px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #f8f9fa;
+      outline: none;
+      transition: border 0.2s;
+      font-weight: 600;
+      color: #222;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+
+    .profile-field input:focus,
+    .profile-field select:focus {
+      border-color: #e55d17;
+    }
+    .profile-field input[readonly] {
+      background: #f3f3f3;
+      color: #222;
+      font-weight: 700;
+      border: 1px solid #e5e7eb;
+    }
+    .profile-field .check {
+      color: #2ecc71;
+      font-size: 18px;
+      margin-left: 8px;
+      vertical-align: middle;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-fields .profile-field-group {
+      display: flex;
+      gap: 18px;
+      width: 100%;
+    }
+    .profile-add-link {
+      color: #1a73e8;
+      font-size: 15px;
+      font-weight: 500;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 12px 18px;
+      cursor: pointer;
+      margin-left: 18px;
+      transition: border 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-add-link:hover {
+      border-color: #e55d17;
+      background: #f8f9fa;
+    }
+    .profile-note {
+      font-size: 13px;
+      color: #e55d17;
+      margin-top: 8px;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-section-divider {
+      border-top: 1px solid #eaeaea;
+      margin: 28px 0 18px 0;
+    }
+    .profile-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .profile-btn {
+      background: #e55d17;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 32px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .profile-btn:hover {
+      background: #d04e0f;
+    }
+    .profile-frequent {
+      margin-top: 18px;
+    }
+    .profile-frequent .profile-section-title {
+      margin-bottom: 8px;
+    }
+    .profile-frequent .profile-add-link {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+    /* Style Select2 to match input fields */
+    .select2-container .select2-selection--single {
+      padding: 12px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #222;
+      height: auto;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+      color: #222;
+      line-height: normal;
+      padding-left: 0;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+      height: 100%;
+      right: 10px;
+    }
+    .select2-dropdown {
+      border-radius: 10px;
+      font-size: 16px;
+      font-family: 'Miller Display', Georgia, serif;
+    }
+    @media (max-width: 900px) {
+      .profile-wrapper {
+        flex-direction: column;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+      }
+      .profile-sidebar {
+        min-width: 0;
+        padding: 18px 0 0 0;
+      }
+      .profile-main {
+        padding: 18px 8px 18px 8px;
+      }
+      .profile-fields {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .profile-field,
+      .profile-field-group {
+        min-width: 0;
+        width: 100%;
+      }
+      .profile-save-btn,
+      .profile-btn {
+        width: 100%;
+        margin-top: 10px;
+      }
+    }
+  </style>
+
+<section class="profile-wrapper ppf">
+  <nav class="profile-sidebar">
+    <ul>
+      <li class="active">
+        <i class="fa fa-user"></i> My Profile
+        <span class="dot"></span>
+      </li>
+      <li><i class="fa fa-heart"></i> Wishlist</li>
+      <div class="sidebar-divider"></div>
+      <li><i class="fa fa-key"></i> Reset Password</li>
+      <li><i class="fa fa-sign-out-alt"></i> Logout</li>
+    </ul>
+  </nav>
+  <main class="profile-main">
+    <!-- My Profile Content -->
+    <div id="profileContent">
+      <!-- Header -->
+      <div class="profile-header">
+        <h2>My Profile</h2>
+        <button class="profile-save-btn">SAVE</button>
+      </div>
+      <!-- Progress -->
+      <div class="profile-progress">
+        <span style="display:flex; align-items:center;">
+          <span class="circle">65%</span>
+          <span class="progress-text"><b>Complete your profile</b><br>
+          Share your Email ID to receive booking updates and other critical information.</span>
+        </span>
+        <a href="#" class="progress-link">Add Email</a>
+      </div>
+      <!-- General Information -->
+      <div class="profile-section">
+        <div class="profile-section-title">General Information</div>
+        <div class="profile-fields">
+          <div class="profile-field">
+            <label>FIRST & MIDDLE NAME</label>
+            <input type="text" placeholder="First & Middle Name">
+          </div>
+          <div class="profile-field">
+            <label>LAST NAME</label>
+            <input type="text" placeholder="Last Name">
+          </div>
+          <div class="profile-field">
+            <label>GENDER</label>
+            <select class="select2">
+              <option value="">Select Gender</option>
+              <option>MALE</option>
+              <option>FEMALE</option>
+              <option>OTHER</option>
+            </select>
+          </div>
+          <div class="profile-field">
+            <label>DATE OF BIRTH</label>
+            <input type="date" placeholder="DD/MM/YYYY">
+          </div>
+          <div class="profile-field">
+            <label>NATIONALITY</label>
+            <input type="text" placeholder="Nationality">
+          </div>
+          <div class="profile-field">
+            <label>MARITAL STATUS</label>
+            <select class="select2">
+              <option value="">Select Status</option>
+              <option>SINGLE</option>
+              <option>MARRIED</option>
+              <option>OTHER</option>
+            </select>
+          </div>
+          <div class="profile-field">
+            <label>ANNIVERSARY</label>
+            <input type="date" placeholder="Anniversary">
+          </div>
+          <div class="profile-field">
+            <label>CITY OF RESIDENCE</label>
+            <input type="text" placeholder="City">
+          </div>
+          <div class="profile-field">
+            <label>STATE</label>
+            <input type="text" placeholder="State">
+            <span style="font-size:12px; color:#888;">Required for GST purpose on your tax invoice</span>
+          </div>
+        </div>
+      </div>
+      <div class="profile-section-divider"></div>
+      <!-- Contact Details -->
+      <div class="profile-section">
+        <div class="profile-section-title">Contact Details</div>
+        <div class="profile-section-desc">Add contact information to receive booking details & other alerts</div>
+        <div class="profile-fields">
+          <div class="profile-field-group">
+            <div class="profile-field" style="flex:2;">
+              <label>MOBILE NUMBER</label>
+              <input type="tel" placeholder="+91-XXXXXXXXXX">
+            </div>
+            <a href="#" class="profile-add-link">ADD EMAIL ID</a>
+          </div>
+        </div>
+      </div>
+      <div class="profile-section-divider"></div>
+      <!-- Documents Details -->
+      <div class="profile-section">
+        <div class="profile-section-title">Documents Details</div>
+        <div class="profile-fields">
+          <div class="profile-field">
+            <label>PASSPORT NO.</label>
+            <input type="text" placeholder="Passport Number">
+          </div>
+          <div class="profile-field">
+            <label>EXPIRY DATE</label>
+            <input type="date" placeholder="DD/MM/YYYY">
+          </div>
+          <div class="profile-field">
+            <label>ISSUING COUNTRY</label>
+            <select class="select2" name="country">
+              <option value="">Select Country</option>
+              <option>India</option>
+              <option>USA</option>
+              <option>UK</option>
+            </select>
+          </div>
+          <div class="profile-field">
+            <label>PAN CARD NUMBER</label>
+            <input type="text" placeholder="PAN Card Number">
+          </div>
+        </div>
+        <div class="profile-note">
+          NOTE: Your PAN No. will only be used for international bookings as per RBI Guidelines
+        </div>
+      </div>
+      <div class="profile-section-divider"></div>
+      <!-- Preferences -->
+      <div class="profile-section">
+        <div class="profile-section-title">Your Preferences</div>
+        <div class="profile-section-desc">
+          This ensures a seamless insurance purchase and ensures protection for future bookings.
+          <i class="fa fa-info-circle" style="color:#888;"></i>
+        </div>
+        <div class="profile-fields">
+          <div class="profile-field">
+            <label>Domestic Trip Protection Plan</label>
+            <select class="select2">
+              <option>Domestic Trip Protection Plan</option>
+              <option>Basic</option>
+              <option>Premium</option>
+            </select>
+          </div>
+          <div class="profile-field">
+            <label>International Travel Insurance Plan</label>
+            <select class="select2">
+              <option>International Travel Insurance Plan</option>
+              <option>Basic</option>
+              <option>Premium</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="profile-section-divider"></div>
+      <!-- Frequent Flyer Details -->
+      <div class="profile-frequent">
+        <div class="profile-section-title">Frequent Flyer Details</div>
+        <div id="frequentFlyerList"></div>
+        <a href="#" class="profile-add-link" id="addFrequentFlyerBtn">+ Add</a>
+      </div>
+    </div>
+
+    <!-- Wishlist Content -->
+    <div id="wishlistContent" style="display:none;">
+      <div class="profile-header">
+        <h2>Wishlist</h2>
+      </div>
+      <div class="profile-section">
+        <div class="profile-section-title">Saved Flights</div>
+        <div class="profile-fields">
+          <div class="profile-field">
+            <label>Airline</label>
+            <input type="text" value="IndiGo" readonly>
+          </div>
+          <div class="profile-field">
+            <label>Flight Number</label>
+            <input type="text" value="6E-203" readonly>
+          </div>
+          <div class="profile-field">
+            <label>Departure</label>
+            <input type="text" value="Delhi (DEL)" readonly>
+          </div>
+          <div class="profile-field">
+            <label>Arrival</label>
+            <input type="text" value="Mumbai (BOM)" readonly>
+          </div>
+          <div class="profile-field">
+            <label>Date</label>
+            <input type="date" value="2025-09-10" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="profile-section-divider"></div>
+      <div class="profile-section">
+        <div class="profile-section-title">Saved Hotels</div>
+        <div class="profile-fields">
+          <div class="profile-field">
+            <label>Hotel Name</label>
+            <input type="text" value="The Taj Mahal Palace" readonly>
+          </div>
+          <div class="profile-field">
+            <label>City</label>
+            <input type="text" value="Mumbai" readonly>
+          </div>
+          <div class="profile-field">
+            <label>Check-in</label>
+            <input type="date" value="2025-09-10" readonly>
+          </div>
+          <div class="profile-field">
+            <label>Check-out</label>
+            <input type="date" value="2025-09-12" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="profile-section-divider"></div>
+      <div class="profile-section">
+        <div class="profile-section-title">Saved Preferences</div>
+        <div class="profile-fields">
+          <div class="profile-field">
+            <label>Preferred Airline</label>
+            <input type="text" value="Vistara" readonly>
+          </div>
+          <div class="profile-field">
+            <label>Preferred Hotel Chain</label>
+            <input type="text" value="ITC Hotels" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</section>
+<!-- 🔹 Profile Section End -->
+
+<!-- 🔹 Modals (keep outside section for global use) -->
+  <div id="addEmailModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:14px; max-width:400px; width:95vw; padding:28px 24px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative;">
+      <h2 style="font-size:20px; font-weight:700; margin-bottom:8px;">Add Email</h2>
+      <div style="font-size:15px; color:#444; margin-bottom:18px;">
+        For a faster booking experience, exclusive offers and rewards
+      </div>
+      <form id="addEmailForm">
+        <label style="font-size:15px; font-weight:600; margin-bottom:6px; display:block;">Email ID</label>
+        <input type="email" required placeholder="eg. johndoe@gmail.com" style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:8px; font-size:16px; margin-bottom:22px;">
+        <div style="display:flex; gap:18px;">
+          <button type="button" id="cancelAddEmail" style="flex:1; background:#fff; color:#0070f3; border:1.5px solid #0070f3; border-radius:8px; font-size:17px; font-weight:600; padding:10px 0; cursor:pointer;">Cancel</button>
+          <button type="submit" style="flex:1; background:linear-gradient(90deg,#2196f3,#0070f3); color:#fff; border:none; border-radius:8px; font-size:17px; font-weight:600; padding:10px 0; cursor:pointer;">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="resetPasswordModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:14px; max-width:500px; width:95vw; padding:32px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative;">
+      <h2 style="font-size:22px; font-weight:700; margin-bottom:8px;">
+        <i class="fa fa-key" style="color:#888; margin-right:8px;"></i> Reset Password
+      </h2>
+      <div style="font-size:15px; color:#444; margin-bottom:18px;">
+        Your password must be at least 8 characters long and include both small and uppercase letters, numbers, and special characters (e.g., $!@%)
+      </div>
+      <form id="resetPasswordForm">
+        <div style="margin-bottom:18px;">
+          <label style="font-size:15px; font-weight:600; margin-bottom:6px; display:block;">OLD PASSWORD</label>
+          <div style="position:relative;">
+            <input type="password" required placeholder="OLD PASSWORD" style="width:100%; padding:14px 44px 14px 14px; border:1px solid #e5e7eb; border-radius:10px; font-size:16px; background:#f8f9fa; font-weight:600; color:#222;">
+            <span class="toggle-password" style="position:absolute; right:14px; top:50%; transform:translateY(-50%); cursor:pointer; color:#888;">
+              <i class="fa fa-eye"></i>
+            </span>
+          </div>
+        </div>
+        <div style="margin-bottom:18px;">
+          <label style="font-size:15px; font-weight:600; margin-bottom:6px; display:block;">NEW PASSWORD</label>
+          <div style="position:relative;">
+            <input type="password" required placeholder="NEW PASSWORD" style="width:100%; padding:14px 44px 14px 14px; border:1px solid #e5e7eb; border-radius:10px; font-size:16px; background:#f8f9fa; font-weight:600; color:#222;">
+            <span class="toggle-password" style="position:absolute; right:14px; top:50%; transform:translateY(-50%); cursor:pointer; color:#888;">
+              <i class="fa fa-eye"></i>
+            </span>
+          </div>
+        </div>
+        <a href="#" style="color:#0070f3; font-weight:600; font-size:15px; text-decoration:none; display:block; margin-bottom:18px;">Forgot your password?</a>
+        <div style="display:flex; gap:18px;">
+          <button type="button" id="cancelResetPassword" style="flex:1; background:#fff; color:#0070f3; border:1.5px solid #0070f3; border-radius:8px; font-size:17px; font-weight:600; padding:12px 0; cursor:pointer;">Cancel</button>
+          <button type="submit" style="flex:1; background:linear-gradient(90deg,#2196f3,#0070f3); color:#fff; border:none; border-radius:8px; font-size:17px; font-weight:600; padding:12px 0; cursor:pointer;">RESET PASSWORD</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="logoutModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:99999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:14px; max-width:420px; width:95vw; padding:32px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative;">
+      <h2 style="font-size:22px; font-weight:700; margin-bottom:8px;">
+        <i class="fa fa-sign-out-alt" style="color:#888; margin-right:8px;"></i> Logout
+      </h2>
+      <div style="font-size:15px; color:#444; margin-bottom:28px;">
+        Are you sure you want to logout?
+      </div>
+      <div style="display:flex; gap:18px;">
+        <button type="button" id="cancelLogout" style="flex:1; background:#fff; color:#0070f3; border:1.5px solid #0070f3; border-radius:8px; font-size:17px; font-weight:600; padding:12px 0; cursor:pointer;">Cancel</button>
+        <button type="button" id="confirmLogout" style="flex:1; background:linear-gradient(90deg,#2196f3,#0070f3); color:#fff; border:none; border-radius:8px; font-size:17px; font-weight:600; padding:12px 0; cursor:pointer;">Logout</button>
+      </div>
+    </div>
+  </div>
+  <script>
+$(document).ready(function() {
+  $('.select2').select2({
+    width: '100%',
+    placeholder: 'Select an option'
+  });
+});
+
+  // Show modal on "Add Email" or "ADD EMAIL ID" click
+  document.querySelector('.progress-link').onclick = function(e) {
+    e.preventDefault();
+    document.getElementById('addEmailModal').style.display = 'flex';
+  };
+  document.querySelector('.profile-add-link').onclick = function(e) {
+    e.preventDefault();
+    document.getElementById('addEmailModal').style.display = 'flex';
+  };
+  // Hide modal on Cancel
+  document.getElementById('cancelAddEmail').onclick = function() {
+    document.getElementById('addEmailModal').style.display = 'none';
+  };
+  // Optional: Hide modal on submit
+  document.getElementById('addEmailForm').onsubmit = function(e) {
+    e.preventDefault();
+    document.getElementById('addEmailModal').style.display = 'none';
+    // You can add your email submit logic here
+  };
+
+  // Show modal on "Reset Password" sidebar click
+  document.querySelectorAll('.profile-sidebar li').forEach(function(item) {
+    if(item.textContent.trim().includes('Reset Password')) {
+      item.onclick = function() {
+        document.getElementById('resetPasswordModal').style.display = 'flex';
+      };
+    }
+  });
+  // Hide modal on Cancel
+  document.getElementById('cancelResetPassword').onclick = function() {
+    document.getElementById('resetPasswordModal').style.display = 'none';
+  };
+  // Optional: Hide modal on submit
+  document.getElementById('resetPasswordForm').onsubmit = function(e) {
+    e.preventDefault();
+    document.getElementById('resetPasswordModal').style.display = 'none';
+    // Add your password reset logic here
+  };
+
+  // Toggle password visibility
+  document.querySelectorAll('#resetPasswordModal .toggle-password').forEach(function(toggle) {
+    toggle.onclick = function() {
+      const input = this.parentElement.querySelector('input');
+      if(input.type === 'password') {
+        input.type = 'text';
+        this.innerHTML = '<i class="fa fa-eye-slash"></i>';
+      } else {
+        input.type = 'password';
+        this.innerHTML = '<i class="fa fa-eye"></i>';
+      }
+    };
+  });
+
+  // Sample airlines list
+  const airlines = [
+    "Air India", "IndiGo", "Vistara", "SpiceJet", "Go First", "Emirates", "Qatar Airways", "Singapore Airlines"
+  ];
+
+  function createFlyerRow(index) {
+    // Create container
+    const row = document.createElement('div');
+    row.className = 'profile-fields';
+    row.style.marginBottom = '10px';
+    row.style.alignItems = 'center';
+    row.dataset.index = index;
+
+    // Airline select
+    const airlineDiv = document.createElement('div');
+    airlineDiv.className = 'profile-field';
+    const airlineSelect = document.createElement('select');
+    airlineSelect.className = 'select2';
+    airlineSelect.style.width = '100%';
+    airlineSelect.innerHTML = `<option value="">AIRLINE</option>` +
+      airlines.map(a => `<option>${a}</option>`).join('');
+    airlineDiv.appendChild(airlineSelect);
+
+    // Frequent Flyer Number input
+    const numberDiv = document.createElement('div');
+    numberDiv.className = 'profile-field';
+    const numberInput = document.createElement('input');
+    numberInput.type = 'text';
+    numberInput.placeholder = 'Frequent Flyer Number';
+    numberDiv.appendChild(numberInput);
+
+    // Remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.innerHTML = '<i class="fa fa-times"></i>';
+    removeBtn.style.background = '#f8f9fa';
+    removeBtn.style.border = 'none';
+    removeBtn.style.fontSize = '22px';
+    removeBtn.style.cursor = 'pointer';
+    removeBtn.style.marginLeft = '10px';
+    removeBtn.style.borderRadius = '50%';
+    removeBtn.style.width = '32px';
+    removeBtn.style.height = '32px';
+    removeBtn.style.display = 'flex';
+    removeBtn.style.alignItems = 'center';
+    removeBtn.style.justifyContent = 'center';
+
+    removeBtn.onclick = function() {
+      row.remove();
+    };
+
+    row.appendChild(airlineDiv);
+    row.appendChild(numberDiv);
+    row.appendChild(removeBtn);
+
+    // After adding to DOM, initialize select2
+    setTimeout(() => {
+      $(airlineSelect).select2({ width: '100%', placeholder: 'AIRLINE' });
+    }, 0);
+
+    return row;
+  }
+
+  document.getElementById('addFrequentFlyerBtn').onclick = function(e) {
+    e.preventDefault();
+    const list = document.getElementById('frequentFlyerList');
+    const index = list.children.length;
+    list.appendChild(createFlyerRow(index));
+  };
+
+  // Show modal on "Logout" sidebar click
+  document.querySelectorAll('.profile-sidebar li').forEach(function(item) {
+    if(item.textContent.trim().includes('Logout')) {
+      item.onclick = function() {
+        document.getElementById('logoutModal').style.display = 'flex';
+      };
+    }
+  });
+  // Hide modal on Cancel
+  document.getElementById('cancelLogout').onclick = function() {
+    document.getElementById('logoutModal').style.display = 'none';
+  };
+  // Handle Logout button
+  document.getElementById('confirmLogout').onclick = function() {
+    document.getElementById('logoutModal').style.display = 'none';
+    // Add your logout logic here (e.g., redirect, clear session)
+    // window.location.href = '/login';
+  };
+
+  // Sidebar tab switching logic
+  document.querySelectorAll('.profile-sidebar li').forEach(function(item) {
+    item.onclick = function() {
+      document.querySelectorAll('.profile-sidebar li').forEach(li => li.classList.remove('active'));
+      item.classList.add('active');
+      if(item.textContent.trim().includes('Wishlist')) {
+        document.getElementById('profileContent').style.display = 'none';
+        document.getElementById('wishlistContent').style.display = 'block';
+      } else if(item.textContent.trim().includes('My Profile')) {
+        document.getElementById('profileContent').style.display = 'block';
+        document.getElementById('wishlistContent').style.display = 'none';
+      }
+      // Keep modal logic for Reset Password and Logout as before
+      if(item.textContent.trim().includes('Reset Password')) {
+        document.getElementById('resetPasswordModal').style.display = 'flex';
+      }
+      if(item.textContent.trim().includes('Logout')) {
+        document.getElementById('logoutModal').style.display = 'flex';
+      }
+    };
+  });
+</script>
+
+
+
+    <!-- Footer Section -->
+    <!-- footer 2 -->
+    <footer class="site-footer">
+        <div class="footer-top">
+
+            <!-- Newsletter -->
+            <div class="footer-newsletter">
+                <h4>LET'S BUILD EXPERIENCES TOGETHER</h4>
+                <form class="heading_font_family">
+                    <input type="text" placeholder="First Name*" required>
+                    <input type="text" placeholder="Last Name*" required>
+                    <input type="email" placeholder="Email*" required>
+                    <label class="checkbox heading_font_family">
+                        <input type="checkbox">
+                        I am happy to receive emails from Globengel, including upcoming events and information.*
+                    </label>
+                    <button type="submit" class="signup-btn">Sign Up</button>
+                </form>
+            </div>
+
+            <!-- Award Badge -->
+            <div class="footer-badge">
+                <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Award 2025">
+            </div>
+
+
+            <!-- Destinations -->
+            <div class="footer-destinations">
+                <h4 class="heading_font_family" style="font-size: 18px;">Home</h4>
+                <ul class="heading_font_family">
+
+                     <!-- <li><a href="Destination.html">Destinations</a></li>
+           <li><a href="Luxury.html">Luxury</a></li> -->
+          <li><a href="GroupTours.html">Group Tours</a></li>
+          <li><a href="voyages.html">Voyages</a></li>
+          <li><a href="business.html">Business Travel</a></li>
+          <li><a href="celebration.html">Destination Celebration</a></li>
+           <li><a href="Eduwings.html">Eduwings (STUDY ABROAD)</a></li> 
+            <li><a href="sky.html">Private Charter</a></li> 
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="Contactus.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact">
+                <h4 class="heading_font_family">Get in Touch</h4>
+                <p><a href="tel:+919910405255">+91 99104-05255</a></p>
+                <p class="heading_font_family"><a href="mailto:info@globengel.com">info@globengel.com</a></p>
+
+                <h4 class="heading_font_family">Find us on</h4>
+                <!-- Social Media Icons -->
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/globengel" class="social-icon-box"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@globengel" class="social-icon-box"><i class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/globengel" class="social-icon-box"><i class="fab fa-x"></i></a>
+                    <a href="https://www.instagram.com/globengel" class="social-icon-box"><i class="fab fa-instagram"></i></a>
+                    <a href="http://www.linkedin.com/company/globengel" class="social-icon-box"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+
+                <div class="footer-tagline">
+                    <h2 class="heading_font_family">DREAM.
+                        EXPLORE.
+                        DISCOVER.</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <div class="footer-logo">
+                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 130px;" alt="MITÉRA Goddess Logo">
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <p>Copyright 2019-2025 GLOBENGEL</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <!-- JavaScript for Services Section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const serviceItems = document.querySelectorAll('.glob-service-item');
+            const servicesContainer = document.querySelector('.glob-services');
+
+            // Set the first service as active by default
+            serviceItems[0].classList.add('glob-active');
+
+            // Store the default background
+            const defaultBg = window.getComputedStyle(servicesContainer).backgroundImage;
+
+            // Function to check if mobile view
+            function isMobileView() {
+                return window.innerWidth <= 768;
+            }
+
+            // Set initial background images based on viewport
+            function setInitialBackgrounds() {
+                if (isMobileView()) {
+                    // For mobile: Set individual backgrounds for each card
+                    serviceItems.forEach((item, index) => {
+                        const bgNum = item.getAttribute('data-bg');
+                        let bgImage = '/images/Vietnam.jpg'; // default
+
+                        if (bgNum === '1') bgImage = './images/Vietnam.jpg';
+                        else if (bgNum === '2') bgImage = './images/Japan.jpg';
+                        else if (bgNum === '3') bgImage = './images/Finland.jpg';
+                        else if (bgNum === '4') bgImage = './images/Australia.jpg';
+                        else if (bgNum === '5') bgImage = './images/New Zealand.jpg';
+
+                        item.style.backgroundImage = `url('./images/${bgImage}')`;
+                    });
+                } else {
+                    // For desktop: Set container background
+                    servicesContainer.style.backgroundImage = `url('./images/Vietnam.jpg')`;
+                }
+            }
+
+            // Initialize backgrounds
+            setInitialBackgrounds();
+
+            // Handle window resize to adjust backgrounds
+            window.addEventListener('resize', setInitialBackgrounds);
+
+            serviceItems.forEach((serviceItem, index) => {
+                serviceItem.addEventListener('mouseenter', function () {
+                    const bgNum = this.getAttribute('data-bg');
+                    // Store reference to current element
+                    const currentElement = this;
+
+                    // Apply immediate color change to ALL sections
+                    serviceItems.forEach(s => s.classList.add('glob-active'));
+
+                    // Only change container background on desktop view
+                    if (!isMobileView()) {
+                        // Delay background image change for smooth transition
+                        setTimeout(() => {
+                            if (bgNum === '1') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Vietnam.jpg")';
+                            } else if (bgNum === '2') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Japan.jpg")';
+                            } else if (bgNum === '3') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Finland.jpg")';
+                            } else if (bgNum === '4') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Australia.jpg")';
+                            } else if (bgNum === '5') {
+                                servicesContainer.style.backgroundImage = 'url("./images/New Zealand.jpg")';
+                            }
+                        }, 200); // 200ms delay for smooth transition
+                    }
+                });
+
+                // Add touch event for mobile
+                serviceItem.addEventListener('touchstart', function () {
+                    serviceItems.forEach(s => s.classList.add('glob-active'));
+                });
+            });    // Handle mobile card interactions
+            const mobileCards = document.querySelectorAll('.glob-service-mobile-card');
+
+            mobileCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Reset other cards
+                    mobileCards.forEach(otherCard => {
+                        if (otherCard !== this) {
+                            otherCard.classList.remove('tapped');
+                            otherCard.style.height = '200px';
+                        }
+                    });
+
+                    // Toggle tapped state for current card
+                    this.classList.toggle('tapped');
+
+                    // Adjust card height based on content
+                    if (this.classList.contains('tapped')) {
+                        const description = this.querySelector('.glob-service-description');
+                        const textHeight = this.querySelector('.glob-service-text').offsetHeight;
+                        const descHeight = description.scrollHeight;
+
+                        // Set a min height to ensure there's space for the content
+                        const newHeight = Math.max(250, textHeight + descHeight + 60);
+                        this.style.height = `${newHeight}px`;
+
+                        // Make description visible with a slight delay
+                        setTimeout(() => {
+                            description.style.opacity = '1';
+                            description.style.maxHeight = '200px';
+                            description.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        this.style.height = '200px';
+
+                        // Hide description
+                        const description = this.querySelector('.glob-service-description');
+                        description.style.opacity = '0';
+                        description.style.maxHeight = '0';
+                        description.style.transform = 'translateY(20px)';
+                    }
+                });
+
+                // Add touch event listener for better mobile experience
+                card.addEventListener('touchstart', function () {
+                    this.classList.add('touch-active');
+                });
+
+                card.addEventListener('touchend', function () {
+                    this.classList.remove('touch-active');
+                });
+            });
+
+            // Add event listener for mouseleave on the entire services container
+            servicesContainer.addEventListener('mouseleave', function () {
+                // Remove active class from all services when mouse leaves the entire container
+                serviceItems.forEach(s => s.classList.remove('glob-active'));
+            });
+        });
+
+        // Add this in your existing DOMContentLoaded function after defining serviceItems
+        serviceItems.forEach((item, index) => {
+            setTimeout(() => {
+                // Add flip class to start animation
+                item.classList.add('flip');
+
+                // Remove flip after 3 seconds
+                setTimeout(() => {
+                    item.classList.remove('flip');
+                }, 3000);
+
+            }, index * 300); // delay each box animation slightly for a wave effect
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/group-tours.js"></script>
+ <!-- Swiper initialization is in script.js -->
+ 
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:99999; align-items:center; justify-content:center;">
+  <div id="authModalInner" style="background:#fff6f3; border-radius:16px; max-width:900px; width:95vw; padding:32px 28px 24px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative; display:flex; gap:32px; flex-wrap:wrap;">
+    <!-- Left: Forms -->
+    <div style="flex:1 1 350px; min-width:320px;">
+      <button id="closeAuthModal" style="position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px; color:#e55d17; cursor:pointer;">&times;</button>
+      <!-- Tabs -->
+      <div style="display:flex; justify-content:center; gap:24px; margin-bottom: 10px;">
+        <button id="signInTab" class="auth-tab active" style="background:none; border:none; font-size:18px; font-weight:600; color:#e55d17; cursor:pointer;">Sign In</button>
+        <button id="createTab" class="auth-tab" style="background:none; border:none; font-size:18px; font-weight:600; color:#888; cursor:pointer;">Create Account</button>
+      </div>
+      <!-- Sign In Form -->
+      <form id="signInForm" style="display:block;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:18px;">Sign In to Your Account</h3>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Email or Mobile Number*</label>
+          <input type="text" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Password*</label>
+          <input type="password" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:17px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign In</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Don't have an account? <span id="gotoCreate" style="color:#e55d17; cursor:pointer; font-weight:500;">Create Account</span>
+        </div>
+      </form>
+      <!-- Create Account Form -->
+      <form id="createForm" style="display:none;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:10px;">Create an Account</h3>
+        <p style="margin-bottom: 10px; font-size: 14px;" >Enter the below details to start setting up your ENGEL CLUB account. If you already have an account, please <span style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span> to continue.</p>
+        <!-- ...your create account fields as before... -->
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">First Name*</label>
+            <input type="text" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Last Name*</label>
+            <input type="text" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Gender</label>
+            <input type="text" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Date of Birth</label>
+            <input type="text" placeholder="DD/MM/YYYY" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+      <label style="font-size:14px;">Mobile Number*</label>
+      <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
+        <select style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
+          <option value="+91">+91</option>
+          <option value="+1">+1</option>
+          <option value="+44">+44</option>
+          <option value="+61">+61</option>
+          <option value="+81">+81</option>
+          <!-- Add more country codes as needed -->
+        </select>
+        <input type="text" required style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
+      </div>
+    </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:14px;">Email*</label>
+          <input type="email" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Confirm Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:13px;">
+            <input type="checkbox" style="margin-right:6px;">
+            I wish to receive news and promotions from GLOBENGEL. You may unsubscribe at any time by updating your account preferences.
+          </label>
+          <p style="margin-bottom: 0; font-size: 13px;" >By submitting this form, I agree to Maharaja Club Terms and Conditions and Privacy Notice.</p>
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:15px; font-weight:600; border:none; padding:5px 0; margin-top:8px;">Sign Up</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Already have an account? <span id="gotoSignIn" style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span>
+        </div>
+      </form>
+    </div>
+    <!-- Right: ENGEL CLUB Info Card -->
+    <div id="engelClubCard" style="flex:1 1 320px; min-width:280px; background: #fad7c0; border-radius:12px; padding:28px 22px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <img src="./images/engleClubLogo.png" alt="ENGEL CLUB" style="width:150px; margin-bottom:12px;">
+      <h4 style="font-size:18px; font-weight:600; color:#444; margin-bottom:18px;">SIGN UP FOR ENGEL CLUB</h4>
+      <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:15px; color:#444;">
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Earn rewards every time you travel with us.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-arrow-up" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Unlock special upgrades &amp; priority assistance.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-users" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Access member-only deals on holidays &amp; services.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Surprise perks for milestone trips (honeymoons, anniversaries, etc.).
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-lightbulb" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Early access to new offers
+        </li>
+      </ul>
+      <button id="engelSignUpBtn" style="background:#e55d17; color:#fff; font-size:16px; font-weight:600; border:none; border-radius:6px; padding:10px 32px; margin-top:8px;">SIGN-UP</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Responsive styles for auth modal */
+@media (max-width: 700px) {
+  #authModalInner {
+    flex-direction: column !important;
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 18px 8px 18px 8px !important;
+    gap: 0 !important;
+    align-items: stretch !important;
+  }
+  #authModalInner > div {
+    min-width: 0 !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    margin-bottom: 18px !important;
+  }
+  #engelClubCard {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 18px 8px !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+  }
+  #closeAuthModal {
+    top: 8px !important;
+    right: 8px !important;
+    font-size: 28px !important;
+  }
+  .auth-tab {
+    font-size: 16px !important;
+    padding: 6px 0 !important;
+  }
+  #signInForm, #createForm {
+    padding: 0 !important;
+  }
+  #engelClubCard img {
+    width: 90px !important;
+    margin-bottom: 8px !important;
+  }
+  #engelClubCard h3, #engelClubCard h4 {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelClubCard ul {
+    font-size: 13px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelSignUpBtn {
+    font-size: 15px !important;
+    padding: 8px 18px !important;
+    margin-top: 6px !important;
+  }
+}
+/* Responsive styles for Create Account form fields */
+@media (max-width: 700px) {
+  #createForm .display-flex,
+  #createForm .display-flex > div,
+  #createForm .display-flex > div > div {
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+  }
+  #createForm .display-flex > div {
+    margin-bottom: 12px !important;
+  }
+  #createForm input,
+  #createForm select {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    border-radius: 6px !important;
+    font-size: 15px !important;
+  }
+  #createForm label {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+  }
+  #createForm .display-flex {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Open modal on Sign In click
+  document.querySelector('.signin').addEventListener('click', function() {
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+  });
+
+  // Mobile menu Sign In link
+  document.querySelector('.mobile-menu .nav-link.mt-3').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+    // Optionally close mobile menu if you have a function for that
+    document.querySelector('.mobile-menu').classList.remove('open');
+    document.querySelector('.overlay').style.display = 'none';
+  });
+
+  // Close modal
+  document.getElementById('closeAuthModal').onclick = function() {
+    document.getElementById('authModal').style.display = 'none';
+  };
+
+  // Tab switching
+  document.getElementById('signInTab').onclick = function() { showTab('signIn'); };
+  document.getElementById('createTab').onclick = function() { showTab('create'); };
+  document.getElementById('gotoCreate').onclick = function() { showTab('create'); };
+  document.getElementById('gotoSignIn').onclick = function() { showTab('signIn'); };
+
+  // ENGEL CLUB card sign-up button opens create account
+  document.getElementById('engelSignUpBtn').onclick = function() {
+    showTab('create');
+  };
+
+  // Show/hide ENGEL CLUB card based on tab
+  function showTab(tab) {
+    if(tab === 'signIn') {
+      document.getElementById('signInForm').style.display = 'block';
+      document.getElementById('createForm').style.display = 'none';
+      document.getElementById('signInTab').classList.add('active');
+      document.getElementById('createTab').classList.remove('active');
+      document.getElementById('engelClubCard').style.display = 'flex';
+    } else {
+      document.getElementById('signInForm').style.display = 'none';
+      document.getElementById('createForm').style.display = 'block';
+      document.getElementById('signInTab').classList.remove('active');
+      document.getElementById('createTab').classList.add('active');
+      document.getElementById('engelClubCard').style.display = 'none';
+    }
+  }
+});
+</script>
+
+<!-- Add this modal just before </body> -->
+<div id="profilePhotoModal" class="profile-photo-modal">
+  <div class="profile-photo-modal-content">
+    <button class="close-photo-modal" title="Close">&times;</button>
+    <div class="photo-drop-area">
+      <div class="photo-preview-list">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="photo-preview" alt="Preview 1">
+        <img src="https://randomuser.me/api/portraits/men/46.jpg" class="photo-preview" alt="Preview 2">
+        <div class="photo-preview-center">
+          <i class="fa fa-user-circle" style="font-size:60px; color:#bbb;"></i>
+        </div>
+      </div>
+      <div class="photo-drop-text">
+        Drop your image here or <span class="photo-browse">Browse</span>
+        <input type="file" id="photoInput" accept="image/*" style="display:none;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.profile-photo-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.18);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+}
+.profile-photo-modal-content {
+  background: #fafafa;
+  border-radius: 16px;
+  max-width: 420px;
+  width: 95vw;
+  padding: 32px 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.close-photo-modal {
+  position: absolute;
+  top: 14px; right: 18px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #888;
+  cursor: pointer;
+}
+.photo-drop-area {
+  width: 100%;
+  min-height: 220px;
+  border: 2px dashed #e0e0e0;
+  border-radius: 16px;
+  background: #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0 18px 0;
+}
+.photo-preview-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.photo-preview {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.photo-preview-center {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px;
+}
+.photo-drop-text {
+  font-size: 16px;
+  color: #444;
+  text-align: center;
+}
+.photo-browse {
+  color: #0070f3;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 4px;
+}
+@media (max-width: 600px) {
+  .profile-photo-modal-content {
+    max-width: 98vw;
+    padding: 18px 8px;
+  }
+  .photo-drop-area {
+    min-height: 140px;
+    padding: 18px 0 10px 0;
+  }
+  .photo-preview-list {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .photo-preview {
+    width: 38px;
+    height: 38px;
+  }
+  .photo-preview-center {
+    width: 54px;
+    height: 54px;
+    font-size: 32px;
+  }
+  .photo-drop-text {
+    font-size: 14px;
+  }
+}
+</style>
+
+<script>
+// Open modal on Add Photo click
+document.querySelector('.profile-photo').onclick = function() {
+  document.getElementById('profilePhotoModal').style.display = 'flex';
+};
+// Close modal
+document.querySelector('.close-photo-modal').onclick = function() {
+  document.getElementById('profilePhotoModal').style.display = 'none';
+};
+// Browse click opens file input
+document.querySelector('.photo-browse').onclick = function() {
+  document.getElementById('photoInput').click();
+};
+// Optional: handle file input change
+document.getElementById('photoInput').onchange = function(e) {
+  // You can add preview logic here if needed
+};
+</script>
+ <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/8f3b2e0e2a.js" crossorigin="anonymous"></script>
+  <!-- SwiperJS for slider -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</body>
+
+</html>

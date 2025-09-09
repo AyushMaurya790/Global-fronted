@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continents API Test - Globe Angel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .api-response {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        .continent-item {
+            background: #e9ecef;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .loading {
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Continents API Integration Test</h1>
+        <p>This page demonstrates the integration of the Continents API into Globe Angel's destination dropdown.</p>
+        
+        <div class="test-section">
+            <h2>API Testing</h2>
+            <button class="test-button" onclick="testContinentsAPI()">🔄 Test Continents API</button>
+            <button class="test-button" onclick="clearResults()">🗑️ Clear Results</button>
+            
+            <div id="apiStatus" class="api-response">
+                <strong>Status:</strong> <span id="statusText">Ready to test</span>
+            </div>
+            
+            <div id="apiResults" class="api-response" style="display: none;">
+                <h3>📊 API Response:</h3>
+                <div id="continentsList"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎯 Integration Features</h2>
+            <ul>
+                <li>✅ Fetches continents dynamically from API</li>
+                <li>✅ Updates all destination dropdowns across the website</li>
+                <li>✅ Maintains existing UI design and functionality</li>
+                <li>✅ Provides fallback data if API is unavailable</li>
+                <li>✅ Maps API continent names to existing data-target IDs</li>
+                <li>✅ Handles errors gracefully</li>
+                <li>✅ Console logging for debugging</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>📋 Files Updated</h2>
+            <ul>
+                <li>📄 index.html</li>
+                <li>📄 about-us.html</li>
+                <li>📄 asiacup.html</li>
+                <li>📄 business.html</li>
+                <li>📄 celebration.html</li>
+                <li>📄 tourpakages.html</li>
+                <li>📄 sky.html</li>
+                <li>📄 sports.html</li>
+                <li>📄 Voyages.html</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function testContinentsAPI() {
+            const statusText = document.getElementById('statusText');
+            const apiResults = document.getElementById('apiResults');
+            const continentsList = document.getElementById('continentsList');
+            
+            // Show loading state
+            statusText.innerHTML = '<span class="loading">🔄 Testing API...</span>';
+            apiResults.style.display = 'none';
+            
+            try {
+                // Fetch continents from API
+                const response = await fetch('http://globe.ridealmobility.com/api/continents');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const continents = await response.json();
+                
+                // Show success status
+                statusText.innerHTML = `<span class="success">✅ API Success! Retrieved ${continents.length} continents</span>`;
+                
+                // Display results
+                continentsList.innerHTML = '';
+                continents.forEach((continent, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'continent-item';
+                    div.innerHTML = `
+                        <strong>${index + 1}. ${continent.name}</strong><br>
+                        <small>ID: ${continent._id}</small>
+                    `;
+                    continentsList.appendChild(div);
+                });
+                
+                apiResults.style.display = 'block';
+                
+            } catch (error) {
+                console.error('API Test Error:', error);
+                statusText.innerHTML = `<span class="error">❌ API Error: ${error.message}</span>`;
+                apiResults.style.display = 'none';
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('statusText').textContent = 'Ready to test';
+            document.getElementById('apiResults').style.display = 'none';
+        }
+        
+        // Automatically test the API when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('API Test page loaded');
+            // Auto-test after 1 second
+            setTimeout(testContinentsAPI, 1000);
+        });
+    </script>
+</body>
+</html>

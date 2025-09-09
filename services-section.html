@@ -1,0 +1,346 @@
+<!-- Five Services Layout Section -->
+<section class="section-services">
+    <div class="glob-services-container">
+        <div class="glob-services" style="display: flex; width: 100%; height: 100vh; position: relative; background-image: url('./images/bm1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; transition: background-image 0.5s ease; background-attachment: scroll;">            <div class="glob-service-item" data-bg="1">
+                <div class="glob-service-text">GROWTH<br>OPPORTUNITY</div>
+                <div class="glob-service-description">Tap into India's economic momentum with 6-7% annual growth. Strategic market entry for lasting business expansion.</div>
+            </div>
+            <div class="glob-service-item" data-bg="2">
+                <div class="glob-service-text">DIVERSE<br>DEMOGRAPHICS</div>
+                <div class="glob-service-description">Access 1.4 billion potential customers across multiple segments. From urban professionals to rural markets.</div>
+            </div>
+            <div class="glob-service-item" data-bg="3">
+                <div class="glob-service-text">THE<br>ASPIRING<br>INDIAN</div>
+                <div class="glob-service-description">Connect with a young, ambitious population eager for quality goods and services. Rising middle class with increasing disposable income.</div>
+            </div>
+            <div class="glob-service-item" data-bg="4">
+                <div class="glob-service-text">TECH<br>SAVVY</div>
+                <div class="glob-service-description">Leverage India's digital transformation with 800M+ internet users. Mobile-first market with rapid e-commerce growth.</div>
+            </div>
+            <div class="glob-service-item" data-bg="5">
+                <div class="glob-service-text">THE<br>INDIA<br>STORY<br><span class="glob-plus-icon">+</span></div>
+                <div class="glob-service-description">Partner with local expertise to navigate complex market dynamics. Custom solutions for successful market entry and expansion.</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile version (only visible on small screens) -->
+    <div class="container d-md-none py-3">
+        <div class="row glob-mobile-services">
+            <div class="col-12 mb-4">
+                <div class="glob-service-mobile-card" style="background-image: url('./images/bm1.webp');" data-bg="1">
+                    <div class="glob-service-text">GROWTH<br>OPPORTUNITY</div>
+                    <div class="glob-service-description">Tap into India's economic momentum with 6-7% annual growth. Strategic market entry for lasting business expansion.</div>
+                </div>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="glob-service-mobile-card" style="background-image: url('./images/bm2.webp');" data-bg="2">
+                    <div class="glob-service-text">DIVERSE<br>DEMOGRAPHICS</div>
+                    <div class="glob-service-description">Access 1.4 billion potential customers across multiple segments. From urban professionals to rural markets.</div>
+                </div>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="glob-service-mobile-card" style="background-image: url('./images/bm3.webp');" data-bg="3">
+                    <div class="glob-service-text">THE<br>ASPIRING<br>INDIAN</div>
+                    <div class="glob-service-description">Connect with a young, ambitious population eager for quality goods and services. Rising middle class with increasing disposable income.</div>
+                </div>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="glob-service-mobile-card" style="background-image: url('./images/bm1.webp');" data-bg="4">
+                    <div class="glob-service-text">TECH<br>SAVVY</div>
+                    <div class="glob-service-description">Leverage India's digital transformation with 800M+ internet users. Mobile-first market with rapid e-commerce growth.</div>
+                </div>
+            </div>
+            <div class="col-12 mb-4">
+                <div class="glob-service-mobile-card" style="background-image: url('./images/bm2.webp');" data-bg="5">
+                    <div class="glob-service-text">THE<br>INDIA<br>STORY<br><span class="glob-plus-icon">+</span></div>
+                    <div class="glob-service-description">Partner with local expertise to navigate complex market dynamics. Custom solutions for successful market entry and expansion.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- CSS for Services Section -->
+<style>
+    .glob-services-container {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+    }    
+    
+    .glob-service-item {
+        flex: 1;
+        position: relative;
+        border-right: 1px solid rgba(255,255,255,0.3);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding: 20px;
+        z-index: 2;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    .glob-service-item:last-child { border-right: none; }
+    
+    /* Mobile styles for services section */
+    @media (max-width: 768px) {
+        .glob-services-container {
+            display: none; /* Hide the desktop version */
+        }
+        
+        .glob-service-mobile-card {
+            height: 200px;
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .glob-service-mobile-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%);
+            z-index: 1;
+        }
+        
+        .glob-service-mobile-card[data-bg="1"]::after,
+        .glob-service-mobile-card[data-bg="2"]::after,
+        .glob-service-mobile-card[data-bg="5"]::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(233, 142, 111, 0.4);
+            z-index: 1;
+        }
+        
+        .glob-service-mobile-card[data-bg="3"]::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(140, 85, 69, 0.5);
+            z-index: 1;
+        }
+        
+        .glob-service-mobile-card[data-bg="4"]::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(72, 109, 149, 0.4);
+            z-index: 1;
+        }
+        
+        .glob-service-mobile-card .glob-service-text {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+        
+        .glob-service-mobile-card .glob-service-description {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+            transform: translateY(20px);
+            color: white;
+            font-size: 14px;
+            line-height: 1.4;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+            padding-top: 10px;
+            width: 100%;
+        }
+        
+        .glob-service-mobile-card.tapped .glob-service-text {
+            transform: translateY(-10px);
+        }
+        
+        .glob-service-mobile-card.tapped .glob-service-description {
+            opacity: 1;
+            max-height: 200px;
+            transform: translateY(0);
+        }
+        
+        .glob-service-mobile-card:active,
+        .glob-service-mobile-card.tapped {
+            transform: scale(0.98);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            height: auto;
+            min-height: 250px;
+            background-position: top center;
+        }
+        
+        .glob-service-mobile-card.touch-active {
+            transform: scale(0.97);
+        }
+    }
+    
+    /* Hide mobile cards on desktop */
+    @media (min-width: 769px) {
+        .glob-mobile-services {
+            display: none;
+        }
+    }
+    
+    /* Color overlays for each section - matching the image */
+    .glob-service-item:nth-child(1) {
+        background-color: rgba(233, 142, 111, 0.5); /* Light orange */
+    }
+    
+    .glob-service-item:nth-child(2) {
+        background-color: rgba(233, 142, 111, 0.5); /* Light orange */
+    }
+    
+    .glob-service-item:nth-child(3) {
+        background-color: rgba(140, 85, 69, 0.6); /* Brown */
+    }
+    
+    .glob-service-item:nth-child(4) {
+        background-color: rgba(72, 109, 149, 0.4); /* Blue */
+    }
+    
+    .glob-service-item:nth-child(5) {
+        background-color: rgba(233, 142, 111, 0.5); /* Light orange */
+    }    
+    
+    /* Text style */
+    .glob-service-text {
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        line-height: 1.3;
+        z-index: 2;
+        position: relative;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+        transition: transform 0.3s ease, height 0.3s ease;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+    }
+    
+    .glob-service-item:hover .glob-service-text { transform: translateY(-10px); }
+    
+    .glob-service-description {
+        color: white;
+        font-size: 14px;
+        line-height: 1.4;
+        z-index: 2;
+        position: relative;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+        transform: translateY(20px);
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+        padding-top: 5px;
+    }
+    
+    .glob-service-item:hover .glob-service-description {
+        opacity: 1;
+        max-height: 150px;
+        transform: translateY(0);
+    }
+    
+    /* Plus icon */
+    .glob-plus-icon {
+        font-size: 30px;
+        font-weight: bold;
+        margin-top: 10px;
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Hover effects for sections */
+    .glob-service-item {
+        position: relative;
+        transition: background-color 0.3s ease;
+    }
+    
+    .glob-services:hover .glob-service-item {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Service with active class */
+    .glob-service-item.glob-active {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<!-- JavaScript for Services Section -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const serviceItems = document.querySelectorAll('.glob-service-item');
+    const servicesContainer = document.querySelector('.glob-services');
+    
+    // Set the first service as active by default
+    serviceItems[0].classList.add('glob-active');
+    
+    // Store the default background
+    const defaultBg = window.getComputedStyle(servicesContainer).backgroundImage;
+    
+    serviceItems.forEach((serviceItem, index) => {
+        // Set default background image for the first service
+        if (index === 0) {
+            servicesContainer.style.backgroundImage = `url('./images/bm1.webp')`;
+        }
+        
+        serviceItem.addEventListener('mouseenter', function() {
+            const bgNum = this.getAttribute('data-bg');
+            // Store reference to current element
+            const currentElement = this;
+            
+            // Apply immediate color change to ALL sections
+            serviceItems.forEach(s => s.classList.add('glob-active'));
+            
+            // Delay background image change for smooth transition
+            setTimeout(() => {
+                if (bgNum === '1') {
+                    servicesContainer.style.backgroundImage = 'url("./images/bm1.webp")';
+                } else if (bgNum === '2') {
+                    servicesContainer.style.backgroundImage = 'url("./images/bm2.webp")';
+                } else if (bgNum === '3') {
+                    servicesContainer.style.backgroundImage = 'url("./images/bm3.webp")';
+                } else if (bgNum === '4') {
+                    servicesContainer.style.backgroundImage = 'url("./images/bm1.webp")';
+                } else if (bgNum === '5') {
+                    servicesContainer.style.backgroundImage = 'url("./images/bm2.webp")';
+                }
+            }, 200); // 200ms delay for smooth transition
+        });
+    });
+    
+    // Add event listener for mouseleave on the entire services container
+    servicesContainer.addEventListener('mouseleave', function() {
+        // Remove active class from all services when mouse leaves the entire container
+        serviceItems.forEach(s => s.classList.remove('glob-active'));
+    });
+});
+</script>

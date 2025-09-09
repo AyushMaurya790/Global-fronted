@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signature Luxury Experiences</title>
+  <!-- Swiper CSS (latest v11) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<div id="planes"></div>
+
+  <!-- Swiper JS (latest v11) -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #faf8f6;
+    }
+
+    .luxury-section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 20px;
+      display: flex;
+      gap: 50px;
+    }
+
+    /* LEFT TEXT */
+    .luxury-left {
+      flex: 0 0 220px;
+    }
+
+    .luxury-left .signature {
+      font-family: "Brush Script MT", cursive;
+      font-size: 28px;
+      color: #444;
+      margin-bottom: 8px;
+    }
+
+    .luxury-left .subtitle {
+      font-size: 26px;
+      font-weight: 600;
+      color: #111;
+    }
+
+    /* GRID */
+    .luxury-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 300px 300px 200px;
+      gap: 18px;
+    }
+
+    .luxury-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .luxury-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .luxury-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .luxury-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px;
+      color: #fff;
+      background: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0));
+    }
+
+    .luxury-overlay h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    .luxury-overlay p {
+      font-size: 13px;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* FIXED LAYOUT */
+    .luxury-item:nth-child(1) {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+    }
+
+    .luxury-item:nth-child(2) {
+      grid-column: 2 / 4;
+      grid-row: 1 / 3;
+    }
+
+    .luxury-item:nth-child(3) {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+    }
+
+    .luxury-item:nth-child(4) {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+    }
+
+    .luxury-item:nth-child(5) {
+      grid-column: 3 / 4;
+      grid-row: 3 / 4;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      .luxury-section {
+        flex-direction: column;
+      }
+      .luxury-left {
+        text-align: center;
+      }
+      .luxury-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .luxury-item:nth-child(1),
+      .luxury-item:nth-child(2) {
+        grid-column: span 2;
+        grid-row: auto;
+        height: 280px;
+      }
+      .luxury-item:nth-child(3),
+      .luxury-item:nth-child(4),
+      .luxury-item:nth-child(5) {
+        height: 200px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .luxury-grid {
+        grid-template-columns: 1fr;
+      }
+      .luxury-item {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        height: 220px !important;
+      }
+    }
+
+    .privileged-card {
+      position: relative;
+      border-radius: 0;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      background: #fff;
+      height: 280px;
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      align-items: flex-end;
+      margin: auto;
+      transition: margin-top 0.3s;
+    }
+    .privileged-card-up {
+      margin-top: -40px;
+    }
+    .privileged-card-down {
+      margin-top: 40px;
+    }
+    .privileged-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .privileged-overlay {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 18px 20px 14px 20px;
+      background: linear-gradient(0deg,rgba(0,0,0,0.65) 80%,rgba(0,0,0,0.01) 100%);
+      color: #fff;
+      width: 100%;
+    }
+    .privileged-overlay h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+    .privileged-overlay p {
+      font-size: 15px;
+      margin: 0;
+      color: #ffe27a;
+      font-weight: 500;
+    }
+    .privileged-heading {
+      font-family: 'Montserrat', Arial, sans-serif;
+      letter-spacing: 0.5px;
+    }
+    .privileged-section {
+      position: relative;
+      background: #faf8f6;
+      padding: 60px 0;
+    }
+    .privileged-section .swiper {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      position: relative;
+      padding: 40px 0; /* Space for buttons */
+    }
+    .privileged-section .swiper-button-prev,
+    .privileged-section .swiper-button-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      width: 40px;
+      height: 40px;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .privileged-section .swiper-button-prev {
+      left: 0;
+    }
+    .privileged-section .swiper-button-next {
+      right: 0;
+    }
+    .privileged-section .swiper-button-prev:after,
+    .privileged-section .swiper-button-next:after {
+      font-size: 22px;
+    }
+    @media (max-width: 900px) {
+      .privileged-section .swiper {
+        padding: 24px 0;
+      }
+      .privileged-card {
+        height: 180px;
+        max-width: 90vw;
+      }
+      .privileged-section .swiper-button-prev,
+      .privileged-section .swiper-button-next {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .privileged-section .swiper {
+        padding: 24px 0;
+      }
+      .privileged-card {
+        height: 180px;
+        max-width: 90vw;
+        min-width: 80vw;
+        width: 90vw;
+        margin: auto;
+      }
+      .privileged-section .swiper-button-prev,
+      .privileged-section .swiper-button-next {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+        top: 100px; /* vertical center for mobile card height */
+        transform: translateY(0);
+      }
+    }
+
+    /* Additional styles for privileged cards layout */
+    .privileged-card-up {
+      transform: translateY(-10px);
+      transition: transform 0.3s ease;
+    }
+    .privileged-card-down {
+      transform: translateY(10px);
+      transition: transform 0.3s ease;
+    }
+
+    /* Force Swiper slides to be horizontal */
+    .privilegedSwiper .swiper-wrapper {
+      flex-direction: row !important;
+    }
+    .privilegedSwiper .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      height: auto !important;
+    }
+
+    /* Pop-up container */
+    #bookingPopup {
+      display:none;
+      position:fixed;
+      bottom:32px;
+      left:32px;
+      z-index:9999;
+      background:#1a2233;
+      color:#fff;
+      border-radius:12px;
+      box-shadow:0 4px 24px rgba(0,0,0,0.18);
+      min-width:240px;
+      max-width:320px;
+      font-family:'Montserrat',Arial,sans-serif;
+      overflow:hidden;
+    }
+    #bookingPopup .popup-content {
+      display:flex;
+      align-items:center;
+      padding:10px;
+    }
+    #bookingPopup img {
+      width:60px;
+      height:48px;
+      object-fit:cover;
+      border-radius:8px 0 0 8px;
+      margin-right:10px;
+    }
+    #bookingPopup .popup-details {
+      flex:1;
+      padding:10px 10px 10px 0;
+    }
+    #bookingPopup .popup-details .guest-booked {
+      font-size:13px;
+      color:#ffe27a;
+      font-weight:500;
+    }
+    #bookingPopup .popup-details .experience-title {
+      font-size:16px;
+      font-weight:600;
+      margin:2px 0;
+    }
+    #bookingPopup .popup-details .experience-meta {
+      font-size:13px;
+      color:#cfd8e3;
+    }
+    #bookingPopup .popup-close {
+      background:none;
+      border:none;
+      color:#fff;
+      font-size:18px;
+      cursor:pointer;
+      margin-left:8px;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="luxury-section">
+    <!-- LEFT TITLE -->
+    <div class="luxury-left">
+      <div class="signature">Signature</div>
+      <div class="subtitle">Luxury Experiences</div>
+    </div>
+
+    <!-- RIGHT GRID -->
+    <div class="luxury-grid">
+      <!-- Item 1 -->
+      <div class="luxury-item">
+        <img src="your-image1.jpg" alt="">
+        <div class="luxury-overlay">
+          <h3>Luxury Wellness in the Snow</h3>
+          <p>Unwind in hot spring spas, igloos, or designer escapes — Arctic TreeHouse Hotel or Kakslauttanen.</p>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="luxury-item">
+        <img src="your-image2.jpg" alt="">
+        <div class="luxury-overlay">
+          <h3>Stay in a Glass Igloo in Lapland</h3>
+          <p>Sleep under a starry Arctic sky in your own thermal glass dome — ideal for honeymooners and dreamers alike.</p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="luxury-item">
+        <img src="your-image3.jpg" alt="">
+        <div class="luxury-overlay">
+          <h3>Chartered Adventures</h3>
+          <p>Enjoy helicopter rides, fly-fishing in crystal-clear lakes, or ski tours — all privately guided.</p>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="luxury-item">
+        <img src="your-image4.jpg" alt="">
+        <div class="luxury-overlay">
+          <h3>Fine Dining at the Edge of the Arctic Circle</h3>
+          <p>Dine on fresh king crab, cloudberries, and reindeer in candlelit Sami huts surrounded by snowy silence.</p>
+        </div>
+      </div>
+
+      <!-- Item 5 -->
+      <div class="luxury-item">
+        <img src="your-image5.jpg" alt="">
+        <div class="luxury-overlay">
+          <h3>Aurora Borealis by Private Sleigh</h3>
+          <p>Avoid the crowds — chase the Northern Lights with a local expert on your personal snowmobile or reindeer sled.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="privileged-section" style="background: #fff; padding: 60px 0;">
+    <div class="container" style="max-width:1200px; margin:auto;">
+      <h2 class="privileged-heading" style="font-size:32px; font-weight:700; margin-bottom:32px; color:#222;">
+        Privileged Experiences
+      </h2>
+      <div class="swiper privilegedSwiper">
+        <div class="swiper-wrapper">
+          <!-- Card 1: Lower -->
+          <div class="swiper-slide">
+            <div class="privileged-card privileged-card-down">
+              <img src="./images/pretrainImg.webp" alt="">
+              <div class="privileged-overlay">
+                <h3>train journey - Helsinki to Lapland in First Class</h3>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2: Higher -->
+          <div class="swiper-slide">
+            <div class="privileged-card privileged-card-up">
+              <img src="./images/preimg2.jpg" alt="">
+              <div class="privileged-overlay">
+                <h3>Day trip to Santa Claus Village with VIP access</h3>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3: Lower -->
+          <div class="swiper-slide">
+            <div class="privileged-card privileged-card-down">
+              <img src="./images/preimg3.jpg" alt="">
+              <div class="privileged-overlay">
+                <h3>Private chauffeur for Helsinki sightseeing</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <div class="privileged-card privileged-card-down">
+              <img src="./images/preimg4.jpg" alt="">
+              <div class="privileged-overlay">
+                <h3>Personal Aurora photographer</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <div class="privileged-card privileged-card-down">
+              <img src="./images/preimg5.jpg" alt="">
+              <div class="privileged-overlay">
+                <h3>Luxury Icebreaker Cruise transfers</h3>
+              </div>
+            </div>
+          </div>
+          <!-- Add more cards as needed -->
+        </div>
+        <!-- Navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pop-up container -->
+  <div id="bookingPopup" style="display:none; position:fixed; bottom:32px; left:32px; z-index:9999; background:#6C6C6C; color:#fff; border-radius:12px; box-shadow:0 4px 24px rgba(0,0,0,0.18); min-width:240px; max-width:320px; font-family:'Montserrat',Arial,sans-serif; overflow:hidden;">
+    <div style="display:flex; align-items:center;">
+      <img id="popupImg" src="" alt="" style="width:60px; height:48px; object-fit:cover; border-radius:8px 0 0 8px; margin-right:10px;">
+      <div style="flex:1; padding:10px 10px 10px 0;">
+        <div style="font-size:13px; color:#F56922; font-weight:500;">1 guest just booked!</div>
+        <div id="popupTitle" style="font-size:16px; font-weight:600; margin:2px 0 2px 0;">Best Of South Africa</div>
+        <div style="font-size:13px; color:#cfd8e3;">
+          <span id="popupTime">Just Now</span> &bull; <span id="popupCity">Pune</span>
+        </div>
+      </div>
+      <button id="popupClose" style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer; margin-right:8px;">&times;</button>
+    </div>
+  </div>
+
+<style>
+  .flight-section {
+    margin: 50px auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flight-section .map-container {
+    position: relative;
+    width: 95vw;
+    max-width: 1200px;
+    aspect-ratio: 16/9;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/0/01/Blank-map-world-iceless-Greenland.png') no-repeat center/contain;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.12);
+  }
+
+  /* SVG for routes */
+  .flight-section svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .flight-section line {
+    stroke: orange;
+    stroke-width: 1.5;
+    opacity: 0.7;
+  }
+
+  /* Origin: India */
+  .flight-section .india {
+    position: absolute;
+    top: 48%;
+    left: 67%;
+    width: 12px;
+    height: 12px;
+    background: orange;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px orange;
+    border: 2px solid #fff;
+  }
+  .flight-section .india::after {
+    content: "India";
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-weight: bold;
+    background: rgba(255,255,255,0.95);
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #222;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    white-space: nowrap;
+  }
+
+  /* Destination markers */
+  .flight-section .marker {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: orange;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px orange;
+    border: 2px solid #fff;
+    cursor: pointer;
+  }
+
+  /* Labels hidden by default */
+  .flight-section .marker::after {
+    content: attr(data-name);
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-weight: bold;
+    background: rgba(255,255,255,0.95);
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #222;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .flight-section .marker:hover::after {
+    opacity: 1;
+  }
+
+  /* Plane styling */
+  .flight-section .plane {
+    position: absolute;
+    top: 47%;
+    left: 66.5%;
+    width: 24px;   /* size fix */
+    height: 24px;  /* size fix */
+    opacity: 0;
+    animation: fly 12s linear forwards;
+    filter: drop-shadow(0 0 4px rgba(0,0,0,0.3));
+    display: flex;               /* fix */
+    justify-content: center;     /* fix */
+    align-items: center;         /* fix */
+    transform-origin: center;    /* fix */
+  }
+
+  .plane svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  @keyframes fly {
+    0%   { transform: translate(0,0) rotate(var(--angle)); opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { transform: translate(var(--dx), var(--dy)) rotate(var(--angle)); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) rotate(var(--angle)); opacity: 0; }
+  }
+</style>
+
+<section class="flight-section">
+  <div class="map-container">
+    <!-- SVG flight paths -->
+    <svg id="routes"></svg>
+
+    <!-- India -->
+    <div class="india" id="india"></div>
+
+    <!-- Destinations -->
+    <div class="marker" style="top:24%; left:23%;" data-name="Canada" id="canada"></div>
+    <div class="marker" style="top:33%; left:28%;" data-name="USA" id="usa"></div>
+    <div class="marker" style="top:32%; left:35%;" data-name="UK" id="uk"></div>
+    <div class="marker" style="top:72%; left:78%;" data-name="Australia" id="australia"></div>
+    <div class="marker" style="top:32%; left:41%;" data-name="Germany" id="germany"></div>
+    <div class="marker" style="top:52%; left:54%;" data-name="UAE" id="uae"></div>
+    <div class="marker" style="top:22%; left:66%;" data-name="Russia" id="russia"></div>
+    <div class="marker" style="top:35%; left:64%;" data-name="Kazakhstan" id="kazakhstan"></div>
+    <div class="marker" style="top:38%; left:61%;" data-name="Kyrgyzstan" id="kyrgyzstan"></div>
+    <div class="marker" style="top:40%; left:58%;" data-name="Georgia" id="georgia"></div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const india = {x:67, y:48}; // India’s reference point in %
+    const destinations = [
+      {id:"canada"},
+      {id:"usa"},
+      {id:"uk"},
+      {id:"australia"},
+      {id:"germany"},
+      {id:"uae"},
+      {id:"russia"},
+      {id:"kazakhstan"},
+      {id:"kyrgyzstan"},
+      {id:"georgia"},
+    ];
+
+    // Orange plane SVG icons
+    const planeIcons = [
+      `<svg xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 640 512" width="20" height="20">
+        <path d="M480 192h-88.2L232 32h-72l88.2 160H160L96 96H32l64 128-64 128h64l64-96h88.2L160 480h72l159.8-160H480c26.5 0 48-21.5 48-48s-21.5-48-48-48z"/>
+      </svg>`,
+      `<svg xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 640 512" width="20" height="20">
+        <path d="M480 192h-88.2L232 32h-72l88.2 160H160L96 96H32l64 128-64 128h64l64-96h88.2L160 480h72l159.8-160H480c26.5 0 48-21.5 48-48s-21.5-48-48-48z"/>
+      </svg>`
+    ];
+
+    const container = document.querySelector('.flight-section .map-container');
+    const svg = document.getElementById("routes");
+
+    // Draw routes
+    function drawRoutes() {
+      svg.innerHTML = ""; // clear old
+      const rect = container.getBoundingClientRect();
+
+      destinations.forEach(dest => {
+        const marker = document.getElementById(dest.id);
+        const top = parseFloat(marker.style.top);
+        const left = parseFloat(marker.style.left);
+
+        const x1 = india.x/100 * rect.width;
+        const y1 = india.y/100 * rect.height;
+        const x2 = left/100 * rect.width;
+        const y2 = top/100 * rect.height;
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+        line.setAttribute("x1", x1);
+        line.setAttribute("y1", y1);
+        line.setAttribute("x2", x2);
+        line.setAttribute("y2", y2);
+        svg.appendChild(line);
+      });
+    }
+
+    function launchPlanes() {
+      destinations.forEach(dest => {
+        const marker = document.getElementById(dest.id);
+        const rect = container.getBoundingClientRect();
+
+        const top = parseFloat(marker.style.top);
+        const left = parseFloat(marker.style.left);
+
+        const dx = (left - india.x) * rect.width / 100;
+        const dy = (top - india.y) * rect.height / 100;
+
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+        const plane = document.createElement("div");
+        plane.className = "plane";
+        plane.innerHTML = planeIcons[Math.floor(Math.random()*planeIcons.length)];
+        plane.style.setProperty("--dx", dx + "px");
+        plane.style.setProperty("--dy", dy + "px");
+        plane.style.setProperty("--angle", angle + "deg");
+
+        container.appendChild(plane);
+
+        setTimeout(() => plane.remove(), 12000);
+      });
+    }
+
+    drawRoutes();
+    launchPlanes();
+    setInterval(launchPlanes, 10000); // every 10s new flights
+    window.addEventListener("resize", drawRoutes);
+  })();
+</script>
+
+
+ 
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    new Swiper('.privilegedSwiper', {
+      slidesPerView: 1, // Default: 1 card on mobile
+      spaceBetween: 24,
+      loop: true,
+      navigation: {
+        nextEl: '.privileged-section .swiper-button-next',
+        prevEl: '.privileged-section .swiper-button-prev',
+      },
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false
+      },
+      breakpoints: {
+        700: { slidesPerView: 2, spaceBetween: 28 },
+        1100: { slidesPerView: 3, spaceBetween: 32 }
+      }
+    });
+  });
+
+  const popupData = [
+    {
+      title: "Best Of South Africa",
+      img: "./images/southafrica.jpg",
+      city: "Pune"
+    },
+    {
+      title: "Best Of New Zealand",
+      img: "./images/newzealand.jpg",
+      city: "Delhi"
+    },
+    {
+      title: "Best Of Switzerland",
+      img: "./images/switzerland.jpg",
+      city: "Mumbai"
+    },
+    {
+      title: "Best Of Finland",
+      img: "./images/finland.jpg",
+      city: "Bangalore"
+    },
+    {
+      title: "Best Of Japan",
+      img: "./images/japan.jpg",
+      city: "Hyderabad"
+    }
+  ];
+
+  let popupIndex = 0;
+  let popupTimer = null;
+
+  function showBookingPopup() {
+    // Randomize index for next popup
+    popupIndex = Math.floor(Math.random() * popupData.length);
+    const data = popupData[popupIndex];
+    document.getElementById('popupImg').src = data.img;
+    document.getElementById('popupTitle').textContent = data.title;
+    document.getElementById('popupCity').textContent = data.city;
+    document.getElementById('popupTime').textContent = "Just Now";
+    document.getElementById('bookingPopup').style.display = "block";
+
+    // Hide after 3 seconds
+    setTimeout(() => {
+      document.getElementById('bookingPopup').style.display = "none";
+    }, 3000);
+  }
+
+  // Show popup every 5 seconds
+  popupTimer = setInterval(showBookingPopup, 5000);
+
+  // Close button
+  document.getElementById('popupClose').onclick = function() {
+    document.getElementById('bookingPopup').style.display = "none";
+  };
+  </script>
+
+</body>
+</html>

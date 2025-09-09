@@ -1,0 +1,4194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Globengel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Font Awesome CDN for icons (if not already included) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<!-- Leaflet CSS for Interactive Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Leaflet JS for Interactive Map -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+
+ <link rel="stylesheet" href="./CSS/style.css">
+ <link rel="stylesheet" href="./CSS/group-cards.css">
+ <style>
+   .hero-section {
+     background: url('../images/itieneary.jpg') no-repeat center center/cover;
+   }
+   .cj-card{
+    width: 345px!important;
+   }
+ </style>
+ <style>
+.luxury-secondary-navbar {
+  width: 100%;
+  background: #6b6b6b;
+  padding: 0;
+  margin: 0 0 18px 0;
+  border-bottom: 3px solid #fff;
+  z-index: 1002;
+  position: relative;
+}
+.luxury-secondary-navbar ul {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 18px;
+  height: 56px;
+  align-items: center;
+  margin-left: 20px;
+}
+.luxury-secondary-navbar li {
+  display: flex;
+  align-items: center;
+  height: 56px;
+}
+.luxury-secondary-navbar a {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  transition: background 0.2s, color 0.2s;  
+}
+.luxury-secondary-navbar a:hover,
+.luxury-secondary-navbar a.active {
+  background: #595959;
+  color: #ffd900;
+}
+@media (max-width: 991px) {
+  .luxury-secondary-navbar {
+    display: none !important;
+  }
+}
+.luxury-secondary-navbar.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  z-index: 1030;
+}
+body.sticky-secondary-navbar-active {
+  padding-top: 56px; /* Height of your secondary navbar */
+}
+@media (max-width: 991px) {
+  .luxury-secondary-navbar {
+    display: none !important;
+  }
+  body.sticky-secondary-navbar-active {
+    padding-top: 0 !important;
+  }
+}
+</style>
+<style>
+/* Fix dropdown z-index to appear above secondary navbar */
+.mega-menu {
+  z-index: 1040 !important; /* Higher than secondary navbar's 1030 */
+}
+
+.destinations-menu,
+.itinerary-menu,
+.group-menu {
+  z-index: 1040 !important;
+}
+
+/* Ensure dropdown appears above sticky secondary navbar */
+.navbar .dropdown:hover .mega-menu,
+.navbar .dropdown.show .mega-menu {
+  z-index: 1040 !important;
+}
+
+/* Additional fix for any other dropdowns */
+.navbar .nav-item.dropdown .mega-menu {
+  z-index: 1040 !important;
+}
+
+.luxury-secondary-navbar {
+  width: 100%;
+  background: #6b6b6b;
+  padding: 0;
+  margin: 0 0 18px 0;
+  border-bottom: 3px solid #fff;
+  z-index: 1002;
+  position: relative;
+}
+
+.luxury-secondary-navbar.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  z-index: 1030; /* Keep this lower than dropdown z-index */
+}
+</style>
+<style>
+@media (max-width: 700px) {
+  .cj-carousel-flex {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+  .cj-carousel-logo {
+    margin-bottom: 10px !important;
+    max-width: 120px !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .cj-carousel-logo img {
+    width: 80px !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+  .cj-carousel-box {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
+  }
+}
+</style>
+<style>
+@media (max-width: 700px) {
+  .cj-carousel-logo {
+    max-width: 120px !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto 10px auto !important;
+    height: 180px !important; /* Desktop jaisi height */
+  }
+  .cj-carousel-logo img {
+    width: 80px !important;
+    max-width: 100% !important;
+    height: 180px !important; /* Desktop jaisi height */
+    object-fit: contain !important;
+    margin: 0 auto !important;
+    display: block !important;
+  }
+  .cj-card img {
+    height: 180px !important; /* Desktop jaisi height */
+    object-fit: cover !important;
+  }
+}
+</style>
+<style>
+.luxury-summary-card {
+  background: #f8f9fb;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(35,74,151,0.08);
+  /* padding: 28px 24px 20px 24px; */
+  width: 100%;
+  max-width: 370px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  margin: 0 auto;
+  border: 1px solid #e5e7eb;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+.luxury-summary-card h4 {
+  font-size: 1.18rem;
+  font-weight: 700;
+  /* margin-bottom: 18px; */
+  color: #234a97;
+  letter-spacing: 0.5px;
+}
+.luxury-form-row {
+  /* margin-bottom: 18px; */
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.luxury-form-row label {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #444;
+  /* margin-bottom: 2px; */
+}
+.luxury-radio-group {
+  display: flex;
+  gap: 24px;
+  margin-top: 4px;
+}
+.luxury-radio-group label {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #234a97;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.luxury-radio-group input[type="radio"] {
+  accent-color: #234a97;
+  width: 18px;
+  height: 18px;
+}
+.luxury-date {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #234a97;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.luxury-emi {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+.luxury-link {
+  font-size: 0.98rem;
+  color: #234a97;
+  text-decoration: underline;
+  margin-right: 12px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.luxury-link:hover {
+  color: #f16722;
+}
+.luxury-price {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f16722;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+.luxury-price-note {
+  font-size: 0.92rem;
+  color: #444;
+  font-weight: 400;
+  display: block;
+  margin-top: 2px;
+}
+.luxury-form-row.luxury-contact-row {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.luxury-phone {
+  font-weight: 700;
+  color: #234a97;
+  font-size: 1.08rem;
+  text-decoration: none;
+}
+.luxury-enquire-btn {
+  width: 100%;
+  background: #234a97;
+  color: #fff;
+  font-size: 1.12rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(35,74,151,0.08);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.luxury-enquire-btn:hover {
+  background: #f16722;
+}
+.luxury-summary-card hr {
+  border: none;
+  border-top: 1px dashed #d1d5db;
+  margin: 16px 0;
+}
+@media (max-width: 900px) {
+  .luxury-summary-card {
+    max-width: 98vw;
+    padding: 18px 8px 14px 8px;
+  }
+}
+</style>
+<style>
+/* Make right card sticky only between itinerary and hotel sections */
+.luxury-summary-card.sticky-summary {
+  position: sticky;
+  top: 90px; /* adjust if your navbar is taller */
+  z-index: 10;
+}
+@media (max-width: 900px) {
+  .luxury-summary-card.sticky-summary {
+    position: static;
+    top: auto;
+  }
+}
+</style>
+<style>
+/* Add this CSS for sticky right card */
+.luxury-summary-card {
+  position: sticky;
+  top: 90px; /* adjust if your navbar is taller */
+  z-index: 10;
+}
+@media (max-width: 900px) {
+  .luxury-summary-card {
+    position: static !important;
+    top: auto !important;
+  }
+}
+</style>
+ <!-- CSS for Services Section -->
+<!-- Add/replace these styles for horizontal scrollable date list -->
+<style>
+.luxury-date-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  scroll-behavior: smooth;
+}
+.luxury-date-box {
+  min-width: 110px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: center;
+  font-family: 'Montserrat', Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(35,74,151,0.07);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  flex-shrink: 0;
+}
+.luxury-date-box.active {
+  border-color: #234a97;
+  box-shadow: 0 4px 16px rgba(35,74,151,0.13);
+}
+.luxury-date-box.green { border-color: #f16722; }
+.luxury-date-box.red { border-color: #a2595a; }
+.luxury-date-box.gray { border-color: #d1d5db; }
+.luxury-date-box .date-top {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #234a97;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.luxury-date-box .price {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #f16722;
+  margin-bottom: 2px;
+}
+.luxury-date-box .seats {
+  font-size: 0.92rem;
+  color: #a2595a;
+  font-weight: 500;
+}
+.luxury-date-list::-webkit-scrollbar {
+  height: 6px;
+  background: #eee;
+}
+.luxury-date-list::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 6px;
+}
+@media (max-width: 700px) {
+  .luxury-date-list {
+    gap: 8px;
+    padding-bottom: 6px;
+  }
+  .luxury-date-box {
+    min-width: 92px;
+    padding: 8px 6px;
+    font-size: 0.98rem;
+  }
+}
+</style>
+<style>
+/* Hotel section mobile: show table row-wise, not column-wise */
+@media (max-width: 700px) {
+  .hotel-table-card {
+    width: 100vw;
+    min-width: 0;
+    max-width: 100vw;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    overflow-x: auto;
+  }
+  .hotel-table-header,
+  .hotel-table-row {
+    display: block;
+    padding: 10px 8px;
+    font-size: 0.98rem;
+    border-radius: 0;
+    background: none;
+    color: #222;
+  }
+  .hotel-table-header > div,
+  .hotel-table-row > div {
+    display: block;
+    width: 100%;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+  }
+  .hotel-table-header > div {
+    color: #234a97;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .hotel-table-row > div {
+    color: #444;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+}
+</style>
+<style>
+/* Booking Summary Card Styles */
+.booking-summary-card {
+  background: #fcf8f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(35,74,151,0.08);
+  border: 1px dashed #d1d5db;
+  width: 400px;
+  /* width: 100%; */
+  font-family: 'Montserrat', Arial, sans-serif;
+  margin: 0 auto;
+  padding: 14px 14px 10px 14px; /* Less padding for compactness */
+  position: relative;
+}
+
+.booking-summary-header {
+  font-size: 1.08rem; /* Smaller font */
+  font-weight: 700;
+  color: #234a97;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.booking-summary-title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #234a97;
+  margin-bottom: 4px;
+}
+
+.booking-summary-meta {
+  font-size: 0.96rem;
+  color: #444;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.booking-summary-category-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.96rem;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.booking-summary-category-row span {
+  min-width: 90px;
+  font-size: 0.96rem;
+}
+
+.booking-summary-category-row label {
+  font-weight: 500;
+  color: #234a97;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.96rem;
+  white-space: nowrap;
+}
+
+.booking-summary-category-row input[type="radio"] {
+  accent-color: #234a97;
+  width: 16px;
+  height: 16px;
+}
+
+.booking-summary-info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.96rem;
+  margin-bottom: 2px;
+  flex-wrap: wrap;
+}
+
+.booking-summary-info-row span {
+  min-width: 90px;
+  font-size: 0.96rem;
+}
+
+.booking-summary-red {
+  color: #d32f2f;
+  font-weight: 700;
+  font-size: 0.96rem;
+}
+
+.booking-summary-price-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.booking-summary-price {
+  color: #f16722;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.booking-summary-per {
+  font-size: 0.96rem;
+  color: #444;
+}
+
+.booking-summary-note {
+  font-size: 0.88rem;
+  color: #444;
+  font-weight: 400;
+}
+
+.booking-summary-link {
+  font-size: 0.92rem;
+  color: #234a97;
+  text-decoration: underline;
+  margin-right: 8px;
+  font-weight: 500;
+  transition: color 0.2s;
+  display: inline-block;
+}
+
+.booking-summary-link:hover {
+  color: #f16722;
+}
+
+.booking-summary-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.98rem;
+  color: #234a97;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.booking-summary-btn {
+  width: 100%;
+  background: #ff7f2a;
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(35,74,151,0.08);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.booking-summary-btn:hover {
+  background: #234a97;
+}
+
+.booking-summary-card hr {
+  border: none;
+  border-top: 1px dashed #d1d5db;
+  margin: 8px 0;
+}
+
+@media (max-width: 900px) {
+  .booking-summary-card {
+    max-width: 98vw;
+    padding: 10px 4px 8px 4px;
+  }
+  .booking-summary-category-row span,
+  .booking-summary-info-row span {
+    min-width: 70px;
+    font-size: 0.92rem;
+  }
+}
+</style>
+<style>
+/* Add this CSS for popup design and color */
+.pricing-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(40,40,40,0.18);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pricing-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 32px rgba(35,74,151,0.13);
+  max-width: 700px;
+  width: 98vw;
+  padding: 24px 24px 18px 24px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  position: relative;
+}
+.pricing-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.pricing-modal-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+.pricing-modal-close {
+  font-size: 1.5rem;
+  color: #444;
+  cursor: pointer;
+  font-weight: 700;
+  margin-left: 12px;
+  transition: color 0.2s;
+}
+.pricing-modal-close:hover {
+  color: #ff7f2a;
+}
+.pricing-modal-subtitle {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 12px;
+}
+.pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+.pricing-table th {
+  background: #eaf0ff;
+  color: #234a97;
+  font-weight: 600;
+  padding: 12px 8px;
+  border-radius: 8px 8px 0 0;
+  text-align: left;
+  font-size: 1rem;
+}
+.pricing-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #eee;
+  background: #f8faff;
+  font-size: 1rem;
+}
+.pricing-table tr:nth-child(even) td {
+  background: #fff;
+}
+.pricing-table tr:last-child td {
+  border-bottom: none;
+}
+.pricing-modal-terms {
+  font-size: 0.96rem;
+  color: #444;
+  margin-top: 8px;
+}
+.pricing-modal-terms ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.pricing-modal-terms li {
+  margin-bottom: 2px;
+}
+@media (max-width: 700px) {
+  .pricing-modal-content {
+    padding: 12px 6px 10px 6px;
+    max-width: 99vw;
+  }
+  .pricing-table th, .pricing-table td {
+    font-size: 0.98rem;
+    padding: 8px 4px;
+  }
+}
+</style>
+<style>
+/* Pricing Table Popup - Match Screenshot Design */
+.pricing-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(40,40,40,0.18);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pricing-modal-content {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 32px rgba(35,74,151,0.13);
+  max-width: 800px;
+  width: 98vw;
+  padding: 28px 28px 18px 28px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  position: relative;
+}
+.pricing-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+.pricing-modal-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #2c3e50;
+  letter-spacing: 0.1px;
+}
+.pricing-modal-close {
+  font-size: 1.6rem;
+  color: #444;
+  cursor: pointer;
+  font-weight: 700;
+  margin-left: 12px;
+  transition: color 0.2s;
+}
+.pricing-modal-close:hover {
+  color: #ff7f2a;
+}
+.pricing-modal-subtitle {
+  font-size: 1.08rem;
+  color: #888;
+  margin-bottom: 18px;
+  margin-top: 2px;
+}
+.pricing-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 16px;
+  font-size: 1.08rem;
+  background: #f8faff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(35,74,151,0.07);
+}
+.pricing-table th {
+  background: #eaf0ff;
+  color: #234a97;
+  font-weight: 700;
+  padding: 14px 10px;
+  border-radius: 8px 8px 0 0;
+  text-align: left;
+  font-size: 1.08rem;
+  border-bottom: 2px solid #dbe7ff;
+}
+.pricing-table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f8faff;
+  font-size: 1.08rem;
+}
+.pricing-table tr:nth-child(even) td {
+  background: #f4f7fd;
+}
+.pricing-table tr:last-child td {
+  border-bottom: none;
+}
+.pricing-modal-terms {
+  font-size: 1.02rem;
+  color: #444;
+  margin-top: 10px;
+}
+.pricing-modal-terms ul {
+  padding-left: 18px;
+  margin: 0;
+}
+.pricing-modal-terms li {
+  margin-bottom: 2px;
+  list-style: none;
+}
+@media (max-width: 900px) {
+  .pricing-modal-content {
+    padding: 12px 4px 8px 4px;
+    max-width: 99vw;
+  }
+  .pricing-table th, .pricing-table td {
+    font-size: 0.98rem;
+    padding: 8px 4px;
+  }
+}
+
+.inclusions span{
+  font-family: 'Miller Display', Georgia, serif;
+  font-size: 15px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+      <ul class="navbar-nav d-none d-lg-flex">
+      <li class="nav-item dropdown">
+        <a  class="nav-link" href="#">DESTINATIONS</a>
+         <div class="mega-menu destinations-menu">
+        <!-- Left Side -->
+        <div class="mega-left">
+          <ul>
+            <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
+            <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
+            <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
+            <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
+            <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
+            <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
+            <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
+            <li data-target="polar">POLAR <span class="arrow">&#8250;</span></li>
+          </ul>
+        </div>
+        <!-- Right Side -->
+       <div class="mega-right">
+          <div class="content" id="africa">
+            <div class="column">
+              <a href="#">Ascension Island</a>
+              <a href="#">Botswana</a>
+              <a href="#">Ethiopia</a>
+              <a href="#">Kenya</a>
+              <a href="#">Madagascar</a>
+              <a href="s10.html">Mauritius</a>
+              <a href="#">Morocco</a>
+              <a href="#">Namibia</a>
+              <a href="#">ReUnion Island</a>
+            </div>
+            <div class="column">
+              <a href="#">Saint Helena Island</a>
+              <a href="#">Seychelles</a>
+              <a href="#">South Africa</a>
+              <a href="#">TanZania</a>
+              <a href="#">Zanzibar</a>
+              <a href="#">Tristan Da Cunha</a>
+              <a href="#">Zimbabwe</a>
+            </div>
+          </div>
+          <div class="content" id="asia">
+            <div class="column">
+              <a href="#">Armenia</a>
+              <a href="#">Azerbaijan</a>
+              <a href="#">Cambodia</a>
+              <a href="#">Georgia</a>
+              <a href="#">Hong Kong & Macau</a>
+              <a href="s9.html">Indonesia</a>
+              <a href="Destination.html">Japan</a>
+              <a href="#">Kazakhstan</a>
+              <a href="#">Laos</a>
+              <a href="#">Malaysia</a>
+            </div>
+            <div class="column">
+              <a href="#">Maldives</a>
+              <a href="#">Mongolia</a>
+              <a href="#">Philippines</a>
+              <a href="#">Russia</a>
+              <a href="#">Singapore</a>
+              <a href="#">Taiwan</a>
+              <a href="#">South Korea</a>
+              <a href="s6.html">Thailand</a>
+              <a href="#">Uzbekistan</a>
+              <a href="s1.html">Vietnam</a>
+            </div>
+          </div>
+          <div class="content" id="australasia">
+            <div class="column">
+              <a href="#">Argentina</a>
+              <a href="#">Brazil</a>
+              <a href="#">Canada</a>
+              <a href="#">Caribbean</a>
+              <a href="#">Chile</a>
+              <a href="#">Colombia</a>
+            </div>
+            <div class="column">
+              <a href="#">Equador</a>
+              <a href="#">Mexico</a>
+              <a href="#">Peru</a>
+              <a href="#">Uruguay</a>
+              <a href="#">USA</a>
+            </div>
+          </div>
+          <div class="content" id="europe">
+            <div class="column">
+              <a href="#">Austria</a>
+              <a href="#">Belgium</a>
+              <a href="#">Bosnia & Herzegovinia</a>
+              <a href="#">Croatia</a>
+              <a href="#">Cyprus</a>
+              <a href="#">Czechia</a>
+              <a href="#">Denmark</a>
+              <a href="s2.html">Finland</a>
+              <a href="#">France</a>
+              <a href="#">Germany</a>
+              <a href="#">Greece</a>
+              <a href="#">Hungary</a>
+              <a href="#">Iceland</a>
+              <a href="#">Ireland</a>
+            </div>
+            <div class="column">
+              <a href="#">Italy</a>
+              <a href="#">Netherlands</a>
+              <a href="#">Norway</a>
+              <a href="#">Poland</a>
+              <a href="#">Portugal</a>
+              <a href="#">Romania</a>
+              <a href="#">Scotland</a>
+              <a href="#">Slovakia</a>
+              <a href="#">Slovenia</a>
+              <a href="#">Spain</a>
+              <a href="#">Sweden</a>
+              <a href="#">Switzerland</a>
+              <a href="#">United Kingdom</a>
+            </div>
+          </div>
+          <div class="content" id="indian">
+            <div class="column">
+              <a href="#">India</a>
+              <a href="#">Nepal</a>
+              <a href="s8.html">Sri Lanka</a>
+            </div>
+            <div class="column">
+              <a href="s5.html">Bhutan</a>
+              <a href="s7.html">Maldives</a>
+            </div>
+          </div>
+          <div class="content" id="latin">
+            <div class="column">
+              <a href="s3.html">Australia</a>
+              <a href="#">Fiji</a>
+            </div>
+            <div class="column">
+              <a href="#">French Polynesia</a>
+              <a href="s4.html">New Zealand</a>
+            </div>
+          </div>
+          <div class="content" id="middleeast">
+            <div class="column">
+              <a href="#">Bahrain</a>
+              <a href="#">Egypt</a>
+              <a href="#">Jordan</a>
+              <a href="s11.html">Oman</a>
+            </div>
+            <div class="column">
+              <a href="#">Qatar</a>
+              <a href="#">Saudi Arabia</a>
+              <a href="#">Turkey</a>
+              <a href="#">UAE</a>
+            </div>
+          </div>
+          <div class="content" id="polar">
+            <div class="column">
+              <a href="#">Antarctica</a>
+              <a href="#">Arctic</a>
+              <a href="#">Greenland</a>
+            </div>
+            <div class="column">
+              <a href="#">Iceland</a>
+              <a href="#">Norway</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">LUXURY</a>
+         <div class="mega-menu itinerary-menu">
+        <div class="mega-left">
+          <ul>
+        <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
+        <li data-target="adventure"><a href="">JAPAN</a></li>
+        <li data-target="luxury"><a href="">KENYA</a></li>
+        <li data-target="classic"><a href="">NORWAY</a></li>
+        <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
+        <li data-target="luxury"><a href="">TANZANIA</a></li>
+        <li data-target="classic"><a href="">ZANZIBAR</a></li>
+</ul>
+        </div>
+        
+      </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="tourpakages.html">GROUP TOURS</a>
+        
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="Voyages.html">VOYAGES</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#">BEYOND HOLIDAYS</a>
+         <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family"><a href="business.html">BUSINESS TRAVEL</a></li>
+            <li data-target="friends"><a href="Eduwings.html">EDUWINGS (STUDY ABROAD)</a></li>
+            <li data-target="corporate"><a href="celebration.html">DESTINATION CELEBRATIONS</a></li>
+            <li data-target="couples"><a href="sky.html">PRIVATE CHARTERS</a></li>
+            <li data-target="couples"><a href="sports.html">SPORTS TRAVEL</a></li>
+
+          </ul>
+        </div>
+      </div>
+      </li>
+    </ul>
+
+    <a class="navbar-brand mx-auto" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      
+    </a>
+
+     <div class="d-flex align-items-center ">
+      <div class="contact-info d-none d-lg-block me-3">
+        CALL US AT:<br>
+        <a href="tel:+919793405883">+91 97934-05883</a>
+      </div>
+      <span class="signin d-none d-lg-block"><img src="./iocon/account.png" style="display:block; font-size:1.5rem; margin:0 auto 2px auto; width: 30px;"></img>Sign In</span>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler ms-2" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Sliding Mobile Menu -->
+<div class="mobile-menu">
+  <div class="menu-header">
+    <a class="menu-logo" href="index.html">
+      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;"  alt="Globengel Logo" class="logo">
+    </a>
+    <div class="close-btn">&times;</div>
+  </div>
+  <a class="nav-link" href="Destination.html">DESTINATIONS</a>
+  <a class="nav-link" href="#">LUXURY</a>
+  <a class="nav-link" href="#">GROUP TOURS</a>
+  <a class="nav-link" href="#">VOYAGES</a>
+  <a class="nav-link" href="#">BEYOND LEISURE</a>
+  <a class="nav-link mt-3" href="#">Sign In</a>
+</div>
+<div class="overlay"></div>
+
+<!-- Hero Section -->
+<section class="hero-section" style="position:relative; width:100%; height:100vh; overflow:hidden;">
+  <!-- Swiper for background images only -->
+  <div class="swiper heroLuxurySwiper" style="width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1;">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" style="width:100%; height:100vh;">
+        <div style="background: url('./images/itieneary.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
+      </div>
+      <div class="swiper-slide" style="width:100%; height:100vh;">
+        <div style="background: url('./WebsiteData/1_bqnnBDpfJlzj9wuLN_oxxQ.jpeg') no-repeat center center/cover; width:100%; height:100vh;"></div>
+      </div>
+      <div class="swiper-slide" style="width:100%; height:100vh;">
+        <div style="background: url('./WebsiteData/4dbac764773354e75e44a66723c82b51-australia-pacific.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Fixed Content -->
+  <div class="hero-content" style="position:relative; z-index:2;">
+    <!-- Your existing content here -->
+  </div>
+</section>
+
+<!-- Second Nav Bar: Move above "Best of New Zealand" and show only on scroll -->
+<nav class="luxury-secondary-navbar" id="luxurySecondaryNavbar" style="display:none;">
+  <ul>
+    <li><a href="#itinerary">ITINERARY</a></li>
+    <li><a href="#hotels">HOTELS</a></li>
+    <li><a href="#tourinfo">TOUR INFORMATION</a></li>
+    <li><a href="#terms">TERMS & CONDITIONS</a></li>
+  </ul>
+</nav>
+
+<!-- Existing Code -->
+
+<section class="tour-wrapper">
+  <!-- Header -->
+  <h1 class="tour-title pb-2">Best of New Zealand</h1>
+  <div class="tour-meta-row">
+    <span><img src="./iocon/calendar.png" class="icon-inline" alt="" /> 10 Days / 9 Nights</span>
+    
+    <span><img src="./iocon/world.png" class="icon-inline" alt="" /> 1 Country</span>
+    
+    <span><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" class="icon-inline" alt="" /> 9 Cities</span>
+  </div>
+  <div class="tour-route">
+    New Zealand Auckland (2N) <span class="arrow">→</span> Waitomo Caves <span class="arrow">→</span> Rotorua (1N) <span class="arrow">→</span> Queenstown (3N) <span class="arrow">→</span> Milford Sound <span class="arrow">→</span> Wanaka <span class="arrow">→</span> Franz Josef (1N) <span class="arrow">→</span> Arthur’s Pass <span class="arrow">→</span> Christchurch (1N)
+  </div>
+
+  <!-- Inclusions -->
+   <div class="highlights">
+   <h3 class="tour-title">Tour Inclusions :</h3>
+   </div>
+  <div class="inclusions">
+    
+    <div><img src="./iocon/hotel.png" alt="Hotels"><span>Hotels</span></div>
+    <div><img src="./iocon/iftar.png" alt="Meals"><span>Meals</span></div>
+    <div><img src="./iocon/binoculars.png" alt="Sightseeing"><span>Sightseeing</span></div>
+    <div><img src="./iocon/english-breakfast.png" alt="Breakfast"><span>Breakfast</span></div>
+    <div><img src="./iocon/car.png" alt="Private Transfers"><span>Private Transfers</span></div>
+    <div><img src="./iocon/bus.png" alt="Coach Transfer"><span>Coach Transfer</span></div>
+    <div><img src="./iocon/cruise.png" alt="Ferry"><span>Ferry</span></div>
+    <div><img src="./iocon/airplane.png" alt="Flights"><span>Flights</span></div>
+    <div><img src="./iocon/train.png" alt="Train"><span>Train</span></div>
+  </div>
+
+  <!-- Highlights & Map Side by Side -->
+  <div class="highlights-map-row" style="display: flex; gap: 40px; align-items: flex-start; justify-content: center; margin-bottom: 32px;">
+    <!-- Tour Highlights (Left) -->
+    <div class="highlights" style="flex: 1 1 0; min-width: 320px; max-width: 540px;">
+      <h3>Tour Highlights</h3>
+      <ul>
+        <li>International Antarctic Centre</li>
+        <li>Helicopter ride over Glacier</li>
+        <li>Milford Sound Cruise</li>
+        <li>Skyline Gondola Ride</li>
+        <li>Bob Peak</li>
+        <li>Lake Tekapo and Lake Pukaki</li>
+        <li>Maori Show</li>
+        <li>Wai-O-Tapu or Te Puia Thermal Reserve</li>
+        <li>Waitomo Glowworm Caves</li>
+        <li>Auckland Sky Tower Observatory Deck</li>
+      </ul>
+    </div>
+    <!-- Map View (Right) -->
+    <div class="itinerary-mapbox" style="flex: 1 1 0; min-width: 320px; max-width: 540px;">      <div class="mapview-visual">
+        <div id="nzMap" style="width:100%; height:400px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.07);"></div>
+        <a href="#" class="mapview-btn-abs" id="openMapModal" onclick="openMapModal(event)" style="position:absolute; bottom:18px; right:18px; background:#234a97; color:#fff; padding:8px 18px; border-radius:6px; text-decoration:none; font-weight:600;"><i class="fa fa-map"></i> Map View</a>
+      </div>      <div class="mapview-link" style="margin-top:12px;">
+        <a href="#" id="roadDistanceLink" onclick="openRoadDistanceModal(event)">Click here</a> to find the road distance
+      </div>
+    </div>
+  </div>
+
+  <style>
+  .highlights-map-row {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .itinerary-mapbox {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 0;
+    min-width: 320px;
+    max-width: 540px;
+  }  .mapview-visual {
+    position: relative;
+    width: 100%;
+  }
+  #nzMap {
+    position: relative;
+    z-index: 1;
+  }
+  .mapview-btn-abs {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    background: #234a97;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(35,74,151,0.08);
+  }
+  .mapview-link {
+    margin-top: 12px;
+    font-size: 1rem;
+    color: #234a97;
+     font-family: 'Miller Display', Georgia, serif !important;
+  }
+    @media (max-width: 900px) {
+    .highlights-map-row {
+      flex-direction: column;
+      gap: 24px;
+      align-items: stretch;
+    }
+    .itinerary-mapbox {
+      width: 98vw;
+      min-width: 0;
+      max-width: 100vw;
+      margin: 0 auto;
+    }
+    #nzMap {
+      height: 350px;
+    }
+  }  @media (max-width: 600px) {
+    #nzMap {
+      height: 300px;
+    }
+    .mapview-btn-abs {
+      bottom: 12px;
+      right: 12px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Map Modal Popup Styles */
+  .map-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .map-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+    width: 95vw;
+    height: 90vh;
+    max-width: 1200px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .map-modal-header {
+    background: #234a97;
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .map-modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .map-modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  
+  .map-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .map-modal-body {
+    height: calc(100% - 70px);
+    position: relative;
+  }
+  
+  #fullScreenMap {
+    width: 100%;
+    height: 100%;
+  }
+    @media (max-width: 768px) {
+    .map-modal-content {
+      width: 98vw;
+      height: 95vh;
+    }
+    
+    .map-modal-header {
+      padding: 12px 15px;
+    }
+    
+    .map-modal-title {
+      font-size: 1.1rem;
+    }
+  }
+
+  /* Road Distance Modal Styles */
+  .road-distance-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .road-distance-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+    width: 90vw;
+    max-width: 800px;
+    max-height: 85vh;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .road-distance-modal-header {
+    background: #234a97;
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .road-distance-modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .road-distance-modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  
+  .road-distance-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .road-distance-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(85vh - 70px);
+  }
+  
+  .distance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+  
+  .distance-table th {
+    background: #f8faff;
+    color: #234a97;
+    font-weight: 600;
+    padding: 12px 8px;
+    border: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  
+  .distance-table td {
+    padding: 10px 8px;
+    border: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  .distance-table tr:nth-child(even) {
+    background: #f9fafb;
+  }
+  
+  .distance-table tr:hover {
+    background: #eef2ff;
+  }
+  
+  .distance-note {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 15px;
+    padding: 10px;
+    background: #f0f4f8;
+    border-radius: 6px;
+    border-left: 4px solid #234a97;
+  }
+  
+  @media (max-width: 768px) {
+    .road-distance-modal-content {
+      width: 95vw;
+      max-height: 90vh;
+    }
+    
+    .road-distance-modal-header {
+      padding: 12px 15px;
+    }
+    
+    .road-distance-modal-title {
+      font-size: 1.1rem;
+    }
+    
+    .road-distance-modal-body {
+      padding: 15px;
+    }
+      .distance-table th,
+    .distance-table td {
+      padding: 8px 4px;
+      font-size: 0.8rem;
+    }
+  }
+
+  /* Cancellation Policy Modal Styles */
+  .cancellation-policy-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+  
+  .cancellation-policy-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+    width: 90vw;
+    max-width: 900px;
+    max-height: 85vh;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cancellation-policy-modal-header {
+    background: #234a97;
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .cancellation-policy-modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .cancellation-policy-modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  
+  .cancellation-policy-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .cancellation-policy-modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(85vh - 70px);
+  }
+  
+  .policy-section {
+    margin-bottom: 25px;
+  }
+  
+  .policy-section h4 {
+    color: #234a97;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .policy-section h4 i {
+    font-size: 1.2rem;
+  }
+  
+  .policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+  }
+  
+  .policy-table th {
+    background: #f8faff;
+    color: #234a97;
+    font-weight: 600;
+    padding: 12px 10px;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+  }
+  
+  .policy-table td {
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    font-size: 0.9rem;
+  }
+  
+  .policy-table tr:nth-child(even) {
+    background: #f9fafb;
+  }
+  
+  .policy-table tr:hover {
+    background: #eef2ff;
+  }
+  
+  .policy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .policy-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .policy-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .policy-list li:before {
+    content: "•";
+    color: #234a97;
+    font-weight: bold;
+    margin-right: 8px;
+  }
+  
+  .important-notes li {
+    color: #333;
+    font-size: 0.85rem;
+  }
+  
+  .important-notes li strong {
+    color: #234a97;
+    font-weight: 600;
+  }
+  
+  .policy-contact {
+    background: #f8faff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+    border-left: 4px solid #234a97;
+  }
+  
+  .contact-info h4 {
+    color: #234a97;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .contact-info p {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .contact-details span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .contact-details i {
+    color: #234a97;
+    width: 16px;
+  }
+  
+  @media (max-width: 768px) {
+    .cancellation-policy-modal-content {
+      width: 95vw;
+      max-height: 90vh;
+    }
+    
+    .cancellation-policy-modal-header {
+      padding: 12px 15px;
+    }
+    
+    .cancellation-policy-modal-title {
+      font-size: 1.1rem;
+    }
+    
+    .cancellation-policy-modal-body {
+      padding: 15px;
+    }
+    
+    .policy-table th,
+    .policy-table td {
+      padding: 8px 6px;
+      font-size: 0.8rem;
+    }
+    
+    .policy-section h4 {
+      font-size: 1rem;
+    }
+    
+    .policy-list li {
+      font-size: 0.85rem;
+    }
+    
+    .contact-details {
+      gap: 8px;
+    }
+      .contact-details span {
+      font-size: 0.85rem;
+    }
+  }
+
+  /* Enquire Modal Styles */
+  .enquire-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10002;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+    .enquire-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+    width: 90vw;
+    max-width: 1000px;
+    max-height: 85vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .enquire-modal-header {
+    background: #234a97;
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .enquire-modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .enquire-modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  
+  .enquire-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .enquire-modal-body {
+    padding: 25px;
+    overflow-y: auto;
+    max-height: calc(85vh - 70px);
+  }
+  
+  .enquire-form {
+    width: 100%;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group.full-width {
+    width: 100%;
+  }
+  
+  .form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  
+  .required {
+    color: #d32f2f;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: 'Montserrat', Arial, sans-serif;
+    transition: border-color 0.2s;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #234a97;
+    box-shadow: 0 0 0 2px rgba(35, 74, 151, 0.1);
+  }
+  
+  .travelers-group label {
+    margin-bottom: 12px;
+  }
+  
+  .travelers-row {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .traveler-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .traveler-input input {
+    width: 60px;
+    text-align: center;
+    padding: 10px 8px;
+  }
+  
+  .traveler-input label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #666;
+    text-transform: capitalize;
+    margin: 0;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    background: #ff7f2a;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 0;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+    .submit-btn:hover {
+    background: #234a97;
+  }
+
+  /* Left Image Section Styles */
+  .enquire-modal-left {
+    flex: 0 0 45%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .enquire-modal-image {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px;
+    color: white;
+    position: relative;
+  }
+
+  .enquire-modal-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .enquire-modal-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .badge-text {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+  }
+
+  .badge-icon {
+    font-size: 2rem;
+    margin: 10px 0;
+  }
+
+  .badge-type {
+    background: #ff7f2a;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .enquire-modal-info h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+  }
+
+  .tour-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tour-details span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .departure-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .departure-info span {
+    font-size: 0.9rem;
+  }
+
+  /* Right Form Section Styles */
+  .enquire-modal-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+  }
+
+  .enquire-modal-right .enquire-modal-header {
+    border-radius: 0;
+    flex-shrink: 0;
+  }
+
+  .enquire-modal-right .enquire-modal-body {
+    flex: 1;
+    overflow-y: auto;
+  }
+    @media (max-width: 768px) {
+    .enquire-modal-content {
+      width: 95vw;
+      max-height: 90vh;
+      flex-direction: column;
+    }
+    
+    .enquire-modal-left {
+      flex: 0 0 40%;
+      min-height: 250px;
+    }
+    
+    .enquire-modal-image {
+      padding: 20px;
+    }
+    
+    .enquire-modal-info h2 {
+      font-size: 1.8rem;
+    }
+    
+    .badge-text {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
+    
+    .badge-icon {
+      font-size: 1.5rem;
+    }
+    
+    .tour-details span {
+      font-size: 0.85rem;
+    }
+    
+    .enquire-modal-right {
+      flex: 1;
+    }
+    
+    .enquire-modal-header {
+      padding: 12px 15px;
+    }
+    
+    .enquire-modal-title {
+      font-size: 1.1rem;
+    }
+    
+    .enquire-modal-body {
+      padding: 20px 15px;
+    }
+    
+    .form-row {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .travelers-row {
+      justify-content: space-around;
+    }
+    
+    .traveler-input input {
+      width: 50px;
+    }
+  }
+  </style>
+  <!-- Actions -->
+  <div class="actions">
+    <button class="wishlist"><img src="./iocon/wishlist.png" width="16" /> Wishlist</button>
+    <button class="download"><img src="./iocon/download (1).png" width="16" /> Download</button>
+    <button class="email"><img src="./iocon/letter.png" width="16" /> Email</button>
+    <button class="share"><img src="./iocon/whatsapp.png" width="16" /> Share</button>
+  </div>
+</section>
+
+<!-- Map Modal Popup -->
+<div id="mapModal" class="map-modal">
+  <div class="map-modal-content">
+    <div class="map-modal-header">
+      <h3 class="map-modal-title">Best of New Zealand - Route Map</h3>
+      <button class="map-modal-close" onclick="closeMapModal()">&times;</button>
+    </div>
+    <div class="map-modal-body">
+      <div id="fullScreenMap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Road Distance Modal Popup -->
+<div id="roadDistanceModal" class="road-distance-modal">
+  <div class="road-distance-modal-content">
+    <div class="road-distance-modal-header">
+      <h3 class="road-distance-modal-title">New Zealand Tour - Road Distances</h3>
+      <button class="road-distance-modal-close" onclick="closeRoadDistanceModal()">&times;</button>
+    </div>
+    <div class="road-distance-modal-body">
+      <table class="distance-table">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Distance (KM)</th>
+            <th>Travel Time</th>
+            <th>Mode</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Auckland</td>
+            <td>Waitomo Caves</td>
+            <td>195 km</td>
+            <td>2.5 hours</td>
+            <td>Bus</td>
+          </tr>
+          <tr>
+            <td>Waitomo Caves</td>
+            <td>Rotorua</td>
+            <td>150 km</td>
+            <td>2 hours</td>
+            <td>Bus</td>
+          </tr>
+          <tr>
+            <td>Rotorua</td>
+            <td>Auckland</td>
+            <td>234 km</td>
+            <td>3 hours</td>
+            <td>Bus</td>
+          </tr>
+          <tr>
+            <td>Auckland</td>
+            <td>Queenstown</td>
+            <td>-</td>
+            <td>1.5 hours</td>
+            <td>Flight</td>
+          </tr>
+          <tr>
+            <td>Queenstown</td>
+            <td>Milford Sound</td>
+            <td>288 km</td>
+            <td>4.5 hours</td>
+            <td>Bus</td>
+          </tr>
+          <tr>
+            <td>Milford Sound</td>
+            <td>Queenstown</td>
+            <td>288 km</td>
+            <td>4.5 hours</td>
+            <td>Bus</td>
+          </tr>
+          <tr>
+            <td>Queenstown</td>
+            <td>Wanaka</td>
+            <td>69 km</td>
+            <td>1.2 hours</td>
+            <td>Bus</td>
+          </tr>
+          <tr>
+            <td>Wanaka</td>
+            <td>Franz Josef Glacier</td>
+            <td>286 km</td>
+            <td>3.5 hours</td>
+            <td>Bus</td>
+          </tr>
+          <tr>
+            <td>Franz Josef Glacier</td>
+            <td>Arthur's Pass</td>
+            <td>193 km</td>
+            <td>2.5 hours</td>
+            <td>Bus</td>
+          </tr>
+          <tr>
+            <td>Arthur's Pass</td>
+            <td>Christchurch</td>
+            <td>154 km</td>
+            <td>2.5 hours</td>
+            <td>Bus</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="distance-note">
+        <strong>Note:</strong> 
+        <ul>
+          <li>Distances and travel times are approximate and may vary based on weather and road conditions.</li>
+          <li>Flight distances are not applicable for domestic flights.</li>
+          <li>Travel times include regular stops for refreshments and sightseeing.</li>
+          <li>Some routes may involve scenic drives which may take longer than direct routes.</li>
+        </ul>
+      </div>    </div>
+  </div>
+</div>
+
+<!-- Cancellation Policy Modal Popup -->
+<div id="cancellationPolicyModal" class="cancellation-policy-modal">
+  <div class="cancellation-policy-modal-content">
+    <div class="cancellation-policy-modal-header">
+      <h3 class="cancellation-policy-modal-title">Cancellation Policy - Best of New Zealand</h3>
+      <button class="cancellation-policy-modal-close" onclick="closeCancellationPolicyModal()">&times;</button>
+    </div>
+    <div class="cancellation-policy-modal-body">
+      <div class="policy-section">
+        <h4><i class="fa fa-calendar-times"></i> Cancellation Charges</h4>
+        <table class="policy-table">
+          <thead>
+            <tr>
+              <th>Days Prior to Departure</th>
+              <th>Cancellation Charges</th>
+              <th>Per Person Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>46 days or more</td>
+              <td>25% of tour cost</td>
+              <td>₹95,000</td>
+            </tr>
+            <tr>
+              <td>31 - 45 days</td>
+              <td>50% of tour cost</td>
+              <td>₹1,90,000</td>
+            </tr>
+            <tr>
+              <td>16 - 30 days</td>
+              <td>75% of tour cost</td>
+              <td>₹2,85,000</td>
+            </tr>
+            <tr>
+              <td>0 - 15 days</td>
+              <td>100% of tour cost</td>
+              <td>₹3,80,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="policy-section">
+        <h4><i class="fa fa-plane"></i> Flight Cancellation</h4>
+        <ul class="policy-list">
+          <li>Flight tickets are non-refundable once issued</li>
+          <li>Any changes to flight tickets will be subject to airline policies and charges</li>
+          <li>Flight cancellation charges are separate from tour package cancellation</li>
+          <li>Premium economy and business class upgrades are non-refundable</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h4><i class="fa fa-bed"></i> Hotel Cancellation</h4>
+        <ul class="policy-list">
+          <li>Hotel bookings follow individual hotel cancellation policies</li>
+          <li>Peak season bookings may have stricter cancellation terms</li>
+          <li>Special accommodation requests may have additional charges</li>
+          <li>Room upgrades are subject to availability and hotel policies</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h4><i class="fa fa-exclamation-triangle"></i> Important Notes</h4>
+        <ul class="policy-list important-notes">
+          <li><strong>Force Majeure:</strong> No refund for cancellations due to natural disasters, pandemics, or government restrictions</li>
+          <li><strong>Medical Emergency:</strong> Medical certificate may be required for emergency cancellations</li>
+          <li><strong>Visa Rejection:</strong> 75% refund if visa is rejected (subject to document verification)</li>
+          <li><strong>Travel Insurance:</strong> Strongly recommended to cover unexpected cancellations</li>
+          <li><strong>Processing Time:</strong> Refunds will be processed within 30-45 working days</li>
+        </ul>
+      </div>
+
+      <div class="policy-contact">
+        <div class="contact-info">
+          <h4><i class="fa fa-phone"></i> Need Help?</h4>
+          <p>For cancellations or queries, contact our customer support:</p>
+          <div class="contact-details">
+            <span><i class="fa fa-phone"></i> +91 – 99104-05255</span>
+            <span><i class="fa fa-envelope"></i> info@globengel.com</span>
+          </div>
+        </div>      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Enquire Modal Popup -->
+<div id="enquireModal" class="enquire-modal">
+  <div class="enquire-modal-content">
+    <!-- Left Side - Image -->
+    <div class="enquire-modal-left">
+      <div class="enquire-modal-image">
+        <div class="enquire-modal-overlay">
+          <div class="enquire-modal-badge">
+            <span class="badge-text">NEW ZEALAND</span>
+            <span class="badge-icon">🏔️</span>
+            <span class="badge-type">GROUP TOUR</span>
+          </div>
+          <div class="enquire-modal-info">
+            <h2>Best of New Zealand</h2>
+            <div class="tour-details">
+              <span><i class="fa fa-globe"></i> 1 Country, 9 Cities</span>
+              <span><i class="fa fa-calendar"></i> 9 Nights / 10 Days</span>
+              <div class="departure-info">
+                <span>Departure City - Mumbai</span>
+                <span><i class="fa fa-calendar-alt"></i> 12-November-2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Side - Form -->
+    <div class="enquire-modal-right">
+      <div class="enquire-modal-header">
+        <h3 class="enquire-modal-title">Booking Form</h3>
+        <button class="enquire-modal-close" onclick="closeEnquireModal()">&times;</button>
+      </div>
+      <div class="enquire-modal-body">
+        <div class="enquire-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">FIRST NAME <span class="required">*</span></label>
+              <input type="text" id="firstName" name="firstName" placeholder="FIRST NAME" required>
+            </div>
+            <div class="form-group">
+              <label for="lastName">LAST NAME <span class="required">*</span></label>
+              <input type="text" id="lastName" name="lastName" placeholder="LAST NAME" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mobile">MOBILE NUMBER <span class="required">*</span></label>
+              <input type="tel" id="mobile" name="mobile" placeholder="MOBILE NUMBER" required>
+            </div>
+            <div class="form-group">
+              <label for="email">EMAIL <span class="required">*</span></label>
+              <input type="email" id="email" name="email" placeholder="EMAIL" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group travelers-group">
+              <label>TRAVELLERS <span class="required">*</span></label>
+              <div class="travelers-row">
+                <div class="traveler-input">
+                  <input type="number" id="adults" name="adults" value="2" min="1" max="10">
+                  <label for="adults">Adult</label>
+                </div>
+                <div class="traveler-input">
+                  <input type="number" id="children" name="children" value="0" min="0" max="10">
+                  <label for="children">Child</label>
+                </div>
+                <div class="traveler-input">
+                  <input type="number" id="infants" name="infants" value="0" min="0" max="10">
+                  <label for="infants">Infant</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="additionalNotes">ADDITIONAL NOTES</label>
+              <textarea id="additionalNotes" name="additionalNotes" placeholder="Type your message here..." rows="4"></textarea>
+            </div>
+          </div>
+          
+          <button type="submit" class="submit-btn">SUBMIT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  -->
+  <section class="itinerary-section" id="itinerary">
+
+<!-- dates section -->
+    
+    <div class="luxury-dates-grid">
+    <!-- Left: Departure City & Dates -->
+    <div class="luxury-dates-card">
+      <h4>1. SELECT DEPARTURE CITY & DATE</h4>
+      <div class="luxury-city-buttons">
+        <button>All departures</button>
+        <button>Chennai</button>
+        <button>Hyderabad</button>
+        <button>Kolkata</button>
+        <button>Ahmedabad</button>
+        <button>Nagpur</button>
+        <button>Goa</button>
+        <button>Indore</button>
+        <button class="active">New Delhi</button>
+        <button>Bangalore</button>
+        <button>Cochn</button>
+        <button>Mumbai</button>
+        <button>Joining / Leaving</button>
+      </div>
+      <p class="luxury-date-note">All New Delhi dates (10)<br><span style="color:#f16722;">All inclusive fares, lock in this great price today.</span></p>
+      <!-- Month Tabs Added Below -->
+      <div class="luxury-month-tabs" style="margin-bottom:12px;">
+        <button class="month-tab active" data-month="SEP">Sep '25</button>
+        <button class="month-tab" data-month="OCT">Oct '25</button>
+        <button class="month-tab" data-month="NOV">Nov '25</button>
+        <button class="month-tab" data-month="DEC">Dec '25</button>
+      </div>
+      <div class="luxury-date-list" id="luxuryDateList">
+        <!-- Dates will be injected here -->
+      </div>
+      <div class="luxury-date-terms">
+        <small>
+          * Terms and Conditions apply. • 5% GST is applicable on given tour price. • Mentioned tour prices are Per Person for Indian Nationals only.<br>
+          * TCS at 5% (if PAN is available) or 10% (if not) is applicable as per Govt. of India on amounts above ₹7L. TCS will apply on the GST inclusive price, valid as of April 2025.
+        </small>
+      </div>
+    </div>
+    <!-- Right: Booking Summary -->
+    <div class="booking-summary-card" id="bookingSummaryCard">
+  <div class="booking-summary-header">
+    <i class="fa fa-file-alt"></i>
+    <span>Booking Summary</span>
+  </div>
+  <hr>
+  <div class="booking-summary-title">Best of New Zealand</div>
+  <div class="booking-summary-meta">
+    <div><i class="fa fa-globe"></i> 1 Country, 9 Cities</div>
+    <div><i class="fa fa-calendar"></i> 9 Nights / 10 Days</div>
+  </div>
+  <div class="booking-summary-category-row" style="flex-wrap: wrap;">
+    <span style="min-width:110px;"><i class="fa fa-layer-group"></i> Category:</span>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;">
+      <label style="white-space:nowrap;"><input type="radio" name="category" value="Standard" checked> Standard</label>
+      <label style="white-space:nowrap;"><input type="radio" name="category" value="Deluxe"> Deluxe</label>
+      <label style="white-space:nowrap;"><input type="radio" name="category" value="Premium"> Premium</label>
+    </div>
+  </div>
+  <div class="booking-summary-info-row" style="flex-wrap:wrap;">
+    <span style="min-width:110px;"><i class="fa fa-plane-departure"></i> Departure City:</span>
+    <span class="booking-summary-red" style="flex:1 1 0;min-width:140px;">SELECT DEPARTURE CITY</span>
+  </div>
+  <div class="booking-summary-info-row" style="flex-wrap:wrap;">
+    <span style="min-width:110px;"><i class="fa fa-calendar-day"></i> Departure Date:</span>
+    <span class="booking-summary-red" style="flex:1 1 0;min-width:140px;">SELECT DEPARTURE DATE</span>
+  </div>
+  <hr>
+  <div class="booking-summary-price-row" style="flex-direction:column;align-items:flex-start;">
+    <span><i class="fa fa-rupee-sign"></i> Package Price:</span>
+    <span class="booking-summary-price">₹3,80,000</span>
+    <span class="booking-summary-per">per person</span>
+    <span class="booking-summary-note">*Excludes taxes</span>    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+      <a href="#" class="booking-summary-link" id="viewPricingTableBtn">View Pricing Table &gt;</a>
+      <a href="#" class="booking-summary-link" onclick="openCancellationPolicyModal(event)">Cancellation Policy &gt;</a>
+    </div>
+  </div>  <div class="booking-summary-contact-row" style="flex-wrap:wrap;">
+    <i class="fa fa-phone"></i>
+    <span style="word-break:break-all;">+91 – 99104-05255</span>
+  </div>
+  <button class="booking-summary-btn" onclick="openEnquireModal(event)">Enquire Now</button>
+</div>
+
+<script>
+// Month-wise available dates data
+const monthDates = {
+  "SEP": [
+    { day: "TUE", date: "17", month: "SEP", price: 119000, seats: "Available", color: "green" },
+    { day: "FRI", date: "20", month: "SEP", price: 119000, seats: "Available", color: "green" }
+  ],
+  "OCT": [
+    { day: "TUE", date: "28", month: "OCT", price: 122000, seats: "Last 2", color: "red" }
+  ],
+  "NOV": [
+    { day: "TUE", date: "11", month: "NOV", price: 125000, seats: "", color: "" },
+    { day: "TUE", date: "25", month: "NOV", price: 125000, seats: "", color: "" }
+  ],
+  "DEC": [
+    { day: "SUN", date: "14", month: "DEC", price: 126000, seats: "Sold Out", color: "red" },
+    { day: "SUN", date: "21", month: "DEC", price: 128000, seats: "", color: "gray" },
+    { day: "SUN", date: "28", month: "DEC", price: 128000, seats: "", color: "gray" }
+  ]
+};
+
+let selectedMonth = "SEP";
+let selectedDateIdx = 0;
+let selectedCategory = "Standard";
+
+// Helper functions
+function formatPrice(price) {
+  return "₹" + price.toLocaleString();
+}
+function getPrice(base, category) {
+  if (category === "Deluxe") return Math.round(base * 1.10); // Deluxe 10% more
+  if (category === "Premium") return Math.round(base * 1.20); // Premium 20% more
+  return base; // Standard
+}
+
+// Render month dates and add click listeners
+function renderMonthDates(month, idx = 0) {
+  selectedMonth = month;
+  selectedDateIdx = idx;
+  const list = document.getElementById('luxuryDateList');
+  list.innerHTML = '';
+  monthDates[month].forEach((d, i) => {
+    list.innerHTML += `
+      <div class="luxury-date-box ${d.color} ${i === idx ? 'active' : ''}" data-idx="${i}">
+        <div class="date-top">
+          <span class="day">${d.day}</span>
+          <span class="date">${d.date}</span>
+          <span class="month">${d.month}</span>
+        </div>
+        <div class="price">${formatPrice(getPrice(d.price, selectedCategory))}</div>
+        ${d.seats ? `<div class="seats">${d.seats}</div>` : ''}
+      </div>
+    `;
+  });
+  // Add click listeners for date selection
+  document.querySelectorAll('.luxury-date-box').forEach(box => {
+    box.onclick = function() {
+      document.querySelectorAll('.luxury-date-box').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      selectedDateIdx = +this.getAttribute('data-idx');
+      updateRightCard();
+    };
+  });
+  updateRightCard();
+}
+
+// Update right card with selected date and price
+function updateRightCard() {
+  const dateObj = monthDates[selectedMonth][selectedDateIdx];
+  const price = getPrice(dateObj.price, selectedCategory);
+  document.getElementById('selectedDate').textContent =
+    `${dateObj.date} ${dateObj.month} 2025`;
+  document.getElementById('priceValue').innerHTML =
+    `${formatPrice(price)} <span class="luxury-price-note">per person on twin sharing<br>*Excludes taxes</span>`;
+  document.getElementById('emiValue').textContent =
+    `₹${Math.round(price / 30).toLocaleString()}/month`;
+}
+
+// Month tab click
+document.querySelectorAll('.month-tab').forEach(tab => {
+  tab.onclick = function() {
+    document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    renderMonthDates(this.getAttribute('data-month'), 0);
+  };
+});
+
+// Category change updates price everywhere
+document.querySelectorAll('input[name="category"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    selectedCategory = this.value;
+    renderMonthDates(selectedMonth, selectedDateIdx);
+  });
+});
+
+// Initial load
+document.addEventListener('DOMContentLoaded', function() {
+  renderMonthDates(selectedMonth, selectedDateIdx);
+});
+</script>
+  </div>
+
+ <div class="itinerary-header">
+    <h2>Itinerary <span class="itinerary-daywise">(Day Wise)</span></h2>
+    <!-- <a href="#" class="itinerary-viewall">View all days</a> -->
+    
+  </div>
+  <div class="itinerary-main">
+    <div class="itinerary-list" id="itineraryList"></div>
+    <div class="itinerary-side">
+      <!-- <div class="itinerary-mapbox sticky">
+        <div class="mapview-visual">
+          <img src="./images/mapview.png" alt="Map View" />
+          <a href="#" class="mapview-btn-abs"><i class="fa fa-map"></i> Map View</a>
+        </div>
+        <div class="mapview-link">
+          <a href="#">Click here</a> to find the road distance
+        </div>
+      </div> -->
+      <!-- <div class="itinerary-actions">
+        <a href="#" class="itinerary-action"><i class="fa fa-paper-plane"></i> Send Itinerary</a>
+        <a href="#" class="itinerary-action"><i class="fa fa-print"></i> Print Itinerary</a>
+        <a href="#" class="itinerary-action"><i class="fa fa-envelope"></i> Email Itinerary</a>
+        <a href="#" class="itinerary-action"><i class="fa fa-balance-scale"></i> Compare Tour</a>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- Hotel Details Card Section: Card Right, Hotel Table Left, Card Centered Vertically -->
+<section class="hotel-enquiry-section hotel-enquiry-row">
+  <!-- Hotel Table Section (Left) -->
+  <div class="hotel-table-section">
+    <h4 style="font-size: 25px;  font-family: 'Miller Display', Georgia, serif; font-weight: 500;" >Hotel</h4>
+    <div class="hotel-table-card">
+      <div class="hotel-table-header">
+        <div>City - Country</div>
+        <div>Hotel</div>
+        <div>Check In - Check Out</div>
+      </div>
+      <div class="hotel-table-row">
+        <div>Doha - QATAR</div>
+        <div id="hotelName">Centro Capital Doha/Radisson Blu Hotel Doha/or similar</div>
+        <div><i class="fa fa-calendar"></i> 16 Aug - 19 Aug</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+.hotel-enquiry-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin: 32px 0;
+}
+.hotel-table-section {
+  flex: 1 1 0;
+  min-width: 320px;
+  /* max-width: 500px; */
+}
+.hotel-enquiry-card-center {
+  flex: 0 0 340px;
+  align-self: center;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hotel-enquiry-card {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 18px 18px 12px 18px;
+  width: 320px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+.hotel-table-card {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  width: 772px;
+}
+.hotel-table-header {
+  background: #FDF6F3;
+  color: rgb(125, 122, 122);
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 18px;
+  border-radius: 10px 10px 0 0;
+  font-size: 1rem;
+}
+.hotel-table-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  font-size: 1rem;
+  color: #222;
+  border-top: 1px solid #e5e7eb;
+}
+/* .hotel-table-row div {
+  flex: 1 1 0;
+} */
+@media (max-width: 900px) {
+  .hotel-enquiry-row {
+    flex-direction: column;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .hotel-table-section, .hotel-enquiry-card-center {
+    width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+    margin: 0 auto;
+  }
+  .hotel-enquiry-card {
+    margin: 0 auto;
+  }
+}
+.hotel-enquiry-section1 {
+  width: 772px;
+  max-width: 100vw;
+  margin: 0 auto;
+}
+</style>
+
+<script>
+const hotelNames = {
+  Standard: "Holiday Inn Doha/or similar",
+  Deluxe: "Centro Capital Doha/Radisson Blu Hotel Doha/or similar",
+  Premium: "The Ritz-Carlton Doha/InterContinental Doha/or similar"
+};
+
+document.querySelectorAll('input[name="category"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    document.getElementById('hotelName').textContent = hotelNames[this.value];
+  });
+});
+</script>
+
+  <!-- Tour Information Tabs -->
+  <div class="tourinfo-section" id="tourinfo">
+    <div class="tourinfo-tabs">
+      <button class="tourinfo-tab active">Tour Information</button>
+      <button class="tourinfo-tab">Tour Cost</button>
+    </div>
+    <div class="tourinfo-content">
+      <ul class="tourinfo-list">
+        <li>Tour price is calculated for minimum 2 adults sharing a room.</li>
+        <li>Child with bed: 6 to 11 years. Child without bed: 2 to 5 years.</li>
+        <li>Infant: below 2 years. Age is calculated as per the date of return to India.</li>
+        <li>Tour cost is based on current airfare, taxes, and exchange rates. Any increase will be charged extra.</li>
+        <li>Hotels, flights, and itinerary are subject to change as per availability.</li>
+        <li>Any increase in taxes or fuel surcharge will be charged extra.</li>
+        <li>Visa fees, insurance, and other charges are not included unless specified.</li>
+        <li>For detailed terms & conditions, please refer to our website.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Terms Tabs Section -->
+  <div class="terms-tabs-section" id="terms">
+    <div class="terms-tabs">
+      <button class="terms-tab active" data-tab="payment">Payment terms</button>
+      <button class="terms-tab" data-tab="cancellation">Cancellation Policy</button>
+      <button class="terms-tab" data-tab="general">Terms & Conditions</button>
+    </div>
+    <div class="terms-tabs-content">
+      <div class="terms-pane active" data-pane="payment">
+        <p>
+          All payments towards the tour cost shall be made by the client to the company in accordance with the procedure and time frame mentioned herein below. The contracted, a minimum deposit as given in the table below is to be paid by you to the Company. Such deposit shall hold the booking on confirmation basis and such deposit is non-refundable (forfeited) interest free, subject to the cancellation policy as mentioned hereinabove. The balance amount shall be paid as per the amounts and the percentages as detailed in the table hereinbelow. In the event of billing errors, the Company reserves the right to re-invoice. You shall pay a sum of Rs.500/- for each instrument in case the cheque dishonoured by the bank. Further, the Company reserves the right to take necessary legal action in respect of the dishonoured cheques, as may be advised.<br><br>
+          The tariff of the tour quotation is calculated as per the rates prevailing at the time of quoting it. Total tour tariff should be paid within 30days before tour departure or due date mentioned in the invoice, whichever is earlier. Interest @ the rate of 12% p.a. on daily basis will be charged on such delayed payment. The Company reserves the right to change the tariff in the event of modification / alteration / change / variation in the said rates before the date of departure. Any such increase in the tour tariff accordingly, must be paid in full by the client before tour departure. Any increase in tour tariff during the tour must be paid in fully by the client on tour. All tour tariffs are exclusive of all taxes applicable from time to time. Clients hereby unconditionally accept that the prices, set of services and inclusions may vary on product to product or departure to departure, and the same shall not be considered for any kind of comparison universally. Further, the clients acknowledge and accept that the tour tariff are at the time of publication and are subject to change.<br><br>
+          All payments made within 10 days prior to the tour departure date shall have to be paid via Bank Transfer / Demand Draft (no cheques will be accepted) in favour of the Company. For payments exceeding a sum of Rs. 50,000/- (Rupees Fifty Thousand Only) or in the event the value of file exceeds a sum of Rs. 2,00,000/- (Rupees Two Lacs Only) or a sum equivalent to the Foreign currency, a copy of the PAN Card is
+        </p>
+      </div>
+      <div class="terms-pane" data-pane="cancellation">
+        <p>
+          <!-- Sample content, replace with your actual cancellation policy -->
+          In case of cancellation, the following charges will apply:<br>
+          - 30 days or more before departure: 10% of tour cost<br>
+          - 15-29 days before departure: 25% of tour cost<br>
+          - 7-14 days before departure: 50% of tour cost<br>
+          - Less than 7 days: 100% of tour cost<br>
+          Refunds will be processed as per company policy.
+        </p>
+      </div>
+      <div class="terms-pane" data-pane="general">
+        <p>
+          <!-- Sample content, replace with your actual terms & conditions -->
+          All information is correct at the time of publication and is subject to change without notice. Please read all terms and conditions carefully before booking. For the latest updates, visit our website or contact our team.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!--  -->
+
+<!-- Curated Journeys Section with left logo and reduced gap -->
+<section class="cj-section" id="exploreMoreSection" style="background-color: #fdf6f3">
+  <div class="cj-carousel-flex" style="display: flex; justify-content: center; align-items: stretch; gap: 0px;">
+    <!-- Left: Card with logo as background -->
+    <div class="cj-explore-card" style="max-width:320px; min-width:260px; height:481px; background:#fdf6f3; border-radius:18px; box-shadow:0 2px 12px rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center; position:relative;">
+      <!-- Logo as background -->
+      <img src="./GLOBENGEL/GLOBENGEL_Pinpoint_Logo-removebg-preview.png" alt="Logo" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:140px; opacity:0.13; pointer-events:none; z-index:1;" />
+      <!-- Centered content -->
+      <div style="position:relative; z-index:2; text-align:center; width:100%;">
+        <div style="font-family: 'MyCustomSliverSouth', sans-serif; font-size: 65px; font-weight:600; color:#444; margin-bottom:8px;">Explore</div>
+        <div style="font-family:'Miller Display',Georgia,serif; font-size:25px; font-weight:500; color:#444;">Similar Packages</div>
+      </div>
+    </div>
+    <!-- Right: Carousel Box -->
+    <div class="cj-carousel-box" style="flex:1 1 0; min-width:0;">
+      <div class="swiper cjSwiper">
+        <div class="swiper-wrapper">
+          <!-- Card 1 -->
+          <div class="swiper-slide">
+            <div class="cj-card">
+              <img src="./images/bm1.webp" alt="Krabi & Phuket">
+              <div class="cj-card-content">
+                <div class="cj-card-header">
+                  <h3>Spectacular Krabi & Phuket Getaway ...</h3>
+                  <span class="cj-days">5N/6D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
+                <div class="cj-features-grid">
+                  <ul class="cj-features">
+                    <li>Round Trip Flights</li>
+                    <li>Airport Transfers</li>
+                    <li>Selected Meals</li>
+                  </ul>
+                  <ul class="cj-features">
+                    <li>4 Star Hotels</li>
+                    <li>5 Activities</li>
+                  </ul>
+                </div>
+                <div class="cj-price-box">
+                  <div class="cj-price-left">
+                    <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
+                  </div>
+                  <div class="cj-price-right">
+                    <p class="cj-price">₹55,751</p>
+                    <div class="cj-price-details">
+                      <div>/Person</div>
+                      <div>Total Price ₹1,11,502</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="swiper-slide">
+            <div class="cj-card" >
+              <img src="./images/bm2.webp" alt="Couples Choice">
+              <div class="cj-card-content">
+                <div class="cj-card-header">
+                  <h3>Couples Choice - Seal Deal</h3>
+                  <span class="cj-days">6N/7D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 1N Phi Phi Island • 3N Phuket</p>
+                <div class="cj-features-grid">
+                  <ul class="cj-features">
+                    <li>Round Trip Flights</li>
+                    <li>Airport Transfers</li>
+                    <li>Selected Meals</li>
+                  </ul>
+                  <ul class="cj-features">
+                    <li>4 Star Hotels</li>
+                    <li>7 Activities</li>
+                  </ul>
+                </div>
+                <div class="cj-price-box">
+                  <div class="cj-price-left">
+                    <p class="cj-note">This price is lower than the average price in September</p>
+                  </div>
+                  <div class="cj-price-right">
+                    <p class="cj-price">₹59,664</p>
+                    <div class="cj-price-details">
+                      <div>/Person</div>
+                      <div>Total Price ₹1,19,328</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="swiper-slide">
+            <div class="cj-card">
+              <img src="./images/bw1.jpeg" alt="Krabi & Phuket">
+              <div class="cj-card-content">
+                <div class="cj-card-header">
+                  <h3>Spectacular Krabi & Phuket Getaway ...</h3>
+                  <span class="cj-days">5N/6D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
+                <div class="cj-features-grid">
+                  <ul class="cj-features">
+                    <li>Round Trip Flights</li>
+                    <li>Airport Transfers</li>
+                    <li>Selected Meals</li>
+                  </ul>
+                  <ul class="cj-features">
+                    <li>4 Star Hotels</li>
+                    <li>5 Activities</li>
+                  </ul>
+                </div>
+                <div class="cj-price-box">
+                  <div class="cj-price-left">
+                    <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
+                  </div>
+                  <div class="cj-price-right">
+                    <p class="cj-price">₹55,751</p>
+                    <div class="cj-price-details">
+                      <div>/Person</div>
+                      <div>Total Price ₹1,11,502</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 1 -->
+          <div class="swiper-slide">
+            <div class="cj-card">
+              <img src="./images/bm1.webp" alt="Krabi & Phuket">
+              <div class="cj-card-content">
+                <div class="cj-card-header">
+                  <h3>Spectacular Krabi & Phuket Getaway ...</h3>
+                  <span class="cj-days">5N/6D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
+                <div class="cj-features-grid">
+                  <ul class="cj-features">
+                    <li>Round Trip Flights</li>
+                    <li>Airport Transfers</li>
+                    <li>Selected Meals</li>
+                  </ul>
+                  <ul class="cj-features">
+                    <li>4 Star Hotels</li>
+                    <li>5 Activities</li>
+                  </ul>
+                </div>
+                <div class="cj-price-box">
+                  <div class="cj-price-left">
+                    <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
+                  </div>
+                  <div class="cj-price-right">
+                    <p class="cj-price">₹55,751</p>
+                    <div class="cj-price-details">
+                      <div>/Person</div>
+                      <div>Total Price ₹1,11,502</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="swiper-slide">
+            <div class="cj-card" >
+              <img src="./images/bm2.webp" alt="Couples Choice">
+              <div class="cj-card-content">
+                <div class="cj-card-header">
+                  <h3>Couples Choice - Seal Deal</h3>
+                  <span class="cj-days">6N/7D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 1N Phi Phi Island • 3N Phuket</p>
+                <div class="cj-features-grid">
+                  <ul class="cj-features">
+                    <li>Round Trip Flights</li>
+                    <li>Airport Transfers</li>
+                    <li>Selected Meals</li>
+                  </ul>
+                  <ul class="cj-features">
+                    <li>4 Star Hotels</li>
+                    <li>7 Activities</li>
+                  </ul>
+                </div>
+                <div class="cj-price-box">
+                  <div class="cj-price-left">
+                    <p class="cj-note">This price is lower than the average price in September</p>
+                  </div>
+                  <div class="cj-price-right">
+                    <p class="cj-price">₹59,664</p>
+                    <div class="cj-price-details">
+                      <div>/Person</div>
+                      <div>Total Price ₹1,19,328</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="swiper-slide">
+            <div class="cj-card">
+              <img src="./images/bw1.jpeg" alt="Krabi & Phuket">
+              <div class="cj-card-content">
+                <div class="cj-card-header">
+                  <h3>Spectacular Krabi & Phuket Getaway ...</h3>
+                  <span class="cj-days">5N/6D</span>
+                </div>
+                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
+                <div class="cj-features-grid">
+                  <ul class="cj-features">
+                    <li>Round Trip Flights</li>
+                    <li>Airport Transfers</li>
+                    <li>Selected Meals</li>
+                  </ul>
+                  <ul class="cj-features">
+                    <li>4 Star Hotels</li>
+                    <li>5 Activities</li>
+                  </ul>
+                </div>
+                <div class="cj-price-box">
+                  <div class="cj-price-left">
+                    <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
+                  </div>
+                  <div class="cj-price-right">
+                    <p class="cj-price">₹55,751</p>
+                    <div class="cj-price-details">
+                      <div>/Person</div>
+                      <div>Total Price ₹1,11,502</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Add more swiper-slide cards as needed -->
+        </div>
+        <!-- Swiper navigation -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cj-section {
+  padding: 40px 0;
+}
+.cj-carousel-flex {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 32px;
+}
+.cj-explore-card {
+  max-width: 320px;
+  min-width: 260px;
+  height: 340px;
+  background: #fdf6f3;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.cj-explore-card img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 140px;
+  opacity: 0.13;
+  pointer-events: none;
+  z-index: 1;
+}
+.cj-explore-card > div {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+}
+.cj-carousel-box {
+  flex: 1 1 0;
+  min-width: 0;
+}
+/* .cjSwiper .swiper-wrapper {
+  gap: 8px !important;
+} */
+.cj-card {
+  margin: 0 !important;
+}
+@media (max-width: 900px) {
+  .cj-carousel-flex {
+    flex-direction: column;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .cj-explore-card {
+    margin: 0 auto 18px auto;
+    width: 98vw;
+    min-width: 0;
+    max-width: 100vw;
+    height: 220px;
+  }
+  .cj-explore-card img {
+    width: 90px;
+  }
+}
+
+.cjSwiper{
+  padding-bottom: 0 !important;
+}
+</style>
+
+<!-- Partner Section -->
+
+<section class="logo-slider-section">
+  <div class="logo-marquee">
+    <div class="logo-track">
+      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
+      <img src="./images/polandPartner.png" alt="wanderwell logo" />
+      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <!-- Repeat for seamless loop -->
+      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
+      <img src="./images/polandPartner.png" alt="wanderwell logo" />
+      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+      <img src="./images/par1.jpeg" alt="wanderwell logo" />
+      <img src="./images/par2.jpeg" alt="plasticbank logo" />
+      <img src="./images/par3.jpeg" alt="climate neutral now" />
+      <img src="./images/par4.jpeg" alt="eden reforestation" />
+      <img src="./images/par5.jpeg" alt="ally travel council" />
+    </div>
+  </div>
+</section>
+
+<style>
+.logo-slider-section {
+  background: #fff;
+  padding: 60px 0;
+  overflow: hidden;
+}
+.logo-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.logo-track {
+  display: flex;
+  gap: 32px;
+  animation: marquee 38s linear infinite;
+  width: max-content;
+  align-items: center;
+}
+.logo-track img {
+  width: 150px;
+  height: 100px !important;
+  object-fit: contain;
+  display: block;
+  margin: 0 8px;
+  filter: none;
+  /* background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04); */
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+</style>
+
+ <!-- footer 2 -->
+<footer class="site-footer">
+    <div class="footer-top">
+
+      <!-- Newsletter -->
+      <div class="footer-newsletter">
+        <h4>LET'S BUILD EXPERIENCES TOGETHER</h4>
+        <form class="heading_font_family">
+          <input type="text" placeholder="First Name*" required>
+          <input type="text" placeholder="Last Name*" required>
+          <input type="email" placeholder="Email*" required>
+          <label class="checkbox heading_font_family">
+            <input type="checkbox">
+            I am happy to receive emails from Globengel, including upcoming events and information.*
+          </label>
+          <button type="submit" class="signup-btn">Sign Up</button>
+        </form>
+      </div>
+
+      <!-- Award Badge -->
+      <div class="footer-badge">
+        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Award 2025">
+      </div>
+
+
+      <!-- Destinations -->
+      <div class="footer-destinations">
+        <h4 class="heading_font_family" style="font-size: 18px;">Home</h4>
+        <ul class="heading_font_family">
+
+                    <!-- <li><a href="Destination.html">Destinations</a></li>
+                    <li><a href="Luxury.html">Luxury</a></li> -->
+                    <li><a href="tourpakages.html">Group Tours</a></li>
+                    <li><a href="voyages.html">Voyages</a></li>
+                    <li><a href="business.html">Business Travel</a></li>
+                    <li><a href="celebration.html">Destination Celebration</a></li>
+                    <li><a href="Eduwings.html">Eduwings (STUDY ABROAD)</a></li> 
+                    <li><a href="sky.html">Private Charter</a></li> 
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="Contactus.html">Contact Us</a></li>
+
+          
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h4 class="heading_font_family">Get in Touch</h4>
+        <p><a href="tel:+919910405255">+91 99104-05255</a></p>
+        <p class="heading_font_family"><a href="mailto:info@globengel.com">info@globengel.com</a></p>
+
+        <h4 class="heading_font_family">Find us on</h4>
+        <!-- Social Media Icons -->
+<div class="footer-social">
+                    <a href="https://www.facebook.com/globengel" class="social-icon-box"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@globengel" class="social-icon-box"><i class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/globengel" class="social-icon-box"><i class="fab fa-x"></i></a>
+                    <a href="https://www.instagram.com/globengel" class="social-icon-box"><i class="fab fa-instagram"></i></a>
+                    <a href="http://www.linkedin.com/company/globengel" class="social-icon-box"><i class="fab fa-linkedin-in"></i></a>
+</div>
+
+        <div class="footer-tagline">
+          <h2 class="heading_font_family">DREAM. <br>
+EXPLORE. <br>
+DISCOVER. <br>
+
+</h2>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 130px;" alt="MITÉRA Goddess Logo">
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+        <p>Copyright 2019-2025 GLOBENGEL</p>
+      </div>
+    </div>
+</footer>
+
+<!-- JS -->
+  
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const swiper = new Swiper('.cjSwiper', {
+    slidesPerView: 1,
+    spaceBetween: 8,
+    loop: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    },
+    breakpoints: {
+      600: { slidesPerView: 2, spaceBetween: 12 },
+      900: { slidesPerView: 3, spaceBetween: 15 }
+    }
+  });
+
+  // Pause autoplay on mouseenter, resume on mouseleave
+  const swiperEl = document.querySelector('.cjSwiper');
+  swiperEl.addEventListener('mouseenter', function () {
+    swiper.autoplay.stop();
+  });
+  swiperEl.addEventListener('mouseleave', function () {
+    swiper.autoplay.start();
+  });
+});
+</script>
+
+<script>
+// Sticky secondary navbar on scroll (desktop only)
+document.addEventListener('DOMContentLoaded', function() {
+  var navbar = document.getElementById('luxurySecondaryNavbar');
+  var mainNavbar = document.querySelector('.navbar');
+  var stickyOffset = navbar.offsetTop;
+  function onScroll() {
+    if (window.innerWidth > 991) {
+      if (window.pageYOffset > stickyOffset) {
+        navbar.classList.add('sticky');
+        document.body.classList.add('sticky-secondary-navbar-active');
+        // Set top to main navbar height so it sits just below
+        navbar.style.top = mainNavbar.offsetHeight + 'px';
+      } else {
+        navbar.classList.remove('sticky');
+        document.body.classList.remove('sticky-secondary-navbar-active');
+        navbar.style.top = '';
+      }
+    } else {
+      navbar.classList.remove('sticky');
+      document.body.classList.remove('sticky-secondary-navbar-active');
+      navbar.style.top = '';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('resize', onScroll);
+  onScroll();
+});
+</script>
+
+<script>
+// Itinerary Data
+const itineraryData = [
+  {
+    day: 1,
+    date: "10 Oct, 25",
+    title: "Auckland – Waitomo – Rotorua (1 Night)",
+    blue: true,
+    details: null
+  },
+  {
+    day: 2,
+    date: "11 Oct, 25",
+    title: "Rotorua – Auckland (2 Nights)",
+    blue: false,
+    details: null
+  },
+  {
+    day: 3,
+    date: "12 Oct, 25",
+    title: "Auckland",
+    blue: false,
+    details: `
+      <p>
+        Today we explore Auckland city: Harbour Bridge, Westhaven Marina, Queen Street, Auckland Waterfront. Later visit Auckland Sky Tower Observatory Deck and enjoy All Blacks Experience.
+      </p>
+      <div class="itinerary-sightseeing">
+        <div class="sightseeing-title"><i class="fa fa-eye"></i> Today's Sightseeing</div>
+        <ul>
+          <li><span class="dot-green"></span> Auckland Sky Tower Observatory Deck</li>
+          <li><span class="dot-green"></span> All Blacks Experience</li>
+        </ul>
+      </div>
+      <div class="itinerary-night">
+        <i class="fa fa-bed"></i> Night stay in Auckland
+      </div>
+      <div class="itinerary-meals">
+        <i class="fa fa-utensils"></i> Breakfast, Lunch & Dinner
+      </div>
+      <div class="itinerary-special">
+        <i class="fa fa-coffee"></i> Tea/coffee during Auckland City tour
+      </div>
+    `
+  },
+  {
+    day: 4,
+    date: "13 Oct, 25",
+    title: "Auckland – Queenstown (3 Nights)",
+    blue: false,
+    details: `<p>Flight to Queenstown. Free time for leisure and exploring the city.</p>`
+  },
+  {
+    day: 5,
+    date: "14 Oct, 25",
+    title: "Queenstown – Milford Sound – Queenstown",
+    blue: false,
+    details: `<p>Day trip to Milford Sound with scenic cruise and return to Queenstown.</p>`
+  },
+  {
+    day: 6,
+    date: "15 Oct, 25",
+    title: "Queenstown",
+    blue: false,
+    details: `<p>Skyline Gondola Ride, Bob Peak, and optional adventure activities.</p>`
+  },
+  {
+    day: 7,
+    date: "16 Oct, 25",
+    title: "Queenstown – Wanaka – Fox/Franz Joseph Glacier (1 Night)",
+    blue: false,
+    details: `<p>Drive to Wanaka, visit Lake Tekapo and Lake Pukaki, continue to Glacier region.</p>`
+  },
+  {
+    day: 8,
+    date: "17 Oct, 25",
+    title: "Fox/Franz Joseph Glacier – Arthur’s Pass – Christchurch (2 Nights)",
+    blue: false,
+    details: `<p>Glacier walk, then scenic drive to Christchurch via Arthur’s Pass.</p>`
+  },
+  {
+    day: 9,
+    date: "18 Oct, 25",
+    title: "Christchurch",
+    blue: false,
+    details: `<p>International Antarctic Centre, Maori Show, city sightseeing.</p>`
+  },
+  {
+    day: 10,
+    date: "19 Oct, 25",
+    title: "Christchurch – Departure",
+    blue: false,
+    details: `<p>Check out and transfer to airport for departure.</p>`
+  }
+];
+
+function renderItinerary() {
+  const list = document.getElementById('itineraryList');
+  list.innerHTML = '';
+  itineraryData.forEach((item, idx) => {
+    const blueClass = item.blue ? 'blue' : '';
+    const hasDetails = !!item.details;
+    const isExpanded = !!item.expanded;
+    const toggleBtn = hasDetails
+      ? `<button class="itinerary-toggle ${isExpanded ? 'minus' : 'plus'}" data-idx="${idx}">${isExpanded ? '−' : '+'}</button>`
+      : '';
+    list.innerHTML += `
+      <div class="itinerary-day${isExpanded ? ' expanded' : ''}">
+        <div class="itinerary-daybar">
+          <span class="itinerary-daynum">Day ${item.day} / ${item.date}</span>
+          <span class="itinerary-dot"></span>
+          <span class="itinerary-title ${blueClass}">${item.title}</span>
+          ${toggleBtn}
+        </div>
+        ${isExpanded && hasDetails ? `<div class="itinerary-details">${item.details}</div>` : ''}
+      </div>
+    `;
+  });
+  // Add event listeners for +/-
+  document.querySelectorAll('.itinerary-toggle').forEach(btn => {
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      const idx = +this.getAttribute('data-idx');
+      itineraryData[idx].expanded = !itineraryData[idx].expanded;
+      renderItinerary();
+    };
+  });
+}
+document.addEventListener('DOMContentLoaded', renderItinerary);
+
+document.querySelectorAll('.tourinfo-tab').forEach((tab, idx) => {
+  tab.onclick = function() {
+    document.querySelectorAll('.tourinfo-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelector('.tourinfo-content').innerHTML = idx === 0
+      ? `<ul class="tourinfo-list">
+        <li>Tour price is calculated for minimum 2 adults sharing a room.</li>
+        <li>Child with bed: 6 to 11 years. Child without bed: 2 to 5 years.</li>
+        <li>Infant: below 2 years. Age is calculated as per the date of return to India.</li>
+        <li>Tour cost is based on current airfare, taxes, and exchange rates. Any increase will be charged extra.</li>
+        <li>Hotels, flights, and itinerary are subject to change as per availability.</li>
+        <li>Any increase in taxes or fuel surcharge will be charged extra.</li>
+        <li>Visa fees, insurance, and other charges are not included unless specified.</li>
+        <li>For detailed terms & conditions, please refer to our website.</li>
+      </ul>`
+      : `<ul class="tourinfo-list">
+        <li>Tour cost includes accommodation, meals, sightseeing, and transfers as per itinerary.</li>
+        <li>Airfare and taxes are included unless mentioned otherwise.</li>
+        <li>Personal expenses, tips, and optional tours are not included.</li>
+        <li>For a detailed cost breakdown, please contact our team.</li>
+      </ul>`;
+  }
+});
+
+document.querySelectorAll('.terms-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.terms-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    const tabName = this.getAttribute('data-tab');
+    document.querySelectorAll('.terms-pane').forEach(pane => {
+      pane.classList.toggle('active', pane.getAttribute('data-pane') === tabName);
+    });
+  });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./js/script.js"></script>
+<!-- Swiper initialization is in script.js -->
+
+<script>
+// Show secondary navbar only on scroll past "Best of New Zealand"
+document.addEventListener('DOMContentLoaded', function() {
+  var navbar = document.getElementById('luxurySecondaryNavbar');
+  var tourTitle = document.querySelector('.tour-title');
+  var showOnScroll = function() {
+    if (window.innerWidth > 551) {
+      var scrollY = window.scrollY || window.pageYOffset;
+      var trigger = tourTitle.getBoundingClientRect().top + window.scrollY;
+      if (scrollY > trigger) {
+        navbar.style.display = 'block';
+      } else {
+        navbar.style.display = 'none';
+      }
+    } else {
+      navbar.style.display = 'none';
+    }
+  };
+  window.addEventListener('scroll', showOnScroll);
+  window.addEventListener('resize', showOnScroll);
+  showOnScroll();
+});
+</script>
+
+<!-- Pricing Table Modal -->
+<div id="pricingTableModal" class="pricing-modal" style="display:none;">
+  <div class="pricing-modal-content">
+    <div class="pricing-modal-header">
+      <span class="pricing-modal-title">Detailed Tour price</span>
+      <span class="pricing-modal-close" id="closePricingModal">&times;</span>
+    </div>
+    <div class="pricing-modal-subtitle">Prices & discounts are Per Person only.</div>
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th>Room Type</th>
+          <th>Basic Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Single Occupancy</td><td>₹4,93,000</td></tr>
+        <tr><td>Twin Sharing</td><td>₹3,80,000</td></tr>
+        <tr><td>Triple Sharing</td><td>₹3,79,000</td></tr>
+        <tr><td>Infant</td><td>₹57,000</td></tr>
+        <tr><td>Child (2 - 11) With Mattress</td><td>₹3,15,000</td></tr>
+        <tr><td>Child (2 - 11) Without Mattress</td><td>₹2,66,000</td></tr>
+      </tbody>
+    </table>
+    <div class="pricing-modal-terms">
+      <ul>
+        <li>• Terms and Conditions apply.</li>
+        <li>• 5% GST is applicable on given tour price.</li>
+        <li>• Mentioned tour prices are Per Person.</li>
+        <li>• TCS at 5% or 10% (if PAN is inoperative or not linked with Aadhaar) up to ₹10 lakhs, and 20% on amounts above ₹10 lakhs, will apply on the GST-inclusive price, w.e.f. 1st April 2025.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Pricing Table Popup
+  var btn = document.getElementById('viewPricingTableBtn');
+  if (btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('pricingTableModal').style.display = 'flex';
+    });
+  }
+  document.getElementById('closePricingModal').onclick = function() {
+    document.getElementById('pricingTableModal').style.display = 'none';
+  };
+  document.getElementById('pricingTableModal').onclick = function(e) {
+    if (e.target === this) {
+      this.style.display = 'none';
+    }
+  };
+
+  // Sticky BOOKING SUMMARY card until Explore More section
+  var card = document.getElementById('bookingSummaryCard');
+  var exploreSection = document.getElementById('exploreMoreSection');
+  var cardParent = card.parentElement;
+  var offset = 90; // adjust if your navbar is taller
+
+  function onScroll() {
+    if (window.innerWidth <= 900) {
+      card.style.position = 'static';
+      card.style.top = '';
+      return;
+    }
+    var cardRect = card.getBoundingClientRect();
+    var exploreRect = exploreSection.getBoundingClientRect();
+    var parentRect = cardParent.getBoundingClientRect();
+
+    if (exploreRect.top < cardRect.height + offset) {
+      card.style.position = 'absolute';
+      card.style.top = (exploreSection.offsetTop - cardParent.offsetTop - card.offsetHeight) + 'px';
+    } else {
+      card.style.position = 'sticky';
+      card.style.top = offset + 'px';
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('resize', onScroll);
+  onScroll();
+});
+</script>
+
+<script>
+// New Zealand Interactive Map with Moving Ball Animation
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if map container exists
+  const mapContainer = document.getElementById('nzMap');
+  if (!mapContainer) return;
+
+  // Initialize the map
+  const nzMap = L.map('nzMap').setView([-41.0, 173.0], 6);
+
+  // Add clean basemap (Carto Light Positron)
+  L.tileLayer('https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(nzMap);
+
+  // New Zealand tour locations (main cities from the itinerary)
+  const nzLocations = [
+    { name: "Auckland", coords: [-36.8485, 174.7633] },
+    { name: "Rotorua", coords: [-38.1368, 176.2497] },
+    { name: "Queenstown", coords: [-45.0312, 168.6626] },
+    { name: "Christchurch", coords: [-43.5321, 172.6362] }
+  ];
+
+  const globengelOrange = "#FF7900";
+
+  // Add markers with numbers
+  const markers = nzLocations.map((loc, i) => {
+    const icon = L.divIcon({
+      className: "number-icon",
+      html: `<div style="background:${globengelOrange}; color:white; 
+                border-radius:50%; width:30px; height:30px; 
+                display:flex; align-items:center; justify-content:center; 
+                font-weight:bold; box-shadow: 0 2px 8px rgba(255,121,0,0.3); 
+                border: 2px solid white;">${i+1}</div>`,
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    });
+
+    // Use tooltip instead of popup (shows name only on hover)
+    return L.marker(loc.coords, { icon })
+      .addTo(nzMap)
+      .bindTooltip(loc.name, { 
+        permanent: false, 
+        direction: "top",
+        className: 'custom-tooltip',
+        offset: [0, -10]
+      });
+  });
+
+  // Fit map to all markers with padding
+  const group = new L.featureGroup(markers);
+  nzMap.fitBounds(group.getBounds().pad(0.15));
+
+  // Coordinates for line
+  const lineCoords = nzLocations.map(loc => loc.coords);
+
+  // Add solid line connecting the cities
+  L.polyline(lineCoords, {
+    color: globengelOrange,
+    weight: 3,
+    opacity: 0.9,
+    dashArray: '0'
+  }).addTo(nzMap);
+
+  // Moving orange ball marker
+  let ballIcon = L.divIcon({
+    html: `<div style="background:${globengelOrange}; border-radius:50%; width:18px; height:18px; 
+              box-shadow: 0 2px 8px rgba(255,121,0,0.6); border: 2px solid white; 
+              animation: pulse 2s infinite;"></div>`,
+    className: "ball-icon",
+    iconSize: [18, 18],
+    iconAnchor: [9, 9]
+  });
+
+  let movingMarker = L.marker(lineCoords[0], { icon: ballIcon }).addTo(nzMap);
+
+  let step = 0;
+  let animationId;
+
+  function animateBall() {
+    step += 0.8; // Slower animation
+    if (step >= lineCoords.length * 150) { // loop
+      step = 0;
+    }
+    const t = (step % 150) / 150;
+    const idx = Math.floor(step / 150);
+    const start = lineCoords[idx];
+    const end = lineCoords[(idx + 1) % lineCoords.length];
+
+    // Linear interpolation
+    const lat = start[0] + (end[0] - start[0]) * t;
+    const lng = start[1] + (end[1] - start[1]) * t;
+
+    movingMarker.setLatLng([lat, lng]);
+    animationId = requestAnimationFrame(animateBall);
+  }
+
+  // Add CSS for pulse animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .custom-tooltip {
+      background: ${globengelOrange};
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .custom-tooltip::before {
+      border-top-color: ${globengelOrange};
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Start the animation
+  animateBall();
+
+  // Pause animation when tab is not visible (performance optimization)
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      if (animationId) cancelAnimationFrame(animationId);
+    } else {
+      animateBall();
+    }
+  });
+
+  // Invalidate map size when container becomes visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          nzMap.invalidateSize();
+        }, 100);
+      }
+    });
+  });
+  observer.observe(mapContainer);
+});
+</script>
+
+<script>
+// Map Modal Functions
+let fullScreenMapInstance = null;
+
+function openMapModal(event) {
+  event.preventDefault();
+  const modal = document.getElementById('mapModal');
+  modal.style.display = 'flex';
+  
+  // Initialize full screen map if not already initialized
+  if (!fullScreenMapInstance) {
+    // Wait a bit for modal to be visible
+    setTimeout(() => {
+      initializeFullScreenMap();
+    }, 100);
+  } else {
+    // If map already exists, just invalidate size to ensure proper display
+    setTimeout(() => {
+      fullScreenMapInstance.invalidateSize();
+    }, 100);
+  }
+}
+
+function closeMapModal() {
+  const modal = document.getElementById('mapModal');
+  modal.style.display = 'none';
+}
+
+function initializeFullScreenMap() {
+  const fullScreenMapContainer = document.getElementById('fullScreenMap');
+  if (!fullScreenMapContainer) return;
+
+  // Initialize the full screen map
+  fullScreenMapInstance = L.map('fullScreenMap').setView([-41.0, 173.0], 6);
+
+  // Add clean basemap
+  L.tileLayer('https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(fullScreenMapInstance);
+
+  // New Zealand tour locations
+  const nzLocations = [
+    { name: "Auckland", coords: [-36.8485, 174.7633] },
+    { name: "Rotorua", coords: [-38.1368, 176.2497] },
+    { name: "Queenstown", coords: [-45.0312, 168.6626] },
+    { name: "Christchurch", coords: [-43.5321, 172.6362] }
+  ];
+
+  const globengelOrange = "#FF7900";
+
+  // Add markers with numbers
+  const markers = nzLocations.map((loc, i) => {
+    const icon = L.divIcon({
+      className: "number-icon",
+      html: `<div style="background:${globengelOrange}; color:white; 
+                border-radius:50%; width:40px; height:40px; 
+                display:flex; align-items:center; justify-content:center; 
+                font-weight:bold; font-size:16px; box-shadow: 0 4px 12px rgba(255,121,0,0.4); 
+                border: 3px solid white;">${i+1}</div>`,
+      iconSize: [40, 40],
+      iconAnchor: [20, 20]
+    });
+
+    return L.marker(loc.coords, { icon })
+      .addTo(fullScreenMapInstance)
+      .bindTooltip(loc.name, { 
+        permanent: false, 
+        direction: "top",
+        className: 'custom-tooltip-large',
+        offset: [0, -15]
+      });
+  });
+
+  // Fit map to all markers
+  const group = new L.featureGroup(markers);
+  fullScreenMapInstance.fitBounds(group.getBounds().pad(0.1));
+
+  // Coordinates for line
+  const lineCoords = nzLocations.map(loc => loc.coords);
+
+  // Add solid line
+  L.polyline(lineCoords, {
+    color: globengelOrange,
+    weight: 4,
+    opacity: 0.9,
+    dashArray: '0'
+  }).addTo(fullScreenMapInstance);
+
+  // Moving orange ball marker
+  let ballIcon = L.divIcon({
+    html: `<div style="background:${globengelOrange}; border-radius:50%; width:24px; height:24px; 
+              box-shadow: 0 4px 12px rgba(255,121,0,0.7); border: 3px solid white; 
+              animation: pulse 2s infinite;"></div>`,
+    className: "ball-icon-large",
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
+  });
+
+  let movingMarker = L.marker(lineCoords[0], { icon: ballIcon }).addTo(fullScreenMapInstance);
+
+  let step = 0;
+  let animationId;
+
+  function animateBallLarge() {
+    step += 0.6; // Slower animation for full screen
+    if (step >= lineCoords.length * 200) {
+      step = 0;
+    }
+    const t = (step % 200) / 200;
+    const idx = Math.floor(step / 200);
+    const start = lineCoords[idx];
+    const end = lineCoords[(idx + 1) % lineCoords.length];
+
+    const lat = start[0] + (end[0] - start[0]) * t;
+    const lng = start[1] + (end[1] - start[1]) * t;
+
+    movingMarker.setLatLng([lat, lng]);
+    animationId = requestAnimationFrame(animateBallLarge);
+  }
+
+  // Add CSS for larger tooltips
+  const style = document.createElement('style');
+  style.textContent = `
+    .custom-tooltip-large {
+      background: ${globengelOrange};
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 12px;
+    }
+    .custom-tooltip-large::before {
+      border-top-color: ${globengelOrange};
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Start animation
+  animateBallLarge();
+
+  // Store animation ID for cleanup
+  fullScreenMapInstance._animationId = animationId;
+}
+
+// Close modal when clicking outside
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('mapModal');
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeMapModal();
+    }
+  });
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeMapModal();
+      closeRoadDistanceModal();
+    }
+  });
+
+  // Add click listener for road distance modal
+  const roadModal = document.getElementById('roadDistanceModal');
+  roadModal.addEventListener('click', function(e) {
+    if (e.target === roadModal) {
+      closeRoadDistanceModal();
+    }
+  });
+});
+
+// Road Distance Modal Functions
+function openRoadDistanceModal(event) {
+  event.preventDefault();
+  const modal = document.getElementById('roadDistanceModal');
+  modal.style.display = 'flex';
+}
+
+function closeRoadDistanceModal() {
+  const modal = document.getElementById('roadDistanceModal');
+  modal.style.display = 'none';
+}
+
+// Cancellation Policy Modal Functions
+function openCancellationPolicyModal(event) {
+  event.preventDefault();
+  const modal = document.getElementById('cancellationPolicyModal');
+  modal.style.display = 'flex';
+}
+
+function closeCancellationPolicyModal() {
+  const modal = document.getElementById('cancellationPolicyModal');
+  modal.style.display = 'none';
+}
+
+// Enquire Modal Functions
+function openEnquireModal(event) {
+  event.preventDefault();
+  const modal = document.getElementById('enquireModal');
+  modal.style.display = 'flex';
+}
+
+function closeEnquireModal() {
+  const modal = document.getElementById('enquireModal');
+  modal.style.display = 'none';
+}
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  new Swiper('.heroLuxurySwiper', {
+    loop: true,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: false
+    }
+  });
+});
+</script>
+
+<div id="authModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:99999; align-items:center; justify-content:center;">
+  <div id="authModalInner" style="background:#fff6f3; border-radius:16px; max-width:900px; width:95vw; padding:32px 28px 24px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative; display:flex; gap:32px; flex-wrap:wrap;">
+    <!-- Left: Forms -->
+    <div style="flex:1 1 350px; min-width:320px;">
+      <button id="closeAuthModal" style="position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px; color:#e55d17; cursor:pointer;">&times;</button>
+      <!-- Tabs -->
+      <div style="display:flex; justify-content:center; gap:24px; margin-bottom: 10px;">
+        <button id="signInTab" class="auth-tab active" style="background:none; border:none; font-size:18px; font-weight:600; color:#e55d17; cursor:pointer;">Sign In</button>
+        <button id="createTab" class="auth-tab" style="background:none; border:none; font-size:18px; font-weight:600; color:#888; cursor:pointer;">Create Account</button>
+      </div>
+      <!-- Sign In Form -->
+      <form id="signInForm" style="display:block;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:18px;">Sign In to Your Account</h3>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Email or Mobile Number*</label>
+          <input type="text" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:14px;">Password*</label>
+          <input type="password" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:17px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign In</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Don't have an account? <span id="gotoCreate" style="color:#e55d17; cursor:pointer; font-weight:500;">Create Account</span>
+        </div>
+      </form>
+      <!-- Create Account Form -->
+      <form id="createForm" style="display:none;">
+        <h3 style="font-size:22px; font-weight:600; margin-bottom:10px;">Create an Account</h3>
+        <p style="margin-bottom: 10px; font-size: 14px;" >Enter the below details to start setting up your ENGEL CLUB account. If you already have an account, please <span style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span> to continue.</p>
+        <!-- ...your create account fields as before... -->
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">First Name*</label>
+            <input type="text" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Last Name*</label>
+            <input type="text" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Gender</label>
+            <input type="text" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Date of Birth</label>
+            <input type="text" placeholder="DD/MM/YYYY" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+      <label style="font-size:14px;">Mobile Number*</label>
+      <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
+        <select style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
+          <option value="+91">+91</option>
+          <option value="+1">+1</option>
+          <option value="+44">+44</option>
+          <option value="+61">+61</option>
+          <option value="+81">+81</option>
+          <!-- Add more country codes as needed -->
+        </select>
+        <input type="text" required style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
+      </div>
+    </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:14px;">Email*</label>
+          <input type="email" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:12px;">
+          <div style="flex:1;">
+            <label style="font-size:14px;">Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+          <div style="flex:1;">
+            <label style="font-size:14px;">Confirm Password*</label>
+            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:13px;">
+            <input type="checkbox" style="margin-right:6px;">
+            I wish to receive news and promotions from GLOBENGEL. You may unsubscribe at any time by updating your account preferences.
+          </label>
+          <p style="margin-bottom: 0; font-size: 13px;" >By submitting this form, I agree to Maharaja Club Terms and Conditions and Privacy Notice.</p>
+        </div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:15px; font-weight:600; border:none; padding:5px 0; margin-top:8px;">Sign Up</button>
+        <div style="text-align:center; margin-top:18px; font-size:14px;">
+          Already have an account? <span id="gotoSignIn" style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span>
+        </div>
+      </form>
+    </div>
+    <!-- Right: ENGEL CLUB Info Card -->
+    <div id="engelClubCard" style="flex:1 1 320px; min-width:280px; background: #fad7c0; border-radius:12px; padding:28px 22px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <img src="./images/engleClubLogo.png" alt="ENGEL CLUB" style="width:150px; margin-bottom:12px;">
+      <h4 style="font-size:18px; font-weight:600; color:#444; margin-bottom:18px;">SIGN UP FOR ENGEL CLUB</h4>
+      <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:15px; color:#444;">
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Earn rewards every time you travel with us.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-arrow-up" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Unlock special upgrades &amp; priority assistance.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-users" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Access member-only deals on holidays &amp; services.
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Surprise perks for milestone trips (honeymoons, anniversaries, etc.).
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:center;">
+          <i class="fa fa-lightbulb" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+          Early access to new offers
+        </li>
+      </ul>
+      <button id="engelSignUpBtn" style="background:#e55d17; color:#fff; font-size:16px; font-weight:600; border:none; border-radius:6px; padding:10px 32px; margin-top:8px;">SIGN-UP</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Responsive styles for auth modal */
+@media (max-width: 700px) {
+  #authModalInner {
+    flex-direction: column !important;
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 18px 8px 18px 8px !important;
+    gap: 0 !important;
+    align-items: stretch !important;
+  }
+  #authModalInner > div {
+    min-width: 0 !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    margin-bottom: 18px !important;
+  }
+  #engelClubCard {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 18px 8px !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+  }
+  #closeAuthModal {
+    top: 8px !important;
+    right: 8px !important;
+    font-size: 28px !important;
+  }
+  .auth-tab {
+    font-size: 16px !important;
+    padding: 6px 0 !important;
+  }
+  #signInForm, #createForm {
+    padding: 0 !important;
+  }
+  #engelClubCard img {
+    width: 90px !important;
+    margin-bottom: 8px !important;
+  }
+  #engelClubCard h3, #engelClubCard h4 {
+    font-size: 18px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelClubCard ul {
+    font-size: 13px !important;
+    margin-bottom: 10px !important;
+  }
+  #engelSignUpBtn {
+    font-size: 15px !important;
+    padding: 8px 18px !important;
+    margin-top: 6px !important;
+  }
+}
+/* Responsive styles for Create Account form fields */
+@media (max-width: 700px) {
+  #createForm .display-flex,
+  #createForm .display-flex > div,
+  #createForm .display-flex > div > div {
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+  }
+  #createForm .display-flex > div {
+    margin-bottom: 12px !important;
+  }
+  #createForm input,
+  #createForm select {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    border-radius: 6px !important;
+    font-size: 15px !important;
+  }
+  #createForm label {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+  }
+  #createForm .display-flex {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Open modal on Sign In click
+  document.querySelector('.signin').addEventListener('click', function() {
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+  });
+
+  // Mobile menu Sign In link
+  document.querySelector('.mobile-menu .nav-link.mt-3').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('authModal').style.display = 'flex';
+    showTab('signIn');
+    // Optionally close mobile menu if you have a function for that
+    document.querySelector('.mobile-menu').classList.remove('open');
+    document.querySelector('.overlay').style.display = 'none';
+  });
+
+  // Close modal
+  document.getElementById('closeAuthModal').onclick = function() {
+    document.getElementById('authModal').style.display = 'none';
+  };
+
+  // Tab switching
+  document.getElementById('signInTab').onclick = function() { showTab('signIn'); };
+  document.getElementById('createTab').onclick = function() { showTab('create'); };
+  document.getElementById('gotoCreate').onclick = function() { showTab('create'); };
+  document.getElementById('gotoSignIn').onclick = function() { showTab('signIn'); };
+
+  // ENGEL CLUB card sign-up button opens create account
+  document.getElementById('engelSignUpBtn').onclick = function() {
+    showTab('create');
+  };
+
+  // Show/hide ENGEL CLUB card based on tab
+  function showTab(tab) {
+    if(tab === 'signIn') {
+      document.getElementById('signInForm').style.display = 'block';
+      document.getElementById('createForm').style.display = 'none';
+      document.getElementById('signInTab').classList.add('active');
+      document.getElementById('createTab').classList.remove('active');
+      document.getElementById('engelClubCard').style.display = 'flex';
+    } else {
+      document.getElementById('signInForm').style.display = 'none';
+      document.getElementById('createForm').style.display = 'block';
+      document.getElementById('signInTab').classList.remove('active');
+      document.getElementById('createTab').classList.add('active');
+      document.getElementById('engelClubCard').style.display = 'none';
+    }
+  }
+});
+</script>
+</body>
+</html>

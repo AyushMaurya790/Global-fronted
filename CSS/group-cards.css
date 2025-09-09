@@ -1,0 +1,155 @@
+/* Group Travel Cards CSS */
+
+/* Section styles */
+.group-departures {
+  padding: 60px 0;
+  background-color: #FFF6F3;
+  position: relative; /* For absolute positioned navigation */
+  overflow: hidden;
+}
+
+.section-title {
+  font-size: 35px;
+  font-weight: 400;
+  margin-bottom: 40px;
+  color: #333;
+  font-family: 'Miller Display', Georgia, serif;
+}
+
+.section-subtitle {
+  font-size: 18px;
+  color: #333;
+  /* max-width: 700px; */
+  font-family: 'Miller Display', Georgia, serif;
+  margin: 0 auto;
+}
+
+/* Card styles */
+.gt-travel-card {
+  width: 100%;
+  /* max-width: 380p; */
+   /* Increased width */
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin: 0 auto;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 510px !important; /* Fixed height for consistency */
+}
+
+.gt-travel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.gt-travel-card img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+}
+
+.gt-travel-content {
+  padding: 0px;
+  text-align: center;
+}
+
+.gt-travel-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Miller Display', Georgia, serif;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.gt-travel-content p {
+  font-size: 15px;
+  color: #333;
+  font-family: 'Miller Display', Georgia, serif;
+  margin-bottom: 8px;
+}
+
+.gt-travel-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  margin-top: 15px;
+  font-family: 'Miller Display', Georgia, serif;
+}
+
+.gt-travel-price span {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+  font-family: 'Miller Display', Georgia, serif;
+}
+
+/* Tag corner */
+.gt-trip-tag-corner {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 10;
+}
+
+/* Swiper pagination */
+.swiper-pagination {
+  position: relative;
+  margin-top: 30px;
+  bottom: 0 !important;
+}
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ff5a3c;
+}
+
+/* Navigation buttons */
+.swiper-button-next, .swiper-button-prev {
+  color: #ff5a3c;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  position: absolute;
+  top: 46%;
+  transform: translateY(-50%);
+  z-index: 100;
+}
+
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
+}
+
+.swiper-button-next:after, .swiper-button-prev:after {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .gt-travel-card {
+    max-width: 100%;
+    height: 450px;
+  }
+  
+  .section-title {
+    font-size: 26px;
+  }
+}
