@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finland Luxury Options API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .api-test {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+        .result {
+            background-color: #e8f5e8;
+            border-left: 4px solid #28a745;
+            margin-top: 10px;
+            padding: 10px;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            margin-top: 10px;
+            padding: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .status.success { background-color: #d4edda; color: #155724; }
+        .status.error { background-color: #f8d7da; color: #721c24; }
+        .status.warning { background-color: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Finland Luxury Options API Integration Test</h1>
+        
+        <div class="section api-test">
+            <h3>🇫🇮 Finland Luxury Options API Test</h3>
+            <p>Testing: <code>http://globe.ridealmobility.com/api/luxury-options/Finland</code></p>
+            <button onclick="testFinlandLuxuryAPI()">Test Finland Luxury API</button>
+            <div id="finlandResult"></div>
+        </div>
+
+        <div class="section">
+            <h3>📋 Expected API Response Structure</h3>
+            <p>The integration expects the API to return JSON with the following structure:</p>
+            <pre>{
+  "heroSection": {
+    "title": "Finland",
+    "subtitle": "Glass igloos, private saunas, and snow-laced serenity...",
+    "backgroundImage": "path/to/image.jpg"
+  },
+  "signatureExperiences": [
+    {
+      "title": "Luxury Wellness in the Snow",
+      "description": "Unwind in hot spring spas, igloos...",
+      "image": "path/to/image.jpg"
+    },
+    {
+      "title": "Stay in a Glass Igloo in Lapland",
+      "description": "Sleep under a starry Arctic sky...",
+      "image": "path/to/image.jpg"
+    }
+  ],
+  "luxuryResorts": [
+    {
+      "name": "Arctic TreeHouse Hotel",
+      "description": "Lapland's Iconic Hideaway",
+      "image": "path/to/image.jpg"
+    },
+    {
+      "name": "Levi Spirit Villas",
+      "description": "Private Villas with Concierge",
+      "image": "path/to/image.jpg"
+    }
+  ]
+}</pre>
+        </div>
+
+        <div class="section">
+            <h3>🔧 Integration Details</h3>
+            <ul>
+                <li><strong>File Updated:</strong> GroupTours.html</li>
+                <li><strong>API Endpoint:</strong> http://localhost:5000/api/luxury-options/Finland</li>
+                <li><strong>Method:</strong> GET</li>
+                <li><strong>Content-Type:</strong> application/json</li>
+                <li><strong>UI Preservation:</strong> All existing styling and layout maintained</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>📝 Integration Status</h3>
+            <div id="integrationStatus">
+                <div class="status success">✅ API Integration Added</div>
+                <div class="status success">✅ Error Handling Implemented</div>
+                <div class="status success">✅ Fallback to Static Content</div>
+                <div class="status success">✅ Console Logging Added</div>
+                <div class="status warning">⚠️ API Server Required</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test Finland Luxury Options API
+        async function testFinlandLuxuryAPI() {
+            const resultDiv = document.getElementById('finlandResult');
+            resultDiv.innerHTML = '<div class="loading">Testing Finland luxury options API...</div>';
+            
+            try {
+                console.log('Testing Finland luxury options API...');
+                const response = await fetch('http://globe.ridealmobility.com/api/luxury-options/Finland', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors'
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Finland luxury options data:', data);
+                
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h4>✅ SUCCESS: Finland luxury options loaded!</h4>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                        <p><strong>Next Steps:</strong></p>
+                        <ul>
+                            <li>Open GroupTours.html to see the integration in action</li>
+                            <li>Check browser console for detailed logs</li>
+                            <li>Verify that content updates match your API response</li>
+                        </ul>
+                    </div>
+                `;
+                
+                return data;
+            } catch (error) {
+                console.error('Finland luxury options API error:', error);
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Error: ${error.message}</h4>
+                        <p><strong>Possible Issues:</strong></p>
+                        <ul>
+                            <li>API server not running on globe.ridealmobility.com</li>
+                            <li>CORS policy blocking the request</li>
+                            <li>Network connectivity issues</li>
+                            <li>API endpoint not available</li>
+                        </ul>
+                        <p><strong>To Fix:</strong></p>
+                        <ol>
+                            <li>Ensure your API server is running on globe.ridealmobility.com</li>
+                            <li>Ensure CORS is enabled for your domain</li>
+                            <li>Verify the endpoint exists: /api/luxury-options/Finland</li>
+                        </ol>
+                    </div>
+                `;
+                return null;
+            }
+        }
+
+        // Auto-run test on page load
+        window.addEventListener('load', () => {
+            setTimeout(testFinlandLuxuryAPI, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -2345,6 +2345,139 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Finland Luxury Options API Integration
+  async function fetchFinlandLuxuryOptions() {
+    try {
+      const response = await fetch('http://globe.ridealmobility.com/api/luxury-options/Finland', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        mode: 'cors'
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: Failed to fetch Finland luxury options`);
+      }
+      
+      const luxuryData = await response.json();
+      console.log('Finland luxury options loaded from API:', luxuryData);
+      return luxuryData;
+    } catch (error) {
+      console.error('Error fetching Finland luxury options:', error);
+      return null;
+    }
+  }
+
+  // Function to update luxury experiences section with API data
+  function updateLuxuryExperiences(luxuryData) {
+    if (!luxuryData) return;
+    
+    const luxuryCards = document.querySelectorAll('.luxury-resorts-grid .luxury-card');
+    
+    // Update signature luxury experiences if data exists
+    if (luxuryData.signatureExperiences && Array.isArray(luxuryData.signatureExperiences)) {
+      luxuryData.signatureExperiences.forEach((experience, index) => {
+        if (luxuryCards[index]) {
+          const card = luxuryCards[index];
+          const titleElement = card.querySelector('.luxury-card-title');
+          const descElement = card.querySelector('.luxury-card-desc');
+          
+          if (titleElement && experience.title) {
+            titleElement.textContent = experience.title;
+          }
+          if (descElement && experience.description) {
+            descElement.textContent = experience.description;
+          }
+          if (experience.image) {
+            card.style.backgroundImage = `url('${experience.image}')`;
+          }
+        }
+      });
+    }
+    
+    console.log('Luxury experiences updated with API data');
+  }
+
+  // Function to update luxury resorts section with API data
+  function updateLuxuryResorts(luxuryData) {
+    if (!luxuryData) return;
+    
+    const resortCards = document.querySelectorAll('.handpicked-resorts-grid .resort-card');
+    
+    // Update handpicked luxury resorts if data exists
+    if (luxuryData.luxuryResorts && Array.isArray(luxuryData.luxuryResorts)) {
+      luxuryData.luxuryResorts.forEach((resort, index) => {
+        if (resortCards[index]) {
+          const card = resortCards[index];
+          const titleElement = card.querySelector('.resort-card-title');
+          const descElement = card.querySelector('.resort-card-desc');
+          
+          if (titleElement && resort.name) {
+            titleElement.textContent = resort.name;
+          }
+          if (descElement && resort.description) {
+            descElement.textContent = resort.description;
+          }
+          if (resort.image) {
+            card.style.backgroundImage = `url('${resort.image}')`;
+          }
+        }
+      });
+    }
+    
+    console.log('Luxury resorts updated with API data');
+  }
+
+  // Function to update hero section with API data
+  function updateHeroSection(luxuryData) {
+    if (!luxuryData) return;
+    
+    // Update hero title and subtitle if provided
+    if (luxuryData.heroSection) {
+      const heroTitle = document.querySelector('.hero-content h1 .hero-script');
+      const heroSubtext = document.querySelector('.hero-subtext');
+      
+      if (heroTitle && luxuryData.heroSection.title) {
+        heroTitle.textContent = luxuryData.heroSection.title;
+      }
+      if (heroSubtext && luxuryData.heroSection.subtitle) {
+        heroSubtext.textContent = luxuryData.heroSection.subtitle;
+      }
+      if (luxuryData.heroSection.backgroundImage) {
+        const heroElement = document.querySelector('.hero-slide');
+        if (heroElement) {
+          heroElement.style.backgroundImage = `url('${luxuryData.heroSection.backgroundImage}')`;
+        }
+      }
+    }
+    
+    console.log('Hero section updated with API data');
+  }
+
+  // Initialize Finland luxury options
+  async function initializeFinlandLuxuryOptions() {
+    console.log('Initializing Finland luxury options from API...');
+    
+    const luxuryData = await fetchFinlandLuxuryOptions();
+    
+    if (luxuryData) {
+      // Update different sections based on API response structure
+      updateHeroSection(luxuryData);
+      updateLuxuryExperiences(luxuryData);
+      updateLuxuryResorts(luxuryData);
+      
+      console.log('Finland luxury options integration completed successfully');
+    } else {
+      console.log('Using existing static content as API data unavailable');
+    }
+  }
+
+  // Initialize the luxury options
+  initializeFinlandLuxuryOptions();
+
+  // Original authentication code
   // Open modal on Sign In click
   document.querySelector('.signin').addEventListener('click', function() {
     document.getElementById('authModal').style.display = 'flex';

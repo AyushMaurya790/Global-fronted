@@ -1981,26 +1981,56 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to fetch continents from API
     async function fetchContinents() {
         try {
-            const response = await fetch('http://globe.ridealmobility.com/api/continents');
+            const response = await fetch('http://globe.ridealmobility.com/api/continents', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
             if (!response.ok) {
-                throw new Error('Failed to fetch continents');
+                throw new Error(`HTTP ${response.status}: Failed to fetch continents`);
             }
             const continents = await response.json();
             console.log('Continents loaded from API:', continents);
-            return continents;
+            return Array.isArray(continents) ? continents : (continents.data || []);
         } catch (error) {
             console.error('Error fetching continents:', error);
             // Return fallback data to maintain UI functionality
             return [
-                { name: 'AFRICA' },
-                { name: 'ASIA' },
-                { name: 'AMERICAS' },
-                { name: 'EUROPE' },
-                { name: 'INDIAN SUBCONTINENT' },
-                { name: 'OCEANIA' },
-                { name: 'MIDDLE EAST' },
-                { name: 'POLAR' }
+                { id: 1, name: 'AFRICA' },
+                { id: 2, name: 'ASIA' },
+                { id: 3, name: 'AMERICAS' },
+                { id: 4, name: 'EUROPE' },
+                { id: 5, name: 'INDIAN SUBCONTINENT' },
+                { id: 6, name: 'OCEANIA' },
+                { id: 7, name: 'MIDDLE EAST' },
+                { id: 8, name: 'POLAR' }
             ];
+        }
+    }
+
+    // Function to fetch countries for a specific continent
+    async function fetchCountries(continentId) {
+        try {
+            const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch countries for continent ${continentId}`);
+            }
+            const countries = await response.json();
+            console.log(`Countries loaded for continent ${continentId}:`, countries);
+            return Array.isArray(countries) ? countries : (countries.data || []);
+        } catch (error) {
+            console.error(`Error fetching countries for continent ${continentId}:`, error);
+            return [];
         }
     }
 
@@ -2019,31 +2049,110 @@ document.addEventListener('DOMContentLoaded', function() {
         return mapping[continentName] || continentName.toLowerCase().replace(/\s+/g, '');
     }
 
+    // Function to populate countries for a specific continent
+    async function populateCountries(continentId, targetId) {
+        console.log(`Debug - Fetching countries for continent ID: ${continentId}, target: ${targetId}`);
+        const countries = await fetchCountries(continentId);
+        const contentDiv = document.getElementById(targetId);
+        
+        console.log(`Debug - Received countries:`, countries, `Content div found:`, !!contentDiv);
+        
+        if (contentDiv) {
+            if (countries && countries.length > 0) {
+                // Clear existing content
+                contentDiv.innerHTML = '';
+                
+                // Create columns for countries
+                const column1 = document.createElement('div');
+                column1.className = 'column';
+                const column2 = document.createElement('div');
+                column2.className = 'column';
+                
+                // Distribute countries across two columns
+                countries.forEach((country, index) => {
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    // Handle different possible country object structures
+                    const countryName = country.name || country.countryName || country.country || country;
+                    link.textContent = countryName;
+                    
+                    if (index % 2 === 0) {
+                        column1.appendChild(link);
+                    } else {
+                        column2.appendChild(link);
+                    }
+                });
+                
+                contentDiv.appendChild(column1);
+                contentDiv.appendChild(column2);
+                
+                console.log(`Countries populated for ${targetId}:`, countries);
+            } else {
+                console.log(`No countries found for continent ID: ${continentId}`);
+                // Keep existing content if no countries from API
+            }
+        } else {
+            console.error(`Content div not found for target: ${targetId}`);
+        }
+    }
+
     // Initialize destinations dropdown with API data
     async function initializeDestinationsDropdown() {
         const continents = await fetchContinents();
         const megaLeftUl = document.querySelector('.destinations-menu .mega-left ul');
+        
+        console.log('Debug - Fetched continents:', continents);
         
         if (megaLeftUl) {
             // Clear existing content (but we'll keep the structure)
             const existingItems = megaLeftUl.querySelectorAll('li');
             
             // Update existing items or add new ones based on API data
-            continents.forEach((continent, index) => {
+            for (let i = 0; i < continents.length; i++) {
+                const continent = continents[i];
                 const targetId = getTargetId(continent.name);
                 
-                if (existingItems[index]) {
+                console.log(`Debug - Processing continent:`, continent, `Target ID: ${targetId}`);
+                
+                if (existingItems[i]) {
                     // Update existing item
-                    existingItems[index].setAttribute('data-target', targetId);
-                    existingItems[index].innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                    existingItems[i].setAttribute('data-target', targetId);
+                    existingItems[i].innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                    
+                    // Add click event listener to fetch countries
+                    existingItems[i].addEventListener('click', function() {
+                        const continentId = continent.id || continent.continentId || continent._id || (i + 1);
+                        console.log(`Continent clicked: ${continent.name}, ID: ${continentId}`);
+                        populateCountries(continentId, targetId);
+                    });
+                    
+                    // Add hover event listener for better UX
+                    existingItems[i].addEventListener('mouseenter', function() {
+                        const continentId = continent.id || continent.continentId || continent._id || (i + 1);
+                        populateCountries(continentId, targetId);
+                    });
                 } else {
                     // Add new item if more continents than existing
                     const li = document.createElement('li');
                     li.setAttribute('data-target', targetId);
                     li.innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                    
+                    // Add click event listener to fetch countries
+                    li.addEventListener('click', function() {
+                        const continentId = continent.id || continent.continentId || continent._id || (i + 1);
+                        console.log(`Continent clicked: ${continent.name}, ID: ${continentId}`);
+                        populateCountries(continentId, targetId);
+                    });
+                    
+                    // Add hover event listener for better UX
+                    li.addEventListener('mouseenter', function() {
+                        const continentId = continent.id || continent.continentId || continent._id || (i + 1);
+                        populateCountries(continentId, targetId);
+                    });
+                    
                     megaLeftUl.appendChild(li);
                 }
-            });
+            }
             
             // Remove extra items if there are fewer continents in API
             for (let i = continents.length; i < existingItems.length; i++) {
@@ -2060,6 +2169,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the dropdown
     initializeDestinationsDropdown();
+
+    // Debug: Test direct API calls
+    setTimeout(async () => {
+        console.log('=== DIRECT API TESTING ===');
+        
+        // Test continents API
+        try {
+            const continentsResponse = await fetch('http://globe.ridealmobility.com/api/continents');
+            const continentsData = await continentsResponse.json();
+            console.log('Direct continents API test:', continentsData);
+        } catch (error) {
+            console.error('Direct continents API failed:', error);
+        }
+        
+        // Test countries API with different IDs
+        const testIds = [1, 2, 3, 4, 5, 'africa', 'asia', 'europe'];
+        for (const testId of testIds) {
+            try {
+                const countriesResponse = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${testId}`);
+                if (countriesResponse.ok) {
+                    const countriesData = await countriesResponse.json();
+                    console.log(`Countries for ID ${testId}:`, countriesData);
+                } else {
+                    console.log(`Countries API failed for ID ${testId}: HTTP ${countriesResponse.status}`);
+                }
+            } catch (error) {
+                console.error(`Countries API error for ID ${testId}:`, error.message);
+            }
+        }
+        console.log('=== END DIRECT API TESTING ===');
+    }, 3000);
 });
 </script>
 

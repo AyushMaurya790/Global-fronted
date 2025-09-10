@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Direct Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .result {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Direct API Test - Globe Angel Countries Integration</h1>
+        
+        <div class="test-section">
+            <h3>Step 1: Test Continents API</h3>
+            <button onclick="testContinentsAPI()">Test Continents API</button>
+            <div id="continentsResult" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Step 2: Test Countries API (Multiple IDs)</h3>
+            <button onclick="testCountriesAPI()">Test Countries API</button>
+            <div id="countriesResult" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Step 3: Integration Test</h3>
+            <button onclick="runIntegrationTest()">Run Full Integration Test</button>
+            <div id="integrationResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Test Continents API
+        async function testContinentsAPI() {
+            const resultDiv = document.getElementById('continentsResult');
+            resultDiv.textContent = 'Testing continents API...';
+            resultDiv.className = 'result';
+            
+            try {
+                console.log('Fetching continents...');
+                const response = await fetch('http://globe.ridealmobility.com/api/continents', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Continents data:', data);
+                
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `SUCCESS: Found ${Array.isArray(data) ? data.length : 'unknown'} continents\n\n` + 
+                                       JSON.stringify(data, null, 2);
+                
+                return data;
+            } catch (error) {
+                console.error('Continents API error:', error);
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `ERROR: ${error.message}\n\nDetails:\n` + 
+                                       `- Make sure the API server is running\n` +
+                                       `- Check for CORS issues\n` +
+                                       `- Verify the API endpoint URL`;
+                return null;
+            }
+        }
+
+        // Test Countries API with multiple IDs
+        async function testCountriesAPI() {
+            const resultDiv = document.getElementById('countriesResult');
+            resultDiv.textContent = 'Testing countries API with different IDs...';
+            resultDiv.className = 'result';
+            
+            // Test different ID formats
+            const testIds = [1, 2, 3, 4, 5, 6, 7, 8, '1', '2', '3', 'africa', 'asia', 'europe', 'americas'];
+            let results = [];
+            
+            for (const testId of testIds) {
+                try {
+                    console.log(`Testing countries API with ID: ${testId}`);
+                    const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${testId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log(`Countries for ID ${testId}:`, data);
+                        
+                        if (data && (Array.isArray(data) ? data.length > 0 : Object.keys(data).length > 0)) {
+                            results.push(`✅ ID "${testId}": Found ${Array.isArray(data) ? data.length : 'data'} countries`);
+                            results.push(`   Sample: ${JSON.stringify(data).substring(0, 100)}...`);
+                        } else {
+                            results.push(`⚠️ ID "${testId}": Empty response`);
+                        }
+                    } else {
+                        results.push(`❌ ID "${testId}": HTTP ${response.status}`);
+                    }
+                } catch (error) {
+                    results.push(`❌ ID "${testId}": ${error.message}`);
+                }
+            }
+            
+            resultDiv.className = 'result';
+            resultDiv.textContent = results.join('\n');
+        }
+
+        // Full integration test
+        async function runIntegrationTest() {
+            const resultDiv = document.getElementById('integrationResult');
+            resultDiv.textContent = 'Running full integration test...';
+            resultDiv.className = 'result';
+            
+            let report = [];
+            
+            try {
+                // Step 1: Get continents
+                report.push('STEP 1: Fetching continents...');
+                const continents = await testContinentsAPI();
+                
+                if (!continents) {
+                    report.push('❌ FAILED: Cannot fetch continents');
+                    resultDiv.textContent = report.join('\n');
+                    return;
+                }
+                
+                report.push(`✅ SUCCESS: Found ${continents.length} continents`);
+                
+                // Step 2: Test countries for each continent
+                report.push('\nSTEP 2: Testing countries for each continent...');
+                
+                for (let i = 0; i < continents.length; i++) {
+                    const continent = continents[i];
+                    report.push(`\nTesting: ${continent.name || continent}`);
+                    
+                    // Try different ID strategies
+                    const possibleIds = [
+                        continent.id,
+                        continent.continentId,
+                        continent._id,
+                        i + 1,
+                        continent.name?.toLowerCase().replace(/\s+/g, ''),
+                        continent.name?.toLowerCase().replace(/\s+/g, '_')
+                    ].filter(id => id !== undefined && id !== null);
+                    
+                    let foundWorking = false;
+                    for (const testId of possibleIds) {
+                        try {
+                            const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${testId}`);
+                            if (response.ok) {
+                                const countries = await response.json();
+                                if (countries && (Array.isArray(countries) ? countries.length > 0 : Object.keys(countries).length > 0)) {
+                                    report.push(`  ✅ ID "${testId}" works: ${Array.isArray(countries) ? countries.length : 'has'} countries`);
+                                    foundWorking = true;
+                                    break;
+                                }
+                            }
+                        } catch (error) {
+                            // Continue trying other IDs
+                        }
+                    }
+                    
+                    if (!foundWorking) {
+                        report.push(`  ❌ No working ID found for ${continent.name || continent}`);
+                    }
+                }
+                
+                report.push('\n✅ INTEGRATION TEST COMPLETE');
+                
+            } catch (error) {
+                report.push(`\n❌ INTEGRATION TEST FAILED: ${error.message}`);
+            }
+            
+            resultDiv.textContent = report.join('\n');
+        }
+
+        // Auto-run continents test on page load
+        window.addEventListener('load', () => {
+            setTimeout(testContinentsAPI, 1000);
+        });
+    </script>
+</body>
+</html>
