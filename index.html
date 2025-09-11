@@ -459,15 +459,10 @@
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-        <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-        <li data-target="adventure"><a href="">JAPAN</a></li>
-        <li data-target="luxury"><a href="">KENYA</a></li>
-        <li data-target="classic"><a href="">NORWAY</a></li>
-        <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-        <li data-target="luxury"><a href="">TANZANIA</a></li>
-        <li data-target="classic"><a href="">ZANZIBAR</a></li>
-</ul>
+          <ul id="luxury-dropdown-menu">
+            <!-- Luxury options will be populated dynamically -->
+            <li data-target="luxury"><a href="">Loading...</a></li>
+          </ul>
         </div>
         
       </div>
@@ -552,26 +547,31 @@
 <div class="overlay"></div>
 
 <!-- Hero Section -->
-<section class="hero-section">
-  <div class="hero-content" style="margin-top: 140px;">
-    <h1 class="hero-title heading_font_family" style="font-size:60px; margin-bottom: 140px;" >DREAM. EXPLORE. DISCOVER.</h1>
-    <p class="hero-subtitle silver-South-family" style="font-size: 64px; line-height: 1;">Begin your journey</p>
+<section class="hero-section" id="heroSection">
+  <div class="hero-content" style="margin-top: 140px;" id="heroContent">
+    <h1 class="hero-title heading_font_family" style="font-size:60px; margin-bottom: 140px;" id="heroTitle">DREAM. EXPLORE. DISCOVER.</h1>
+    <p class="hero-subtitle silver-South-family" style="font-size: 64px; line-height: 1;" id="heroSubtitle">Begin your journey</p>
     <div class="search-box">
       <input type="text" placeholder="Search by destinations, travel theme">
       <i class="fa fa-search"></i>
     </div>
   </div>
+  <!-- Video background will be added dynamically if available -->
+  <video id="heroBackgroundVideo" autoplay muted loop style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+    <source src="" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </section>
 
 <!-- Five Services Layout Section -->
-<section class="section-services">
+<section class="section-services" id="expertsSection">
       <!-- Section Heading -->
-    <div class="section-header text-center">
-      <h3><span class="silver-South-family">Loved</span> by Travellers, <span class="silver-South-family">Backed</span> by Experts</h3>
+    <div class="section-header text-center" id="expertsHeader">
+      <h3 id="expertsTitle"><span class="silver-South-family">Loved</span> by Travellers, <span class="silver-South-family">Backed</span> by Experts</h3>
       <p class="heading_font_family">These destinations are topping the charts for a reason — let’s take you there.</p>
     </div>
     <div class="glob-services-container">
-        <div class="glob-services" style="display: flex; width: 100%; height: 100vh; position: relative; background-image: url('./images/bm1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; transition: background-image 0.5s ease; background-attachment: scroll;">            
+        <div class="glob-services" id="expertsDesktopServices" style="display: flex; width: 100%; height: 100vh; position: relative; background-image: url('./images/bm1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; transition: background-image 0.5s ease; background-attachment: scroll;">            
           
           <div class="glob-service-item" data-bg="1">
                 <div class="glob-service-text"><a href="s1.html" class="service-link">Vietnam</a></div>
@@ -608,7 +608,7 @@
     
     <!-- Mobile version (only visible on small screens) -->
     <div class="container d-md-none py-3">
-        <div class="row glob-mobile-services">            <div class="col-12 mb-4">
+        <div class="row glob-mobile-services" id="expertsMobileServices">            <div class="col-12 mb-4">
                 <div class="glob-service-mobile-card" style="background-image: url('./images/Vietnam.jpg');" data-bg="1">
                     <div class="glob-service-text">Vietnam</div>
                     <div class="glob-service-description">
@@ -654,7 +654,7 @@
 
 <!-- Why Travel -->
 
-<section class="why-travel">
+<section class="why-travel" id="whyTravelSection">
   <div class="container text-center">
     <!-- Section Heading -->
     <h2 class="why-heading">
@@ -662,7 +662,7 @@
     </h2>
 
     <!-- Features Grid -->
-    <div class="row justify-content-center mt-0 heading_font_family">
+    <div class="row justify-content-center mt-0 heading_font_family" id="whyTravelGrid">
       <!-- 1 -->
       <div class="col-12 col-md-6 col-lg-3 mb-0 why-item">
         <div class="why-card">
@@ -716,86 +716,23 @@
   </div>
 </section>
 
-<!-- Group-departures  -->
+<!-- Group-departures Section - API Integrated -->
 
 <section class="group-departures">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="section-title"><span class="silver-South-family" style="font-size: 65px; font-weight: 400;">Handcrafted</span> Group Departures</h2>
-      <p class="section-subtitle">Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing.</p>
+      <h2 class="section-title" id="departureHeading"><span class="silver-South-family" style="font-size: 65px; font-weight: 400;">Handcrafted</span> Group Departures</h2>
+      <p class="section-subtitle" id="departureSubtitle">Loading group departure packages...</p>
     </div>
     <!-- Swiper -->
     <div class="swiper mySwiper position-relative">
-      <div class="swiper-wrapper">
-        <!-- Slide 1 -->
+      <div class="swiper-wrapper" id="departureCardsContainer">
+        <!-- Loading placeholder -->
         <div class="swiper-slide">
           <div class="gt-travel-card">
-            <img src="./images/banner.webp" alt="Timeless Europe Journey">
             <div class="gt-travel-content">
-              <h3>TIMELESS EUROPE JOURNEY</h3>
-              <p>9 Days | 3 Countries | 4 Cities</p>
-              <p>Departures- Oct | Nov | Dec</p>
-              <div class="gt-travel-price">INR 1,19,000/- <span>(Per Person)</span></div>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 2 -->
-        <div class="swiper-slide">
-          <div class="gt-travel-card">
-            <img src="./images/trip1.jpeg" alt="Amazing Dubai">
-            <div class="gt-travel-content">
-              <h3>AMAZING DUBAI</h3>
-              <p>7 Days | 1 Country | 3 Cities</p>
-              <p>Departures- Sep | Oct | Nov</p>
-              <div class="gt-travel-price">INR 89,000/- <span>(Per Person)</span></div>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 3 -->
-        <div class="swiper-slide">
-          <div class="gt-travel-card">
-            <img src="./images/trip2.avif" alt="Bali Paradise">
-            <div class="gt-travel-content">
-              <h3>BALI PARADISE</h3>
-              <p>8 Days | 1 Country | 4 Cities</p>
-              <p>Departures- Oct | Dec | Jan</p>
-              <div class="gt-travel-price">INR 95,000/- <span>(Per Person)</span></div>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 4 -->
-        <div class="swiper-slide">
-          <div class="gt-travel-card">
-            <img src="./images/banner.webp" alt="Asian Explorer">
-            <div class="gt-travel-content">
-              <h3>ASIAN EXPLORER</h3>
-              <p>12 Days | 3 Countries | 6 Cities</p>
-              <p>Departures- Sep | Oct | Nov</p>
-              <div class="gt-travel-price">INR 1,45,000/- <span>(Per Person)</span></div>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 5 -->
-        <div class="swiper-slide">
-          <div class="gt-travel-card">
-            <img src="./images/trip1.jpeg" alt="Majestic Turkey">
-            <div class="gt-travel-content">
-              <h3>MAJESTIC TURKEY</h3>
-              <p>10 Days | 1 Country | 5 Cities</p>
-              <p>Departures- Sep | Oct | Nov</p>
-              <div class="gt-travel-price">INR 1,05,000/- <span>(Per Person)</span></div>
-            </div>
-          </div>
-        </div>
-        <!-- Slide 6 -->
-        <div class="swiper-slide">
-          <div class="gt-travel-card">
-            <img src="./images/trip2.avif" alt="Egypt Wonder">
-            <div class="gt-travel-content">
-              <h3>EGYPT WONDER</h3>
-              <p>9 Days | 1 Country | 4 Cities</p>
-              <p>Departures- Oct | Nov | Dec</p>
-              <div class="gt-travel-price">INR 1,25,000/- <span>(Per Person)</span></div>
+              <h3>Loading...</h3>
+              <p>Please wait while we load departure packages</p>
             </div>
           </div>
         </div>
@@ -817,64 +754,23 @@
 <section class="beyond-leisure">
   <div class="container text-center">
     <!-- Section Heading -->
-    <h2 class="beyond-heading">
+    <h2 class="beyond-heading" id="beyondHeading">
       <span>Beyond</span> Holidays
     </h2>
-    <p class="beyond-subtitle">
+    <p class="beyond-subtitle" id="beyondSubtitle">
       Not all journeys are for leisure. Some build futures, close deals, or mark life’s milestones. 
       At GLOBENGEL, we understand the difference — and deliver experiences crafted for every purpose.
     </p>
 
     <!-- Swiper Carousel for Cards -->
     <div class="swiper beyondSwiper mt-4">
-      <div class="swiper-wrapper">
-        <!-- Card 1 -->
+      <div class="swiper-wrapper" id="beyondCardsContainer">
+        <!-- Cards will be populated dynamically by API -->
         <div class="swiper-slide">
           <div class="beyond-card">
-            <img src="./images/bm1.webp" alt="Corporate Travel" class="beyond-img">
             <div class="beyond-overlay">
-              <h4>The Best Places to Visit in 2025</h4>
-              <p>Corporate Travel</p>
-            </div>
-          </div>
-        </div>
-        <!-- Card 2 -->
-        <div class="swiper-slide">
-          <div class="beyond-card">
-            <img src="./images/bm2.webp" alt="Education Travel" class="beyond-img">
-            <div class="beyond-overlay">
-              <h4>19 Top Luxury Hotels Worldwide for Stargazing</h4>
-              <p>Education Travel</p>
-            </div>
-          </div>
-        </div>
-        <!-- Card 3 -->
-        <div class="swiper-slide">
-          <div class="beyond-card">
-            <img src="./images/bm3.webp" alt="Celebrations" class="beyond-img">
-            <div class="beyond-overlay">
-              <h4>The 9 Best Wellness Retreats Destinations</h4>
-              <p>Celebrations</p>
-            </div>
-          </div>
-        </div>
-        <!-- Card 4 -->
-        <div class="swiper-slide">
-          <div class="beyond-card">
-            <img src="./images/bm1.webp" alt="Corporate Travel" class="beyond-img">
-            <div class="beyond-overlay">
-              <h4>The Best Places to Visit in 2025</h4>
-              <p>Corporate Travel</p>
-            </div>
-          </div>
-        </div>
-        <!-- Card 5 -->
-        <div class="swiper-slide">
-          <div class="beyond-card">
-            <img src="./images/bm3.webp" alt="Celebrations" class="beyond-img">
-            <div class="beyond-overlay">
-              <h4>The 9 Best Wellness Retreats Destinations</h4>
-              <p>Celebrations</p>
+              <h4>Loading...</h4>
+              <p>Please wait</p>
             </div>
           </div>
         </div>
@@ -889,102 +785,24 @@
 
 <!--  -->
 
-<!-- Get inspired -->
+<!-- Hassle Free Escapes Section - API Integrated -->
 <section class="get-inspired">
   <div class="inspired-header">
-    <h2>Hassle Free <span class="silver-South-family" style="font-size: 65px; font-weight: 400;"> Escapes </span></h2>
-    <p>
-      Planning a trip shouldn't be complicated. These destinations allow Indian travellers to visit with minimal paperwork from visa-free to e-Visa or visa-on-arrival countries. Focus on exploring, relaxing, and making memories, not embassy visits.
+    <h2 id="escapeHeading">Hassle Free <span class="silver-South-family" style="font-size: 65px; font-weight: 400;"> Escapes </span></h2>
+    <p id="escapeSubtitle">
+      Loading escape destinations...
     </p>
   </div>
 
   <div class="swiper inspiredSwiper inspired-slider">
-    <div class="swiper-wrapper">
-      <!-- Card 1 -->
+    <div class="swiper-wrapper" id="escapeCardsContainer">
+      <!-- Loading placeholder -->
       <div class="swiper-slide">
         <div class="inspired-card">
-          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600" alt="Hot Air Balloon">
           <div class="card-content">
-            <h3>Bhutan</h3>
-            <a href="#">Starting Onwards at</a>
-            <a href="#">₹50,000</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 2 -->
-      <div class="swiper-slide">
-        <div class="inspired-card">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600" alt="Zambia Safari">
-          <div class="card-content">
-            <h3>Mauritius</h3>
-            <a href="#">Starting Onwards at</a>
-            <a href="#">₹70,000</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 3 -->
-      <div class="swiper-slide">
-        <div class="inspired-card">
-          <img src="https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=600" alt="Oman Boat">
-          <div class="card-content">
-            <h3>Sri Lanka</h3>
-            <a href="#">Starting Onwards at</a>
-            <a href="#">₹40,000</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 4 -->
-      <div class="swiper-slide">
-        <div class="inspired-card">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="Maldives">
-          <div class="card-content">
-            <h3>Malaysia</h3>
-            <a href="#">Starting Onwards at</a>
-            <a href="#">₹45,000</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 5 -->
-      <div class="swiper-slide">
-        <div class="inspired-card">
-          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600" alt="Hot Air Balloon">
-          <div class="card-content">
-            <h3>Bhutan</h3>
-            <a href="#">Starting Onwards at</a>
-            <a href="#">₹50,000</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 6 -->
-      <div class="swiper-slide">
-        <div class="inspired-card">
-          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600" alt="Zambia Safari">
-          <div class="card-content">
-            <h3>Mauritius</h3>
-            <a href="#">Starting Onwards at</a>
-            <a href="#">₹42,000</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 7 -->
-      <div class="swiper-slide">
-        <div class="inspired-card">
-          <img src="https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=600" alt="Oman Boat">
-          <div class="card-content">
-            <h3>Sri Lanka</h3>
-            <a href="#">Starting Onwards at</a>
-            <a href="#">₹60,000</a>
-          </div>
-        </div>
-      </div>
-      <!-- Card 8 -->
-      <div class="swiper-slide">
-        <div class="inspired-card">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600" alt="Maldives">
-          <div class="card-content">
-            <h3>Malaysia</h3>
-            <a href="#">Starting Onwards at</a>
-            <a href="#">₹30,000</a>
+            <h3>Loading...</h3>
+            <a href="#">Please wait</a>
+            <a href="#">Loading destinations...</a>
           </div>
         </div>
       </div>
@@ -1038,99 +856,28 @@ document.addEventListener('DOMContentLoaded', function() {
 <section class="custom-testimonial-section">
   <div class="container">
     <div class="text-center mb-5">
-      <h2 class="testimonial-heading">
-        <span class="silver-South-family" >Trusted</span> by travellers like you
+      <h2 class="testimonial-heading" id="testimonialHeading">
+        <span class="silver-South-family">Trusted</span> by travellers like you
       </h2>
-      <p class="testimonial-subtitle">
+      <p class="testimonial-subtitle" id="testimonialSubtitle">
         From seamless honeymoons to global conferences — see why our clients keep coming back.
       </p>
     </div>
 
-    <div class="swiper testimonialSwiper">
-      <div class="swiper-wrapper">
-        <!-- First slide - group of 3 cards -->
+    <div class="swiper testimonialSwiper" id="testimonialSwiper">
+      <div class="swiper-wrapper" id="testimonialSwiperWrapper">
+        <!-- Dynamic content will be loaded here by API -->
         <div class="swiper-slide">
           <div class="row">
-            <!-- Card 1 -->
             <div class="col-md-4">
               <div class="testimonial-card">
                 <div class="quote-icon">❝</div>
                 <div class="testimonial-avatar">
-                  <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dina Jems">
+                  <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Loading...">
                 </div>
-                <h3 class="testimonial-name">Dina Jems</h3>
+                <h3 class="testimonial-name">Loading...</h3>
                 <div class="testimonial-role">Traveller</div>
-                <p class="testimonial-text">Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris.</p>
-              </div>
-            </div>
-            
-            <!-- Card 2 -->
-            <div class="col-md-4">
-              <div class="testimonial-card">
-                <div class="quote-icon">❝</div>
-                <div class="testimonial-avatar">
-                  <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jahid Hassan">
-                </div>
-                <h3 class="testimonial-name">Jahid Hassan</h3>
-                <div class="testimonial-role">Traveller</div>
-                <p class="testimonial-text">Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris.</p>
-              </div>
-            </div>
-            
-            <!-- Card 3 -->
-            <div class="col-md-4">
-              <div class="testimonial-card">
-                <div class="quote-icon">❝</div>
-                <div class="testimonial-avatar">
-                  <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Shwan Pull">
-                </div>
-                <h3 class="testimonial-name">Shwan Pull</h3>
-                <div class="testimonial-role">Traveller</div>
-                <p class="testimonial-text">Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Second slide - group of 3 cards -->
-        <div class="swiper-slide">
-          <div class="row">
-            <!-- Card 4 -->
-            <div class="col-md-4">
-              <div class="testimonial-card">
-                <div class="quote-icon">❝</div>
-                <div class="testimonial-avatar">
-                  <img src="https://randomuser.me/api/portraits/women/51.jpg" alt="Maria Lee">
-                </div>
-                <h3 class="testimonial-name">Maria Lee</h3>
-                <div class="testimonial-role">Traveller</div>
-                <p class="testimonial-text">Curabitur tincidunt ipsum vel eros posuere, sed feugiat justo viverra. Pellentesque ut arcu magna.</p>
-              </div>
-            </div>
-            
-            <!-- Card 5 -->
-            <div class="col-md-4">
-              <div class="testimonial-card">
-                <div class="quote-icon">❝</div>
-                <div class="testimonial-avatar">
-                  <img src="https://randomuser.me/api/portraits/men/71.jpg" alt="David Smith">
-                </div>
-                <h3 class="testimonial-name">David Smith</h3>
-                <div class="testimonial-role">Traveller</div>
-                <p class="testimonial-text">Aenean posuere purus vel ex mattis, sed dapibus justo porta. Donec commodo diam sed dolor.</p>
-              </div>
-            </div>
-            
-            <!-- Card 6 -->
-            <div class="col-md-4">
-              <div class="testimonial-card">
-                <div class="quote-icon">❝</div>
-                <div class="testimonial-avatar">
-                  <img src="https://randomuser.me/api/portraits/women/11.jpg" alt="Anna Roy">
-                </div>
-                <h3 class="testimonial-name">Anna Roy</h3>
-                <div class="testimonial-role">Traveller</div>
-                <p class="testimonial-text">Morbi varius dui nec augue fermentum. Aliquam erat volutpat. Aenean id feugiat mi.</p>
+                <p class="testimonial-text">Loading testimonials...</p>
               </div>
             </div>
           </div>
@@ -1155,37 +902,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <!-- Partner Section -->
-
-<section class="logo-slider-section">
+<section class="logo-slider-section" id="partnerLogoSection">
   <div class="logo-marquee">
-    <div class="logo-track">
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <!-- Repeat for seamless loop -->
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
+    <div class="logo-track" id="logoTrack">
+      <!-- Dynamic logos will be loaded here from API -->
+      <img src="./images/par1.jpeg" alt="Loading partner logos..." />
+      <img src="./images/par2.jpeg" alt="Loading partner logos..." />
+      <img src="./images/par3.jpeg" alt="Loading partner logos..." />
     </div>
   </div>
 </section>
@@ -1507,22 +1230,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- Partner/Logo marquee animation handled by API integration -->
+<!-- Removed logoSwiper to prevent conflicts with marquee animation -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  new Swiper('.logoSwiper', {
-    slidesPerView: 'auto',
-    spaceBetween: 30,
-    loop: true,
-    speed: 6000, // High speed for smooth movement
-    autoplay: {
-      delay: 1, // Minimal delay for continuous effect
-      disableOnInteraction: false,
-      pauseOnMouseEnter: false
-    },
-    allowTouchMove: false, // Prevent manual drag
-    grabCursor: false
-  });
-});
+// Logo Swiper initialization removed - now handled by API integration with marquee
 </script>
 
 <!-- Swiper initialization is in script.js -->
@@ -1535,6 +1246,557 @@ document.addEventListener('DOMContentLoaded', function() {
   margin: 0 auto;
 }
 </style>
+
+<!-- Trusted API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let testimonialSwiper; // Variable to store swiper instance
+    
+    // Function to fetch trusted testimonials data from API
+    async function fetchTrustedTestimonials() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/trusted', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch trusted testimonials data`);
+            }
+            
+            const data = await response.json();
+            console.log('Trusted testimonials data loaded from API:', data);
+            
+            // The API returns an array, so we take the first element
+            return Array.isArray(data) ? data[0] : data;
+            
+        } catch (error) {
+            console.error('Error fetching trusted testimonials data:', error);
+            // Return fallback data to maintain UI functionality
+            return {
+                heading: "Trusted by travellers like you",
+                subheading: "From seamless honeymoons to global conferences — see why our clients keep coming back.",
+                cards: [
+                    {
+                        img: "https://randomuser.me/api/portraits/women/44.jpg",
+                        name: "Dina Jems",
+                        title: "Traveller",
+                        description: "Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris."
+                    },
+                    {
+                        img: "https://randomuser.me/api/portraits/men/32.jpg",
+                        name: "Jahid Hassan",
+                        title: "Traveller",
+                        description: "Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris."
+                    },
+                    {
+                        img: "https://randomuser.me/api/portraits/men/54.jpg",
+                        name: "Shwan Pull",
+                        title: "Traveller",
+                        description: "Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris."
+                    }
+                ]
+            };
+        }
+    }
+    
+    // Function to get full image URL
+    function getImageUrl(imgPath) {
+        if (!imgPath) return 'https://randomuser.me/api/portraits/women/44.jpg'; // fallback image
+        
+        // If it's already a full URL, return as is
+        if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+            return imgPath;
+        }
+        
+        // If it starts with 'uploads/', prepend the base API URL
+        if (imgPath.startsWith('uploads/')) {
+            return `http://globe.ridealmobility.com/${imgPath}`;
+        }
+        
+        // Otherwise, treat as relative path
+        return imgPath;
+    }
+    
+    // Function to populate testimonials section with API data
+    function populateTestimonials(data) {
+        // Update heading and subheading
+        const headingElement = document.querySelector('.testimonial-heading');
+        const subtitleElement = document.querySelector('.testimonial-subtitle');
+        
+        if (headingElement && data.heading) {
+            // Parse the heading to maintain the "Trusted" span styling
+            const headingWords = data.heading.split(' ');
+            if (headingWords.length > 0 && headingWords[0].toLowerCase() === 'trusted') {
+                const restOfHeading = headingWords.slice(1).join(' ');
+                headingElement.innerHTML = `<span class="silver-South-family">Trusted</span> ${restOfHeading}`;
+            } else {
+                headingElement.innerHTML = `<span class="silver-South-family">Trusted</span> ${data.heading}`;
+            }
+        }
+        
+        if (subtitleElement && data.subheading) {
+            subtitleElement.textContent = data.subheading;
+        }
+        
+        // Update testimonial cards
+        const swiperWrapper = document.querySelector('.testimonialSwiper .swiper-wrapper');
+        if (swiperWrapper && data.cards && data.cards.length > 0) {
+            swiperWrapper.innerHTML = ''; // Clear existing content
+            
+            // Group cards into slides of 3
+            const cardsPerSlide = 3;
+            const totalSlides = Math.ceil(data.cards.length / cardsPerSlide);
+            
+            for (let slideIndex = 0; slideIndex < totalSlides; slideIndex++) {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                
+                const row = document.createElement('div');
+                row.className = 'row';
+                
+                // Get cards for this slide
+                const startIndex = slideIndex * cardsPerSlide;
+                const endIndex = Math.min(startIndex + cardsPerSlide, data.cards.length);
+                const slideCards = data.cards.slice(startIndex, endIndex);
+                
+                slideCards.forEach(card => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-4';
+                    
+                    const imageUrl = getImageUrl(card.img);
+                    
+                    col.innerHTML = `
+                        <div class="testimonial-card">
+                            <div class="quote-icon">❝</div>
+                            <div class="testimonial-avatar">
+                                <img src="${imageUrl}" alt="${card.name || 'Traveller'}" 
+                                     onerror="this.src='https://randomuser.me/api/portraits/women/44.jpg'">
+                            </div>
+                            <h3 class="testimonial-name">${card.name || 'Anonymous'}</h3>
+                            <div class="testimonial-role">${card.title || 'Traveller'}</div>
+                            <p class="testimonial-text">${card.description || 'Amazing travel experience!'}</p>
+                        </div>
+                    `;
+                    
+                    row.appendChild(col);
+                });
+                
+                slide.appendChild(row);
+                swiperWrapper.appendChild(slide);
+            }
+            
+            console.log('Testimonial cards populated successfully');
+            
+            // Destroy existing swiper if it exists
+            if (testimonialSwiper) {
+                testimonialSwiper.destroy(true, true);
+            }
+            
+            // Initialize or reinitialize Swiper after content is populated
+            setTimeout(() => {
+                initializeTestimonialSwiper();
+            }, 100);
+        }
+    }
+    
+    // Function to initialize Testimonial Swiper
+    function initializeTestimonialSwiper() {
+        try {
+            testimonialSwiper = new Swiper('.testimonialSwiper', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                loop: true,
+            });
+            
+            console.log('Testimonial Swiper initialized successfully');
+        } catch (error) {
+            console.error('Error initializing Testimonial Swiper:', error);
+        }
+    }
+    
+    // Initialize the testimonials section
+    async function initializeTrustedTestimonials() {
+        console.log('Initializing Trusted Testimonials section...');
+        const data = await fetchTrustedTestimonials();
+        populateTestimonials(data);
+    }
+    
+    // Start initialization with delay to avoid conflicts with other swipers
+    setTimeout(() => {
+        initializeTrustedTestimonials();
+    }, 500);
+});
+</script>
+
+<!-- Logo/Partner API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch partner logos data from API
+    async function fetchPartnerLogos() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch partner logos data`);
+            }
+            
+            const data = await response.json();
+            console.log('Partner logos data loaded from API:', data);
+            
+            // The API returns an array, so we take the first element
+            return Array.isArray(data) ? data[0] : data;
+            
+        } catch (error) {
+            console.error('Error fetching partner logos data:', error);
+            // Return fallback data to maintain UI functionality
+            return {
+                images: [
+                    './images/icelandPartner.jpg',
+                    './images/polandPartner.png',
+                    './images/switzerlandpartner.png',
+                    './images/par1.jpeg',
+                    './images/par2.jpeg',
+                    './images/par3.jpeg',
+                    './images/par4.jpeg',
+                    './images/par5.jpeg'
+                ]
+            };
+        }
+    }
+    
+    // Function to get full image URL for logos
+    function getLogoImageUrl(imgPath) {
+        if (!imgPath) return './images/par1.jpeg'; // fallback image
+        
+        // If it's already a full URL, return as is
+        if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+            return imgPath;
+        }
+        
+        // If it starts with 'uploads/', prepend the base API URL
+        if (imgPath.startsWith('uploads/')) {
+            return `http://globe.ridealmobility.com/${imgPath}`;
+        }
+        
+        // Otherwise, treat as relative path
+        return imgPath;
+    }
+    
+    // Function to populate partner logos section with API data
+    function populatePartnerLogos(data) {
+        const logoTrack = document.getElementById('logoTrack');
+        
+        if (logoTrack && data.images && data.images.length > 0) {
+            logoTrack.innerHTML = ''; // Clear existing content
+            
+            // Create array to hold all logo elements (duplicated for seamless loop)
+            const allLogos = [];
+            
+            // First set of logos
+            data.images.forEach(imagePath => {
+                const img = document.createElement('img');
+                img.src = getLogoImageUrl(imagePath);
+                img.alt = 'Partner Logo';
+                img.onerror = function() {
+                    this.src = './images/par1.jpeg'; // fallback on error
+                };
+                allLogos.push(img);
+            });
+            
+            // Duplicate the logos for seamless loop (3 times for smooth animation)
+            for (let i = 0; i < 2; i++) {
+                data.images.forEach(imagePath => {
+                    const img = document.createElement('img');
+                    img.src = getLogoImageUrl(imagePath);
+                    img.alt = 'Partner Logo';
+                    img.onerror = function() {
+                        this.src = './images/par1.jpeg'; // fallback on error
+                    };
+                    allLogos.push(img);
+                });
+            }
+            
+            // Append all logos to the track
+            allLogos.forEach(img => {
+                logoTrack.appendChild(img);
+            });
+            
+            console.log('Partner logos populated successfully');
+        }
+    }
+    
+    // Initialize the partner logos section
+    async function initializePartnerLogos() {
+        console.log('Initializing Partner Logos section...');
+        const data = await fetchPartnerLogos();
+        populatePartnerLogos(data);
+    }
+    
+    // Start initialization with delay to avoid conflicts with other initializations
+    setTimeout(() => {
+        initializePartnerLogos();
+    }, 700);
+});
+</script>
+
+<!-- Globes/Why Travel API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch globes data from API
+    async function fetchGlobesData() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/globes', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch globes data`);
+            }
+            
+            const data = await response.json();
+            console.log('Globes data loaded from API:', data);
+            
+            // Return the data (it should have a 'globes' property with an array)
+            return data;
+            
+        } catch (error) {
+            console.error('Error fetching globes data:', error);
+            // Return fallback data to maintain UI functionality
+            return {
+                globes: [
+                    {
+                        title: "Thoughtful Curation",
+                        description: "We don't just plan trips — we curate journeys that match your dreams, personality, and pace. Every itinerary is handpicked and fine-tuned to reflect your unique travel style.",
+                        image: "./images/bw1.jpeg"
+                    },
+                    {
+                        title: "Global Connect, Local Expertise",
+                        description: "With deep-rooted partnerships across the globe, we combine world-class standards with local insight — offering you the best of both worlds, wherever you go.",
+                        image: "./images/pw2.jpeg"
+                    },
+                    {
+                        title: "Trust & Transparency",
+                        description: "We don't just build trips — we build trust with transparent pricing, honest recommendations, and no hidden surprises. What you see is what you get.",
+                        image: "./images/pw3.png"
+                    },
+                    {
+                        title: "End-to-End Care",
+                        description: "From pre-trip planning to on-ground concierge support, we handle every detail so you can simply enjoy the journey.",
+                        image: "./images/pw4.jpeg"
+                    }
+                ]
+            };
+        }
+    }
+    
+    // Function to get full image URL for globes
+    function getGlobeImageUrl(imgPath) {
+        if (!imgPath) return './images/bw1.jpeg'; // fallback image
+        
+        // If it's already a full URL, return as is
+        if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+            return imgPath;
+        }
+        
+        // If it starts with 'uploads/', prepend the base API URL
+        if (imgPath.startsWith('uploads/')) {
+            return `http://globe.ridealmobility.com/${imgPath}`;
+        }
+        
+        // Otherwise, treat as relative path
+        return imgPath;
+    }
+    
+    // Function to populate why travel section with API data
+    function populateWhyTravelSection(data) {
+        const whyTravelGrid = document.getElementById('whyTravelGrid');
+        
+        if (whyTravelGrid && data.globes && data.globes.length > 0) {
+            whyTravelGrid.innerHTML = ''; // Clear existing content
+            
+            data.globes.forEach((globe, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-12 col-md-6 col-lg-3 mb-0 why-item';
+                
+                const imageUrl = getGlobeImageUrl(globe.image);
+                
+                col.innerHTML = `
+                    <div class="why-card">
+                        <img src="${imageUrl}" class="why-icon" alt="${globe.title}" 
+                             onerror="this.src='./images/bw1.jpeg'">
+                        <h4 class="why-title">${globe.title}</h4>
+                        <p class="why-text">
+                            ${globe.description}
+                        </p>
+                    </div>
+                `;
+                
+                whyTravelGrid.appendChild(col);
+            });
+            
+            console.log('Why Travel section populated successfully with', data.globes.length, 'items');
+        } else {
+            console.error('Invalid globes data structure:', data);
+        }
+    }
+    
+    // Initialize the why travel section
+    async function initializeWhyTravelSection() {
+        console.log('Initializing Why Travel section with Globes API...');
+        const data = await fetchGlobesData();
+        populateWhyTravelSection(data);
+    }
+    
+    // Start initialization with delay to avoid conflicts with other initializations
+    setTimeout(() => {
+        initializeWhyTravelSection();
+    }, 800);
+});
+</script>
+
+<!-- Dreams/Hero API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch dreams data from API
+    async function fetchDreamsData() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/dreams', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch dreams data`);
+            }
+            
+            const data = await response.json();
+            console.log('Dreams data loaded from API:', data);
+            
+            // Return the data (it should have a 'dreams' property with an array)
+            return data;
+            
+        } catch (error) {
+            console.error('Error fetching dreams data:', error);
+            // Return fallback data to maintain UI functionality
+            return {
+                dreams: [
+                    {
+                        heading: "DREAM. EXPLORE. DISCOVER.",
+                        subheading: "Begin your journey",
+                        backgroundVideo: null // fallback to static background
+                    }
+                ]
+            };
+        }
+    }
+    
+    // Function to get full video URL for dreams
+    function getDreamVideoUrl(videoPath) {
+        if (!videoPath) return null;
+        
+        // If it's already a full URL, return as is
+        if (videoPath.startsWith('http://') || videoPath.startsWith('https://')) {
+            return videoPath;
+        }
+        
+        // If it starts with 'uploads/', prepend the base API URL
+        if (videoPath.startsWith('uploads/')) {
+            return `http://globe.ridealmobility.com/${videoPath}`;
+        }
+        
+        // Otherwise, treat as relative path
+        return videoPath;
+    }
+    
+    // Function to populate hero section with API data
+    function populateHeroSection(data) {
+        if (!data.dreams || data.dreams.length === 0) {
+            console.error('No dreams data available');
+            return;
+        }
+        
+        const dreamData = data.dreams[0]; // Take the first dream item
+        const heroSection = document.getElementById('heroSection');
+        const heroTitle = document.getElementById('heroTitle');
+        const heroSubtitle = document.getElementById('heroSubtitle');
+        const heroVideo = document.getElementById('heroBackgroundVideo');
+        
+        // Update title
+        if (heroTitle && dreamData.heading) {
+            heroTitle.textContent = dreamData.heading;
+        }
+        
+        // Update subtitle
+        if (heroSubtitle && dreamData.subheading) {
+            heroSubtitle.textContent = dreamData.subheading;
+        }
+        
+        // Handle background video
+        if (dreamData.backgroundVideo && heroVideo) {
+            const videoUrl = getDreamVideoUrl(dreamData.backgroundVideo);
+            if (videoUrl) {
+                heroVideo.querySelector('source').src = videoUrl;
+                heroVideo.load(); // Reload the video element
+                heroVideo.style.display = 'block';
+                
+                // Hide the static background when video is available
+                heroSection.style.background = 'none';
+                
+                console.log('Hero background video set:', videoUrl);
+            }
+        } else {
+            // Keep the static background image if no video
+            console.log('Using static background image - no video provided');
+        }
+        
+        console.log('Hero section populated successfully');
+    }
+    
+    // Initialize the hero section
+    async function initializeHeroSection() {
+        console.log('Initializing Hero section with Dreams API...');
+        const data = await fetchDreamsData();
+        populateHeroSection(data);
+    }
+    
+    // Start initialization with delay to avoid conflicts with other initializations
+    setTimeout(() => {
+        initializeHeroSection();
+    }, 200); // Earlier initialization since hero is at the top
+});
+</script>
 
 <!-- Sign In / Create Account Modal -->
 
@@ -2200,6 +2462,900 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         console.log('=== END DIRECT API TESTING ===');
     }, 3000);
+});
+</script>
+
+<!-- Beyond Holidays API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let beyondSwiper; // Variable to store swiper instance
+    
+    // Function to fetch beyond holidays data from API
+    async function fetchBeyondHolidays() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/beyond', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch beyond holidays data`);
+            }
+            
+            const data = await response.json();
+            console.log('Beyond holidays data loaded from API:', data);
+            
+            // The API returns an array, so we take the first element
+            return Array.isArray(data) ? data[0] : data;
+            
+        } catch (error) {
+            console.error('Error fetching beyond holidays data:', error);
+            // Return fallback data to maintain UI functionality
+            return {
+                heading: "Beyond Holidays",
+                subheading: "Not all journeys are for leisure. Some build futures, close deals, or mark life's milestones. At GLOBENGEL, we understand the difference — and deliver experiences crafted for every purpose.",
+                cards: [
+                    {
+                        img: "./images/bm1.webp",
+                        title: "The Best Places to Visit in 2025",
+                        category: "Corporate Travel"
+                    },
+                    {
+                        img: "./images/bm2.webp", 
+                        title: "19 Top Luxury Hotels Worldwide for Stargazing",
+                        category: "Education Travel"
+                    },
+                    {
+                        img: "./images/bm3.webp",
+                        title: "The 9 Best Wellness Retreats Destinations", 
+                        category: "Celebrations"
+                    }
+                ]
+            };
+        }
+    }
+    
+    // Function to get full image URL
+    function getImageUrl(imgPath) {
+        if (!imgPath) return './images/bm1.webp'; // fallback image
+        
+        // If it's already a full URL, return as is
+        if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+            return imgPath;
+        }
+        
+        // If it starts with 'uploads/', prepend the base API URL
+        if (imgPath.startsWith('uploads/')) {
+            return `http://globe.ridealmobility.com/${imgPath}`;
+        }
+        
+        // Otherwise, treat as relative path
+        return imgPath;
+    }
+    
+    // Function to populate beyond holidays section with API data
+    function populateBeyondHolidays(data) {
+        // Update heading and subheading
+        const headingElement = document.getElementById('beyondHeading');
+        const subtitleElement = document.getElementById('beyondSubtitle');
+        
+        if (headingElement && data.heading) {
+            // Parse the heading to maintain the "Beyond" span styling
+            const headingWords = data.heading.split(' ');
+            if (headingWords.length > 1) {
+                headingElement.innerHTML = `<span>${headingWords[0]}</span> ${headingWords.slice(1).join(' ')}`;
+            } else {
+                headingElement.innerHTML = `<span>Beyond</span> ${data.heading}`;
+            }
+        }
+        
+        if (subtitleElement && data.subheading) {
+            subtitleElement.textContent = data.subheading;
+        }
+        
+        // Update cards
+        const cardsContainer = document.getElementById('beyondCardsContainer');
+        if (cardsContainer && data.cards && data.cards.length > 0) {
+            cardsContainer.innerHTML = ''; // Clear existing content
+            
+            data.cards.forEach(card => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                
+                const imageUrl = getImageUrl(card.img);
+                
+                slide.innerHTML = `
+                    <div class="beyond-card">
+                        <img src="${imageUrl}" alt="${card.category || 'Holiday'}" class="beyond-img" 
+                             onerror="this.src='./images/bm1.webp'">
+                        <div class="beyond-overlay">
+                            <h4>${card.title || 'Travel Experience'}</h4>
+                            <p>${card.category || 'Travel'}</p>
+                        </div>
+                    </div>
+                `;
+                
+                cardsContainer.appendChild(slide);
+            });
+            
+            console.log('Beyond holidays cards populated successfully');
+            
+            // Destroy existing swiper if it exists
+            if (beyondSwiper) {
+                beyondSwiper.destroy(true, true);
+            }
+            
+            // Initialize or reinitialize Swiper after content is populated
+            setTimeout(() => {
+                initializeBeyondSwiper();
+            }, 100);
+        }
+    }
+    
+    // Function to initialize Beyond Swiper
+    function initializeBeyondSwiper() {
+        try {
+            beyondSwiper = new Swiper('.beyondSwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.beyondSwiper .swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.beyondSwiper .swiper-button-next',
+                    prevEl: '.beyondSwiper .swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                    },
+                },
+            });
+            
+            console.log('Beyond Swiper initialized successfully');
+        } catch (error) {
+            console.error('Error initializing Beyond Swiper:', error);
+        }
+    }
+    
+    // Initialize the beyond holidays section
+    async function initializeBeyondHolidays() {
+        console.log('Initializing Beyond Holidays section...');
+        const data = await fetchBeyondHolidays();
+        populateBeyondHolidays(data);
+    }
+    
+    // Start initialization
+    initializeBeyondHolidays();
+});
+</script>
+
+<!-- Group Departures API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let departureSwiper; // Variable to store swiper instance
+    
+    // Function to fetch group departures data from API
+    async function fetchGroupDepartures() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/departure', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch group departures data`);
+            }
+            
+            const data = await response.json();
+            console.log('Group departures data loaded from API:', data);
+            
+            // The API returns an array, so we take the first element
+            return Array.isArray(data) ? data[0] : data;
+            
+        } catch (error) {
+            console.error('Error fetching group departures data:', error);
+            // Return fallback data to maintain UI functionality
+            return {
+                heading: "Handcrafted Group Departures",
+                subheading: "Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing.",
+                cards: [
+                    {
+                        title: "ASIAN EXPLORER",
+                        description: "12 Days | 3 Countries | 6 Cities Departures: Sep | Oct | Nov",
+                        price: "INR 1,45,000/- (Per Person)",
+                        img: "./images/banner.webp"
+                    },
+                    {
+                        title: "MAJESTIC TURKEY",
+                        description: "10 Days | 1 Country | 5 Cities Departures: Sep | Oct | Nov",
+                        price: "INR 1,05,000/- (Per Person)", 
+                        img: "./images/trip1.jpeg"
+                    },
+                    {
+                        title: "EGYPT WONDER",
+                        description: "9 Days | 1 Country | 4 Cities Departures: Oct | Nov | Dec",
+                        price: "INR 1,25,000/- (Per Person)",
+                        img: "./images/trip2.avif"
+                    }
+                ]
+            };
+        }
+    }
+    
+    // Function to get full image URL for departures
+    function getDepartureImageUrl(imgPath) {
+        if (!imgPath) return './images/banner.webp'; // fallback image
+        
+        // If it's already a full URL, return as is
+        if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+            return imgPath;
+        }
+        
+        // If it starts with 'uploads/', prepend the base API URL
+        if (imgPath.startsWith('uploads/')) {
+            return `http://globe.ridealmobility.com/${imgPath}`;
+        }
+        
+        // Otherwise, treat as relative path
+        return imgPath;
+    }
+    
+    // Function to parse description for structured display
+    function parseDescription(description) {
+        if (!description) return { days: '', countries: '', cities: '', departures: '' };
+        
+        // Try to extract structured information from description
+        const lines = description.split(' ');
+        let days = '', countries = '', cities = '', departures = '';
+        
+        // Look for patterns in the description
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].includes('Days')) {
+                days = lines[i-1] + ' ' + lines[i];
+            } else if (lines[i].includes('Countries') || lines[i].includes('Country')) {
+                countries = lines[i-1] + ' ' + lines[i];
+            } else if (lines[i].includes('Cities')) {
+                cities = lines[i-1] + ' ' + lines[i];
+            } else if (lines[i].includes('Departures:')) {
+                // Get everything after "Departures:"
+                departures = 'Departures- ' + lines.slice(i+1).join(' ');
+            }
+        }
+        
+        return { days, countries, cities, departures };
+    }
+    
+    // Function to populate group departures section with API data
+    function populateGroupDepartures(data) {
+        // Update heading and subheading
+        const headingElement = document.getElementById('departureHeading');
+        const subtitleElement = document.getElementById('departureSubtitle');
+        
+        if (headingElement && data.heading) {
+            // Parse the heading to maintain the "Handcrafted" span styling
+            const headingWords = data.heading.split(' ');
+            if (headingWords.length > 1) {
+                headingElement.innerHTML = `<span class="silver-South-family" style="font-size: 65px; font-weight: 400;">${headingWords[0]}</span> ${headingWords.slice(1).join(' ')}`;
+            } else {
+                headingElement.innerHTML = `<span class="silver-South-family" style="font-size: 65px; font-weight: 400;">Handcrafted</span> ${data.heading}`;
+            }
+        }
+        
+        if (subtitleElement && data.subheading) {
+            subtitleElement.textContent = data.subheading;
+        }
+        
+        // Update cards
+        const cardsContainer = document.getElementById('departureCardsContainer');
+        if (cardsContainer && data.cards && data.cards.length > 0) {
+            cardsContainer.innerHTML = ''; // Clear existing content
+            
+            data.cards.forEach(card => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                
+                const imageUrl = getDepartureImageUrl(card.img);
+                const parsedDesc = parseDescription(card.description);
+                
+                // Format the description properly
+                let descriptionHTML = '';
+                if (parsedDesc.days && parsedDesc.countries && parsedDesc.cities) {
+                    descriptionHTML = `
+                        <p>${parsedDesc.days} | ${parsedDesc.countries} | ${parsedDesc.cities}</p>
+                        <p>${parsedDesc.departures || 'Departures- Available'}</p>
+                    `;
+                } else {
+                    // Fallback: display description as is, split by line breaks
+                    const lines = (card.description || '').split('Departures:');
+                    descriptionHTML = `
+                        <p>${lines[0] || ''}</p>
+                        <p>Departures- ${lines[1] || 'Available'}</p>
+                    `;
+                }
+                
+                slide.innerHTML = `
+                    <div class="gt-travel-card">
+                        <img src="${imageUrl}" alt="${card.title || 'Travel Package'}" 
+                             onerror="this.src='./images/banner.webp'">
+                        <div class="gt-travel-content">
+                            <h3>${card.title || 'Travel Package'}</h3>
+                            ${descriptionHTML}
+                            <div class="gt-travel-price">${card.price || 'Price on request'}</div>
+                        </div>
+                    </div>
+                `;
+                
+                cardsContainer.appendChild(slide);
+            });
+            
+            console.log('Group departure cards populated successfully');
+            
+            // Destroy existing swiper if it exists
+            if (departureSwiper) {
+                departureSwiper.destroy(true, true);
+            }
+            
+            // Initialize or reinitialize Swiper after content is populated
+            setTimeout(() => {
+                initializeDepartureSwiper();
+            }, 100);
+        }
+    }
+    
+    // Function to initialize Departure Swiper
+    function initializeDepartureSwiper() {
+        try {
+            departureSwiper = new Swiper('.mySwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.mySwiper .swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.mySwiper .swiper-button-next',
+                    prevEl: '.mySwiper .swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                    1200: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                    },
+                },
+            });
+            
+            console.log('Departure Swiper initialized successfully');
+        } catch (error) {
+            console.error('Error initializing Departure Swiper:', error);
+        }
+    }
+    
+    // Initialize the group departures section
+    async function initializeGroupDepartures() {
+        console.log('Initializing Group Departures section...');
+        const data = await fetchGroupDepartures();
+        populateGroupDepartures(data);
+    }
+    
+    // Start initialization with slight delay to avoid conflicts
+    setTimeout(() => {
+        initializeGroupDepartures();
+    }, 500);
+});
+</script>
+
+<!-- Hassle Free Escapes API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let escapeSwiper; // Variable to store swiper instance
+    
+    // Function to fetch escape destinations data from API
+    async function fetchEscapeDestinations() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/escape', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch escape destinations data`);
+            }
+            
+            const data = await response.json();
+            console.log('Escape destinations data loaded from API:', data);
+            
+            // The API returns an array, so we take the first element
+            return Array.isArray(data) ? data[0] : data;
+            
+        } catch (error) {
+            console.error('Error fetching escape destinations data:', error);
+            // Return fallback data to maintain UI functionality
+            return {
+                heading: "Hassle Free Escapes",
+                subheading: "Planning a trip shouldn't be complicated. These destinations allow Indian travellers to visit with minimal paperwork from visa-free to e-Visa or visa-on-arrival countries. Focus on exploring, relaxing, and making memories, not embassy visits.",
+                cards: [
+                    {
+                        name: "Malaysia",
+                        price: "Starting onwards at ₹30,000",
+                        img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600"
+                    },
+                    {
+                        name: "Bhutan",
+                        price: "Starting onwards at ₹50,000",
+                        img: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600"
+                    },
+                    {
+                        name: "Mauritius",
+                        price: "Starting onwards at ₹70,000",
+                        img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600"
+                    },
+                    {
+                        name: "Sri Lanka",
+                        price: "Starting onwards at ₹40,000",
+                        img: "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?w=600"
+                    }
+                ]
+            };
+        }
+    }
+    
+    // Function to get full image URL for escapes
+    function getEscapeImageUrl(imgPath) {
+        if (!imgPath) return 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600'; // fallback image
+        
+        // If it's already a full URL, return as is
+        if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+            return imgPath;
+        }
+        
+        // If it starts with 'uploads/', prepend the base API URL
+        if (imgPath.startsWith('uploads/')) {
+            return `http://globe.ridealmobility.com/${imgPath}`;
+        }
+        
+        // Otherwise, treat as relative path
+        return imgPath;
+    }
+    
+    // Function to parse price string for display
+    function formatPrice(priceString) {
+        if (!priceString) return { text: 'Starting Onwards at', price: 'Price on request' };
+        
+        // Extract price from string like "Starting onwards at ₹30,000"
+        const parts = priceString.split(' at ');
+        if (parts.length === 2) {
+            return {
+                text: parts[0],
+                price: parts[1]
+            };
+        }
+        
+        // If format is different, try to find the price pattern
+        const priceMatch = priceString.match(/(₹[\d,]+)/);
+        if (priceMatch) {
+            return {
+                text: 'Starting Onwards at',
+                price: priceMatch[1]
+            };
+        }
+        
+        // Fallback
+        return {
+            text: 'Starting Onwards at',
+            price: priceString
+        };
+    }
+    
+    // Function to populate escape destinations section with API data
+    function populateEscapeDestinations(data) {
+        // Update heading and subheading
+        const headingElement = document.getElementById('escapeHeading');
+        const subtitleElement = document.getElementById('escapeSubtitle');
+        
+        if (headingElement && data.heading) {
+            // Parse the heading to maintain the "Escapes" span styling
+            const headingWords = data.heading.split(' ');
+            if (headingWords.length >= 2) {
+                const lastWord = headingWords[headingWords.length - 1];
+                const firstPart = headingWords.slice(0, -1).join(' ');
+                headingElement.innerHTML = `${firstPart} <span class="silver-South-family" style="font-size: 65px; font-weight: 400;"> ${lastWord} </span>`;
+            } else {
+                headingElement.innerHTML = `<span class="silver-South-family" style="font-size: 65px; font-weight: 400;">${data.heading}</span>`;
+            }
+        }
+        
+        if (subtitleElement && data.subheading) {
+            subtitleElement.textContent = data.subheading;
+        }
+        
+        // Update cards
+        const cardsContainer = document.getElementById('escapeCardsContainer');
+        if (cardsContainer && data.cards && data.cards.length > 0) {
+            cardsContainer.innerHTML = ''; // Clear existing content
+            
+            data.cards.forEach(card => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                
+                const imageUrl = getEscapeImageUrl(card.img);
+                const priceInfo = formatPrice(card.price);
+                
+                slide.innerHTML = `
+                    <div class="inspired-card">
+                        <img src="${imageUrl}" alt="${card.name || 'Destination'}" 
+                             onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600'">
+                        <div class="card-content">
+                            <h3>${card.name || 'Destination'}</h3>
+                            <a href="#">${priceInfo.text}</a>
+                            <a href="#">${priceInfo.price}</a>
+                        </div>
+                    </div>
+                `;
+                
+                cardsContainer.appendChild(slide);
+            });
+            
+            console.log('Escape destination cards populated successfully');
+            
+            // Destroy existing swiper if it exists
+            if (escapeSwiper) {
+                escapeSwiper.destroy(true, true);
+            }
+            
+            // Initialize or reinitialize Swiper after content is populated
+            setTimeout(() => {
+                initializeEscapeSwiper();
+            }, 200);
+        }
+    }
+    
+    // Function to initialize Escape Swiper
+    function initializeEscapeSwiper() {
+        try {
+            escapeSwiper = new Swiper('.inspiredSwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 4500,
+                    disableOnInteraction: false,
+                },
+                navigation: {
+                    nextEl: '.inspiredSwiper .swiper-button-next',
+                    prevEl: '.inspiredSwiper .swiper-button-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 25,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                    },
+                },
+            });
+            
+            console.log('Escape Swiper initialized successfully');
+        } catch (error) {
+            console.error('Error initializing Escape Swiper:', error);
+        }
+    }
+    
+    // Initialize the escape destinations section
+    async function initializeEscapeDestinations() {
+        console.log('Initializing Escape Destinations section...');
+        const data = await fetchEscapeDestinations();
+        populateEscapeDestinations(data);
+    }
+    
+    // Start initialization with delay to avoid conflicts with other swipers
+    setTimeout(() => {
+        initializeEscapeDestinations();
+    }, 800);
+});
+
+// ============== EXPERTS API INTEGRATION ==============
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Starting Experts API integration...');
+    
+    const API_BASE_URL = 'http://globe.ridealmobility.com';
+    
+    // Function to fetch experts data from API
+    async function fetchExperts() {
+        console.log('Fetching experts data from API...');
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/home/experts`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch experts data`);
+            }
+
+            const data = await response.json();
+            console.log('Experts data loaded from API:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching experts data:', error);
+            // Return fallback data matching the API structure
+            return {
+                experts: [{
+                    _id: "fallback_expert_001",
+                    heading: "Loved by Travellers, Backed by Experts",
+                    subheading: "These destinations are topping the charts for a reason — let's take you there.",
+                    countries: ["Vietnam", "New Zealand", "Brazil", "Japan", "Australia"],
+                    images: ["./images/Vietnam.jpg", "./images/New Zealand.jpg", "./images/Brazil.jpg", "./images/Japan.jpg", "./images/Australia.jpg"],
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                }]
+            };
+        }
+    }
+    
+    // Function to convert relative URLs to absolute URLs
+    function convertToAbsoluteUrl(relativePath) {
+        if (!relativePath) return '';
+        if (relativePath.startsWith('http://') || relativePath.startsWith('https://')) {
+            return relativePath;
+        }
+        if (relativePath.startsWith('./')) {
+            return relativePath; // Keep local images as is
+        }
+        return `${API_BASE_URL}/${relativePath}`;
+    }
+    
+    // Function to update section heading and content
+    function updateExpertsHeader(expertsData) {
+        if (!expertsData || expertsData.length === 0) return;
+        
+        const expert = expertsData[0];
+        
+        // Update title - parse HTML to maintain styling
+        const titleElement = document.getElementById('expertsTitle');
+        if (titleElement && expert.heading) {
+            // Split the heading to maintain the styling structure
+            const words = expert.heading.split(' ');
+            const firstWord = words[0] || 'Loved';
+            const restOfHeading = words.slice(1).join(' ') || 'by Travellers, Backed by Experts';
+            
+            titleElement.innerHTML = `<span class="silver-South-family">${firstWord}</span> ${restOfHeading}`;
+        }
+        
+        // Update subtitle
+        const subtitleElement = document.getElementById('expertsSubtitle');
+        if (subtitleElement && expert.subheading) {
+            subtitleElement.textContent = expert.subheading;
+        }
+    }
+    
+    // Function to create desktop service item
+    function createDesktopServiceItem(country, index, images) {
+        const bgNumber = index + 1;
+        const imageUrl = images && images[index] ? convertToAbsoluteUrl(images[index]) : `./images/${country}.jpg`;
+        
+        return `
+            <div class="glob-service-item" data-bg="${bgNumber}">
+                <div class="glob-service-text">
+                    <a href="s${bgNumber}.html" class="service-link">${country}</a>
+                </div>
+                <div class="glob-service-description">
+                    <!-- Expert-curated ${country} experiences -->
+                </div>
+            </div>`;
+    }
+    
+    // Function to create mobile service item
+    function createMobileServiceItem(country, index, images) {
+        const bgNumber = index + 1;
+        const imageUrl = images && images[index] ? convertToAbsoluteUrl(images[index]) : `./images/${country}.jpg`;
+        
+        return `
+            <div class="col-12 mb-4">
+                <div class="glob-service-mobile-card" style="background-image: url('${imageUrl}');" data-bg="${bgNumber}">
+                    <div class="glob-service-text">${country}${index === 4 ? '<span class="glob-plus-icon"></span>' : ''}</div>
+                    <div class="glob-service-description">
+                        <!-- Expert-curated ${country} experiences -->
+                    </div>
+                </div>
+            </div>`;
+    }
+    
+    // Function to populate experts section with API data
+    function populateExperts(data) {
+        if (!data || !data.experts || data.experts.length === 0) {
+            console.warn('No experts data available to display');
+            return;
+        }
+        
+        const expert = data.experts[0];
+        console.log('Populating experts section with data:', expert);
+        
+        // Update header content
+        updateExpertsHeader(data.experts);
+        
+        // Update desktop version
+        const desktopContainer = document.getElementById('expertsDesktopServices');
+        if (desktopContainer && expert.countries) {
+            const desktopServicesHtml = expert.countries.map((country, index) => 
+                createDesktopServiceItem(country, index, expert.images)
+            ).join('');
+            
+            desktopContainer.innerHTML = desktopServicesHtml;
+            console.log('Desktop experts services populated with', expert.countries.length, 'countries');
+        }
+        
+        // Update mobile version
+        const mobileContainer = document.getElementById('expertsMobileServices');
+        if (mobileContainer && expert.countries) {
+            const mobileServicesHtml = expert.countries.map((country, index) => 
+                createMobileServiceItem(country, index, expert.images)
+            ).join('');
+            
+            mobileContainer.innerHTML = mobileServicesHtml;
+            console.log('Mobile experts services populated with', expert.countries.length, 'countries');
+        }
+        
+        console.log('Experts section population completed successfully');
+    }
+    
+    // Main initialization function
+    async function initializeExperts() {
+        console.log('Initializing Experts section...');
+        const data = await fetchExperts();
+        populateExperts(data);
+    }
+    
+    // Start initialization with delay to ensure DOM is ready
+    setTimeout(() => {
+        initializeExperts();
+    }, 900);
+});
+
+// Luxury Options API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    // Available cities for luxury options
+    const availableCities = ['Finland', 'Japan'];
+    
+    // Function to fetch luxury options for a specific city
+    async function fetchLuxuryOptionsForCity(cityName) {
+        try {
+            const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityName}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch luxury options for ${cityName}`);
+            }
+            const data = await response.json();
+            return Array.isArray(data) ? data[0] : data;
+        } catch (error) {
+            console.error(`Error fetching luxury options for ${cityName}:`, error);
+            return null;
+        }
+    }
+    
+    // Function to fetch all luxury options
+    async function fetchAllLuxuryOptions() {
+        try {
+            const luxuryOptions = [];
+            
+            // Fetch luxury options for each city
+            for (const city of availableCities) {
+                const cityData = await fetchLuxuryOptionsForCity(city);
+                if (cityData) {
+                    luxuryOptions.push(cityData);
+                }
+            }
+            
+            console.log('Luxury options loaded from API:', luxuryOptions);
+            return luxuryOptions;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            return [];
+        }
+    }
+
+    // Initialize luxury dropdown with API data
+    async function initializeLuxuryDropdown() {
+        const luxuryOptions = await fetchAllLuxuryOptions();
+        const luxuryMenu = document.getElementById('luxury-dropdown-menu');
+        
+        if (luxuryMenu) {
+            // Clear existing content
+            luxuryMenu.innerHTML = '';
+            
+            if (luxuryOptions && luxuryOptions.length > 0) {
+                // Populate with API data
+                luxuryOptions.forEach((option, index) => {
+                    const li = document.createElement('li');
+                    li.setAttribute('data-target', 'luxury');
+                    
+                    const a = document.createElement('a');
+                    a.href = 'Luxury.html'; // Link to your luxury page
+                    a.textContent = option.city || option.name || `Luxury Option ${index + 1}`;
+                    
+                    // Add click event to handle selection
+                    a.addEventListener('click', function(e) {
+                        console.log('Selected luxury destination:', option.city);
+                        // You can add additional functionality here
+                    });
+                    
+                    li.appendChild(a);
+                    luxuryMenu.appendChild(li);
+                });
+                
+                console.log('Luxury dropdown populated with', luxuryOptions.length, 'destinations');
+            } else {
+                // Show message when no data is available
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = 'No luxury destinations available';
+                a.style.color = '#999';
+                li.appendChild(a);
+                luxuryMenu.appendChild(li);
+                
+                console.warn('No luxury options available from API');
+            }
+        } else {
+            console.warn('Luxury dropdown menu not found');
+        }
+    }
+
+    // Initialize luxury dropdown
+    initializeLuxuryDropdown();
 });
 </script>
 

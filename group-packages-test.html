@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Group Packages API Test</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="./CSS/group-cards.css">
+  <style>
+    .hero-section {
+      background: url('./images/banner.webp') no-repeat center center/cover;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .hero-content {
+      text-align: center;
+      z-index: 2;
+    }
+    
+    .hero-title {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .hero-script {
+      font-family: 'Shadows Into Light', cursive;
+      font-size: 4rem;
+    }
+    
+    .hero-bold {
+      font-weight: 800;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+    }
+    
+    .gt-travel-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .gt-travel-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .gt-travel-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+    
+    .gt-travel-content {
+      padding: 20px;
+    }
+    
+    .gt-travel-content h3 {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .gt-travel-content p {
+      color: #666;
+      margin-bottom: 8px;
+    }
+    
+    .gt-travel-price {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 15px;
+    }
+    
+    .gt-travel-price span {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .silver-South-family {
+      font-family: 'Shadows Into Light', cursive;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="hero-script silver-South-family">Group</span> <span class="hero-bold">Tour Packages</span>
+    </h1>
+  </div>
+</section>
+
+<!-- Header Section -->
+<div class="text-center pb-5 pt-5" style="background: #FFF6F3;">
+  <h2 class="section-title" style="margin-bottom: 25px;">
+    <span class="silver-South-family" style="font-size:65px; font-weight: 400;">Handcrafted</span> 
+    Group Departures - High on experience, light on cost
+  </h2>
+  <p class="section-subtitle">Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing.</p>
+</div>
+
+<!-- Loading indicator -->
+<div id="loading" class="text-center py-5">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-3">Loading group packages...</p>
+</div>
+
+<!-- Error message -->
+<div id="error" class="alert alert-danger mx-3" style="display: none;">
+  <h4>Error Loading Packages</h4>
+  <p id="error-message"></p>
+</div>
+
+<!-- Group Packages API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch group packages from API
+    async function fetchGroupPackages() {
+        try {
+            console.log('Fetching group packages from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/group-packages');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log('Group packages loaded from API:', data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching group packages:', error);
+            throw error;
+        }
+    }
+
+    // Function to create hero section from API data
+    function updateHeroSection(heroData) {
+        if (!heroData || !heroData.hero) return;
+
+        const hero = heroData.hero;
+        const heroSection = document.querySelector('.hero-section');
+        const heroTitle = document.querySelector('.hero-title .hero-bold');
+        const heroScript = document.querySelector('.hero-title .hero-script');
+
+        console.log('Updating hero section with:', hero);
+
+        // Update hero background if images are available
+        if (hero.backgroundImages && hero.backgroundImages.length > 0) {
+            const imageUrl = `http://globe.ridealmobility.com/${hero.backgroundImages[0]}`;
+            console.log('Setting hero background to:', imageUrl);
+            if (heroSection) {
+                heroSection.style.backgroundImage = `url('${imageUrl}')`;
+            }
+        }
+
+        // Update hero text
+        if (hero.title && heroTitle) {
+            const titleParts = hero.title.split(' ');
+            if (titleParts.length >= 2) {
+                heroScript.textContent = titleParts[0];
+                heroTitle.textContent = titleParts.slice(1).join(' ');
+            }
+        }
+
+        // Update subtitle and description
+        const sectionTitle = document.querySelector('.section-title');
+        const sectionSubtitle = document.querySelector('.section-subtitle');
+        
+        if (hero.subtitle && sectionTitle) {
+            sectionTitle.innerHTML = `<span class="silver-South-family" style="font-size:65px; font-weight: 400;">Handcrafted</span> ${hero.subtitle}`;
+        }
+        
+        if (hero.description && sectionSubtitle) {
+            sectionSubtitle.textContent = hero.description;
+        }
+    }
+
+    // Function to create package card HTML
+    function createPackageCard(packageData) {
+        const imageUrl = packageData.image ? `http://globe.ridealmobility.com/${packageData.image}` : './images/banner.webp';
+        const departures = Array.isArray(packageData.departures) ? packageData.departures.join(' | ') : (packageData.departures || 'Contact for dates');
+        const formattedPrice = new Intl.NumberFormat('en-IN').format(packageData.price);
+
+        return `
+            <div class="swiper-slide">
+                <div class="gt-travel-card">
+                    <img src="${imageUrl}" alt="${packageData.title}" onerror="this.src='./images/banner.webp'">
+                    <div class="gt-travel-content">
+                        <h3>${packageData.title}</h3>
+                        <p>${packageData.days}</p>
+                        <p>Departures- ${departures}</p>
+                        <div class="gt-travel-price">INR ${formattedPrice}/- <span>(Per Person)</span></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Function to update sections with API data
+    function updatePackageSections(apiData) {
+        if (!apiData || !Array.isArray(apiData)) {
+            console.error('Invalid API data:', apiData);
+            return;
+        }
+
+        // Find the data object with regions
+        const dataWithRegions = apiData.find(item => item.regions && Array.isArray(item.regions));
+        if (!dataWithRegions) {
+            console.error('No regions found in API data');
+            return;
+        }
+
+        console.log('Found regions data:', dataWithRegions.regions);
+
+        // Clear existing sections except the header
+        const headerSection = document.querySelector('[style*="background: #FFF6F3"]');
+        
+        // Create sections for each region from API
+        dataWithRegions.regions.forEach((regionData, index) => {
+            const bgColor = index % 2 === 0 ? '#FFF6F3' : '#fff';
+            
+            const sectionHTML = `
+                <section class="group-departures py-5" style="background: ${bgColor};">
+                    <div class="container">
+                        <div class="text-start mb-5">
+                            <h2 class="section-title">${regionData.region}</h2>
+                        </div>
+                        <div class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                ${regionData.packages.map(packageData => createPackageCard(packageData)).join('')}
+                            </div>
+                            <div class="swiper-button-prev" style="z-index:10;"></div>
+                            <div class="swiper-button-next" style="z-index:10;"></div>
+                        </div>
+                    </div>
+                </section>
+            `;
+            
+            headerSection.insertAdjacentHTML('afterend', sectionHTML);
+        });
+
+        // Reinitialize Swiper for new sections
+        setTimeout(() => {
+            initializeSwiper();
+        }, 100);
+    }
+
+    // Function to initialize Swiper for all sections
+    function initializeSwiper() {
+        const swipers = document.querySelectorAll('.mySwiper');
+        console.log('Initializing Swiper for', swipers.length, 'sections');
+        
+        swipers.forEach(swiperElement => {
+            new Swiper(swiperElement, {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: swiperElement.querySelector('.swiper-button-next'),
+                    prevEl: swiperElement.querySelector('.swiper-button-prev'),
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                    },
+                },
+            });
+        });
+    }
+
+    // Function to hide loading and show error
+    function showError(message) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error-message').textContent = message;
+    }
+
+    // Function to hide loading
+    function hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+    }
+
+    // Main initialization function
+    async function initializeGroupPackages() {
+        try {
+            const apiData = await fetchGroupPackages();
+            hideLoading();
+            
+            if (apiData && Array.isArray(apiData)) {
+                console.log('Processing API data:', apiData);
+                
+                // Update hero section with the first item that has hero data
+                const heroDataItem = apiData.find(item => item.hero && (item.hero.title || item.hero.backgroundImages));
+                if (heroDataItem) {
+                    updateHeroSection(heroDataItem);
+                }
+
+                // Update package sections
+                updatePackageSections(apiData);
+                console.log('Group packages successfully integrated from API');
+            } else {
+                showError('No valid group packages data received from API');
+            }
+        } catch (error) {
+            console.error('Error initializing group packages:', error);
+            hideLoading();
+            showError(`Failed to load group packages: ${error.message}`);
+        }
+    }
+
+    // Initialize group packages
+    initializeGroupPackages();
+});
+</script>
+
+</body>
+</html>

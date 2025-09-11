@@ -469,15 +469,10 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-  <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-  <li data-target="adventure"><a href="">JAPAN</a></li>
-  <li data-target="luxury"><a href="">KENYA</a></li>
-  <li data-target="classic"><a href="">NORWAY</a></li>
-  <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-  <li data-target="luxury"><a href="">TANZANIA</a></li>
-  <li data-target="classic"><a href="">ZANZIBAR</a></li>
-</ul>
+          <ul id="finland-luxury-dropdown">
+            <!-- Finland luxury options will be populated dynamically -->
+            <li data-target="luxury"><a href="">Loading Finland luxury options...</a></li>
+          </ul>
         </div>
         
       </div>
@@ -1856,6 +1851,128 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
+// Finland Luxury Options API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch Finland-specific luxury options from API
+    async function fetchFinlandLuxuryOptions() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-options/Finland');
+            if (!response.ok) {
+                throw new Error('Failed to fetch Finland luxury options');
+            }
+            const finlandLuxuryData = await response.json();
+            console.log('Finland luxury options loaded from API:', finlandLuxuryData);
+            
+            // The API might return a single object or an array, handle both cases
+            if (finlandLuxuryData.signatureExperiences || finlandLuxuryData.luxuryResorts) {
+                // If it's the detailed Finland luxury data structure
+                return {
+                    city: finlandLuxuryData.city || 'Finland',
+                    heading: finlandLuxuryData.heading || 'Luxury Finland Experience',
+                    subheading: finlandLuxuryData.subheading || 'Glass igloos, private Saunas, and snow-laced serenity',
+                    signatureExperiences: finlandLuxuryData.signatureExperiences || [],
+                    luxuryResorts: finlandLuxuryData.luxuryResorts || [],
+                    _id: finlandLuxuryData._id
+                };
+            } else if (Array.isArray(finlandLuxuryData)) {
+                return finlandLuxuryData;
+            } else {
+                return [finlandLuxuryData];
+            }
+        } catch (error) {
+            console.error('Error fetching Finland luxury options:', error);
+            // Return fallback Finland luxury data
+            return {
+                city: 'Finland',
+                heading: 'Luxury Finland Experience',
+                subheading: 'Glass igloos, private Saunas, and snow-laced serenity',
+                signatureExperiences: [
+                    {
+                        heading: 'Stay in a Glass Igloo in Lapland',
+                        subheading: 'Sleep under a starry Arctic sky in your own thermal glass dome'
+                    },
+                    {
+                        heading: 'Luxury Wellness in the Snow', 
+                        subheading: 'Unwind in hot spring spas, igloos, experience designer saunas'
+                    }
+                ],
+                luxuryResorts: [
+                    {
+                        heading: 'Arctic TreeHouse Hotel',
+                        subheading: 'Lapland\'s Iconic Hideaway'
+                    },
+                    {
+                        heading: 'Levi Spirit Villas',
+                        subheading: 'Private Villas with Concierge'
+                    }
+                ]
+            };
+        }
+    }
+
+    // Initialize Finland luxury dropdown with API data
+    async function initializeFinlandLuxuryDropdown() {
+        const finlandLuxuryData = await fetchFinlandLuxuryOptions();
+        const luxuryDropdown = document.getElementById('finland-luxury-dropdown');
+        
+        if (luxuryDropdown && finlandLuxuryData) {
+            // Clear existing content
+            luxuryDropdown.innerHTML = '';
+            
+            // Create dropdown items based on luxury experiences and resorts
+            if (finlandLuxuryData.signatureExperiences) {
+                finlandLuxuryData.signatureExperiences.forEach((experience, index) => {
+                    const li = document.createElement('li');
+                    li.setAttribute('data-target', 'luxury-experience');
+                    
+                    const a = document.createElement('a');
+                    a.href = `#experience-${index}`;
+                    a.textContent = experience.heading || `Experience ${index + 1}`;
+                    a.title = experience.subheading || '';
+                    
+                    li.appendChild(a);
+                    luxuryDropdown.appendChild(li);
+                });
+            }
+            
+            if (finlandLuxuryData.luxuryResorts) {
+                finlandLuxuryData.luxuryResorts.forEach((resort, index) => {
+                    const li = document.createElement('li');
+                    li.setAttribute('data-target', 'luxury-resort');
+                    
+                    const a = document.createElement('a');
+                    a.href = `#resort-${index}`;
+                    a.textContent = resort.heading || `Resort ${index + 1}`;
+                    a.title = resort.subheading || '';
+                    
+                    li.appendChild(a);
+                    luxuryDropdown.appendChild(li);
+                });
+            }
+            
+            // If no specific experiences/resorts, just show the main heading
+            if (!finlandLuxuryData.signatureExperiences && !finlandLuxuryData.luxuryResorts) {
+                const li = document.createElement('li');
+                li.setAttribute('data-target', 'luxury');
+                
+                const a = document.createElement('a');
+                a.href = '#finland-luxury';
+                a.textContent = finlandLuxuryData.heading || finlandLuxuryData.city || 'Finland Luxury';
+                
+                li.appendChild(a);
+                luxuryDropdown.appendChild(li);
+            }
+            
+            console.log('Finland luxury dropdown populated with API data');
+        } else {
+            console.warn('Finland luxury dropdown not found');
+        }
+    }
+
+    // Initialize Finland luxury dropdown
+    initializeFinlandLuxuryDropdown();
+});
 </script>
-</body>
+`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n</body>
 </html>

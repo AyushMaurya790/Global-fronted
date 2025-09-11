@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo API Integration Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .api-status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .api-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .api-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .api-loading {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .data-preview {
+            background-color: #f1f3f4;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* Logo slider styles (same as main site) */
+        .logo-slider-section {
+            background: #fff;
+            padding: 60px 0;
+            overflow: hidden;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .logo-marquee {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .logo-track {
+            display: flex;
+            gap: 32px;
+            animation: marquee 38s linear infinite;
+            width: max-content;
+            align-items: center;
+        }
+        .logo-track img {
+            width: 150px;
+            height: 100px !important;
+            object-fit: contain;
+            display: block;
+            margin: 0 8px;
+            filter: none;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="text-center mb-4">
+            <i class="fas fa-images text-primary"></i>
+            Logo/Partner API Integration Test
+        </h1>
+        
+        <div id="apiStatus" class="api-status api-loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Testing Logo API connection...
+        </div>
+        
+        <div id="dataPreview" class="data-preview" style="display: none;">
+            <h5>API Response Data:</h5>
+            <pre id="jsonData"></pre>
+        </div>
+        
+        <!-- Partner/Logo Section (Same as main site) -->
+        <section class="logo-slider-section" id="partnerLogoSection">
+            <h3 class="text-center mb-4">
+                <i class="fas fa-handshake text-primary"></i>
+                Our Partners & Collaborations
+            </h3>
+            <div class="logo-marquee">
+                <div class="logo-track" id="logoTrack">
+                    <!-- Dynamic logos will be loaded here from API -->
+                    <img src="https://via.placeholder.com/150x100?text=Loading..." alt="Loading partner logos..." />
+                    <img src="https://via.placeholder.com/150x100?text=Loading..." alt="Loading partner logos..." />
+                    <img src="https://via.placeholder.com/150x100?text=Loading..." alt="Loading partner logos..." />
+                </div>
+            </div>
+        </section>
+        
+        <div class="text-center mt-4">
+            <button onclick="location.reload()" class="btn btn-primary">
+                <i class="fas fa-redo"></i>
+                Reload Test
+            </button>
+            <a href="index.html" class="btn btn-secondary ms-2">
+                <i class="fas fa-home"></i>
+                Back to Main Site
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Update API status
+            function updateStatus(message, type) {
+                const statusDiv = document.getElementById('apiStatus');
+                const icons = {
+                    'loading': 'fas fa-spinner fa-spin',
+                    'success': 'fas fa-check-circle',
+                    'error': 'fas fa-exclamation-circle'
+                };
+                
+                statusDiv.className = `api-status api-${type}`;
+                statusDiv.innerHTML = `<i class="${icons[type]}"></i> ${message}`;
+            }
+            
+            // Show API data preview
+            function showDataPreview(data) {
+                document.getElementById('dataPreview').style.display = 'block';
+                document.getElementById('jsonData').textContent = JSON.stringify(data, null, 2);
+            }
+            
+            // Function to fetch partner logos data from API
+            async function fetchPartnerLogos() {
+                try {
+                    updateStatus('Fetching data from Logo API...', 'loading');
+                    
+                    const response = await fetch('http://globe.ridealmobility.com/api/home/logo', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: Failed to fetch partner logos data`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('Partner logos data loaded from API:', data);
+                    
+                    updateStatus(`Logo API connected successfully! Found ${data.length} item(s) with ${data[0]?.images?.length || 0} logo(s)`, 'success');
+                    showDataPreview(data);
+                    
+                    // The API returns an array, so we take the first element
+                    return Array.isArray(data) ? data[0] : data;
+                    
+                } catch (error) {
+                    console.error('Error fetching partner logos data:', error);
+                    updateStatus(`Logo API Error: ${error.message}`, 'error');
+                    
+                    // Return fallback data to maintain UI functionality
+                    return {
+                        images: [
+                            'https://via.placeholder.com/150x100?text=Fallback+Logo+1',
+                            'https://via.placeholder.com/150x100?text=Fallback+Logo+2',
+                            'https://via.placeholder.com/150x100?text=Fallback+Logo+3',
+                            'https://via.placeholder.com/150x100?text=Fallback+Logo+4'
+                        ]
+                    };
+                }
+            }
+            
+            // Function to get full image URL for logos
+            function getLogoImageUrl(imgPath) {
+                if (!imgPath) return 'https://via.placeholder.com/150x100?text=No+Image';
+                
+                if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+                    return imgPath;
+                }
+                
+                if (imgPath.startsWith('uploads/')) {
+                    return `http://globe.ridealmobility.com/${imgPath}`;
+                }
+                
+                return imgPath;
+            }
+            
+            // Function to populate partner logos section with API data
+            function populatePartnerLogos(data) {
+                const logoTrack = document.getElementById('logoTrack');
+                
+                if (logoTrack && data.images && data.images.length > 0) {
+                    logoTrack.innerHTML = ''; // Clear existing content
+                    
+                    // Create array to hold all logo elements (duplicated for seamless loop)
+                    const allLogos = [];
+                    
+                    // First set of logos
+                    data.images.forEach((imagePath, index) => {
+                        const img = document.createElement('img');
+                        img.src = getLogoImageUrl(imagePath);
+                        img.alt = `Partner Logo ${index + 1}`;
+                        img.onerror = function() {
+                            this.src = 'https://via.placeholder.com/150x100?text=Error+Loading';
+                        };
+                        allLogos.push(img);
+                    });
+                    
+                    // Duplicate the logos for seamless loop (3 times for smooth animation)
+                    for (let i = 0; i < 2; i++) {
+                        data.images.forEach((imagePath, index) => {
+                            const img = document.createElement('img');
+                            img.src = getLogoImageUrl(imagePath);
+                            img.alt = `Partner Logo ${index + 1} (Loop ${i + 1})`;
+                            img.onerror = function() {
+                                this.src = 'https://via.placeholder.com/150x100?text=Error+Loading';
+                            };
+                            allLogos.push(img);
+                        });
+                    }
+                    
+                    // Append all logos to the track
+                    allLogos.forEach(img => {
+                        logoTrack.appendChild(img);
+                    });
+                    
+                    console.log('Partner logos populated successfully');
+                    updateStatus(`Logos displayed successfully! ${allLogos.length} total images in marquee`, 'success');
+                } else {
+                    updateStatus('No logo images found in API response', 'error');
+                }
+            }
+            
+            // Initialize the partner logos section
+            async function initializePartnerLogos() {
+                console.log('Initializing Partner Logos section...');
+                const data = await fetchPartnerLogos();
+                populatePartnerLogos(data);
+            }
+            
+            // Start initialization
+            setTimeout(() => {
+                initializePartnerLogos();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

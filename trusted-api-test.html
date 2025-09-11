@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trusted API Integration Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .api-status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .api-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .api-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .api-loading {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .data-preview {
+            background-color: #f1f3f4;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="text-center mb-4">
+            <i class="fas fa-star text-warning"></i>
+            Trusted API Integration Test
+        </h1>
+        
+        <div id="apiStatus" class="api-status api-loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Testing API connection...
+        </div>
+        
+        <div id="dataPreview" class="data-preview" style="display: none;">
+            <h5>API Response Data:</h5>
+            <pre id="jsonData"></pre>
+        </div>
+        
+        <!-- Testimonials Section (Same as main site) -->
+        <section class="custom-testimonial-section mt-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="testimonial-heading" id="testimonialHeading">
+                        <span class="silver-South-family">Trusted</span> by travellers like you
+                    </h2>
+                    <p class="testimonial-subtitle" id="testimonialSubtitle">
+                        From seamless honeymoons to global conferences — see why our clients keep coming back.
+                    </p>
+                </div>
+
+                <div class="swiper testimonialSwiper" id="testimonialSwiper">
+                    <div class="swiper-wrapper" id="testimonialSwiperWrapper">
+                        <!-- Dynamic content will be loaded here by API -->
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="testimonial-card">
+                                        <div class="quote-icon">❝</div>
+                                        <div class="testimonial-avatar">
+                                            <img src="https://via.placeholder.com/80" alt="Loading...">
+                                        </div>
+                                        <h3 class="testimonial-name">Loading...</h3>
+                                        <div class="testimonial-role">Traveller</div>
+                                        <p class="testimonial-text">Loading testimonials from API...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination dots -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="text-center mt-4">
+            <button onclick="location.reload()" class="btn btn-primary">
+                <i class="fas fa-redo"></i>
+                Reload Test
+            </button>
+            <a href="index.html" class="btn btn-secondary ms-2">
+                <i class="fas fa-home"></i>
+                Back to Main Site
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let testimonialSwiper;
+            
+            // Update API status
+            function updateStatus(message, type) {
+                const statusDiv = document.getElementById('apiStatus');
+                const icons = {
+                    'loading': 'fas fa-spinner fa-spin',
+                    'success': 'fas fa-check-circle',
+                    'error': 'fas fa-exclamation-circle'
+                };
+                
+                statusDiv.className = `api-status api-${type}`;
+                statusDiv.innerHTML = `<i class="${icons[type]}"></i> ${message}`;
+            }
+            
+            // Show API data preview
+            function showDataPreview(data) {
+                document.getElementById('dataPreview').style.display = 'block';
+                document.getElementById('jsonData').textContent = JSON.stringify(data, null, 2);
+            }
+            
+            // Function to fetch trusted testimonials data from API
+            async function fetchTrustedTestimonials() {
+                try {
+                    updateStatus('Fetching data from API...', 'loading');
+                    
+                    const response = await fetch('http://globe.ridealmobility.com/api/home/trusted', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: Failed to fetch trusted testimonials data`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('Trusted testimonials data loaded from API:', data);
+                    
+                    updateStatus(`API connected successfully! Found ${data.length} item(s)`, 'success');
+                    showDataPreview(data);
+                    
+                    // The API returns an array, so we take the first element
+                    return Array.isArray(data) ? data[0] : data;
+                    
+                } catch (error) {
+                    console.error('Error fetching trusted testimonials data:', error);
+                    updateStatus(`API Error: ${error.message}`, 'error');
+                    
+                    // Return fallback data to maintain UI functionality
+                    return {
+                        heading: "Trusted by travellers like you",
+                        subheading: "From seamless honeymoons to global conferences — see why our clients keep coming back.",
+                        cards: [
+                            {
+                                img: "https://randomuser.me/api/portraits/women/44.jpg",
+                                name: "Dina Jems",
+                                title: "Traveller",
+                                description: "Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris."
+                            },
+                            {
+                                img: "https://randomuser.me/api/portraits/men/32.jpg",
+                                name: "Jahid Hassan",
+                                title: "Traveller",
+                                description: "Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris."
+                            },
+                            {
+                                img: "https://randomuser.me/api/portraits/men/54.jpg",
+                                name: "Shwan Pull",
+                                title: "Traveller",
+                                description: "Fusce aliquam luctus est, eget tincidunt velit scelerisque rhoncus. Aliquam lacinia ipsum ornare, porttitor risus nec, mattis mauris."
+                            }
+                        ]
+                    };
+                }
+            }
+            
+            // Function to get full image URL
+            function getImageUrl(imgPath) {
+                if (!imgPath) return 'https://randomuser.me/api/portraits/women/44.jpg';
+                
+                if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+                    return imgPath;
+                }
+                
+                if (imgPath.startsWith('uploads/')) {
+                    return `http://globe.ridealmobility.com/${imgPath}`;
+                }
+                
+                return imgPath;
+            }
+            
+            // Function to populate testimonials section with API data
+            function populateTestimonials(data) {
+                // Update heading and subheading
+                const headingElement = document.querySelector('.testimonial-heading');
+                const subtitleElement = document.querySelector('.testimonial-subtitle');
+                
+                if (headingElement && data.heading) {
+                    const headingWords = data.heading.split(' ');
+                    if (headingWords.length > 0 && headingWords[0].toLowerCase() === 'trusted') {
+                        const restOfHeading = headingWords.slice(1).join(' ');
+                        headingElement.innerHTML = `<span class="silver-South-family">Trusted</span> ${restOfHeading}`;
+                    } else {
+                        headingElement.innerHTML = `<span class="silver-South-family">Trusted</span> ${data.heading}`;
+                    }
+                }
+                
+                if (subtitleElement && data.subheading) {
+                    subtitleElement.textContent = data.subheading;
+                }
+                
+                // Update testimonial cards
+                const swiperWrapper = document.querySelector('.testimonialSwiper .swiper-wrapper');
+                if (swiperWrapper && data.cards && data.cards.length > 0) {
+                    swiperWrapper.innerHTML = '';
+                    
+                    // Group cards into slides of 3
+                    const cardsPerSlide = 3;
+                    const totalSlides = Math.ceil(data.cards.length / cardsPerSlide);
+                    
+                    for (let slideIndex = 0; slideIndex < totalSlides; slideIndex++) {
+                        const slide = document.createElement('div');
+                        slide.className = 'swiper-slide';
+                        
+                        const row = document.createElement('div');
+                        row.className = 'row';
+                        
+                        const startIndex = slideIndex * cardsPerSlide;
+                        const endIndex = Math.min(startIndex + cardsPerSlide, data.cards.length);
+                        const slideCards = data.cards.slice(startIndex, endIndex);
+                        
+                        slideCards.forEach(card => {
+                            const col = document.createElement('div');
+                            col.className = 'col-md-4';
+                            
+                            const imageUrl = getImageUrl(card.img);
+                            
+                            col.innerHTML = `
+                                <div class="testimonial-card">
+                                    <div class="quote-icon">❝</div>
+                                    <div class="testimonial-avatar">
+                                        <img src="${imageUrl}" alt="${card.name || 'Traveller'}" 
+                                             onerror="this.src='https://randomuser.me/api/portraits/women/44.jpg'">
+                                    </div>
+                                    <h3 class="testimonial-name">${card.name || 'Anonymous'}</h3>
+                                    <div class="testimonial-role">${card.title || 'Traveller'}</div>
+                                    <p class="testimonial-text">${card.description || 'Amazing travel experience!'}</p>
+                                </div>
+                            `;
+                            
+                            row.appendChild(col);
+                        });
+                        
+                        slide.appendChild(row);
+                        swiperWrapper.appendChild(slide);
+                    }
+                    
+                    console.log('Testimonial cards populated successfully');
+                    
+                    if (testimonialSwiper) {
+                        testimonialSwiper.destroy(true, true);
+                    }
+                    
+                    setTimeout(() => {
+                        initializeTestimonialSwiper();
+                    }, 100);
+                }
+            }
+            
+            // Function to initialize Testimonial Swiper
+            function initializeTestimonialSwiper() {
+                try {
+                    testimonialSwiper = new Swiper('.testimonialSwiper', {
+                        slidesPerView: 1,
+                        spaceBetween: 30,
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        loop: true,
+                    });
+                    
+                    console.log('Testimonial Swiper initialized successfully');
+                } catch (error) {
+                    console.error('Error initializing Testimonial Swiper:', error);
+                    updateStatus(`Swiper Error: ${error.message}`, 'error');
+                }
+            }
+            
+            // Initialize the testimonials section
+            async function initializeTrustedTestimonials() {
+                console.log('Initializing Trusted Testimonials section...');
+                const data = await fetchTrustedTestimonials();
+                populateTestimonials(data);
+            }
+            
+            // Start initialization
+            setTimeout(() => {
+                initializeTrustedTestimonials();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

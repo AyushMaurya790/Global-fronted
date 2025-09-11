@@ -36,7 +36,10 @@
   margin: 0 auto;
   position: relative;
   transition: transform 0.3s, box-shadow 0.3s;
-  height: 510px !important; /* Fixed height for consistency */
+  height: auto !important; /* Auto height to accommodate content */
+  min-height: 520px; /* Minimum height for consistency */
+  display: flex;
+  flex-direction: column;
 }
 
 .gt-travel-card:hover {
@@ -46,13 +49,18 @@
 
 .gt-travel-card img {
   width: 100%;
-  height: 360px;
+  height: 320px; /* Reduced image height to make room for content */
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .gt-travel-content {
-  padding: 0px;
+  padding: 20px 15px 25px 15px; /* Added proper padding */
   text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .gt-travel-content h3 {
@@ -61,6 +69,7 @@
   font-family: 'Miller Display', Georgia, serif;
   margin-bottom: 12px;
   color: #333;
+  line-height: 1.3;
 }
 
 .gt-travel-content p {
@@ -68,6 +77,7 @@
   color: #333;
   font-family: 'Miller Display', Georgia, serif;
   margin-bottom: 8px;
+  line-height: 1.4;
 }
 
 .gt-travel-price {
@@ -76,6 +86,8 @@
   color: #000;
   margin-top: 15px;
   font-family: 'Miller Display', Georgia, serif;
+  line-height: 1.3;
+  padding-top: 10px; /* Extra padding to separate from description */
 }
 
 .gt-travel-price span {
@@ -146,7 +158,28 @@
 @media (max-width: 768px) {
   .gt-travel-card {
     max-width: 100%;
-    height: 450px;
+    height: auto;
+    min-height: 480px;
+  }
+  
+  .gt-travel-card img {
+    height: 280px; /* Reduced image height on mobile */
+  }
+  
+  .gt-travel-content {
+    padding: 18px 12px 22px 12px; /* Adjusted mobile padding */
+  }
+  
+  .gt-travel-content h3 {
+    font-size: 16px;
+  }
+  
+  .gt-travel-content p {
+    font-size: 14px;
+  }
+  
+  .gt-travel-price {
+    font-size: 16px;
   }
   
   .section-title {

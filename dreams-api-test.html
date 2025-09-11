@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreams API Integration Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./CSS/style.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 0;
+        }
+        .test-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .test-header {
+            background: #e55d17;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .test-content {
+            padding: 20px;
+        }
+        .api-status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .api-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .api-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .api-loading {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .data-preview {
+            background-color: #f1f3f4;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* Hero section styles (same as main site) */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('./images/banner.webp') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            border: 2px dashed #dee2e6;
+            margin: 20px 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .hero-title {
+            font-size: 60px;
+            font-weight: 700;
+            margin-bottom: 140px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 3px;
+        }
+        
+        .hero-subtitle {
+            font-size: 64px;
+            font-family: 'Silver South Script', cursive;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+        }
+        
+        .silver-South-family {
+            font-family: 'Silver South Script', cursive;
+        }
+        
+        .heading_font_family {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .search-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #333;
+            font-size: 16px;
+            padding-right: 50px;
+        }
+        
+        .search-box input::placeholder {
+            color: #999;
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #e55d17;
+            font-size: 18px;
+        }
+        
+        /* Video background */
+        #heroBackgroundVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+                margin-bottom: 60px;
+            }
+            .hero-subtitle {
+                font-size: 36px;
+            }
+            .hero-content {
+                margin-top: 80px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>
+                <i class="fas fa-star text-warning"></i>
+                Dreams/Hero API Integration Test
+            </h1>
+        </div>
+        
+        <div class="test-content">
+            <div id="apiStatus" class="api-status api-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                Testing Dreams API connection...
+            </div>
+            
+            <div id="dataPreview" class="data-preview" style="display: none;">
+                <h5>API Response Data:</h5>
+                <pre id="jsonData"></pre>
+            </div>
+        </div>
+        
+        <!-- Hero Section (Same as main site) -->
+        <section class="hero-section" id="heroSection">
+            <div class="hero-content" style="margin-top: 140px;" id="heroContent">
+                <h1 class="hero-title heading_font_family" id="heroTitle">Loading...</h1>
+                <p class="hero-subtitle silver-South-family" id="heroSubtitle">Loading from API...</p>
+                <div class="search-box">
+                    <input type="text" placeholder="Search by destinations, travel theme">
+                    <i class="fa fa-search"></i>
+                </div>
+            </div>
+            <!-- Video background will be added dynamically if available -->
+            <video id="heroBackgroundVideo" autoplay muted loop style="display: none;">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </section>
+        
+        <div class="test-content">
+            <div class="text-center mt-4">
+                <button onclick="location.reload()" class="btn btn-primary">
+                    <i class="fas fa-redo"></i>
+                    Reload Test
+                </button>
+                <a href="index.html" class="btn btn-secondary ms-2">
+                    <i class="fas fa-home"></i>
+                    Back to Main Site
+                </a>
+                <button onclick="toggleVideo()" class="btn btn-info ms-2" id="videoToggle">
+                    <i class="fas fa-play"></i>
+                    Test Video
+                </button>
+            </div>
+            
+            <div class="alert alert-info mt-4">
+                <h5><i class="fas fa-info-circle"></i> Integration Details:</h5>
+                <ul>
+                    <li><strong>API Endpoint:</strong> http://globe.ridealmobility.com/api/home/dreams</li>
+                    <li><strong>Dynamic Content:</strong> Hero title, subtitle, and background video</li>
+                    <li><strong>Fallback:</strong> Static background image if video unavailable</li>
+                    <li><strong>Video Support:</strong> MP4 format with autoplay, muted, and loop</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Update API status
+            function updateStatus(message, type) {
+                const statusDiv = document.getElementById('apiStatus');
+                const icons = {
+                    'loading': 'fas fa-spinner fa-spin',
+                    'success': 'fas fa-check-circle',
+                    'error': 'fas fa-exclamation-circle'
+                };
+                
+                statusDiv.className = `api-status api-${type}`;
+                statusDiv.innerHTML = `<i class="${icons[type]}"></i> ${message}`;
+            }
+            
+            // Show API data preview
+            function showDataPreview(data) {
+                document.getElementById('dataPreview').style.display = 'block';
+                document.getElementById('jsonData').textContent = JSON.stringify(data, null, 2);
+            }
+            
+            // Function to fetch dreams data from API
+            async function fetchDreamsData() {
+                try {
+                    updateStatus('Fetching data from Dreams API...', 'loading');
+                    
+                    const response = await fetch('http://globe.ridealmobility.com/api/home/dreams', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: Failed to fetch dreams data`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('Dreams data loaded from API:', data);
+                    
+                    updateStatus(`Dreams API connected successfully! Found ${data.dreams?.length || 0} dream(s)`, 'success');
+                    showDataPreview(data);
+                    
+                    return data;
+                    
+                } catch (error) {
+                    console.error('Error fetching dreams data:', error);
+                    updateStatus(`Dreams API Error: ${error.message}`, 'error');
+                    
+                    // Return fallback data to maintain UI functionality
+                    return {
+                        dreams: [
+                            {
+                                heading: "DREAM. EXPLORE. DISCOVER.",
+                                subheading: "Begin your journey",
+                                backgroundVideo: null // fallback to static background
+                            }
+                        ]
+                    };
+                }
+            }
+            
+            // Function to get full video URL for dreams
+            function getDreamVideoUrl(videoPath) {
+                if (!videoPath) return null;
+                
+                if (videoPath.startsWith('http://') || videoPath.startsWith('https://')) {
+                    return videoPath;
+                }
+                
+                if (videoPath.startsWith('uploads/')) {
+                    return `http://globe.ridealmobility.com/${videoPath}`;
+                }
+                
+                return videoPath;
+            }
+            
+            // Function to populate hero section with API data
+            function populateHeroSection(data) {
+                if (!data.dreams || data.dreams.length === 0) {
+                    console.error('No dreams data available');
+                    updateStatus('No dreams data found in API response', 'error');
+                    return;
+                }
+                
+                const dreamData = data.dreams[0]; // Take the first dream item
+                const heroSection = document.getElementById('heroSection');
+                const heroTitle = document.getElementById('heroTitle');
+                const heroSubtitle = document.getElementById('heroSubtitle');
+                const heroVideo = document.getElementById('heroBackgroundVideo');
+                
+                // Update title
+                if (heroTitle && dreamData.heading) {
+                    heroTitle.textContent = dreamData.heading;
+                }
+                
+                // Update subtitle
+                if (heroSubtitle && dreamData.subheading) {
+                    heroSubtitle.textContent = dreamData.subheading;
+                }
+                
+                // Handle background video
+                if (dreamData.backgroundVideo && heroVideo) {
+                    const videoUrl = getDreamVideoUrl(dreamData.backgroundVideo);
+                    if (videoUrl) {
+                        heroVideo.querySelector('source').src = videoUrl;
+                        heroVideo.load(); // Reload the video element
+                        heroVideo.style.display = 'block';
+                        
+                        // Hide the static background when video is available
+                        heroSection.style.background = 'rgba(0,0,0,0.3)';
+                        
+                        console.log('Hero background video set:', videoUrl);
+                        updateStatus(`Hero section updated with video: ${videoUrl.split('/').pop()}`, 'success');
+                    } else {
+                        updateStatus('Hero section updated (no video URL)', 'success');
+                    }
+                } else {
+                    // Keep the static background image if no video
+                    console.log('Using static background image - no video provided');
+                    updateStatus('Hero section updated with static background', 'success');
+                }
+                
+                console.log('Hero section populated successfully');
+            }
+            
+            // Initialize the hero section
+            async function initializeHeroSection() {
+                console.log('Initializing Hero section with Dreams API...');
+                const data = await fetchDreamsData();
+                populateHeroSection(data);
+            }
+            
+            // Start initialization
+            setTimeout(() => {
+                initializeHeroSection();
+            }, 500);
+            
+            // Video toggle function for testing
+            window.toggleVideo = function() {
+                const video = document.getElementById('heroBackgroundVideo');
+                const button = document.getElementById('videoToggle');
+                
+                if (video.style.display === 'none') {
+                    video.style.display = 'block';
+                    button.innerHTML = '<i class="fas fa-pause"></i> Hide Video';
+                } else {
+                    video.style.display = 'none';
+                    button.innerHTML = '<i class="fas fa-play"></i> Show Video';
+                }
+            };
+        });
+    </script>
+</body>
+</html>

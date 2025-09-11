@@ -21,7 +21,10 @@
  <link rel="stylesheet" href="./CSS/group-cards.css">
  <style>
    .hero-section {
-     background: url('../images/banner.webp') no-repeat center center/cover;
+     background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./images/banner.webp') no-repeat center center/cover;
+     height: 100vh;
+     position: relative;
+     transition: background-image 1s ease-in-out;
    }
 
    .swiper-pagination {
@@ -211,15 +214,10 @@
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-  <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-  <li data-target="adventure"><a href="">JAPAN</a></li>
-  <li data-target="luxury"><a href="">KENYA</a></li>
-  <li data-target="classic"><a href="">NORWAY</a></li>
-  <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-  <li data-target="luxury"><a href="">TANZANIA</a></li>
-  <li data-target="classic"><a href="">ZANZIBAR</a></li>
-</ul>
+          <ul id="luxury-dropdown-list">
+            <!-- Luxury options will be populated dynamically -->
+            <li data-target="luxury"><a href="">Loading...</a></li>
+          </ul>
         </div>
         
       </div>
@@ -305,24 +303,13 @@
 
 <!-- Hero Section -->
 <section class="hero-section" style="position:relative; width:100%; height:100vh; overflow:hidden;">
-  <!-- Swiper for background images only -->
-  <div class="swiper heroTourSwiper" style="width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1;">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide" style="width:100%; height:100vh;">
-        <div style="background: url('./WebsiteData/Machu-Picchu_GettyImages-585918842.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
-      </div>
-      <div class="swiper-slide" style="width:100%; height:100vh;">
-        <div style="background: url('./WebsiteData/2018_pmab_pmab.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
-      </div>
-      <div class="swiper-slide" style="width:100%; height:100vh;">
-        <div style="background: url('./WebsiteData/Adventure.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
-      </div>
-    </div>
-  </div>
+  <!-- Dynamic background container -->
+  <div id="hero-background" style="width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./images/banner.webp') no-repeat center center/cover; transition: background-image 1s ease-in-out;"></div>
+  
   <!-- Fixed Content -->
   <div class="hero-overlay"></div>
   <div class="hero-content hero-banner-text" style="max-width: 650px; margin-bottom: 60px; position:absolute; z-index:2;">
-    <h1>
+    <h1 class="hero-title">
       <span class="hero-script silver-South-family">Group</span> <span class="hero-bold">Tour Packages</span>
     </h1>
   </div>
@@ -1250,6 +1237,258 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- Group Packages API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch group packages from API
+    async function fetchGroupPackages() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/group-packages');
+            if (!response.ok) {
+                throw new Error('Failed to fetch group packages');
+            }
+            const data = await response.json();
+            console.log('Group packages loaded from API:', data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching group packages:', error);
+            return null;
+        }
+    }
+
+    // Function to create hero section from API data
+    function updateHeroSection(heroData) {
+        if (!heroData || !heroData.hero) return;
+
+        const hero = heroData.hero;
+        const heroBackground = document.getElementById('hero-background');
+        const heroTitle = document.querySelector('.hero-title .hero-bold');
+        const heroScript = document.querySelector('.hero-title .hero-script');
+
+        console.log('Updating hero section with:', hero);
+
+        // Update hero background if images are available
+        if (hero.backgroundImages && hero.backgroundImages.length > 0) {
+            const imageUrl = `http://globe.ridealmobility.com/${hero.backgroundImages[0]}`;
+            console.log('Setting hero background to:', imageUrl);
+            if (heroBackground) {
+                // Set the background image with proper styling
+                heroBackground.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${imageUrl}')`;
+                heroBackground.style.backgroundSize = 'cover';
+                heroBackground.style.backgroundPosition = 'center center';
+                heroBackground.style.backgroundRepeat = 'no-repeat';
+                
+                console.log('Hero background updated with:', imageUrl);
+            }
+            
+            // If there are multiple images, create a slideshow
+            if (hero.backgroundImages.length > 1) {
+                let currentImageIndex = 0;
+                setInterval(() => {
+                    currentImageIndex = (currentImageIndex + 1) % hero.backgroundImages.length;
+                    const nextImageUrl = `http://globe.ridealmobility.com/${hero.backgroundImages[currentImageIndex]}`;
+                    console.log(`Changing to background image ${currentImageIndex + 1}:`, nextImageUrl);
+                    if (heroBackground) {
+                        heroBackground.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${nextImageUrl}')`;
+                    }
+                }, 5000); // Change image every 5 seconds
+            }
+        }
+
+        // Update hero text
+        if (hero.title && heroTitle) {
+            const titleParts = hero.title.split(' ');
+            if (titleParts.length >= 2) {
+                heroScript.textContent = titleParts[0];
+                heroTitle.textContent = titleParts.slice(1).join(' ');
+            }
+        }
+
+        // Update subtitle and description
+        const sectionTitle = document.querySelector('.section-title');
+        const sectionSubtitle = document.querySelector('.section-subtitle');
+        
+        if (hero.subtitle && sectionTitle) {
+            sectionTitle.innerHTML = `<span class="silver-South-family" style="font-size:65px; font-weight: 400;">Handcrafted</span> ${hero.subtitle}`;
+        }
+        
+        if (hero.description && sectionSubtitle) {
+            sectionSubtitle.textContent = hero.description;
+        }
+    }
+
+    // Function to create package card HTML
+    function createPackageCard(packageData, isFromRegions = true) {
+        let imageUrl, title, days, departures, price;
+        
+        if (isFromRegions) {
+            // Handle packages from regions array (second object structure)
+            imageUrl = packageData.image ? `http://globe.ridealmobility.com/${packageData.image}` : './images/banner.webp';
+            title = packageData.title;
+            days = packageData.days;
+            departures = Array.isArray(packageData.departures) ? packageData.departures.join(' | ') : (packageData.departures || 'Contact for dates');
+            price = packageData.price;
+        } else {
+            // Handle packages from direct packages array (first object structure)
+            imageUrl = packageData.image ? `http://globe.ridealmobility.com/${packageData.image}` : './images/banner.webp';
+            title = packageData.name;
+            days = `${packageData.durationDays} Days | ${packageData.countries} Countries | ${packageData.cities} Cities`;
+            departures = Array.isArray(packageData.departureMonths) ? packageData.departureMonths.join(' | ') : 'Contact for dates';
+            price = packageData.pricePerPerson;
+        }
+        
+        const formattedPrice = new Intl.NumberFormat('en-IN').format(price);
+
+        return `
+            <div class="swiper-slide">
+                <div class="gt-travel-card">
+                    <img src="${imageUrl}" alt="${title}" onerror="this.src='./images/banner.webp'">
+                    <div class="gt-travel-content">
+                        <h3>${title}</h3>
+                        <p>${days}</p>
+                        <p>Departures- ${departures}</p>
+                        <div class="gt-travel-price">INR ${formattedPrice}/- <span>(Per Person)</span></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Function to update sections with API data
+    function updatePackageSections(apiData) {
+        if (!apiData || !Array.isArray(apiData)) return;
+
+        // Clear existing sections except the header
+        const container = document.querySelector('.group-departures').parentElement;
+        const headerSection = document.querySelector('[style*="background: #FFF6F3"]');
+        
+        // Remove all existing group-departures sections
+        const existingSections = document.querySelectorAll('.group-departures');
+        existingSections.forEach(section => section.remove());
+
+        let sectionIndex = 0;
+        
+        // Process each object in the API response
+        apiData.forEach(dataItem => {
+            // Handle first object structure (direct packages with region)
+            if (dataItem.packages && Array.isArray(dataItem.packages) && dataItem.region) {
+                const bgColor = sectionIndex % 2 === 0 ? '#FFF6F3' : '#fff';
+                
+                const sectionHTML = `
+                    <section class="group-departures py-5" style="background: ${bgColor};">
+                        <div class="container">
+                            <div class="text-start mb-5">
+                                <h2 class="section-title">${dataItem.region}</h2>
+                                ${dataItem.heading ? `<p class="text-muted">${dataItem.heading}</p>` : ''}
+                            </div>
+                            <div class="swiper mySwiper">
+                                <div class="swiper-wrapper">
+                                    ${dataItem.packages.map(packageData => createPackageCard(packageData, false)).join('')}
+                                </div>
+                                <div class="swiper-button-prev" style="z-index:10;"></div>
+                                <div class="swiper-button-next" style="z-index:10;"></div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                
+                headerSection.insertAdjacentHTML('afterend', sectionHTML);
+                sectionIndex++;
+            }
+            
+            // Handle second object structure (regions array)
+            if (dataItem.regions && Array.isArray(dataItem.regions)) {
+                dataItem.regions.forEach(regionData => {
+                    const bgColor = sectionIndex % 2 === 0 ? '#FFF6F3' : '#fff';
+                    
+                    const sectionHTML = `
+                        <section class="group-departures py-5" style="background: ${bgColor};">
+                            <div class="container">
+                                <div class="text-start mb-5">
+                                    <h2 class="section-title">${regionData.region}</h2>
+                                </div>
+                                <div class="swiper mySwiper">
+                                    <div class="swiper-wrapper">
+                                        ${regionData.packages.map(packageData => createPackageCard(packageData, true)).join('')}
+                                    </div>
+                                    <div class="swiper-button-prev" style="z-index:10;"></div>
+                                    <div class="swiper-button-next" style="z-index:10;"></div>
+                                </div>
+                            </div>
+                        </section>
+                    `;
+                    
+                    headerSection.insertAdjacentHTML('afterend', sectionHTML);
+                    sectionIndex++;
+                });
+            }
+        });
+
+        // Reinitialize Swiper for new sections
+        setTimeout(() => {
+            initializeSwiper();
+        }, 100);
+    }
+
+    // Function to initialize Swiper for all sections
+    function initializeSwiper() {
+        const swipers = document.querySelectorAll('.mySwiper');
+        swipers.forEach(swiperElement => {
+            new Swiper(swiperElement, {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                navigation: {
+                    nextEl: swiperElement.querySelector('.swiper-button-next'),
+                    prevEl: swiperElement.querySelector('.swiper-button-prev'),
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                    },
+                },
+            });
+        });
+    }
+
+    // Main initialization function
+    async function initializeGroupPackages() {
+        try {
+            const apiData = await fetchGroupPackages();
+            if (apiData && Array.isArray(apiData)) {
+                console.log('Processing API data:', apiData);
+                
+                // For your current API structure, take the first object with hero data
+                const heroDataItem = apiData.find(item => item.hero) || apiData[0];
+                if (heroDataItem && heroDataItem.hero) {
+                    updateHeroSection(heroDataItem);
+                    console.log('Hero section updated with API data');
+                }
+
+                // Update package sections
+                updatePackageSections(apiData);
+                console.log('Group packages successfully integrated from API');
+            } else {
+                console.warn('No valid group packages data received from API');
+            }
+        } catch (error) {
+            console.error('Error initializing group packages:', error);
+        }
+    }
+
+    // Initialize group packages
+    initializeGroupPackages();
+});
+</script>
+
 <!-- Continents API Integration -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -1335,6 +1574,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the dropdown
     initializeDestinationsDropdown();
+
+    // Luxury Options API Integration
+    async function fetchLuxuryOptions() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-options');
+            if (!response.ok) {
+                throw new Error('Failed to fetch luxury options');
+            }
+            const luxuryOptions = await response.json();
+            console.log('Luxury options loaded from API:', luxuryOptions);
+            return luxuryOptions;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            // Return fallback data to maintain functionality
+            return [
+                { city: 'FINLAND', _id: '1' },
+                { city: 'JAPAN', _id: '2' },
+                { city: 'KENYA', _id: '3' },
+                { city: 'NORWAY', _id: '4' },
+                { city: 'SAUDI ARABIA', _id: '5' },
+                { city: 'TANZANIA', _id: '6' },
+                { city: 'ZANZIBAR', _id: '7' }
+            ];
+        }
+    }
+
+    // Initialize luxury dropdown with API data
+    async function initializeLuxuryDropdown() {
+        const luxuryOptions = await fetchLuxuryOptions();
+        const luxuryList = document.getElementById('luxury-dropdown-list');
+        
+        if (luxuryList && luxuryOptions) {
+            // Clear existing content
+            luxuryList.innerHTML = '';
+            
+            // Populate with API data
+            luxuryOptions.forEach((option, index) => {
+                const li = document.createElement('li');
+                li.setAttribute('data-target', 'luxury');
+                
+                const a = document.createElement('a');
+                a.href = option.url || `luxury-${option._id}.html` || '';
+                a.textContent = option.city || option.name || `Luxury Option ${index + 1}`;
+                
+                li.appendChild(a);
+                luxuryList.appendChild(li);
+            });
+            
+            console.log('Luxury dropdown populated with API data');
+        } else {
+            console.warn('Luxury dropdown list not found');
+        }
+    }
+
+    // Initialize luxury dropdown
+    initializeLuxuryDropdown();
 });
 </script>
 

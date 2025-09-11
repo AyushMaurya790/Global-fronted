@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Destinations API Test - Globengel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .api-test-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .api-response {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #17a2b8;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .destination-card {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .destination-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        .destination-img {
+            width: 120px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .destination-name {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .destination-price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .status { 
+            padding: 10px 20px; 
+            border-radius: 8px; 
+            margin: 15px 0; 
+            font-weight: bold;
+        }
+        .success { background: linear-gradient(135deg, #a8e6cf, #88d8a3); color: #2d5a3d; }
+        .error { background: linear-gradient(135deg, #ffaaa5, #ff8a80); color: #c62828; }
+        .loading { background: linear-gradient(135deg, #b3e5fc, #81d4fa); color: #01579b; }
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .api-details {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="api-test-container">
+        <div class="hero-section">
+            <h1 class="mb-3">🏝️ Hassle Free Escapes API Test</h1>
+            <p class="lead">Testing visa-free and easy-access destination API</p>
+            <p><code>http://globe.ridealmobility.com/api/home/escape</code></p>
+        </div>
+        
+        <div id="status" class="status loading">🔄 Testing escape destinations API...</div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h3>🔌 API Response Data</h3>
+                <div id="apiResponse" class="api-response">
+                    <div class="text-center">
+                        <div class="spinner-border text-info" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Fetching escape destinations...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>🗺️ Destination Cards Preview</h3>
+                <div id="destinationsPreview">
+                    <p class="text-muted">Waiting for API response...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <button class="btn btn-info btn-lg" onclick="testEscapeAPI()">🔄 Reload API Test</button>
+            <a href="index.html" class="btn btn-primary btn-lg">🏠 Main Page</a>
+            <a href="departure-api-test.html" class="btn btn-success btn-lg">📋 Departure API</a>
+            <a href="beyond-api-test.html" class="btn btn-warning btn-lg">🌟 Beyond API</a>
+        </div>
+        
+        <div class="api-details">
+            <h4>🎯 API Integration Details</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Endpoint:</strong> 
+                            <span class="badge bg-info">GET /api/home/escape</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Response Type:</strong> 
+                            <span class="badge bg-secondary">JSON Array</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Card Properties:</strong> 
+                            <span class="badge bg-success">name, price, img</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Section:</strong> 
+                            <span class="badge bg-primary">Hassle Free Escapes</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>UI Component:</strong> 
+                            <span class="badge bg-warning">Swiper Carousel</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Features:</strong> 
+                            <span class="badge bg-danger">Visa-free destinations</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h4>📋 Expected API Response Structure</h4>
+            <pre class="bg-light p-3 rounded" style="font-size: 12px;"><code>{
+  "heading": "Hassle Free Escapes",
+  "subheading": "Planning a trip shouldn't be complicated...",
+  "cards": [
+    {
+      "name": "Malaysia",
+      "price": "Starting onwards at ₹30,000",
+      "img": "uploads/1757576107770.jpg"
+    },
+    {
+      "name": "Bhutan", 
+      "price": "Starting onwards at ₹50,000",
+      "img": "uploads/1757576107844.jpg"
+    }
+  ]
+}</code></pre>
+        </div>
+    </div>
+
+    <script>
+        async function testEscapeAPI() {
+            const statusDiv = document.getElementById('status');
+            const responseDiv = document.getElementById('apiResponse');
+            const previewDiv = document.getElementById('destinationsPreview');
+            
+            // Reset status
+            statusDiv.className = 'status loading';
+            statusDiv.innerHTML = '🔄 Testing escape destinations API...';
+            
+            responseDiv.innerHTML = `
+                <div class="text-center">
+                    <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Fetching escape destinations...</p>
+                </div>
+            `;
+            
+            previewDiv.innerHTML = '<p class="text-muted">Waiting for API response...</p>';
+            
+            try {
+                console.log('Fetching escape destinations API...');
+                const response = await fetch('http://globe.ridealmobility.com/api/home/escape', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    mode: 'cors'
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Escape API Response:', data);
+                
+                // Update status
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = '✅ Escape destinations API connection successful!';
+                
+                // Display API response
+                responseDiv.innerHTML = `<pre style="white-space: pre-wrap; font-size: 11px;">${JSON.stringify(data, null, 2)}</pre>`;
+                
+                // Process and display destinations
+                const escapeData = Array.isArray(data) ? data[0] : data;
+                
+                if (escapeData && escapeData.cards) {
+                    let destinationsHTML = `
+                        <div class="alert alert-info">
+                            <h5>📍 ${escapeData.heading || 'Escape Destinations'}</h5>
+                            <p class="mb-0 small">${escapeData.subheading || 'No description available'}</p>
+                        </div>
+                        <small class="text-success mb-3 d-block">✅ Found ${escapeData.cards.length} destinations</small>
+                    `;
+                    
+                    escapeData.cards.forEach((destination, index) => {
+                        const imageUrl = getEscapeImageUrl(destination.img);
+                        const priceInfo = formatPrice(destination.price);
+                        
+                        destinationsHTML += `
+                            <div class="destination-card">
+                                <div class="d-flex align-items-center">
+                                    <img src="${imageUrl}" alt="${destination.name}" class="destination-img" 
+                                         onerror="this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600'">
+                                    <div class="flex-grow-1">
+                                        <div class="destination-name">${destination.name || 'Unknown Destination'}</div>
+                                        <div class="text-muted small">${priceInfo.text}</div>
+                                        <div class="destination-price">${priceInfo.price}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    previewDiv.innerHTML = destinationsHTML;
+                } else {
+                    previewDiv.innerHTML = '<div class="alert alert-warning">⚠️ No destination cards found in API response</div>';
+                }
+                
+            } catch (error) {
+                console.error('Escape API Test Error:', error);
+                
+                // Update status
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Escape API Error: ${error.message}`;
+                
+                // Display error
+                responseDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <strong>🚨 Error Details:</strong> ${error.message}
+                        <hr>
+                        <small>
+                            <strong>🔧 Troubleshooting Steps:</strong><br>
+                            • Verify API server is running and accessible<br>
+                            • Check CORS configuration on the server<br>
+                            • Ensure network connectivity<br>
+                            • Validate API endpoint URL<br>
+                            • Check if API returns valid JSON format<br>
+                            • Test API directly in browser or Postman
+                        </small>
+                    </div>
+                `;
+                
+                previewDiv.innerHTML = '<div class="alert alert-danger">❌ Could not load destinations due to API error</div>';
+            }
+        }
+        
+        function getEscapeImageUrl(imgPath) {
+            if (!imgPath) return 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600';
+            
+            if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+                return imgPath;
+            }
+            
+            if (imgPath.startsWith('uploads/')) {
+                return `http://globe.ridealmobility.com/${imgPath}`;
+            }
+            
+            return imgPath;
+        }
+        
+        function formatPrice(priceString) {
+            if (!priceString) return { text: 'Starting Onwards at', price: 'Price on request' };
+            
+            const parts = priceString.split(' at ');
+            if (parts.length === 2) {
+                return {
+                    text: parts[0],
+                    price: parts[1]
+                };
+            }
+            
+            const priceMatch = priceString.match(/(₹[\d,]+)/);
+            if (priceMatch) {
+                return {
+                    text: 'Starting Onwards at',
+                    price: priceMatch[1]
+                };
+            }
+            
+            return {
+                text: 'Starting Onwards at',
+                price: priceString
+            };
+        }
+        
+        // Auto-run test when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(testEscapeAPI, 1200);
+        });
+    </script>
+</body>
+</html>

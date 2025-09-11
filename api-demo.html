@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Globe Angel - Group Packages Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .hero-section {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./images/banner.webp') no-repeat center center/cover;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: background-image 1s ease-in-out;
+    }
+    
+    .hero-content {
+      text-align: center;
+      z-index: 2;
+    }
+    
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .hero-script {
+      font-family: 'Shadows Into Light', cursive;
+      font-size: 4rem;
+      color: #ffd700;
+    }
+    
+    .hero-bold {
+      font-weight: 800;
+      color: white;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      line-height: 1.6;
+    }
+    
+    .silver-South-family {
+      font-family: 'Shadows Into Light', cursive;
+      color: #e74c3c;
+    }
+    
+    .gt-travel-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      transition: all 0.3s ease;
+      margin: 15px 5px;
+      height: 100%;
+    }
+    
+    .gt-travel-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+    
+    .gt-travel-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+    
+    .gt-travel-content {
+      padding: 25px;
+    }
+    
+    .gt-travel-content h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .gt-travel-content p {
+      color: #7f8c8d;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+    
+    .gt-travel-price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 2px solid #ecf0f1;
+    }
+    
+    .gt-travel-price span {
+      font-size: 0.9rem;
+      color: #95a5a6;
+      font-weight: normal;
+    }
+    
+    .swiper {
+      padding-bottom: 50px;
+    }
+    
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #e74c3c;
+      background: white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .group-departures {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .loading-container {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
+      color: #e74c3c;
+    }
+    
+    .region-header {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    
+    .region-header::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="hero-script silver-South-family">Group</span> <span class="hero-bold">Tour Packages</span>
+    </h1>
+  </div>
+</section>
+
+<!-- Header Section -->
+<div class="text-center pb-5 pt-5" style="background: #FFF6F3;">
+  <h2 class="section-title" style="margin-bottom: 25px;">
+    <span class="silver-South-family" style="font-size:65px; font-weight: 400;">Handcrafted</span> 
+    Group Departures - High on experience, light on cost
+  </h2>
+  <p class="section-subtitle">Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing.</p>
+</div>
+
+<!-- Loading indicator -->
+<div id="loading" class="loading-container">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-3" style="color: #666;">Loading amazing tour packages...</p>
+</div>
+
+<!-- Error message -->
+<div id="error" class="alert alert-danger mx-3" style="display: none;">
+  <h4><i class="fas fa-exclamation-triangle"></i> Error Loading Packages</h4>
+  <p id="error-message"></p>
+</div>
+
+<!-- Group Packages Integration Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Your actual API response data
+    const mockApiData = [
+        {
+            "hero": {
+                "backgroundImages": []
+            },
+            "_id": "68aea60fb1ccbc42463a821b",
+            "region": "Asia",
+            "dashboardImage": "uploads/group-packages/1756276239928-WhatsApp Image 2025-08-18 at 04.29.49.jpeg",
+            "heading": "Luxury Asia Tours",
+            "packages": [
+                {
+                    "name": "Package 1",
+                    "image": "uploads/group-packages/1756276239929-WhatsApp Image 2025-08-18 at 04.29.49.jpeg",
+                    "durationDays": 10,
+                    "countries": 2,
+                    "cities": 5,
+                    "departureMonths": [
+                        "Oct",
+                        "Nov"
+                    ],
+                    "pricePerPerson": 150000,
+                    "_id": "68aea60fb1ccbc42463a821c"
+                },
+                {
+                    "name": "Package 2",
+                    "image": "uploads/group-packages/1756276239930-WhatsApp Image 2025-08-18 at 04.29.49.jpeg",
+                    "durationDays": 12,
+                    "countries": 3,
+                    "cities": 6,
+                    "departureMonths": [
+                        "Dec"
+                    ],
+                    "pricePerPerson": 200000,
+                    "_id": "68aea60fb1ccbc42463a821d"
+                }
+            ],
+            "createdAt": "2025-08-27T06:30:39.941Z",
+            "updatedAt": "2025-08-27T06:30:39.941Z",
+            "__v": 0,
+            "regions": []
+        },
+        {
+            "hero": {
+                "backgroundImages": [
+                    "uploads/1757509848366.jpg",
+                    "uploads/1757509848466.jpg"
+                ],
+                "title": "Group Tour Packages",
+                "subtitle": "Handcrafted Group Departures - High on experience, light on cost",
+                "description": "Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing."
+            },
+            "_id": "68c178d93aa3a4f3d1fa9d98",
+            "regions": [
+                {
+                    "region": "Asia",
+                    "packages": [
+                        {
+                            "title": "EGYPT WONDER",
+                            "days": "9 Days | 1 Country | 4 Cities",
+                            "departures": [
+                                "Oct | Nov | Dec"
+                            ],
+                            "price": 125000,
+                            "image": "uploads/1757509848587.jpg",
+                            "_id": "68c178d93aa3a4f3d1fa9d9a"
+                        },
+                        {
+                            "title": "TIMELESS EUROPE JOURNEY",
+                            "days": "9 Days | 3 Countries | 4 Cities",
+                            "departures": [
+                                "Oct | Nov | Dec"
+                            ],
+                            "price": 149000,
+                            "image": "uploads/1757509848869.jpg",
+                            "_id": "68c178d93aa3a4f3d1fa9d9b"
+                        },
+                        {
+                            "title": "AMAZING DUBAI",
+                            "days": "7 Days | 1 Country | 3 Cities",
+                            "departures": [
+                                "Sep | Oct | Nov"
+                            ],
+                            "price": 89000,
+                            "image": "uploads/1757509848870.jpg",
+                            "_id": "68c178d93aa3a4f3d1fa9d9c"
+                        }
+                    ],
+                    "_id": "68c178d93aa3a4f3d1fa9d99"
+                }
+            ],
+            "createdAt": "2025-09-10T13:10:49.539Z",
+            "updatedAt": "2025-09-10T13:10:49.539Z",
+            "__v": 0
+        }
+    ];
+
+    // Function to fetch group packages from API
+    async function fetchGroupPackages() {
+        try {
+            console.log('Fetching group packages from API...');
+            // Using your actual API
+            const response = await fetch('http://globe.ridealmobility.com/api/group-packages');
+            if (!response.ok) {
+                console.warn('API failed, using mock data');
+                return mockApiData; // Fallback to mock data
+            }
+            const data = await response.json();
+            console.log('Group packages loaded from API:', data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching group packages, using mock data:', error);
+            return mockApiData; // Fallback to mock data
+        }
+    }
+
+    // Function to create hero section from API data
+    function updateHeroSection(heroData) {
+        if (!heroData || !heroData.hero) return;
+
+        const hero = heroData.hero;
+        const heroSection = document.querySelector('.hero-section');
+        const heroTitle = document.querySelector('.hero-title .hero-bold');
+        const heroScript = document.querySelector('.hero-title .hero-script');
+
+        console.log('Updating hero section with:', hero);
+
+        // Update hero background if images are available
+        if (hero.backgroundImages && hero.backgroundImages.length > 0) {
+            const imageUrl = `http://globe.ridealmobility.com/${hero.backgroundImages[0]}`;
+            console.log('Setting hero background to:', imageUrl);
+            if (heroSection) {
+                // Set the background image with proper styling
+                heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${imageUrl}')`;
+                heroSection.style.backgroundSize = 'cover';
+                heroSection.style.backgroundPosition = 'center center';
+                heroSection.style.backgroundRepeat = 'no-repeat';
+                
+                // Add a success indicator
+                const heroContent = heroSection.querySelector('.hero-content');
+                if (heroContent && !heroContent.querySelector('.bg-indicator')) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'bg-indicator';
+                    indicator.innerHTML = `
+                        <div style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); padding: 10px; border-radius: 10px; backdrop-filter: blur(10px);">
+                            <i class="fas fa-check-circle" style="color: #4CAF50;"></i> 
+                            <small style="color: white; margin-left: 5px;">Background loaded from API</small>
+                        </div>
+                    `;
+                    heroContent.appendChild(indicator);
+                }
+            }
+            
+            // If there are multiple images, create a slideshow
+            if (hero.backgroundImages.length > 1) {
+                let currentImageIndex = 0;
+                const imageChangeInterval = setInterval(() => {
+                    currentImageIndex = (currentImageIndex + 1) % hero.backgroundImages.length;
+                    const nextImageUrl = `http://globe.ridealmobility.com/${hero.backgroundImages[currentImageIndex]}`;
+                    console.log(`Changing to background image ${currentImageIndex + 1}:`, nextImageUrl);
+                    if (heroSection) {
+                        heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${nextImageUrl}')`;
+                    }
+                }, 5000); // Change image every 5 seconds
+                
+                // Add slideshow indicator
+                const heroContent = heroSection.querySelector('.hero-content');
+                if (heroContent && !heroContent.querySelector('.slideshow-indicator')) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'slideshow-indicator';
+                    indicator.innerHTML = `
+                        <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 20px; backdrop-filter: blur(10px);">
+                            <i class="fas fa-images" style="color: white;"></i> 
+                            <small style="color: white; margin-left: 5px;">Slideshow: ${hero.backgroundImages.length} images</small>
+                        </div>
+                    `;
+                    heroContent.appendChild(indicator);
+                }
+            }
+        }
+
+        // Update hero text
+        if (hero.title && heroTitle) {
+            const titleParts = hero.title.split(' ');
+            if (titleParts.length >= 2) {
+                heroScript.textContent = titleParts[0];
+                heroTitle.textContent = titleParts.slice(1).join(' ');
+            }
+        }
+
+        // Update subtitle and description
+        const sectionTitle = document.querySelector('.section-title');
+        const sectionSubtitle = document.querySelector('.section-subtitle');
+        
+        if (hero.subtitle && sectionTitle) {
+            sectionTitle.innerHTML = `<span class="silver-South-family" style="font-size:65px; font-weight: 400;">Handcrafted</span> ${hero.subtitle}`;
+        }
+        
+        if (hero.description && sectionSubtitle) {
+            sectionSubtitle.textContent = hero.description;
+        }
+    }
+
+    // Function to create package card HTML
+    function createPackageCard(packageData, isFromRegions = true) {
+        let imageUrl, title, days, departures, price;
+        
+        if (isFromRegions) {
+            // Handle packages from regions array (second object structure)
+            imageUrl = packageData.image ? `http://globe.ridealmobility.com/${packageData.image}` : './images/banner.webp';
+            title = packageData.title;
+            days = packageData.days;
+            departures = Array.isArray(packageData.departures) ? packageData.departures.join(' | ') : (packageData.departures || 'Contact for dates');
+            price = packageData.price;
+        } else {
+            // Handle packages from direct packages array (first object structure)
+            imageUrl = packageData.image ? `http://globe.ridealmobility.com/${packageData.image}` : './images/banner.webp';
+            title = packageData.name;
+            days = `${packageData.durationDays} Days | ${packageData.countries} Countries | ${packageData.cities} Cities`;
+            departures = Array.isArray(packageData.departureMonths) ? packageData.departureMonths.join(' | ') : 'Contact for dates';
+            price = packageData.pricePerPerson;
+        }
+        
+        const formattedPrice = new Intl.NumberFormat('en-IN').format(price);
+
+        return `
+            <div class="swiper-slide">
+                <div class="gt-travel-card">
+                    <img src="${imageUrl}" alt="${title}" onerror="this.src='https://via.placeholder.com/400x280/e74c3c/white?text=Tour+Package'">
+                    <div class="gt-travel-content">
+                        <h3>${title}</h3>
+                        <p><i class="fas fa-calendar-alt" style="color: #e74c3c;"></i> ${days}</p>
+                        <p><i class="fas fa-plane-departure" style="color: #e74c3c;"></i> Departures- ${departures}</p>
+                        <div class="gt-travel-price">
+                            <i class="fas fa-rupee-sign"></i> ${formattedPrice}/- <span>(Per Person)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Function to update sections with API data
+    function updatePackageSections(apiData) {
+        if (!apiData || !Array.isArray(apiData)) return;
+
+        // Clear existing sections except the header
+        const headerSection = document.querySelector('[style*="background: #FFF6F3"]');
+        
+        let sectionIndex = 0;
+        
+        // Process each object in the API response
+        apiData.forEach(dataItem => {
+            // Handle first object structure (direct packages with region)
+            if (dataItem.packages && Array.isArray(dataItem.packages) && dataItem.region) {
+                const bgColor = sectionIndex % 2 === 0 ? '#FFF6F3' : '#fff';
+                
+                const sectionHTML = `
+                    <section class="group-departures py-5" style="background: ${bgColor};">
+                        <div class="container">
+                            <div class="text-start mb-5 region-header">
+                                <h2 class="section-title">${dataItem.region}</h2>
+                                ${dataItem.heading ? `<p class="text-muted" style="font-size: 1.1rem; margin-top: 10px;"><i class="fas fa-star" style="color: #ffd700;"></i> ${dataItem.heading}</p>` : ''}
+                            </div>
+                            <div class="swiper mySwiper">
+                                <div class="swiper-wrapper">
+                                    ${dataItem.packages.map(packageData => createPackageCard(packageData, false)).join('')}
+                                </div>
+                                <div class="swiper-button-prev" style="z-index:10;"></div>
+                                <div class="swiper-button-next" style="z-index:10;"></div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                
+                headerSection.insertAdjacentHTML('afterend', sectionHTML);
+                sectionIndex++;
+            }
+            
+            // Handle second object structure (regions array)
+            if (dataItem.regions && Array.isArray(dataItem.regions)) {
+                dataItem.regions.forEach(regionData => {
+                    const bgColor = sectionIndex % 2 === 0 ? '#FFF6F3' : '#fff';
+                    
+                    const sectionHTML = `
+                        <section class="group-departures py-5" style="background: ${bgColor};">
+                            <div class="container">
+                                <div class="text-start mb-5 region-header">
+                                    <h2 class="section-title">${regionData.region} Highlights</h2>
+                                    <p class="text-muted" style="font-size: 1.1rem; margin-top: 10px;"><i class="fas fa-globe-asia" style="color: #e74c3c;"></i> Discover the best of ${regionData.region}</p>
+                                </div>
+                                <div class="swiper mySwiper">
+                                    <div class="swiper-wrapper">
+                                        ${regionData.packages.map(packageData => createPackageCard(packageData, true)).join('')}
+                                    </div>
+                                    <div class="swiper-button-prev" style="z-index:10;"></div>
+                                    <div class="swiper-button-next" style="z-index:10;"></div>
+                                </div>
+                            </div>
+                        </section>
+                    `;
+                    
+                    headerSection.insertAdjacentHTML('afterend', sectionHTML);
+                    sectionIndex++;
+                });
+            }
+        });
+
+        // Reinitialize Swiper for new sections
+        setTimeout(() => {
+            initializeSwiper();
+        }, 100);
+    }
+
+    // Function to initialize Swiper for all sections
+    function initializeSwiper() {
+        const swipers = document.querySelectorAll('.mySwiper');
+        console.log('Initializing Swiper for', swipers.length, 'sections');
+        
+        swipers.forEach(swiperElement => {
+            new Swiper(swiperElement, {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: false,
+                navigation: {
+                    nextEl: swiperElement.querySelector('.swiper-button-next'),
+                    prevEl: swiperElement.querySelector('.swiper-button-prev'),
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                    },
+                },
+            });
+        });
+    }
+
+    // Function to hide loading and show error
+    function showError(message) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error-message').textContent = message;
+    }
+
+    // Function to hide loading
+    function hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+    }
+
+    // Main initialization function
+    async function initializeGroupPackages() {
+        try {
+            const apiData = await fetchGroupPackages();
+            hideLoading();
+            
+            if (apiData && Array.isArray(apiData)) {
+                console.log('Processing API data:', apiData);
+                
+                // Update hero section with the first item that has hero data
+                const heroDataItem = apiData.find(item => item.hero && (item.hero.title || item.hero.backgroundImages));
+                if (heroDataItem) {
+                    updateHeroSection(heroDataItem);
+                }
+
+                // Update package sections
+                updatePackageSections(apiData);
+                console.log('Group packages successfully integrated from API');
+                
+                // Add some interactive elements
+                addInteractiveElements();
+            } else {
+                showError('No valid group packages data received from API');
+            }
+        } catch (error) {
+            console.error('Error initializing group packages:', error);
+            hideLoading();
+            showError(`Failed to load group packages: ${error.message}`);
+        }
+    }
+
+    // Add interactive elements
+    function addInteractiveElements() {
+        // Add click handlers to cards
+        document.querySelectorAll('.gt-travel-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('h3').textContent;
+                alert(`More details about "${title}" coming soon!`);
+            });
+            
+            card.style.cursor = 'pointer';
+        });
+    }
+
+    // Initialize group packages
+    initializeGroupPackages();
+});
+</script>
+
+</body>
+</html>

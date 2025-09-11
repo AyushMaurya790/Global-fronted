@@ -82,22 +82,8 @@ if (prevBtn && nextBtn) {
 }
 
   // Swiper JS
-  // Initialize Testimonial Slider
-document.addEventListener('DOMContentLoaded', function() {
-  const testimonialSwiper = new Swiper('.testimonialSwiper', {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false,
-    },
-    loop: true,
-  });
-});
+  // Initialize Testimonial Slider - now handled by API integration
+  // Removed to prevent conflicts with dynamic API loading
 
 // Partner Slider
 

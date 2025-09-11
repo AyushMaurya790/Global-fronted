@@ -1218,15 +1218,10 @@
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-        <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-        <li data-target="adventure"><a href="">JAPAN</a></li>
-        <li data-target="luxury"><a href="">KENYA</a></li>
-        <li data-target="classic"><a href="">NORWAY</a></li>
-        <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-        <li data-target="luxury"><a href="">TANZANIA</a></li>
-        <li data-target="classic"><a href="">ZANZIBAR</a></li>
-</ul>
+          <ul id="eduwings-luxury-dropdown">
+            <!-- Luxury options will be populated dynamically -->
+            <li data-target="luxury"><a href="">Loading...</a></li>
+          </ul>
         </div>
         
       </div>
@@ -1645,7 +1640,7 @@
   }
 
   .flight-section line {
-    stroke: orange;
+    stroke: #f27130;
     stroke-width: 1.5;
     opacity: 0.7;
   }
@@ -1653,14 +1648,14 @@
   /* Origin: India */
   .flight-section .india {
     position: absolute;
-    top: 48%;
+    top: 43%;
     left: 67%;
     width: 12px;
     height: 12px;
-    background: orange;
+    background: #f27130;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px orange;
+    box-shadow: 0 0 10px #f27130;
     border: 2px solid #fff;
   }
   .flight-section .india::after {
@@ -1684,10 +1679,10 @@
     position: absolute;
     width: 12px;
     height: 12px;
-    background: orange;
+    background: #f27130;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px orange;
+    box-shadow: 0 0 10px #f27130;
     border: 2px solid #fff;
     cursor: pointer;
   }
@@ -1718,8 +1713,8 @@
   /* Plane styling */
   .flight-section .plane {
     position: absolute;
-    top: 47%;
-    left: 66.5%;
+    top: 42%;
+    left: 66.3%;
     width: 24px;   /* size fix */
     height: 24px;  /* size fix */
     opacity: 0;
@@ -1756,22 +1751,22 @@
     <div class="india" id="india"></div>
 
     <!-- Destinations -->
-    <div class="marker" style="top:24%; left:23%;" data-name="Canada" id="canada"></div>
-    <div class="marker" style="top:33%; left:28%;" data-name="USA" id="usa"></div>
-    <div class="marker" style="top:32%; left:35%;" data-name="UK" id="uk"></div>
+    <div class="marker" style="top:25%; left:21%;" data-name="Canada" id="canada"></div>
+    <div class="marker" style="top:33%; left:19%;" data-name="USA" id="usa"></div>
+    <div class="marker" style="top:24%; left:43%;" data-name="UK" id="uk"></div>
     <div class="marker" style="top:72%; left:78%;" data-name="Australia" id="australia"></div>
-    <div class="marker" style="top:32%; left:41%;" data-name="Germany" id="germany"></div>
+    <div class="marker" style="top:26%; left:48%;" data-name="Germany" id="germany"></div>
     <div class="marker" style="top:52%; left:54%;" data-name="UAE" id="uae"></div>
     <div class="marker" style="top:22%; left:66%;" data-name="Russia" id="russia"></div>
-    <div class="marker" style="top:35%; left:64%;" data-name="Kazakhstan" id="kazakhstan"></div>
-    <div class="marker" style="top:38%; left:61%;" data-name="Kyrgyzstan" id="kyrgyzstan"></div>
-    <div class="marker" style="top:40%; left:58%;" data-name="Georgia" id="georgia"></div>
+    <div class="marker" style="top:29%; left:62%;" data-name="Kazakhstan" id="kazakhstan"></div>
+    <div class="marker" style="top:33%; left:65%;" data-name="Kyrgyzstan" id="kyrgyzstan"></div>
+    <div class="marker" style="top:32%; left:56%;" data-name="Georgia" id="georgia"></div>
   </div>
 </section>
 
 <script>
   (function(){
-    const india = {x:67, y:48}; // India’s reference point in %
+    const india = {x:67, y:43}; // India’s reference point in %
     const destinations = [
       {id:"canada"},
       {id:"usa"},
@@ -1785,12 +1780,12 @@
       {id:"georgia"},
     ];
 
-    // Orange plane SVG icons
+    // #f27130 plane SVG icons
     const planeIcons = [
-      `<svg xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 640 512" width="20" height="20">
+      `<svg xmlns="http://www.w3.org/2000/svg" fill="#f27130" viewBox="0 0 640 512" width="20" height="20">
         <path d="M480 192h-88.2L232 32h-72l88.2 160H160L96 96H32l64 128-64 128h64l64-96h88.2L160 480h72l159.8-160H480c26.5 0 48-21.5 48-48s-21.5-48-48-48z"/>
       </svg>`,
-      `<svg xmlns="http://www.w3.org/2000/svg" fill="orange" viewBox="0 0 640 512" width="20" height="20">
+      `<svg xmlns="http://www.w3.org/2000/svg" fill="#f27130" viewBox="0 0 640 512" width="20" height="20">
         <path d="M480 192h-88.2L232 32h-72l88.2 160H160L96 96H32l64 128-64 128h64l64-96h88.2L160 480h72l159.8-160H480c26.5 0 48-21.5 48-48s-21.5-48-48-48z"/>
       </svg>`
     ];
@@ -2458,6 +2453,65 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('engelClubCard').style.display = 'none';
     }
   }
+});
+
+// Luxury Options API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch luxury options from API
+    async function fetchLuxuryOptions() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-options');
+            if (!response.ok) {
+                throw new Error('Failed to fetch luxury options');
+            }
+            const luxuryOptions = await response.json();
+            console.log('Luxury options loaded from API:', luxuryOptions);
+            return luxuryOptions;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            // Return fallback data to maintain functionality
+            return [
+                { city: 'FINLAND', _id: '1' },
+                { city: 'JAPAN', _id: '2' },
+                { city: 'KENYA', _id: '3' },
+                { city: 'NORWAY', _id: '4' },
+                { city: 'SAUDI ARABIA', _id: '5' },
+                { city: 'TANZANIA', _id: '6' },
+                { city: 'ZANZIBAR', _id: '7' }
+            ];
+        }
+    }
+
+    // Initialize luxury dropdown with API data
+    async function initializeEduwingsLuxuryDropdown() {
+        const luxuryOptions = await fetchLuxuryOptions();
+        const luxuryDropdown = document.getElementById('eduwings-luxury-dropdown');
+        
+        if (luxuryDropdown && luxuryOptions) {
+            // Clear existing content
+            luxuryDropdown.innerHTML = '';
+            
+            // Populate with API data
+            luxuryOptions.forEach((option, index) => {
+                const li = document.createElement('li');
+                li.setAttribute('data-target', 'luxury');
+                
+                const a = document.createElement('a');
+                a.href = option.url || `luxury-${option._id}.html` || '';
+                a.textContent = option.city || option.name || `Luxury Option ${index + 1}`;
+                
+                li.appendChild(a);
+                luxuryDropdown.appendChild(li);
+            });
+            
+            console.log('Eduwings luxury dropdown populated with API data');
+        } else {
+            console.warn('Eduwings luxury dropdown not found');
+        }
+    }
+
+    // Initialize luxury dropdown
+    initializeEduwingsLuxuryDropdown();
 });
 </script>
 </body>

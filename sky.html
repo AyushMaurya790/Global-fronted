@@ -820,15 +820,10 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-  <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-  <li data-target="adventure"><a href="">JAPAN</a></li>
-  <li data-target="luxury"><a href="">KENYA</a></li>
-  <li data-target="classic"><a href="">NORWAY</a></li>
-  <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-  <li data-target="luxury"><a href="">TANZANIA</a></li>
-  <li data-target="classic"><a href="">ZANZIBAR</a></li>
-</ul>
+          <ul id="sky-luxury-dropdown">
+            <!-- Luxury options will be populated dynamically -->
+            <li data-target="luxury"><a href="">Loading...</a></li>
+          </ul>
         </div>
         
       </div>
@@ -2207,8 +2202,64 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the dropdown
     initializeDestinationsDropdown();
+
+    // Luxury Options API Integration
+    async function fetchLuxuryOptions() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-options');
+            if (!response.ok) {
+                throw new Error('Failed to fetch luxury options');
+            }
+            const luxuryOptions = await response.json();
+            console.log('Luxury options loaded from API:', luxuryOptions);
+            return luxuryOptions;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            // Return fallback data to maintain functionality
+            return [
+                { city: 'FINLAND', _id: '1' },
+                { city: 'JAPAN', _id: '2' },
+                { city: 'KENYA', _id: '3' },
+                { city: 'NORWAY', _id: '4' },
+                { city: 'SAUDI ARABIA', _id: '5' },
+                { city: 'TANZANIA', _id: '6' },
+                { city: 'ZANZIBAR', _id: '7' }
+            ];
+        }
+    }
+
+    // Initialize luxury dropdown with API data
+    async function initializeSkyLuxuryDropdown() {
+        const luxuryOptions = await fetchLuxuryOptions();
+        const luxuryDropdown = document.getElementById('sky-luxury-dropdown');
+        
+        if (luxuryDropdown && luxuryOptions) {
+            // Clear existing content
+            luxuryDropdown.innerHTML = '';
+            
+            // Populate with API data
+            luxuryOptions.forEach((option, index) => {
+                const li = document.createElement('li');
+                li.setAttribute('data-target', 'luxury');
+                
+                const a = document.createElement('a');
+                a.href = option.url || `luxury-${option._id}.html` || '';
+                a.textContent = option.city || option.name || `Luxury Option ${index + 1}`;
+                
+                li.appendChild(a);
+                luxuryDropdown.appendChild(li);
+            });
+            
+            console.log('Sky luxury dropdown populated with API data');
+        } else {
+            console.warn('Sky luxury dropdown not found');
+        }
+    }
+
+    // Initialize luxury dropdown
+    initializeSkyLuxuryDropdown();
 });
 </script>
 
-</body>
+`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n</body>
 </html>

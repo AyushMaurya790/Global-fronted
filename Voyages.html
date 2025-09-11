@@ -864,14 +864,9 @@
                     <a class="nav-link" href="#">LUXURY</a>
                     <div class="mega-menu itinerary-menu">
                         <div class="mega-left">
-                            <ul>
-                                <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-                                <li data-target="adventure"><a href="">JAPAN</a></li>
-                                <li data-target="luxury"><a href="">KENYA</a></li>
-                                <li data-target="classic"><a href="">NORWAY</a></li>
-                                <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-                                <li data-target="luxury"><a href="">TANZANIA</a></li>
-                                <li data-target="classic"><a href="">ZANZIBAR</a></li>
+                            <ul id="voyages-luxury-dropdown">
+                                <!-- Luxury options will be populated dynamically -->
+                                <li data-target="luxury"><a href="">Loading...</a></li>
                             </ul>
                         </div>
 
@@ -983,36 +978,7 @@
     </div>
 </section>
 
-    <!-- Penguien Section -->
-
-    <section class="cruise-section">
-        <div class="cruise-wrapper">
-            <div class="cruise-img">
-                <img src="./images/penguinImg.jpg" alt="Penguins Antarctica">
-            </div>
-            <div class="cruise-content">
-                <h2>
-                    Journeys Beyond the
-                    <span class="cruise-script silver-South-family">Horizon</span>
-                </h2>
-                <p>
-                    With a curated network of the world’s most distinguished cruise lines, we bring you journeys that
-                    transcend
-                    travel — from the sun-drenched romance of the Mediterranean to the untamed beauty of Alaska, and the
-                    pristine,
-                    icy majesty of Antarctica.
-                </p>
-                <p>
-                    Each cruise line we select is chosen for its commitment to refined service, immersive itineraries,
-                    and
-                    exceptional value. Whether you dream of crossing vast oceans in grandeur or exploring hidden shores
-                    aboard an
-                    intimate yacht, your journey begins here — imagined with precision, elegance, and the art of true
-                    voyaging.
-                </p>
-            </div>
-        </div>
-    </section>
+  
 
     <!-- Our cruise line partners -->
 
@@ -2922,6 +2888,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the dropdown
     initializeDestinationsDropdown();
+    
+    // Luxury Options API Integration
+    async function fetchLuxuryOptions() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-options');
+            if (!response.ok) {
+                throw new Error('Failed to fetch luxury options');
+            }
+            const luxuryOptions = await response.json();
+            console.log('Luxury options loaded from API:', luxuryOptions);
+            return luxuryOptions;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            // Return fallback data to maintain functionality
+            return [
+                { city: 'FINLAND', _id: '1' },
+                { city: 'JAPAN', _id: '2' },
+                { city: 'KENYA', _id: '3' },
+                { city: 'NORWAY', _id: '4' },
+                { city: 'SAUDI ARABIA', _id: '5' },
+                { city: 'TANZANIA', _id: '6' },
+                { city: 'ZANZIBAR', _id: '7' }
+            ];
+        }
+    }
+
+    // Initialize luxury dropdown with API data
+    async function initializeVoyagesLuxuryDropdown() {
+        const luxuryOptions = await fetchLuxuryOptions();
+        const luxuryDropdown = document.getElementById('voyages-luxury-dropdown');
+        
+        if (luxuryDropdown && luxuryOptions) {
+            // Clear existing content
+            luxuryDropdown.innerHTML = '';
+            
+            // Populate with API data
+            luxuryOptions.forEach((option, index) => {
+                const li = document.createElement('li');
+                li.setAttribute('data-target', 'luxury');
+                
+                const a = document.createElement('a');
+                a.href = option.url || `luxury-${option._id}.html` || '';
+                a.textContent = option.city || option.name || `Luxury Option ${index + 1}`;
+                
+                li.appendChild(a);
+                luxuryDropdown.appendChild(li);
+            });
+            
+            console.log('Voyages luxury dropdown populated with API data');
+        } else {
+            console.warn('Voyages luxury dropdown not found');
+        }
+    }
+
+    // Initialize luxury dropdown
+    initializeVoyagesLuxuryDropdown();
 });
 </script>
 

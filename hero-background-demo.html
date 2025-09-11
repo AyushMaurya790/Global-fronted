@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Background Images Demo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://via.placeholder.com/1920x1080/3498db/white?text=Default+Background') no-repeat center center/cover;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: background-image 1s ease-in-out;
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .hero-title {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero-script {
+            font-family: 'Shadows Into Light', cursive;
+            color: #ffd700;
+        }
+        
+        .hero-bold {
+            font-weight: 800;
+            color: white;
+        }
+        
+        .api-status {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: white;
+        }
+        
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .status-icon {
+            margin-right: 8px;
+            width: 16px;
+        }
+        
+        .loading {
+            color: #ffd700;
+        }
+        
+        .success {
+            color: #4CAF50;
+        }
+        
+        .error {
+            color: #f44336;
+        }
+        
+        .slideshow-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: none;
+        }
+        
+        .slideshow-controls.show {
+            display: block;
+        }
+        
+        .image-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .image-indicator.active {
+            background: #ffd700;
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <span class="hero-script">Group</span> <span class="hero-bold">Tour Packages</span>
+        </h1>
+        <p style="font-size: 1.3rem; margin-top: 1rem; opacity: 0.9;">
+            Experience the beauty of dynamic backgrounds from our API
+        </p>
+    </div>
+    
+    <div class="api-status">
+        <div class="status-item">
+            <i class="fas fa-spinner fa-spin status-icon loading" id="loading-icon"></i>
+            <span id="status-text">Loading API data...</span>
+        </div>
+        <div class="status-item" id="image-count" style="display: none;">
+            <i class="fas fa-images status-icon"></i>
+            <span id="image-count-text">0 background images</span>
+        </div>
+        <div class="status-item" id="current-image" style="display: none;">
+            <i class="fas fa-image status-icon"></i>
+            <span id="current-image-text">Image 1 of 1</span>
+        </div>
+    </div>
+    
+    <div class="slideshow-controls" id="slideshow-controls">
+        <div id="image-indicators"></div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const heroSection = document.querySelector('.hero-section');
+    const statusText = document.getElementById('status-text');
+    const loadingIcon = document.getElementById('loading-icon');
+    const imageCountDiv = document.getElementById('image-count');
+    const imageCountText = document.getElementById('image-count-text');
+    const currentImageDiv = document.getElementById('current-image');
+    const currentImageText = document.getElementById('current-image-text');
+    const slideshowControls = document.getElementById('slideshow-controls');
+    const imageIndicators = document.getElementById('image-indicators');
+    
+    let currentImageIndex = 0;
+    let backgroundImages = [];
+    let slideshowInterval = null;
+
+    // Your API response data
+    const apiResponse = [
+        {
+            "hero": {
+                "backgroundImages": []
+            },
+            "_id": "68aea60fb1ccbc42463a821b",
+            "region": "Asia"
+        },
+        {
+            "hero": {
+                "backgroundImages": [
+                    "uploads/1757509848366.jpg",
+                    "uploads/1757509848466.jpg"
+                ],
+                "title": "Group Tour Packages",
+                "subtitle": "Handcrafted Group Departures - High on experience, light on cost",
+                "description": "Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing."
+            },
+            "_id": "68c178d93aa3a4f3d1fa9d98"
+        }
+    ];
+
+    function updateStatus(text, isSuccess = false, isError = false) {
+        statusText.textContent = text;
+        loadingIcon.className = isError ? 'fas fa-exclamation-triangle status-icon error' : 
+                                isSuccess ? 'fas fa-check-circle status-icon success' : 
+                                'fas fa-spinner fa-spin status-icon loading';
+    }
+
+    function createImageIndicators() {
+        imageIndicators.innerHTML = '';
+        backgroundImages.forEach((_, index) => {
+            const indicator = document.createElement('span');
+            indicator.className = 'image-indicator';
+            if (index === currentImageIndex) {
+                indicator.classList.add('active');
+            }
+            indicator.addEventListener('click', () => changeToImage(index));
+            imageIndicators.appendChild(indicator);
+        });
+    }
+
+    function updateImageIndicators() {
+        const indicators = imageIndicators.querySelectorAll('.image-indicator');
+        indicators.forEach((indicator, index) => {
+            if (index === currentImageIndex) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
+    }
+
+    function changeToImage(index) {
+        if (index >= 0 && index < backgroundImages.length) {
+            currentImageIndex = index;
+            const imageUrl = `http://globe.ridealmobility.com/${backgroundImages[currentImageIndex]}`;
+            heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${imageUrl}')`;
+            currentImageText.textContent = `Image ${currentImageIndex + 1} of ${backgroundImages.length}`;
+            updateImageIndicators();
+            console.log(`Changed to image ${currentImageIndex + 1}:`, imageUrl);
+        }
+    }
+
+    function startSlideshow() {
+        if (backgroundImages.length > 1) {
+            slideshowInterval = setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+                changeToImage(currentImageIndex);
+            }, 4000); // Change every 4 seconds
+        }
+    }
+
+    function stopSlideshow() {
+        if (slideshowInterval) {
+            clearInterval(slideshowInterval);
+            slideshowInterval = null;
+        }
+    }
+
+    async function loadBackgroundImages() {
+        try {
+            updateStatus('Fetching background images from API...');
+            
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Find hero data with background images
+            const heroData = apiResponse.find(item => 
+                item.hero && 
+                item.hero.backgroundImages && 
+                item.hero.backgroundImages.length > 0
+            );
+
+            if (heroData && heroData.hero.backgroundImages.length > 0) {
+                backgroundImages = heroData.hero.backgroundImages;
+                
+                updateStatus(`Found ${backgroundImages.length} background images`, true);
+                imageCountText.textContent = `${backgroundImages.length} background images`;
+                imageCountDiv.style.display = 'block';
+                
+                if (backgroundImages.length > 0) {
+                    // Set first image
+                    changeToImage(0);
+                    currentImageDiv.style.display = 'block';
+                    
+                    // Setup slideshow if multiple images
+                    if (backgroundImages.length > 1) {
+                        slideshowControls.classList.add('show');
+                        createImageIndicators();
+                        startSlideshow();
+                        
+                        // Add hover controls
+                        heroSection.addEventListener('mouseenter', stopSlideshow);
+                        heroSection.addEventListener('mouseleave', startSlideshow);
+                    }
+                }
+            } else {
+                updateStatus('No background images found in API', false, true);
+            }
+            
+        } catch (error) {
+            console.error('Error loading background images:', error);
+            updateStatus('Error loading background images', false, true);
+        }
+    }
+
+    // Start loading process
+    loadBackgroundImages();
+});
+</script>
+
+</body>
+</html>

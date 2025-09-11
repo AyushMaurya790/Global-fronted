@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background Images Debug</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .hero-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #hero-background {
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./images/banner.webp') no-repeat center center/cover;
+      transition: background-image 1s ease-in-out;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: white;
+    }
+    
+    .hero-title {
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .hero-script {
+      font-family: 'Shadows Into Light', cursive;
+      color: #ffd700;
+    }
+    
+    .hero-bold {
+      font-weight: 800;
+      color: white;
+    }
+    
+    .debug-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 300px;
+      z-index: 1000;
+    }
+    
+    .debug-panel h4 {
+      color: #ffd700;
+      margin-bottom: 15px;
+    }
+    
+    .debug-item {
+      margin-bottom: 10px;
+      padding: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .success {
+      border-left: 4px solid #4CAF50;
+    }
+    
+    .error {
+      border-left: 4px solid #f44336;
+    }
+    
+    .warning {
+      border-left: 4px solid #ff9800;
+    }
+    
+    .image-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .image-item {
+      background: rgba(255,255,255,0.05);
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 3px;
+      word-break: break-all;
+      font-size: 0.8rem;
+    }
+    
+    .test-buttons {
+      margin-top: 15px;
+    }
+    
+    .test-buttons button {
+      background: #007bff;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      margin: 2px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    
+    .test-buttons button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div id="hero-background"></div>
+  
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="hero-script">Group</span> <span class="hero-bold">Tour Packages</span>
+    </h1>
+    <p style="font-size: 1.3rem; margin-top: 1rem; opacity: 0.9;">
+      Testing Background Images from API
+    </p>
+  </div>
+</section>
+
+<!-- Debug Panel -->
+<div class="debug-panel">
+  <h4><i class="fas fa-bug"></i> Debug Panel</h4>
+  
+  <div class="debug-item" id="api-status">
+    <i class="fas fa-spinner fa-spin"></i> Loading API data...
+  </div>
+  
+  <div class="debug-item" id="hero-status" style="display: none;">
+    <strong>Hero Data:</strong> <span id="hero-info"></span>
+  </div>
+  
+  <div class="debug-item" id="images-status" style="display: none;">
+    <strong>Background Images:</strong> <span id="images-count"></span>
+  </div>
+  
+  <div class="image-list" id="image-list" style="display: none;">
+    <strong>Image URLs:</strong>
+    <div id="images-container"></div>
+  </div>
+  
+  <div class="debug-item" id="current-image" style="display: none;">
+    <strong>Current:</strong> <span id="current-image-info"></span>
+  </div>
+  
+  <div class="test-buttons">
+    <button onclick="testImage1()">Test Image 1</button>
+    <button onclick="testImage2()">Test Image 2</button>
+    <button onclick="resetBackground()">Reset</button>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Your exact API response
+    const apiResponse = [
+        {
+            "hero": {
+                "backgroundImages": [
+                    "uploads/1757509848366.jpg",
+                    "uploads/1757509848466.jpg"
+                ],
+                "title": "Group Tour Packages",
+                "subtitle": "Handcrafted Group Departures - High on experience, light on cost",
+                "description": "Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing."
+            },
+            "_id": "68c178d93aa3a4f3d1fa9d98",
+            "regions": [
+                {
+                    "region": "Asia",
+                    "packages": [
+                        {
+                            "title": "EGYPT WONDER",
+                            "days": "9 Days | 1 Country | 4 Cities",
+                            "departures": ["Oct | Nov | Dec"],
+                            "price": 125000,
+                            "image": "uploads/1757509848587.jpg",
+                            "_id": "68c178d93aa3a4f3d1fa9d9a"
+                        }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    const heroBackground = document.getElementById('hero-background');
+    const apiStatus = document.getElementById('api-status');
+    const heroStatus = document.getElementById('hero-status');
+    const heroInfo = document.getElementById('hero-info');
+    const imagesStatus = document.getElementById('images-status');
+    const imagesCount = document.getElementById('images-count');
+    const imageList = document.getElementById('image-list');
+    const imagesContainer = document.getElementById('images-container');
+    const currentImage = document.getElementById('current-image');
+    const currentImageInfo = document.getElementById('current-image-info');
+
+    let backgroundImages = [];
+    let currentImageIndex = 0;
+
+    function updateDebugPanel(status, type = 'success') {
+        apiStatus.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i> ${status}`;
+        apiStatus.className = `debug-item ${type}`;
+    }
+
+    function displayImages() {
+        imagesContainer.innerHTML = '';
+        backgroundImages.forEach((image, index) => {
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'image-item';
+            imageDiv.innerHTML = `${index + 1}. ${image}`;
+            imagesContainer.appendChild(imageDiv);
+        });
+    }
+
+    function setBackgroundImage(imageUrl, index = null) {
+        const fullUrl = `http://globe.ridealmobility.com/${imageUrl}`;
+        console.log('Setting background to:', fullUrl);
+        
+        heroBackground.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${fullUrl}')`;
+        
+        if (index !== null) {
+            currentImageIndex = index;
+            currentImageInfo.textContent = `Image ${index + 1} of ${backgroundImages.length}: ${imageUrl}`;
+            currentImage.style.display = 'block';
+        }
+    }
+
+    // Global test functions
+    window.testImage1 = function() {
+        if (backgroundImages.length > 0) {
+            setBackgroundImage(backgroundImages[0], 0);
+        }
+    };
+
+    window.testImage2 = function() {
+        if (backgroundImages.length > 1) {
+            setBackgroundImage(backgroundImages[1], 1);
+        }
+    };
+
+    window.resetBackground = function() {
+        heroBackground.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('./images/banner.webp')";
+        currentImage.style.display = 'none';
+    };
+
+    async function initializeBackgrounds() {
+        try {
+            updateDebugPanel('Processing API response...', 'warning');
+
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const heroData = apiResponse.find(item => item.hero);
+            
+            if (heroData && heroData.hero) {
+                heroInfo.textContent = 'Found hero data';
+                heroStatus.style.display = 'block';
+                heroStatus.className = 'debug-item success';
+
+                if (heroData.hero.backgroundImages && heroData.hero.backgroundImages.length > 0) {
+                    backgroundImages = heroData.hero.backgroundImages;
+                    
+                    imagesCount.textContent = `${backgroundImages.length} images found`;
+                    imagesStatus.style.display = 'block';
+                    imagesStatus.className = 'debug-item success';
+                    
+                    imageList.style.display = 'block';
+                    displayImages();
+
+                    // Set first image
+                    setBackgroundImage(backgroundImages[0], 0);
+                    updateDebugPanel('Background images loaded successfully!', 'success');
+
+                    // Start slideshow if multiple images
+                    if (backgroundImages.length > 1) {
+                        setInterval(() => {
+                            currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+                            setBackgroundImage(backgroundImages[currentImageIndex], currentImageIndex);
+                        }, 4000);
+                    }
+
+                } else {
+                    updateDebugPanel('No background images found in hero data', 'error');
+                }
+            } else {
+                updateDebugPanel('No hero data found in API response', 'error');
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            updateDebugPanel(`Error: ${error.message}`, 'error');
+        }
+    }
+
+    // Start initialization
+    initializeBackgrounds();
+});
+</script>
+
+</body>
+</html>

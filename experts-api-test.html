@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experts API Integration Test - Globe Angel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="./CSS/style.css" rel="stylesheet">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .api-status {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        .api-status.loading {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        .api-status.success {
+            background-color: #d1edff;
+            border: 1px solid #74b9ff;
+            color: #004085;
+        }
+        .api-status.error {
+            background-color: #f8d7da;
+            border: 1px solid #dc3545;
+            color: #721c24;
+        }
+        .preview-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .data-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #dee2e6;
+        }
+        .data-display pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        /* Override for test page */
+        .section-services {
+            padding: 60px 0;
+        }
+        .glob-services {
+            height: 70vh !important;
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="fas fa-globe-americas"></i> Experts API Integration Test</h1>
+            <p class="mb-0">Testing "Loved by Travellers, Backed by Experts" Section</p>
+        </div>
+
+        <!-- API Status Indicator -->
+        <div id="apiStatus" class="api-status loading">
+            <i class="fas fa-spinner fa-spin"></i> Loading experts data from API...
+        </div>
+
+        <!-- API Data Display -->
+        <div class="data-display">
+            <h5><i class="fas fa-database"></i> Raw API Response:</h5>
+            <pre id="apiData">Loading...</pre>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="preview-section">
+            <h3><i class="fas fa-eye"></i> Live Preview</h3>
+            <p class="text-muted">This is how the experts section will appear on your main website:</p>
+            
+            <!-- Experts Section (Copy from main site) -->
+            <section class="section-services" id="expertsSection">
+                <!-- Section Heading -->
+                <div class="section-header text-center" id="expertsHeader">
+                    <h3 id="expertsTitle"><span class="silver-South-family">Loved</span> by Travellers, <span class="silver-South-family">Backed</span> by Experts</h3>
+                    <p class="heading_font_family" id="expertsSubtitle">These destinations are topping the charts for a reason — let's take you there.</p>
+                </div>
+                
+                <div class="glob-services-container">
+                    <div class="glob-services" id="expertsDesktopServices" style="display: flex; width: 100%; height: 70vh; position: relative; background-image: url('./images/bm1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; transition: background-image 0.5s ease; background-attachment: scroll;">
+                        <!-- Desktop services will be populated by API -->
+                        <div style="display: flex; align-items: center; justify-content: center; width: 100%; color: white; font-size: 18px;">
+                            <i class="fas fa-spinner fa-spin me-2"></i> Loading desktop services...
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile version -->
+                <div class="container d-md-none py-3">
+                    <div class="row glob-mobile-services" id="expertsMobileServices">
+                        <div class="col-12 text-center py-5">
+                            <i class="fas fa-spinner fa-spin me-2"></i> Loading mobile services...
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Test Information -->
+        <div class="preview-section">
+            <h4><i class="fas fa-info-circle"></i> Test Information</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>API Endpoint:</h6>
+                    <code>http://globe.ridealmobility.com/api/home/experts</code>
+                </div>
+                <div class="col-md-6">
+                    <h6>Integration Status:</h6>
+                    <span id="integrationStatus" class="badge bg-secondary">Testing...</span>
+                </div>
+            </div>
+            <div class="mt-3">
+                <h6>Expected Features:</h6>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check-circle text-success"></i> Dynamic heading and subheading</li>
+                    <li><i class="fas fa-check-circle text-success"></i> Countries list from API</li>
+                    <li><i class="fas fa-check-circle text-success"></i> Image integration</li>
+                    <li><i class="fas fa-check-circle text-success"></i> Responsive desktop/mobile layouts</li>
+                    <li><i class="fas fa-check-circle text-success"></i> Fallback data on API failure</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ============== EXPERTS API INTEGRATION TEST ==============
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Starting Experts API integration test...');
+            
+            const API_BASE_URL = 'http://globe.ridealmobility.com';
+            
+            // Function to update API status indicator
+            function updateApiStatus(status, message, data = null) {
+                const statusElement = document.getElementById('apiStatus');
+                const integrationStatus = document.getElementById('integrationStatus');
+                const apiDataElement = document.getElementById('apiData');
+                
+                statusElement.className = `api-status ${status}`;
+                
+                let icon = '';
+                switch(status) {
+                    case 'loading':
+                        icon = '<i class="fas fa-spinner fa-spin"></i>';
+                        integrationStatus.className = 'badge bg-secondary';
+                        integrationStatus.textContent = 'Testing...';
+                        break;
+                    case 'success':
+                        icon = '<i class="fas fa-check-circle"></i>';
+                        integrationStatus.className = 'badge bg-success';
+                        integrationStatus.textContent = 'Success';
+                        break;
+                    case 'error':
+                        icon = '<i class="fas fa-exclamation-triangle"></i>';
+                        integrationStatus.className = 'badge bg-danger';
+                        integrationStatus.textContent = 'Error (Using Fallback)';
+                        break;
+                }
+                
+                statusElement.innerHTML = `${icon} ${message}`;
+                
+                if (data) {
+                    apiDataElement.textContent = JSON.stringify(data, null, 2);
+                }
+            }
+            
+            // Function to fetch experts data from API
+            async function fetchExperts() {
+                updateApiStatus('loading', 'Fetching experts data from API...');
+                console.log('Fetching experts data from API...');
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/home/experts`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: Failed to fetch experts data`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Experts data loaded from API:', data);
+                    updateApiStatus('success', 'Successfully loaded experts data from API', data);
+                    return data;
+
+                } catch (error) {
+                    console.error('Error fetching experts data:', error);
+                    const fallbackData = {
+                        experts: [{
+                            _id: "fallback_expert_001",
+                            heading: "Loved by Travellers, Backed by Experts",
+                            subheading: "These destinations are topping the charts for a reason — let's take you there.",
+                            countries: ["Vietnam", "New Zealand", "Brazil", "Japan", "Australia"],
+                            images: ["./images/Vietnam.jpg", "./images/New Zealand.jpg", "./images/Brazil.jpg", "./images/Japan.jpg", "./images/Australia.jpg"],
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                        }]
+                    };
+                    updateApiStatus('error', `API Error: ${error.message}. Using fallback data.`, fallbackData);
+                    return fallbackData;
+                }
+            }
+            
+            // Function to convert relative URLs to absolute URLs
+            function convertToAbsoluteUrl(relativePath) {
+                if (!relativePath) return '';
+                if (relativePath.startsWith('http://') || relativePath.startsWith('https://')) {
+                    return relativePath;
+                }
+                if (relativePath.startsWith('./')) {
+                    return relativePath; // Keep local images as is
+                }
+                return `${API_BASE_URL}/${relativePath}`;
+            }
+            
+            // Function to update section heading and content
+            function updateExpertsHeader(expertsData) {
+                if (!expertsData || expertsData.length === 0) return;
+                
+                const expert = expertsData[0];
+                
+                // Update title - parse HTML to maintain styling
+                const titleElement = document.getElementById('expertsTitle');
+                if (titleElement && expert.heading) {
+                    // Split the heading to maintain the styling structure
+                    const words = expert.heading.split(' ');
+                    const firstWord = words[0] || 'Loved';
+                    const restOfHeading = words.slice(1).join(' ') || 'by Travellers, Backed by Experts';
+                    
+                    titleElement.innerHTML = `<span class="silver-South-family">${firstWord}</span> ${restOfHeading}`;
+                }
+                
+                // Update subtitle
+                const subtitleElement = document.getElementById('expertsSubtitle');
+                if (subtitleElement && expert.subheading) {
+                    subtitleElement.textContent = expert.subheading;
+                }
+            }
+            
+            // Function to create desktop service item
+            function createDesktopServiceItem(country, index, images) {
+                const bgNumber = index + 1;
+                const imageUrl = images && images[index] ? convertToAbsoluteUrl(images[index]) : `./images/${country}.jpg`;
+                
+                return `
+                    <div class="glob-service-item" data-bg="${bgNumber}">
+                        <div class="glob-service-text">
+                            <a href="s${bgNumber}.html" class="service-link">${country}</a>
+                        </div>
+                        <div class="glob-service-description">
+                            <!-- Expert-curated ${country} experiences -->
+                        </div>
+                    </div>`;
+            }
+            
+            // Function to create mobile service item
+            function createMobileServiceItem(country, index, images) {
+                const bgNumber = index + 1;
+                const imageUrl = images && images[index] ? convertToAbsoluteUrl(images[index]) : `./images/${country}.jpg`;
+                
+                return `
+                    <div class="col-12 mb-4">
+                        <div class="glob-service-mobile-card" style="background-image: url('${imageUrl}');" data-bg="${bgNumber}">
+                            <div class="glob-service-text">${country}${index === 4 ? '<span class="glob-plus-icon"></span>' : ''}</div>
+                            <div class="glob-service-description">
+                                <!-- Expert-curated ${country} experiences -->
+                            </div>
+                        </div>
+                    </div>`;
+            }
+            
+            // Function to populate experts section with API data
+            function populateExperts(data) {
+                if (!data || !data.experts || data.experts.length === 0) {
+                    console.warn('No experts data available to display');
+                    return;
+                }
+                
+                const expert = data.experts[0];
+                console.log('Populating experts section with data:', expert);
+                
+                // Update header content
+                updateExpertsHeader(data.experts);
+                
+                // Update desktop version
+                const desktopContainer = document.getElementById('expertsDesktopServices');
+                if (desktopContainer && expert.countries) {
+                    const desktopServicesHtml = expert.countries.map((country, index) => 
+                        createDesktopServiceItem(country, index, expert.images)
+                    ).join('');
+                    
+                    desktopContainer.innerHTML = desktopServicesHtml;
+                    console.log('Desktop experts services populated with', expert.countries.length, 'countries');
+                }
+                
+                // Update mobile version
+                const mobileContainer = document.getElementById('expertsMobileServices');
+                if (mobileContainer && expert.countries) {
+                    const mobileServicesHtml = expert.countries.map((country, index) => 
+                        createMobileServiceItem(country, index, expert.images)
+                    ).join('');
+                    
+                    mobileContainer.innerHTML = mobileServicesHtml;
+                    console.log('Mobile experts services populated with', expert.countries.length, 'countries');
+                }
+                
+                console.log('Experts section population completed successfully');
+            }
+            
+            // Main initialization function
+            async function initializeExpertsTest() {
+                console.log('Initializing Experts test...');
+                const data = await fetchExperts();
+                populateExperts(data);
+            }
+            
+            // Start test
+            initializeExpertsTest();
+        });
+    </script>
+</body>
+</html>
