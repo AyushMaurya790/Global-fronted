@@ -1269,7 +1269,7 @@
     </ul>
 
     <a class="navbar-brand mx-auto" href="index.html">
-      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      <img id="mainLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
       
     </a>
 
@@ -1292,7 +1292,7 @@
     <div class="mobile-menu">
         <div class="menu-header">
             <a class="menu-logo" href="index.html">
-                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
+                <img id="mobileLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
             </a>
             <div class="close-btn">&times;</div>
         </div>
@@ -1305,31 +1305,32 @@
     </div>
     <div class="overlay"></div>
 
-    <!-- Hero Section -->
-   <section class="hero-section" style="position:relative; width:100%; height:100vh; overflow:hidden; justify-content: start; align-items: end;">
-  <!-- Swiper for background images only -->
+    <!-- Hero Section with API Integration -->
+   <section class="hero-section" id="heroSection" style="position:relative; width:100%; height:100vh; overflow:hidden; justify-content: start; align-items: end;">
+  <!-- Swiper for background images from API -->
   <div class="swiper heroEduSwiper" style="width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1;">
-    <div class="swiper-wrapper">
+    <div class="swiper-wrapper" id="heroSwiperWrapper">
+      <!-- Loading placeholder -->
       <div class="swiper-slide" style="width:100%; height:100vh;">
         <div style="background: url('./images/globaleduHeroImg.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
       </div>
-      <div class="swiper-slide" style="width:100%; height:100vh;">
-        <div style="background: url('./WebsiteData/austria.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
-      </div>
-      <div class="swiper-slide" style="width:100%; height:100vh;">
-        <div style="background: url('./images/Japan.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
-      </div>
     </div>
+    <!-- Navigation arrows -->
+    <div class="swiper-button-next" style="color: white; opacity: 0.7;"></div>
+    <div class="swiper-button-prev" style="color: white; opacity: 0.7;"></div>
+    <!-- Pagination -->
+    <div class="swiper-pagination" style="bottom: 20px;"></div>
   </div>
-  <!-- Fixed Content -->
-  <div class="hero-content" style="position: relative; bottom: 70px; max-width: 930px; left: 40px; z-index:2;">
-    <h5 class="hero-title" style="font-size:60px; font-weight: 400; text-align: start; font-family: 'Miller Display', Georgia, serif;">
+  <!-- Dynamic Content from API -->
+  <div class="hero-content" id="heroContent" style="position: relative; bottom: 70px; max-width: 930px; left: 40px; z-index:2;">
+    <!-- Default content (will be replaced by API) -->
+    <h5 class="hero-title" id="heroTitle" style="font-size:60px; font-weight: 400; text-align: start; font-family: 'Miller Display', Georgia, serif;">
       Your
       <span class="hero-subtitle silver-South-family"
         style="font-size: 75px; font-weight: 100; font-style: normal;"> Gateway </span>
       to Global Education
     </h5>
-    <p style="font-size: 20px; text-align: start; font-family: 'Miller Display', Georgia, serif;">
+    <p id="heroSubtitle" style="font-size: 20px; text-align: start; font-family: 'Miller Display', Georgia, serif;">
       From application to arrival - GLOBENGEL EduWings guides you every step towards your dream university
     </p>
     <!-- <div class="search-box">
@@ -1861,38 +1862,21 @@
     </section>
 
 
-    <!-- Partner Section -->
+    <!-- Partner Section with API Integration -->
 
 <section class="logo-slider-section">
   <div class="logo-marquee">
-    <div class="logo-track">
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <!-- Repeat for seamless loop -->
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
+    <div class="logo-track" id="logoTrack">
+      <!-- Loading placeholder logos -->
+      <img src="./images/icelandPartner.jpg" alt="partner logo" />
+      <img src="./images/polandPartner.png" alt="partner logo" />
+      <img src="./images/switzerlandpartner.png" alt="partner logo" />
+      <img src="./images/par1.jpeg" alt="partner logo" />
+      <img src="./images/par2.jpeg" alt="partner logo" />
+      <img src="./images/par3.jpeg" alt="partner logo" />
+      <img src="./images/par4.jpeg" alt="partner logo" />
+      <img src="./images/par5.jpeg" alt="partner logo" />
+      <!-- API logos will be dynamically inserted here -->
     </div>
   </div>
 </section>
@@ -2512,6 +2496,283 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeEduwingsLuxuryDropdown();
+});
+
+// Study Abroad Hero API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    let heroSwiper; // Define swiper variable
+
+    // Function to fetch hero data from Study Abroad API
+    async function fetchStudyAbroadHeroData() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/hero');
+            if (!response.ok) {
+                throw new Error('Failed to fetch study abroad hero data');
+            }
+            const heroData = await response.json();
+            console.log('Study abroad hero data loaded from API:', heroData);
+            return heroData;
+        } catch (error) {
+            console.error('Error fetching study abroad hero data:', error);
+            // Return fallback data to maintain functionality
+            return [
+                {
+                    title: "Your Gateway to Global Education",
+                    subtitle: "From application to arrival - GLOBENGEL EduWings guides you every step towards your dream university",
+                    backgroundImage: ["./images/globaleduHeroImg.jpg"]
+                }
+            ];
+        }
+    }
+
+    // Function to parse and format title for display
+    function formatHeroTitle(title) {
+        // Check if title contains line breaks or specific patterns for styling
+        if (title.includes('Gateway')) {
+            const parts = title.split('Gateway');
+            return `${parts[0]}<span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;">Gateway</span>${parts[1] || ''}`;
+        } else if (title.includes('World\'s Best')) {
+            const parts = title.split('World\'s Best');
+            return `${parts[0]}<span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;">World's Best</span>${parts[1] || ''}`;
+        }
+        return title;
+    }
+
+    // Function to get full image URL
+    function getImageUrl(imagePath) {
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+        // Construct full URL for API images
+        return `http://globe.ridealmobility.com/${imagePath}`;
+    }
+
+    // Function to initialize hero section with API data
+    async function initializeStudyAbroadHero() {
+        const heroData = await fetchStudyAbroadHeroData();
+        
+        if (heroData && heroData.length > 0) {
+            // Update content with the first hero item (or you can cycle through them)
+            const primaryHero = heroData.find(hero => hero.title.includes('Gateway')) || heroData[0];
+            
+            if (primaryHero) {
+                // Update title
+                const titleElement = document.getElementById('heroTitle');
+                if (titleElement) {
+                    titleElement.innerHTML = formatHeroTitle(primaryHero.title);
+                }
+                
+                // Update subtitle
+                const subtitleElement = document.getElementById('heroSubtitle');
+                if (subtitleElement) {
+                    subtitleElement.textContent = primaryHero.subtitle;
+                }
+            }
+
+            // Update Swiper slides with all hero images
+            const swiperWrapper = document.getElementById('heroSwiperWrapper');
+            if (swiperWrapper) {
+                swiperWrapper.innerHTML = ''; // Clear existing slides
+                
+                // Add slides for each hero item and their images
+                heroData.forEach((hero, heroIndex) => {
+                    if (hero.backgroundImage && hero.backgroundImage.length > 0) {
+                        hero.backgroundImage.forEach((image, imageIndex) => {
+                            const imageUrl = getImageUrl(image);
+                            const slide = document.createElement('div');
+                            slide.className = 'swiper-slide';
+                            slide.style.cssText = 'width:100%; height:100vh;';
+                            
+                            const imageDiv = document.createElement('div');
+                            imageDiv.style.cssText = `background: url('${imageUrl}') no-repeat center center/cover; width:100%; height:100vh;`;
+                            
+                            slide.appendChild(imageDiv);
+                            swiperWrapper.appendChild(slide);
+                        });
+                    }
+                });
+
+                // Initialize or update Swiper
+                if (heroSwiper) {
+                    heroSwiper.destroy(true, true);
+                }
+                
+                heroSwiper = new Swiper('.heroEduSwiper', {
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    effect: 'fade',
+                    fadeEffect: {
+                        crossFade: true
+                    }
+                });
+                
+                console.log('Study abroad hero section initialized with API data');
+            }
+        }
+    }
+
+    // Initialize hero section
+    initializeStudyAbroadHero();
+
+    // Optional: Refresh hero data every 30 seconds
+    setInterval(initializeStudyAbroadHero, 30000);
+});
+
+// Logo API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch logo data from API
+    async function fetchLogoData() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const logoData = await response.json();
+            console.log('Logo data loaded from API:', logoData);
+            return logoData;
+        } catch (error) {
+            console.error('Error fetching logo data:', error);
+            // Return fallback data to maintain functionality
+            return [
+                {
+                    images: [
+                        './images/icelandPartner.jpg',
+                        './images/polandPartner.png',
+                        './images/switzerlandpartner.png',
+                        './images/par1.jpeg',
+                        './images/par2.jpeg'
+                    ]
+                }
+            ];
+        }
+    }
+
+    // Function to get full image URL
+    function getLogoImageUrl(imagePath) {
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+        // Construct full URL for API images
+        return `http://globe.ridealmobility.com/${imagePath}`;
+    }
+
+    // Function to update main brand logos
+    async function updateMainLogos(logoData) {
+        if (logoData && logoData.length > 0 && logoData[0].images && logoData[0].images.length > 0) {
+            // Use the first logo image for main brand logo
+            const primaryLogoUrl = getLogoImageUrl(logoData[0].images[0]);
+            
+            // Update main logo
+            const mainLogo = document.getElementById('mainLogo');
+            if (mainLogo) {
+                mainLogo.src = primaryLogoUrl;
+                mainLogo.onerror = function() {
+                    // Fallback to default logo if API image fails
+                    this.src = './GLOBENGEL/GLOBENGEL Logo.png';
+                };
+            }
+
+            // Update mobile logo
+            const mobileLogo = document.getElementById('mobileLogo');
+            if (mobileLogo) {
+                mobileLogo.src = primaryLogoUrl;
+                mobileLogo.onerror = function() {
+                    // Fallback to default logo if API image fails
+                    this.src = './GLOBENGEL/GLOBENGEL Logo.png';
+                };
+            }
+
+            console.log('Main logos updated with API data');
+        }
+    }
+
+    // Function to update partner logos
+    async function updatePartnerLogos(logoData) {
+        const logoTrack = document.getElementById('logoTrack');
+        if (logoTrack && logoData && logoData.length > 0) {
+            // Clear existing content
+            logoTrack.innerHTML = '';
+            
+            // Get all logo images from API
+            const allLogos = [];
+            logoData.forEach(logoSet => {
+                if (logoSet.images && logoSet.images.length > 0) {
+                    logoSet.images.forEach(image => {
+                        allLogos.push(getLogoImageUrl(image));
+                    });
+                }
+            });
+
+            // Add fallback logos if no API logos
+            if (allLogos.length === 0) {
+                allLogos.push(
+                    './images/icelandPartner.jpg',
+                    './images/polandPartner.png',
+                    './images/switzerlandpartner.png',
+                    './images/par1.jpeg',
+                    './images/par2.jpeg',
+                    './images/par3.jpeg',
+                    './images/par4.jpeg',
+                    './images/par5.jpeg'
+                );
+            }
+
+            // Create logo elements and duplicate for seamless scrolling
+            const createLogoSet = () => {
+                allLogos.forEach((logoUrl, index) => {
+                    const img = document.createElement('img');
+                    img.src = logoUrl;
+                    img.alt = `Partner Logo ${index + 1}`;
+                    img.style.cssText = 'height: 60px; margin: 0 20px; object-fit: contain;';
+                    
+                    // Add error handling for logo images
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                    };
+                    
+                    logoTrack.appendChild(img);
+                });
+            };
+
+            // Create multiple sets for seamless loop
+            createLogoSet(); // First set
+            createLogoSet(); // Second set for seamless loop
+            createLogoSet(); // Third set for extra smoothness
+
+            console.log('Partner logos updated with API data:', allLogos.length, 'logos loaded');
+        }
+    }
+
+    // Function to initialize all logos with API data
+    async function initializeLogos() {
+        const logoData = await fetchLogoData();
+        
+        // Update main brand logos (optional - comment out if you want to keep original Globengel logo)
+        // await updateMainLogos(logoData);
+        
+        // Update partner logos
+        await updatePartnerLogos(logoData);
+        
+        console.log('Logo integration completed');
+    }
+
+    // Initialize logos
+    initializeLogos();
+
+    // Optional: Refresh logo data every 5 minutes
+    setInterval(initializeLogos, 300000);
 });
 </script>
 </body>

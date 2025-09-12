@@ -686,6 +686,182 @@
                 width: 100%;
             }
         }
+
+        /* Journeys Beyond Horizon Section Responsive Styles */
+        .journeys-layout {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .journeys-image {
+            flex: 0 0 auto;
+            max-width: 420px;
+        }
+
+        .journeys-image img {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .journeys-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .journeys-content h2 {
+            font-size: 48px;
+            font-family: 'Miller Display', Georgia, serif;
+            font-weight: 400;
+            margin-bottom: 18px;
+            line-height: 1.2;
+        }
+
+        .journeys-content .style-heading {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 54px;
+            color: #e55d17;
+        }
+
+        .journeys-content p {
+            line-height: 1.6;
+        }
+
+        .journeys-content p:first-of-type {
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        .journeys-content p:last-of-type {
+            font-size: 18px;
+            color: #444;
+        }
+
+        /* Mobile responsive styles for journeys section */
+        @media (max-width: 768px) {
+            .journeys-layout {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .journeys-image {
+                max-width: 100%;
+            }
+
+            .journeys-content {
+                min-width: auto;
+            }
+
+            .journeys-content h2 {
+                font-size: 36px;
+            }
+
+            .journeys-content .style-heading {
+                font-size: 42px;
+            }
+
+            .journeys-content p:first-of-type {
+                font-size: 18px;
+            }
+
+            .journeys-content p:last-of-type {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .journeys-content h2 {
+                font-size: 28px;
+            }
+
+            .journeys-content .style-heading {
+                font-size: 32px;
+            }
+        }
+
+        /* Arctic Hero Section Styles */
+        .arctic-hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: url('./images/arctic-expedition.jpg') no-repeat center center/cover;
+            background-attachment: fixed;
+        }
+
+        .arctic-hero-content h1 {
+            font-size: 72px;
+            font-weight: 400;
+            font-family: 'Miller Display', Georgia, serif;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            line-height: 1.1;
+        }
+
+        .arctic-hero-content .voyage-script {
+            font-family: 'Shadows Into Light', cursive;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .arctic-hero-content p {
+            font-size: 24px;
+            font-family: 'Miller Display', Georgia, serif;
+            margin-top: 30px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive styles for Arctic Hero Section */
+        @media (max-width: 1200px) {
+            .arctic-hero-content h1 {
+                font-size: 60px;
+            }
+            
+            .arctic-hero-content .voyage-script {
+                font-size: 65px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .arctic-hero-section {
+                background-attachment: scroll;
+            }
+            
+            .arctic-hero-content h1 {
+                font-size: 42px;
+            }
+            
+            .arctic-hero-content .voyage-script {
+                font-size: 48px;
+            }
+            
+            .arctic-hero-content p {
+                font-size: 18px;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .arctic-hero-content h1 {
+                font-size: 32px;
+            }
+            
+            .arctic-hero-content .voyage-script {
+                font-size: 36px;
+            }
+            
+            .arctic-hero-content p {
+                font-size: 16px;
+                margin-top: 15px;
+            }
+        }
     </style>
 </head>
 
@@ -979,6 +1155,14 @@
 </section>
 
   
+    <!-- Journeys Beyond the Horizon Section (API Integrated) -->
+    <section id="journeys-beyond-horizon" style="background:#faf6f2; padding:48px 0 24px 0;">
+        <div class="container" style="max-width:900px; margin:auto;">
+            <div id="journeysContent">
+                <!-- API journey will be injected here -->
+            </div>
+        </div>
+    </section>
 
     <!-- Our cruise line partners -->
 
@@ -1025,9 +1209,6 @@
                 <ul class="secondary-nav">
                     <li><a href="#americas">THE AMERICAS & CARIBBEAN</a></li>
                     <li><a href="#europea">EUROPE & MEDITERRANEAN</a></li>
-                    <li><a href="#polars">POLAR EXPEDITIONS</a></li>
-                    <li><a href="#asias">ASIA & PACIFIC</a></li>
-                    <li><a href="#africas">AFRICA & INDIAN OCEAN</a></li>
                 </ul>
             </nav>
         </div>
@@ -1037,16 +1218,6 @@
 
     <section class="region-cruise-cards" id="americas">
         <h3 class="region-title">THE AMERICAS & CARIBBEAN</h3>
-
-    <!-- Journeys Beyond the Horizon Section (API Integrated) -->
-
-    <section id="journeys-beyond-horizon" style="background:#faf6f2; padding:48px 0 24px 0;">
-        <div class="container" style="max-width:900px; margin:auto;">
-            <div id="journeysContent">
-                <!-- API journey will be injected here -->
-            </div>
-        </div>
-    </section>
         <div class="swiper cruiseSwiper">
             <div class="swiper-wrapper">
                 <!-- Card 1 -->
@@ -1270,348 +1441,6 @@
     </section>
 
 
-    <!-- Cruise Booking Card section 3-->
-
-    <section class="region-cruise-cards" id="polars">
-        <h3 class="region-title">POLAR EXPEDITIONS</h3>
-        <div class="swiper cruiseSwiper">
-            <div class="swiper-wrapper">
-                <!-- Card 1 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 4 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 5 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Navigation buttons -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
-    </section>
-
-
-    <!-- Cruise Booking Card section 4-->
-
-    <section class="region-cruise-cards" id="asias">
-        <h3 class="region-title">ASIA &amp; PACIFIC</h3>
-        <div class="swiper cruiseSwiper">
-            <div class="swiper-wrapper">
-                <!-- Card 1 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 4 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 5 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Navigation buttons -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
-    </section>
-
-
-    <!-- Cruise Booking Card section 5-->
-
-    <section class="region-cruise-cards" id="africas">
-        <h3 class="region-title">AFRICA &amp; INDIAN OCEAN</h3>
-        <div class="swiper cruiseSwiper">
-            <div class="swiper-wrapper">
-                <!-- Card 1 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 4 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 5 -->
-                <div class="swiper-slide">
-                    <div class="cruise-card">
-                        <img src="./images/mapImgWorld.webp" alt="Cruise Map" class="cruise-card-img">
-                        <div class="cruise-card-body">
-                            <ul class="cruise-card-list">
-                                <li><b>Cruise Liner:</b> <span>Costa Cruises</span></li>
-                                <li><b>Ship Name:</b> <span>Costa Diadema</span></li>
-                                <li><b>Sailing Name:</b> <span>North Europe Cruise</span></li>
-                                <li><b>Departure Port:</b> <span>Copenhagen, Denmark</span></li>
-                                <li><b>Cruise Duration:</b> <span>7 Nights</span></li>
-                                <li><b>Cabin Prices:</b> <span class="price">Starting From 32,999/-</span></li>
-                                <li><b>Sailing Date(s):</b>
-                                    <span>31 May; 12, 21, 28 Jun; 12,19,26 Jul; 02, 09,16,23,30 Aug(2025)</span>
-                                </li>
-                            </ul>
-                            <a href="#" class="cruise-card-btn">Book Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Navigation buttons -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
-    </section>
-
-
     <!-- World Travel Section -->
     <section class="curate-trip-section">
         <div class="curate-content">
@@ -1621,18 +1450,6 @@
             <a href="#" class="curate-btn">CONTACT US</a>
         </div>
     </section>
-
-        <!-- Hero Cruises Section (API Integrated) -->
-        <section class="region-cruise-cards" id="hero-cruises">
-            <h3 class="region-title">HERO CRUISES</h3>
-            <div class="swiper heroCruiseSwiper">
-                <div class="swiper-wrapper" id="heroCruiseCards">
-                    <!-- Cards will be injected by JS -->
-                </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-        </section>
 
 
     <!-- Partner Section -->
@@ -2087,10 +1904,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         
         container.innerHTML = `
-            ${imageUrl ? `<img src="${imageUrl}" alt="${journey.styleHeading || ''}" style="width:100%; max-width:420px; border-radius:8px; margin-bottom:18px; display:block; margin-left:auto; margin-right:auto;" onerror="console.error('Failed to load image:', this.src);">` : ''}
-            <h2 style="font-size:48px; font-family:'Miller Display', Georgia, serif; font-weight:400; margin-bottom:18px;">${journey.mainHeading || ''} <span style="font-family:'Shadows Into Light',cursive; font-size:54px; color:#e55d17;">${journey.styleHeading || ''}</span></h2>
-            <p style="font-size:20px; margin-bottom:18px;">${journey.firstParagraph || ''}</p>
-            <p style="font-size:18px; color:#444;">${journey.secondParagraph || ''}</p>
+            <div class="journeys-layout">
+                ${imageUrl ? `<div class="journeys-image">
+                    <img src="${imageUrl}" alt="${journey.styleHeading || ''}" onerror="console.error('Failed to load image:', this.src);">
+                </div>` : ''}
+                <div class="journeys-content">
+                    <h2>${journey.mainHeading || ''} <span class="style-heading">${journey.styleHeading || ''}</span></h2>
+                    <p>${journey.firstParagraph || ''}</p>
+                    <p>${journey.secondParagraph || ''}</p>
+                </div>
+            </div>
         `;
     }
 });
@@ -2226,10 +2049,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Map API regions to section IDs
         const regionMapping = {
             'THE AMERICAS & CARIBBEAN': 'americas',
-            'EUROPE & THE MEDITERRANEAN': 'europea',
-            'POLAR EXPEDITIONS': 'polars', 
-            'ASIA & PACIFIC': 'asias',
-            'AFRICA & INDIAN OCEAN': 'africas'
+            'EUROPE & THE MEDITERRANEAN': 'europea'
         };
         
         regions.forEach(region => {
@@ -2361,71 +2181,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     1100: { slidesPerView: 4, spaceBetween: 18 }
                 }
             });
-        });
-    }
-});
-</script>
-
-<script>
-// HERO API Integration
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('http://globe.ridealmobility.com/api/hero')
-        .then(async response => {
-            if (!response.ok) throw new Error('Failed to fetch hero data');
-            const data = await response.json();
-            // Expecting data to be an array of hero cruise objects
-            renderHeroCruises(Array.isArray(data) ? data : (data.data || []));
-        })
-        .catch(error => {
-            console.error('Error fetching hero cruises:', error);
-            document.getElementById('heroCruiseCards').innerHTML = '<div style="padding:24px; color:#e55d17;">Unable to load Hero Cruises at this time.</div>';
-        });
-
-    function renderHeroCruises(cruises) {
-        const container = document.getElementById('heroCruiseCards');
-        if (!container) return;
-        container.innerHTML = '';
-        if (!cruises.length) {
-            container.innerHTML = '<div style="padding:24px; color:#e55d17;">No Hero Cruises found.</div>';
-            return;
-        }
-        cruises.forEach(cruise => {
-            // Example cruise object: { name, image, description, price, destinations }
-            const card = document.createElement('div');
-            card.className = 'swiper-slide';
-            card.innerHTML = `
-                <div class="cruise-card">
-                    <img src="${cruise.image || './images/mapImgWorld.webp'}" alt="${cruise.name || 'Hero Cruise'}" class="cruise-card-img">
-                    <div class="cruise-card-body">
-                        <h4 style="font-size:20px; font-weight:600; margin-bottom:8px;">${cruise.name || 'Hero Cruise'}</h4>
-                        <p style="font-size:15px; margin-bottom:8px;">${cruise.description || ''}</p>
-                        <ul class="cruise-card-list">
-                            ${cruise.destinations ? cruise.destinations.map(dest => `<li>${dest}</li>`).join('') : ''}
-                        </ul>
-                        <span class="price" style="font-weight:700; color:#e55d17;">${cruise.price ? 'Price: ' + cruise.price : ''}</span>
-                        <a href="#" class="cruise-card-btn" style="margin-top:10px;">Book Now</a>
-                    </div>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-        // Initialize Swiper for hero cruises
-        new Swiper('.heroCruiseSwiper', {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false
-            },
-            navigation: {
-                nextEl: '.heroCruiseSwiper .swiper-button-next',
-                prevEl: '.heroCruiseSwiper .swiper-button-prev',
-            },
-            breakpoints: {
-                700: { slidesPerView: 2, spaceBetween: 12 },
-                1100: { slidesPerView: 4, spaceBetween: 18 }
-            }
         });
     }
 });

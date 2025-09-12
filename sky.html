@@ -871,7 +871,7 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
     </ul>
 
     <a class="navbar-brand mx-auto" href="index.html">
-      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      <img id="mainLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
       
     </a>
 
@@ -894,7 +894,7 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
 <div class="mobile-menu">
   <div class="menu-header">
     <a class="menu-logo" href="index.html">
-      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;"  alt="Globengel Logo" class="logo">
+      <img id="mobileLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;"  alt="Globengel Logo" class="logo">
     </a>
     <div class="close-btn">&times;</div>
   </div>
@@ -1565,38 +1565,21 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
 </section>
 
 
-<!-- Partner Section -->
+<!-- Partner Section with API Integration -->
 
 <section class="logo-slider-section">
   <div class="logo-marquee">
-    <div class="logo-track">
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <!-- Repeat for seamless loop -->
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
+    <div class="logo-track" id="logoTrack">
+      <!-- Loading placeholder logos -->
+      <img src="./images/icelandPartner.jpg" alt="aviation partner logo" />
+      <img src="./images/polandPartner.png" alt="aviation partner logo" />
+      <img src="./images/switzerlandpartner.png" alt="aviation partner logo" />
+      <img src="./images/par1.jpeg" alt="aviation partner logo" />
+      <img src="./images/par2.jpeg" alt="aviation partner logo" />
+      <img src="./images/par3.jpeg" alt="aviation partner logo" />
+      <img src="./images/par4.jpeg" alt="aviation partner logo" />
+      <img src="./images/par5.jpeg" alt="aviation partner logo" />
+      <!-- API logos will be dynamically inserted here -->
     </div>
   </div>
 </section>
@@ -2258,6 +2241,152 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeSkyLuxuryDropdown();
+});
+
+// Logo API Integration for Sky Page (Private Charters)
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch logo data from API
+    async function fetchLogoData() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const logoData = await response.json();
+            console.log('Logo data loaded from API for Sky page:', logoData);
+            return logoData;
+        } catch (error) {
+            console.error('Error fetching logo data for Sky page:', error);
+            // Return fallback data to maintain functionality
+            return [
+                {
+                    images: [
+                        './images/icelandPartner.jpg',
+                        './images/polandPartner.png',
+                        './images/switzerlandpartner.png',
+                        './images/par1.jpeg',
+                        './images/par2.jpeg'
+                    ]
+                }
+            ];
+        }
+    }
+
+    // Function to get full image URL
+    function getLogoImageUrl(imagePath) {
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+        // Construct full URL for API images
+        return `http://globe.ridealmobility.com/${imagePath}`;
+    }
+
+    // Function to update main brand logos (optional)
+    async function updateMainLogos(logoData) {
+        if (logoData && logoData.length > 0 && logoData[0].images && logoData[0].images.length > 0) {
+            // Use the first logo image for main brand logo
+            const primaryLogoUrl = getLogoImageUrl(logoData[0].images[0]);
+            
+            // Update main logo
+            const mainLogo = document.getElementById('mainLogo');
+            if (mainLogo) {
+                mainLogo.src = primaryLogoUrl;
+                mainLogo.onerror = function() {
+                    // Fallback to default logo if API image fails
+                    this.src = './GLOBENGEL/GLOBENGEL Logo.png';
+                };
+            }
+
+            // Update mobile logo
+            const mobileLogo = document.getElementById('mobileLogo');
+            if (mobileLogo) {
+                mobileLogo.src = primaryLogoUrl;
+                mobileLogo.onerror = function() {
+                    // Fallback to default logo if API image fails
+                    this.src = './GLOBENGEL/GLOBENGEL Logo.png';
+                };
+            }
+
+            console.log('Sky page main logos updated with API data');
+        }
+    }
+
+    // Function to update aviation partner logos
+    async function updateAviationPartnerLogos(logoData) {
+        const logoTrack = document.getElementById('logoTrack');
+        if (logoTrack && logoData && logoData.length > 0) {
+            // Clear existing content
+            logoTrack.innerHTML = '';
+            
+            // Get all logo images from API
+            const allLogos = [];
+            logoData.forEach(logoSet => {
+                if (logoSet.images && logoSet.images.length > 0) {
+                    logoSet.images.forEach(image => {
+                        allLogos.push(getLogoImageUrl(image));
+                    });
+                }
+            });
+
+            // Add fallback aviation logos if no API logos
+            if (allLogos.length === 0) {
+                allLogos.push(
+                    './images/icelandPartner.jpg',    // Aviation partners
+                    './images/polandPartner.png',     // Charter services
+                    './images/switzerlandpartner.png', // Private jet companies
+                    './images/par1.jpeg',             // Aircraft operators
+                    './images/par2.jpeg',             // Airport services
+                    './images/par3.jpeg',             // Aviation fuel
+                    './images/par4.jpeg',             // Ground handling
+                    './images/par5.jpeg'              // Flight catering
+                );
+            }
+
+            // Create logo elements and duplicate for seamless scrolling
+            const createAviationLogoSet = () => {
+                allLogos.forEach((logoUrl, index) => {
+                    const img = document.createElement('img');
+                    img.src = logoUrl;
+                    img.alt = `Aviation Partner Logo ${index + 1}`;
+                    img.style.cssText = 'width: 150px; height: 100px !important; object-fit: contain; display: block; margin: 0 8px; filter: none;';
+                    
+                    // Add error handling for logo images
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                    };
+                    
+                    logoTrack.appendChild(img);
+                });
+            };
+
+            // Create multiple sets for seamless loop
+            createAviationLogoSet(); // First set
+            createAviationLogoSet(); // Second set for seamless loop
+            createAviationLogoSet(); // Third set for extra smoothness
+
+            console.log('Sky page aviation partner logos updated with API data:', allLogos.length, 'logos loaded');
+        }
+    }
+
+    // Function to initialize all logos with API data for Sky page
+    async function initializeSkyLogos() {
+        const logoData = await fetchLogoData();
+        
+        // Update main brand logos (optional - comment out if you want to keep original Globengel logo)
+        // await updateMainLogos(logoData);
+        
+        // Update aviation partner logos
+        await updateAviationPartnerLogos(logoData);
+        
+        console.log('Sky page logo integration completed');
+    }
+
+    // Initialize logos for Sky page
+    initializeSkyLogos();
+
+    // Optional: Refresh logo data every 5 minutes
+    setInterval(initializeSkyLogos, 300000);
 });
 </script>
 

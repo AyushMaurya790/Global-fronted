@@ -1033,7 +1033,7 @@
     </ul>
 
     <a class="navbar-brand mx-auto" href="index.html">
-      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      <img id="mainLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
       
     </a>
 
@@ -1055,7 +1055,7 @@
     <div class="mobile-menu">
         <div class="menu-header">
             <a class="menu-logo" href="index.html">
-                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
+                <img id="mobileLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
             </a>
             <div class="close-btn">&times;</div>
         </div>
@@ -1338,37 +1338,20 @@
     </section>
 
    
-    <!-- Partner Section -->
+    <!-- Partner Section with API Integration -->
 <section class="logo-slider-section">
   <div class="logo-marquee">
-    <div class="logo-track">
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <!-- Repeat for seamless loop -->
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
+    <div class="logo-track" id="logoTrack">
+      <!-- Loading placeholder logos -->
+      <img src="./images/icelandPartner.jpg" alt="partner logo" />
+      <img src="./images/polandPartner.png" alt="partner logo" />
+      <img src="./images/switzerlandpartner.png" alt="partner logo" />
+      <img src="./images/par1.jpeg" alt="partner logo" />
+      <img src="./images/par2.jpeg" alt="partner logo" />
+      <img src="./images/par3.jpeg" alt="partner logo" />
+      <img src="./images/par4.jpeg" alt="partner logo" />
+      <img src="./images/par5.jpeg" alt="partner logo" />
+      <!-- API logos will be dynamically inserted here -->
     </div>
   </div>
 </section>
@@ -1660,6 +1643,146 @@
                     disableOnInteraction: false
                 }
             });
+        });
+    </script>
+
+    <!-- Celebration Hero API Integration -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing Celebration Hero API integration...');
+
+            // Function to get the complete image URL
+            function getHeroImageUrl(imagePath) {
+                if (!imagePath) return '';
+                
+                // If it's already a complete URL, use it as is
+                if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                    return imagePath;
+                }
+                
+                // If it's a relative path, construct the full URL
+                const baseUrl = 'http://globe.ridealmobility.com/';
+                return baseUrl + imagePath.replace(/^\/+/, '');
+            }
+
+            // Function to fetch celebration hero data from API
+            async function fetchCelebrationHeroData() {
+                try {
+                    console.log('Fetching celebration hero data from API...');
+                    const response = await fetch('http://globe.ridealmobility.com/api/celebration/hero', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Celebration hero API response:', data);
+                    return data;
+
+                } catch (error) {
+                    console.error('Error fetching celebration hero data:', error);
+                    return null;
+                }
+            }
+
+            // Function to update hero content with API data
+            async function updateHeroWithAPIData() {
+                try {
+                    const heroData = await fetchCelebrationHeroData();
+                    
+                    if (!heroData) {
+                        console.warn('No hero data received from API, keeping default content');
+                        return;
+                    }
+
+                    // Handle different possible response structures
+                    const heroContent = Array.isArray(heroData) ? heroData[0] : heroData;
+                    
+                    if (!heroContent) {
+                        console.warn('No hero content found in API response');
+                        return;
+                    }
+
+                    console.log('Processing hero content:', heroContent);
+
+                    // Update hero images if available
+                    if (heroContent.images && Array.isArray(heroContent.images) && heroContent.images.length > 0) {
+                        const swiperWrapper = document.querySelector('.heroCelebrationSwiper .swiper-wrapper');
+                        if (swiperWrapper) {
+                            // Clear existing slides
+                            swiperWrapper.innerHTML = '';
+                            
+                            // Add API images as slides
+                            heroContent.images.forEach((imagePath, index) => {
+                                const imageUrl = getHeroImageUrl(imagePath);
+                                if (imageUrl) {
+                                    const slide = document.createElement('div');
+                                    slide.className = 'swiper-slide';
+                                    slide.style.cssText = 'width:100%; height:100vh;';
+                                    
+                                    slide.innerHTML = `<div style="background: url('${imageUrl}') no-repeat center center/cover; width:100%; height:100vh;"></div>`;
+                                    swiperWrapper.appendChild(slide);
+                                    
+                                    console.log(`Added hero image ${index + 1}:`, imageUrl);
+                                }
+                            });
+
+                            // Reinitialize Swiper with new slides
+                            const existingSwiper = document.querySelector('.heroCelebrationSwiper').swiper;
+                            if (existingSwiper) {
+                                existingSwiper.update();
+                                existingSwiper.slideTo(0);
+                            }
+                        }
+                    }
+
+                    // Update hero title if available
+                    if (heroContent.title) {
+                        const heroTitle = document.querySelector('.hero-title');
+                        if (heroTitle) {
+                            heroTitle.innerHTML = heroContent.title;
+                            console.log('Hero title updated:', heroContent.title);
+                        }
+                    }
+
+                    // Update hero subtitle if available
+                    if (heroContent.subtitle) {
+                        const heroSubtitle = document.querySelector('.hero-subtitle');
+                        if (heroSubtitle) {
+                            heroSubtitle.textContent = heroContent.subtitle;
+                            console.log('Hero subtitle updated:', heroContent.subtitle);
+                        }
+                    }
+
+                    // Update hero description if available
+                    if (heroContent.description) {
+                        const heroDescription = document.querySelector('.hero-content p');
+                        if (heroDescription) {
+                            heroDescription.textContent = heroContent.description;
+                            console.log('Hero description updated:', heroContent.description);
+                        }
+                    }
+
+                    console.log('Celebration hero content updated successfully with API data');
+
+                } catch (error) {
+                    console.error('Error updating hero with API data:', error);
+                }
+            }
+
+            // Initialize hero update
+            updateHeroWithAPIData();
+
+            // Auto-refresh hero content every 10 minutes
+            setInterval(updateHeroWithAPIData, 10 * 60 * 1000);
+            
+            console.log('Celebration Hero API integration initialized successfully');
         });
     </script>
 
@@ -2356,6 +2479,152 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeCelebrationLuxuryDropdown();
+});
+
+// Logo API Integration for Celebration Page
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch logo data from API
+    async function fetchLogoData() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const logoData = await response.json();
+            console.log('Logo data loaded from API:', logoData);
+            return logoData;
+        } catch (error) {
+            console.error('Error fetching logo data:', error);
+            // Return fallback data to maintain functionality
+            return [
+                {
+                    images: [
+                        './images/icelandPartner.jpg',
+                        './images/polandPartner.png',
+                        './images/switzerlandpartner.png',
+                        './images/par1.jpeg',
+                        './images/par2.jpeg'
+                    ]
+                }
+            ];
+        }
+    }
+
+    // Function to get full image URL
+    function getLogoImageUrl(imagePath) {
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+        // Construct full URL for API images
+        return `http://globe.ridealmobility.com/${imagePath}`;
+    }
+
+    // Function to update main brand logos (optional)
+    async function updateMainLogos(logoData) {
+        if (logoData && logoData.length > 0 && logoData[0].images && logoData[0].images.length > 0) {
+            // Use the first logo image for main brand logo
+            const primaryLogoUrl = getLogoImageUrl(logoData[0].images[0]);
+            
+            // Update main logo
+            const mainLogo = document.getElementById('mainLogo');
+            if (mainLogo) {
+                mainLogo.src = primaryLogoUrl;
+                mainLogo.onerror = function() {
+                    // Fallback to default logo if API image fails
+                    this.src = './GLOBENGEL/GLOBENGEL Logo.png';
+                };
+            }
+
+            // Update mobile logo
+            const mobileLogo = document.getElementById('mobileLogo');
+            if (mobileLogo) {
+                mobileLogo.src = primaryLogoUrl;
+                mobileLogo.onerror = function() {
+                    // Fallback to default logo if API image fails
+                    this.src = './GLOBENGEL/GLOBENGEL Logo.png';
+                };
+            }
+
+            console.log('Main logos updated with API data');
+        }
+    }
+
+    // Function to update partner logos
+    async function updatePartnerLogos(logoData) {
+        const logoTrack = document.getElementById('logoTrack');
+        if (logoTrack && logoData && logoData.length > 0) {
+            // Clear existing content
+            logoTrack.innerHTML = '';
+            
+            // Get all logo images from API
+            const allLogos = [];
+            logoData.forEach(logoSet => {
+                if (logoSet.images && logoSet.images.length > 0) {
+                    logoSet.images.forEach(image => {
+                        allLogos.push(getLogoImageUrl(image));
+                    });
+                }
+            });
+
+            // Add fallback logos if no API logos
+            if (allLogos.length === 0) {
+                allLogos.push(
+                    './images/icelandPartner.jpg',
+                    './images/polandPartner.png',
+                    './images/switzerlandpartner.png',
+                    './images/par1.jpeg',
+                    './images/par2.jpeg',
+                    './images/par3.jpeg',
+                    './images/par4.jpeg',
+                    './images/par5.jpeg'
+                );
+            }
+
+            // Create logo elements and duplicate for seamless scrolling
+            const createLogoSet = () => {
+                allLogos.forEach((logoUrl, index) => {
+                    const img = document.createElement('img');
+                    img.src = logoUrl;
+                    img.alt = `Partner Logo ${index + 1}`;
+                    img.style.cssText = 'width: 150px; height: 100px !important; object-fit: contain; display: block; margin: 0 8px;';
+                    
+                    // Add error handling for logo images
+                    img.onerror = function() {
+                        this.style.display = 'none';
+                    };
+                    
+                    logoTrack.appendChild(img);
+                });
+            };
+
+            // Create multiple sets for seamless loop
+            createLogoSet(); // First set
+            createLogoSet(); // Second set for seamless loop
+            createLogoSet(); // Third set for extra smoothness
+
+            console.log('Partner logos updated with API data:', allLogos.length, 'logos loaded');
+        }
+    }
+
+    // Function to initialize all logos with API data
+    async function initializeCelebrationLogos() {
+        const logoData = await fetchLogoData();
+        
+        // Update main brand logos (optional - comment out if you want to keep original Globengel logo)
+        // await updateMainLogos(logoData);
+        
+        // Update partner logos
+        await updatePartnerLogos(logoData);
+        
+        console.log('Celebration logo integration completed');
+    }
+
+    // Initialize logos
+    initializeCelebrationLogos();
+
+    // Optional: Refresh logo data every 5 minutes
+    setInterval(initializeCelebrationLogos, 300000);
 });
 </script>
 

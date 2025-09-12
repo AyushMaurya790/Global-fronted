@@ -916,7 +916,7 @@
    <section class="hero-section" style="position:relative; width:100%; height:100vh; overflow:hidden; justify-content: start; align-items: end;">
   <!-- Swiper for background images only -->
   <div class="swiper heroBgSwiper" style="width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1;">
-    <div class="swiper-wrapper">
+    <div class="swiper-wrapper" id="businessHeroBgWrapper">
       <div class="swiper-slide" style="width:100%; height:100vh;">
         <div style="background: url('./images/r5.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
       </div>
@@ -930,15 +930,19 @@
   </div>
   <!-- Fixed Content -->
   <div class="hero-content" style="position: absolute; bottom: 70px; left: 55px; max-width: 900px; z-index:2;">
-    <h5 class="hero-title" style="font-size:60px; text-align:left; font-weight: 400; font-family: 'Miller Display', Georgia, serif;">
-      Your Business Travel,
-      <span class="hero-subtitle silver-South-family"
-        style="font-size: 75px; font-weight: 100; font-style: normal;"> Perfected </span>
-    </h5>
-    <p style="font-size: 20px; text-align: start; font-family: 'Miller Display', Georgia, serif;">
-      From urgent boardroom meetings to global conferences - GLOBENGEL delivers corporate travel solutions
-      with instant confirmations worldwide
-    </p>
+    <div id="businessHeroContent">
+      <!-- API content will be injected here -->
+      <!-- Fallback content while loading -->
+      <h5 class="hero-title" style="font-size:60px; text-align:left; font-weight: 400; font-family: 'Miller Display', Georgia, serif;">
+        Your Business Travel,
+        <span class="hero-subtitle silver-South-family"
+          style="font-size: 75px; font-weight: 100; font-style: normal;"> Perfected </span>
+      </h5>
+      <p style="font-size: 20px; text-align: start; font-family: 'Miller Display', Georgia, serif;">
+        From urgent boardroom meetings to global conferences - GLOBENGEL delivers corporate travel solutions
+        with instant confirmations worldwide
+      </p>
+    </div>
     <!-- <div class="search-box">
       <input type="text" placeholder="Search by destinations, travel theme">
       <i class="fa fa-search"></i>
@@ -958,7 +962,9 @@
             </h2>
 
             <!-- Features Grid -->
-            <div class="row justify-content-center mt-5 heading_font_family">
+            <div class="row justify-content-center mt-5 heading_font_family" id="businessFeaturesContainer">
+                <!-- API features will be injected here -->
+                <!-- Fallback content while loading -->
                 <!-- 1 -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
@@ -1014,131 +1020,36 @@
                     class="silver-South-family" style="font-size: 65px; font-style: normal;">Our</span> core corporate
                 travel services</h2>
         </div>
-        <div class="hotel-booking-wrapper">
-            <img src="./images/r5.jpg" alt="Cruise Ship" class="hotel-booking-img" style="height: 474px;">
-            <div class="hotel-booking-card">
-                <h2>
-                    Hotel Bookings Worldwide —
-                    <span class="strike silver-South-family">Instant</span>
-                    Confirmation
-                </h2>
-                <p>
-                    We secure business-ready stays in <b>4-star, 5-star, and premium boutique hotels</b> across 100+
-                    countries — confirmed instantly.
-                </p>
-                <ul>
-                    <li><b>Corporate Rates:</b> Specially negotiated for short and long stays.</li>
-                    <li><b>Instant Confirmations:</b> No waiting for approvals or manual checks.</li>
-                    <li><b>Business Amenities:</b> High-speed Wi-Fi, conference facilities, early breakfast, express
-                        check-out.</li>
-                    <li><b>Flexible Policies:</b> Early check-in, late check-out, hassle-free modifications.</li>
-                    <li><b>Special Requests:</b> Executive floors, meeting rooms, loyalty programs.</li>
-                </ul>
+        
+        <!-- Services Container for API Integration -->
+        <div id="businessServicesContainer">
+            <!-- API services will be injected here -->
+            <!-- Fallback content while loading -->
+            <div class="hotel-booking-wrapper">
+                <img src="./images/r5.jpg" alt="Cruise Ship" class="hotel-booking-img" style="height: 474px;">
+                <div class="hotel-booking-card">
+                    <h2>
+                        Hotel Bookings Worldwide —
+                        <span class="strike silver-South-family">Instant</span>
+                        Confirmation
+                    </h2>
+                    <p>
+                        We secure business-ready stays in <b>4-star, 5-star, and premium boutique hotels</b> across 100+
+                        countries — confirmed instantly.
+                    </p>
+                    <ul>
+                        <li><b>Corporate Rates:</b> Specially negotiated for short and long stays.</li>
+                        <li><b>Instant Confirmations:</b> No waiting for approvals or manual checks.</li>
+                        <li><b>Business Amenities:</b> High-speed Wi-Fi, conference facilities, early breakfast, express
+                            check-out.</li>
+                        <li><b>Flexible Policies:</b> Early check-in, late check-out, hassle-free modifications.</li>
+                        <li><b>Special Requests:</b> Executive floors, meeting rooms, loyalty programs.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Booking service 2 -->
-
-    <section class="hotel-booking-section">
-        <div class="hotel-booking-wrapper">
-            <div class="hotel-booking-card" style="margin-right: -125px; margin-left: 0;">
-                <h2>
-                    Car Bookings Worldwide —
-                    <span class="strike silver-South-family">Instant</span>
-                    Access
-                </h2>
-                <p>
-                    Reliable, comfortable, and punctual ground transport - booked and confirmed in seconds.
-                </p>
-                <ul>
-                    <li><b>Instant Booking:</b> Chauffeur and vehicle details sent immediately.</li>
-                    <li><b>Fleet Options:</b> Executive sedans, SUVs, limousines, vans, and luxury coaches.</li>
-                    <li><b>Professional Chauffeurs:</b> English-speaking, trained in corporate etiquette.</li>
-                    <li><b>Airport Meet & Greet:</b> Fast-track arrivals, baggage assistance.</li>
-                    <li><b>City & Intercity Transfers:</b> For multi-meeting schedules and regional travel.</li>
-                </ul>
-            </div>
-            <img src="./images/r5.jpg" alt="Cruise Ship" class="hotel-booking-img" style="height: 474px;">
-        </div>
-    </section>
-
-    <!-- Booking service 3 -->
-
-    <section class="hotel-booking-section">
-        <div class="hotel-booking-wrapper">
-            <img src="./images/r5.jpg" alt="Cruise Ship" class="hotel-booking-img" style="height: 474px;">
-            <div class="hotel-booking-card">
-                <h2>
-                    MICE Travel —
-                    <span class="strike silver-South-family">Solutions</span>
-                    (Meetings, Incentives, Conferences, Exhibitions)
-                </h2>
-                <p>
-                    From <b>venue sourcing to delegate logistics,</b> we manage every detail so you can focus on
-                    business outcomes.
-                </p>
-                <ul>
-                    <li><b>Venue Selection & Negotiation:</b> Hotels, convention centres, unique event spaces.</li>
-                    <li><b>Delegate Travel & Accommodation:</b> Group flights, instant hotel bookings, seamless
-                        transfers.</li>
-                    <li><b>Event Production:</b> AV setup, branding, stage design, gala dinners.</li>
-                    <li><b>Program Management:</b> Business agendas, networking activities, leisure add-ons.</li>
-                    <li><b>Team-Building Experiences:</b> Curated cultural and adventure options.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Booking service 4 -->
-
-    <section class="hotel-booking-section">
-        <div class="hotel-booking-wrapper">
-            <div class="hotel-booking-card" style="margin-right: -125px; margin-left: 0;">
-                <h2>
-                    Flight Tickets —
-                    <span class="strike silver-South-family">Instant</span>
-                    Ticketing
-                </h2>
-                <p>
-                    Fast, flexible air travel solutions for corporate schedules.
-                </p>
-                <ul>
-                    <li><b>Instant Ticket Issuance:</b> E-tickets delivered within minutes.</li>
-                    <li><b>Corporate Fare Advantages:</b> Extra baggage, preferred seating, flexible date changes.</li>
-                    <li><b>Multi-City Routing:</b> Efficient itineraries for complex travel needs.</li>
-                    <li><b>Priority Access:</b> Last-seat availability and competitive fares.</li>
-                    <li><b>All Travel Classes:</b> Economy to First Class.</li>
-                </ul>
-            </div>
-            <img src="./images/r5.jpg" alt="Cruise Ship" class="hotel-booking-img" style="height: 474px;">
-        </div>
-    </section>
-
-
-    <!-- Booking service 5 -->
-
-    <section class="hotel-booking-section">
-        <div class="hotel-booking-wrapper">
-            <img src="./images/r5.jpg" alt="Cruise Ship" class="hotel-booking-img" style="height: 474px;">
-            <div class="hotel-booking-card">
-                <h2>
-                    Visa & Travel —
-                    <span class="strike silver-South-family">Insurance</span>
-                </h2>
-                <p>
-                    Smooth, compliant, and secure travel documentation.
-                </p>
-                <ul>
-                    <li><b>Business Visa Support:</b> Schengen, US, UK, Canada, and more.</li>
-                    <li><b>Complete Documentation Help:</b> Invitation letters, financial proofs, cover letters.</li>
-                    <li><b>Priority Processing:</b> For urgent departures.</li>
-                    <li><b>Comprehensive Insurance:</b> Medical, cancellation, baggage cover.</li>
-                    <li><b>Group Coverage:</b> Tailored plans for MICE and corporate delegations.</li>
-                </ul>
-            </div>
-        </div>
-    </section>
     <!--  -->
 
     <!-- business-steps-section -->
@@ -1324,29 +1235,8 @@
 
 <section class="logo-slider-section">
   <div class="logo-marquee">
-    <div class="logo-track">
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <!-- Repeat for seamless loop -->
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
+    <div class="logo-track" id="logoTrackContainer">
+      <!-- Dynamic logos will be loaded here from API -->
       <img src="./images/par1.jpeg" alt="wanderwell logo" />
       <img src="./images/par2.jpeg" alt="plasticbank logo" />
       <img src="./images/par3.jpeg" alt="climate neutral now" />
@@ -2216,6 +2106,343 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeBusinessLuxuryDropdown();
+});
+
+// Business Hero API Integration
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('http://globe.ridealmobility.com/api/business/hero')
+        .then(async response => {
+            if (!response.ok) throw new Error('Failed to fetch business hero data');
+            const data = await response.json();
+            renderBusinessHero(Array.isArray(data) ? data[0] : (data.data ? data.data[0] : data));
+        })
+        .catch(error => {
+            console.error('Error fetching business hero:', error);
+            // Keep fallback content if API fails
+        });
+
+    function renderBusinessHero(hero) {
+        const container = document.getElementById('businessHeroContent');
+        const bgWrapper = document.getElementById('businessHeroBgWrapper');
+        if (!container) return;
+        
+        if (!hero) {
+            console.warn('No business hero data found');
+            return;
+        }
+        
+        // Handle background images if provided (array of images)
+        if (hero.backgroundImage && Array.isArray(hero.backgroundImage) && bgWrapper) {
+            // Clear existing slides
+            bgWrapper.innerHTML = '';
+            
+            // Add new slides from API
+            hero.backgroundImage.forEach((imagePath, index) => {
+                const imageUrl = `http://globe.ridealmobility.com/${imagePath.replace(/^\/*/, '')}`;
+                const slideHTML = `
+                    <div class="swiper-slide" style="width:100%; height:100vh;">
+                        <div style="background: url('${imageUrl}') no-repeat center center/cover; width:100%; height:100vh;"></div>
+                    </div>
+                `;
+                bgWrapper.insertAdjacentHTML('beforeend', slideHTML);
+            });
+            
+            // If no images from API, add fallback images
+            if (hero.backgroundImage.length === 0) {
+                const fallbackImages = [
+                    './images/r5.jpg',
+                    './WebsiteData/Damoy-Point-5250-589bba843df78c4758f64f60.jpg',
+                    './WebsiteData/Zodiacs-heading-back-to-ship.jpg'
+                ];
+                
+                fallbackImages.forEach(imagePath => {
+                    const slideHTML = `
+                        <div class="swiper-slide" style="width:100%; height:100vh;">
+                            <div style="background: url('${imagePath}') no-repeat center center/cover; width:100%; height:100vh;"></div>
+                        </div>
+                    `;
+                    bgWrapper.insertAdjacentHTML('beforeend', slideHTML);
+                });
+            }
+            
+            console.log('Background images updated:', hero.backgroundImage);
+        }
+        
+        // Build the hero content dynamically using API fields
+        let heroHTML = '';
+        
+        // Handle title (which may contain both main heading and styled heading)
+        if (hero.title) {
+            // Clean up the title (remove extra newlines)
+            const cleanTitle = hero.title.trim();
+            
+            // Check if title contains comma to split main and styled parts
+            if (cleanTitle.includes(',')) {
+                const titleParts = cleanTitle.split(',');
+                const mainPart = titleParts[0].trim();
+                const styledPart = titleParts[1].trim();
+                
+                heroHTML += `<h5 class="hero-title" style="font-size:60px; text-align:left; font-weight: 400; font-family: 'Miller Display', Georgia, serif;">`;
+                heroHTML += mainPart;
+                heroHTML += `<span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;">, ${styledPart} </span>`;
+                heroHTML += `</h5>`;
+            } else {
+                // If no comma, treat the whole title as main heading
+                heroHTML += `<h5 class="hero-title" style="font-size:60px; text-align:left; font-weight: 400; font-family: 'Miller Display', Georgia, serif;">`;
+                heroHTML += cleanTitle;
+                heroHTML += `</h5>`;
+            }
+        }
+        
+        // Handle subtitle
+        if (hero.subtitle) {
+            heroHTML += `<p style="font-size: 20px; text-align: start; font-family: 'Miller Display', Georgia, serif; margin-bottom: 18px;">${hero.subtitle}</p>`;
+        }
+        
+        // Update the container
+        container.innerHTML = heroHTML;
+        
+        console.log('Business hero content updated from API');
+        console.log('Title:', hero.title);
+        console.log('Subtitle:', hero.subtitle);
+    }
+});
+
+// Business Features API Integration
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('http://globe.ridealmobility.com/api/business/feature')
+        .then(async response => {
+            if (!response.ok) throw new Error('Failed to fetch business features data');
+            const data = await response.json();
+            renderBusinessFeatures(Array.isArray(data) ? data : (data.data || []));
+        })
+        .catch(error => {
+            console.error('Error fetching business features:', error);
+            // Keep fallback content if API fails
+        });
+
+    function renderBusinessFeatures(features) {
+        const container = document.getElementById('businessFeaturesContainer');
+        if (!container) return;
+        
+        if (!features || !Array.isArray(features) || features.length === 0) {
+            console.warn('No business features data found');
+            return;
+        }
+        
+        // Clear existing content
+        container.innerHTML = '';
+        
+        // Generate feature cards from API data
+        features.forEach((feature, index) => {
+            // Construct image URL from API icon field
+            let imageUrl = './images/r3.jpg'; // Default fallback image
+            if (feature.icon) {
+                imageUrl = `http://globe.ridealmobility.com/${feature.icon.replace(/^\/*/, '')}`;
+            }
+            
+            // Clean up title (remove extra newlines)
+            const cleanTitle = feature.title ? feature.title.trim() : `Feature ${index + 1}`;
+            
+            const featureHTML = `
+                <div class="col-12 col-md-6 col-lg-3 why-item">
+                    <div class="why-card">
+                        <img src="${imageUrl}" class="buss-why-icon" alt="${cleanTitle}" onerror="this.src='./images/r${(index % 4) + 1}.jpg';">
+                        <h4 class="why-title">${cleanTitle}</h4>
+                        <p class="why-text">
+                            ${feature.description || 'Feature description not available.'}
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', featureHTML);
+        });
+        
+        console.log('Business features updated from API');
+        console.log('Features loaded:', features.length);
+        console.log('Feature icons:', features.map(f => f.icon));
+    }
+});
+
+// Business Services API Integration
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('http://globe.ridealmobility.com/api/business/service')
+        .then(async response => {
+            if (!response.ok) throw new Error('Failed to fetch business services data');
+            const data = await response.json();
+            renderBusinessServices(Array.isArray(data) ? data : (data.data || []));
+        })
+        .catch(error => {
+            console.error('Error fetching business services:', error);
+            // Keep fallback content if API fails
+        });
+
+    function renderBusinessServices(services) {
+        const container = document.getElementById('businessServicesContainer');
+        if (!container) return;
+        
+        if (!services || !Array.isArray(services) || services.length === 0) {
+            console.warn('No business services data found');
+            return;
+        }
+        
+        // Clear existing content
+        container.innerHTML = '';
+        
+        // Generate service sections from API data
+        services.forEach((service, index) => {
+            // Construct image URL if provided
+            let imageUrl = './images/r5.jpg'; // Default fallback image
+            if (service.image) {
+                imageUrl = `http://globe.ridealmobility.com/${service.image.replace(/^\/*/, '')}`;
+            }
+            
+            // Clean up title (remove extra newlines and split on "—" for subtitle)
+            const cleanTitle = service.title ? service.title.trim() : `Service ${index + 1}`;
+            
+            // Split title to extract main title and subtitle
+            let mainTitle = cleanTitle;
+            let subtitle = '';
+            
+            if (cleanTitle.includes('—')) {
+                const titleParts = cleanTitle.split('—');
+                mainTitle = titleParts[0].trim();
+                subtitle = titleParts[1].trim();
+            }
+            
+            // Alternate layout - even index: image left, odd index: image right
+            const isImageLeft = index % 2 === 0;
+            
+            // Process highlights array into list items
+            let highlightsHTML = '';
+            if (service.highlights && Array.isArray(service.highlights)) {
+                service.highlights.forEach(highlightBlock => {
+                    // Split each highlight block by \n to get individual points
+                    const individualHighlights = highlightBlock.split('\n').filter(h => h.trim());
+                    highlightsHTML += individualHighlights.map(highlight => {
+                        const cleanHighlight = highlight.trim();
+                        return `<li><b>${cleanHighlight}</b></li>`;
+                    }).join('');
+                });
+            }
+            
+            const serviceHTML = `
+                <div class="hotel-booking-wrapper">
+                    ${isImageLeft ? `
+                        <img src="${imageUrl}" alt="${mainTitle}" class="hotel-booking-img" style="height: 474px;">
+                        <div class="hotel-booking-card">
+                    ` : `
+                        <div class="hotel-booking-card" style="margin-right: -125px; margin-left: 0;">
+                    `}
+                        <h2>
+                            ${mainTitle}
+                            ${subtitle ? `<span class="strike silver-South-family">${subtitle}</span>` : ''}
+                        </h2>
+                        <p>
+                            ${service.description || 'Service description not available.'}
+                        </p>
+                        ${highlightsHTML ? `<ul>${highlightsHTML}</ul>` : ''}
+                    </div>
+                    ${!isImageLeft ? `
+                        <img src="${imageUrl}" alt="${mainTitle}" class="hotel-booking-img" style="height: 474px;">
+                    ` : ''}
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', serviceHTML);
+        });
+        
+        console.log('Business services updated from API');
+        console.log('Services loaded:', services.length);
+    }
+});
+
+// Home Logo API Integration
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('http://globe.ridealmobility.com/api/home/logo')
+        .then(async response => {
+            if (!response.ok) throw new Error('Failed to fetch home logo data');
+            const data = await response.json();
+            renderHomeLogos(Array.isArray(data) ? data : (data.data || []));
+        })
+        .catch(error => {
+            console.error('Error fetching home logos:', error);
+            // Load fallback logos if API fails
+            renderFallbackLogos();
+        });
+
+    function renderHomeLogos(logoData) {
+        const container = document.getElementById('logoTrackContainer');
+        if (!container) return;
+        
+        if (!logoData || !Array.isArray(logoData) || logoData.length === 0) {
+            console.warn('No home logo data found, loading fallback logos');
+            renderFallbackLogos();
+            return;
+        }
+        
+        // Clear existing content
+        container.innerHTML = '';
+        
+        // Get the first logo entry (based on your API response structure)
+        const logoEntry = logoData[0];
+        if (!logoEntry || !logoEntry.images || !Array.isArray(logoEntry.images)) {
+            console.warn('Invalid logo data structure, loading fallback logos');
+            renderFallbackLogos();
+            return;
+        }
+        
+        // Generate logo images from API data
+        let logoHTML = '';
+        
+        // Create the logos twice for seamless scrolling effect
+        for (let i = 0; i < 2; i++) {
+            logoEntry.images.forEach((imagePath, index) => {
+                const imageUrl = `http://globe.ridealmobility.com/${imagePath.replace(/^\/*/, '')}`;
+                logoHTML += `<img src="${imageUrl}" alt="Partner Logo ${index + 1}" onerror="this.style.display='none';" />`;
+            });
+        }
+        
+        container.innerHTML = logoHTML;
+        
+        console.log('Home logos updated from API');
+        console.log('Logo images loaded:', logoEntry.images.length);
+    }
+    
+    function renderFallbackLogos() {
+        const container = document.getElementById('logoTrackContainer');
+        if (!container) return;
+        
+        // Fallback static logos if API fails
+        const fallbackLogos = `
+            <img src="./images/icelandPartner.jpg" alt="Iceland Partner" />
+            <img src="./images/polandPartner.png" alt="Poland Partner" />
+            <img src="./images/switzerlandpartner.png" alt="Switzerland Partner" />
+            <img src="./images/par1.jpeg" alt="Partner 1" />
+            <img src="./images/par2.jpeg" alt="Partner 2" />
+            <img src="./images/par3.jpeg" alt="Partner 3" />
+            <img src="./images/par4.jpeg" alt="Partner 4" />
+            <img src="./images/par5.jpeg" alt="Partner 5" />
+            <img src="./images/par1.jpeg" alt="Partner 1" />
+            <img src="./images/par2.jpeg" alt="Partner 2" />
+            <img src="./images/par3.jpeg" alt="Partner 3" />
+            <img src="./images/par4.jpeg" alt="Partner 4" />
+            <img src="./images/par5.jpeg" alt="Partner 5" />
+            <!-- Repeat for seamless loop -->
+            <img src="./images/icelandPartner.jpg" alt="Iceland Partner" />
+            <img src="./images/polandPartner.png" alt="Poland Partner" />
+            <img src="./images/switzerlandpartner.png" alt="Switzerland Partner" />
+            <img src="./images/par1.jpeg" alt="Partner 1" />
+            <img src="./images/par2.jpeg" alt="Partner 2" />
+            <img src="./images/par3.jpeg" alt="Partner 3" />
+            <img src="./images/par4.jpeg" alt="Partner 4" />
+            <img src="./images/par5.jpeg" alt="Partner 5" />
+        `;
+        
+        container.innerHTML = fallbackLogos;
+        console.log('Fallback logos loaded');
+    }
 });
 </script>
 

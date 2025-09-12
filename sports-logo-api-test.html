@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Logo API Integration Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --sports-primary: #d35400;      /* Sports orange */
+            --sports-secondary: #e67e22;   /* Bright orange */
+            --sports-accent: #f39c12;      /* Golden yellow */
+            --sports-dark: #a0522d;        /* Dark orange/brown */
+            --sports-light: #fdebd0;       /* Light orange background */
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--sports-light) 0%, #fff 100%);
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--sports-primary) 0%, var(--sports-secondary) 100%);
+            color: white;
+            padding: 30px 0;
+            box-shadow: 0 4px 15px rgba(211, 84, 0, 0.3);
+        }
+
+        .test-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--sports-primary);
+        }
+
+        .api-status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status-loading {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .json-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .logo-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed var(--sports-primary);
+        }
+
+        .logo-item {
+            text-align: center;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .logo-item img {
+            width: 120px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 5px;
+            filter: brightness(1.1);
+        }
+
+        .logo-item span {
+            display: block;
+            font-size: 12px;
+            color: var(--sports-dark);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .marquee-demo {
+            overflow: hidden;
+            background: var(--sports-light);
+            padding: 20px 0;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid var(--sports-primary);
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 30s linear infinite;
+            gap: 30px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .marquee-content img {
+            width: 150px;
+            height: 100px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        .btn-sports {
+            background: linear-gradient(135deg, var(--sports-primary) 0%, var(--sports-secondary) 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sports:hover {
+            background: linear-gradient(135deg, var(--sports-secondary) 0%, var(--sports-accent) 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(211, 84, 0, 0.4);
+        }
+
+        .integration-info {
+            background: linear-gradient(135deg, var(--sports-light) 0%, #fff 100%);
+            border: 1px solid var(--sports-primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--sports-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h6 {
+            color: var(--sports-primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .sports-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .category-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid var(--sports-light);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            border-color: var(--sports-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(211, 84, 0, 0.2);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            color: var(--sports-primary);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1><i class="fas fa-trophy"></i> Sports Logo API Integration Test</h1>
+                    <p class="mb-0">Testing Home Logo API integration for Sports Travel page</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="badge bg-light text-dark p-3">
+                        <i class="fas fa-futbol me-2"></i>Sports Travel Theme
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <!-- API Status Section -->
+        <div class="test-section">
+            <h3><i class="fas fa-heartbeat me-2"></i>API Status</h3>
+            <div id="apiStatus" class="api-status status-loading">
+                <i class="fas fa-spinner fa-spin me-2"></i>Testing API connection...
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <button class="btn btn-sports w-100" onclick="testApiConnection()">
+                        <i class="fas fa-sync-alt me-2"></i>Test API Connection
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-sports w-100" onclick="refreshLogos()">
+                        <i class="fas fa-redo me-2"></i>Refresh Sports Logos
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Information -->
+        <div class="test-section">
+            <h3><i class="fas fa-info-circle me-2"></i>Sports Integration Details</h3>
+            <div class="integration-info">
+                <h5><i class="fas fa-link me-2"></i>API Endpoint</h5>
+                <code>http://globe.ridealmobility.com/api/home/logo</code>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h6><i class="fas fa-file-alt me-2"></i>Target File</h6>
+                        <p>sports.html</p>
+                    </div>
+                    <div class="info-card">
+                        <h6><i class="fas fa-palette me-2"></i>Theme</h6>
+                        <p>Sports Travel (Orange/Brown)</p>
+                    </div>
+                    <div class="info-card">
+                        <h6><i class="fas fa-users me-2"></i>Partner Focus</h6>
+                        <p>Sports Organizations & Events</p>
+                    </div>
+                    <div class="info-card">
+                        <h6><i class="fas fa-sync me-2"></i>Refresh Rate</h6>
+                        <p>5 minutes (live events)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sports Partner Categories -->
+        <div class="test-section">
+            <h3><i class="fas fa-sitemap me-2"></i>Sports Partner Categories</h3>
+            <p>Types of sports organizations suitable for API-driven logo display:</p>
+            <div class="sports-categories">
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-stadium"></i></div>
+                    <h6>Sports Venues</h6>
+                    <small>Stadiums & Arenas</small>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h6>Event Organizers</h6>
+                    <small>Tournament Companies</small>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-certificate"></i></div>
+                    <h6>Sports Federations</h6>
+                    <small>Official Bodies</small>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-handshake"></i></div>
+                    <h6>Tournament Partners</h6>
+                    <small>Event Sponsors</small>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <h6>Sports Sponsors</h6>
+                    <small>Brand Partners</small>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-tv"></i></div>
+                    <h6>Broadcasting</h6>
+                    <small>Media Partners</small>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-tools"></i></div>
+                    <h6>Equipment</h6>
+                    <small>Gear Providers</small>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-concierge-bell"></i></div>
+                    <h6>Hospitality</h6>
+                    <small>VIP Services</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Response Display -->
+        <div class="test-section">
+            <h3><i class="fas fa-code me-2"></i>API Response</h3>
+            <div id="apiResponse" class="json-display">
+                Loading API response...
+            </div>
+        </div>
+
+        <!-- Logo Preview Section -->
+        <div class="test-section">
+            <h3><i class="fas fa-images me-2"></i>Sports Partner Logo Preview</h3>
+            <div id="logoPreview" class="logo-preview">
+                <div class="text-center w-100">
+                    <i class="fas fa-spinner fa-spin fa-2x text-muted"></i>
+                    <p class="mt-2 text-muted">Loading sports partner logos...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marquee Demo -->
+        <div class="test-section">
+            <h3><i class="fas fa-arrows-alt-h me-2"></i>Sports Marquee Demo</h3>
+            <p>Preview of how logos will appear in the scrolling partner section:</p>
+            <div class="marquee-demo">
+                <div id="marqueeContent" class="marquee-content">
+                    <!-- Dynamic content will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Status -->
+        <div class="test-section">
+            <h3><i class="fas fa-check-circle me-2"></i>Integration Status</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h6><i class="fas fa-image me-2"></i>Main Logo Integration</h6>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Currently disabled to preserve sports branding. 
+                        Uncomment in sports.html to enable.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h6><i class="fas fa-users me-2"></i>Partner Logo Integration</h6>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check me-2"></i>
+                        Active - Sports partner logos updating from API
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let apiData = null;
+
+        // Test API connection
+        async function testApiConnection() {
+            const statusDiv = document.getElementById('apiStatus');
+            const responseDiv = document.getElementById('apiResponse');
+            
+            statusDiv.className = 'api-status status-loading';
+            statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Testing API connection...';
+            
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/home/logo');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                apiData = data;
+                
+                statusDiv.className = 'api-status status-success';
+                statusDiv.innerHTML = '<i class="fas fa-check-circle me-2"></i>API connection successful! Sports logo data loaded.';
+                
+                responseDiv.textContent = JSON.stringify(data, null, 2);
+                
+                // Update logo preview
+                displayLogoPreview(data);
+                updateMarqueeDemo(data);
+                
+            } catch (error) {
+                statusDiv.className = 'api-status status-error';
+                statusDiv.innerHTML = `<i class="fas fa-exclamation-triangle me-2"></i>API Error: ${error.message}`;
+                
+                responseDiv.textContent = `Error: ${error.message}\n\nThis may be due to:\n- Network connectivity issues\n- API server being down\n- CORS restrictions\n- Firewall blocking the request`;
+                
+                // Show fallback logos
+                displayFallbackLogos();
+            }
+        }
+
+        // Display logo preview
+        function displayLogoPreview(data) {
+            const previewDiv = document.getElementById('logoPreview');
+            
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                previewDiv.innerHTML = '<div class="text-center w-100"><i class="fas fa-exclamation-triangle fa-2x text-warning"></i><p class="mt-2">No logo data available</p></div>';
+                return;
+            }
+            
+            let html = '';
+            let logoCount = 0;
+            
+            data.forEach((logoSet, setIndex) => {
+                if (logoSet.images && Array.isArray(logoSet.images)) {
+                    logoSet.images.forEach((imagePath, imageIndex) => {
+                        const logoUrl = getLogoImageUrl(imagePath);
+                        if (logoUrl) {
+                            logoCount++;
+                            html += `
+                                <div class="logo-item">
+                                    <img src="${logoUrl}" alt="Sports Partner ${logoCount}" onerror="this.style.display='none'">
+                                    <span>Partner ${logoCount}</span>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+            });
+            
+            if (html) {
+                previewDiv.innerHTML = html;
+            } else {
+                previewDiv.innerHTML = '<div class="text-center w-100"><i class="fas fa-images fa-2x text-muted"></i><p class="mt-2">No valid images found in API response</p></div>';
+            }
+        }
+
+        // Display fallback logos
+        function displayFallbackLogos() {
+            const previewDiv = document.getElementById('logoPreview');
+            const marqueeDiv = document.getElementById('marqueeContent');
+            
+            const fallbackLogos = [
+                { src: './images/icelandPartner.jpg', name: 'Sports Venues' },
+                { src: './images/polandPartner.png', name: 'Event Organizers' },
+                { src: './images/switzerlandpartner.png', name: 'Sports Federations' },
+                { src: './images/par1.jpeg', name: 'Tournament Partners' },
+                { src: './images/par2.jpeg', name: 'Sports Sponsors' },
+                { src: './images/par3.jpeg', name: 'Broadcasting Partners' },
+                { src: './images/par4.jpeg', name: 'Equipment Partners' },
+                { src: './images/par5.jpeg', name: 'Hospitality Partners' }
+            ];
+            
+            // Preview
+            const previewHtml = fallbackLogos.map(logo => `
+                <div class="logo-item">
+                    <img src="${logo.src}" alt="${logo.name}" onerror="this.style.display='none'">
+                    <span>${logo.name}</span>
+                </div>
+            `).join('');
+            
+            previewDiv.innerHTML = previewHtml;
+            
+            // Marquee
+            const marqueeHtml = fallbackLogos.map(logo => 
+                `<img src="${logo.src}" alt="${logo.name}" onerror="this.style.display='none'">`
+            ).join('');
+            
+            marqueeDiv.innerHTML = marqueeHtml + marqueeHtml;
+        }
+
+        // Update marquee demo
+        function updateMarqueeDemo(data) {
+            const marqueeDiv = document.getElementById('marqueeContent');
+            
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                displayFallbackLogos();
+                return;
+            }
+            
+            let html = '';
+            
+            data.forEach(logoSet => {
+                if (logoSet.images && Array.isArray(logoSet.images)) {
+                    logoSet.images.forEach(imagePath => {
+                        const logoUrl = getLogoImageUrl(imagePath);
+                        if (logoUrl) {
+                            html += `<img src="${logoUrl}" alt="Sports Partner" onerror="this.style.display='none'">`;
+                        }
+                    });
+                }
+            });
+            
+            // Duplicate for seamless scroll
+            marqueeDiv.innerHTML = html + html;
+        }
+
+        // Helper function to construct logo URLs
+        function getLogoImageUrl(imagePath) {
+            if (!imagePath) return '';
+            
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                return imagePath;
+            }
+            
+            return 'http://globe.ridealmobility.com/' + imagePath;
+        }
+
+        // Refresh logos
+        function refreshLogos() {
+            testApiConnection();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            testApiConnection();
+        });
+    </script>
+</body>
+</html>

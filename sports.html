@@ -952,7 +952,7 @@
     </ul>
 
     <a class="navbar-brand mx-auto" href="index.html">
-      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      <img id="mainLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
       
     </a>
 
@@ -975,7 +975,7 @@
     <div class="mobile-menu">
         <div class="menu-header">
             <a class="menu-logo" href="index.html">
-                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
+                <img id="mobileLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
             </a>
             <div class="close-btn">&times;</div>
         </div>
@@ -1548,26 +1548,26 @@ document.addEventListener('DOMContentLoaded', function() {
 </section>
 
    
-<!-- Partner Section -->
+<!-- Partner Section with API Integration -->
 <section class="logo-slider-section">
   <div class="logo-marquee">
-    <div class="logo-track">
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
-      <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
-      <img src="./images/par1.jpeg" alt="wanderwell logo" />
-      <img src="./images/par2.jpeg" alt="plasticbank logo" />
-      <img src="./images/par3.jpeg" alt="climate neutral now" />
-      <img src="./images/par4.jpeg" alt="eden reforestation" />
-      <img src="./images/par5.jpeg" alt="ally travel council" />
+    <div id="logoTrack" class="logo-track">
+      <img src="./images/icelandPartner.jpg" alt="sports partner logo" />
+      <img src="./images/polandPartner.png" alt="sports partner logo" />
+      <img src="./images/switzerlandpartner.png" alt="sports partner logo" />
+      <img src="./images/par1.jpeg" alt="sports partner logo" />
+      <img src="./images/par2.jpeg" alt="sports partner logo" />
+      <img src="./images/par3.jpeg" alt="sports partner logo" />
+      <img src="./images/par4.jpeg" alt="sports partner logo" />
+      <img src="./images/par5.jpeg" alt="sports partner logo" />
+      <img src="./images/par1.jpeg" alt="sports partner logo" />
+      <img src="./images/par2.jpeg" alt="sports partner logo" />
+      <img src="./images/par3.jpeg" alt="sports partner logo" />
+      <img src="./images/par4.jpeg" alt="sports partner logo" />
+      <img src="./images/par5.jpeg" alt="sports partner logo" />
       <!-- Repeat for seamless loop -->
-      <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
-      <img src="./images/polandPartner.png" alt="wanderwell logo" />
+      <img src="./images/icelandPartner.jpg" alt="sports partner logo" />
+      <img src="./images/polandPartner.png" alt="sports partner logo" />
       <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
       <img src="./images/par1.jpeg" alt="wanderwell logo" />
       <img src="./images/par2.jpeg" alt="plasticbank logo" />
@@ -2329,6 +2329,155 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeSportsLuxuryDropdown();
+});
+</script>
+
+<!-- Sports Logo API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sports Logo API Integration
+    async function fetchLogoData() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log('Sports Logo API Response:', data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching sports logo data:', error);
+            return null;
+        }
+    }
+
+    function getLogoImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // Handle both relative and absolute paths
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // Construct full URL for API images
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath;
+    }
+
+    // Update main logos (currently commented out to preserve sports branding)
+    async function updateMainLogos(logoData) {
+        if (!logoData || !Array.isArray(logoData) || logoData.length === 0) {
+            console.warn('No sports logo data available for main logos');
+            return;
+        }
+
+        const firstLogoSet = logoData[0];
+        if (!firstLogoSet.images || firstLogoSet.images.length === 0) {
+            console.warn('No images in first sports logo set');
+            return;
+        }
+
+        const mainLogo = document.getElementById('mainLogo');
+        const mobileLogo = document.getElementById('mobileLogo');
+        const logoUrl = getLogoImageUrl(firstLogoSet.images[0]);
+
+        if (mainLogo && logoUrl) {
+            mainLogo.src = logoUrl;
+            mainLogo.alt = 'Globengel Sports Logo';
+            console.log('Main sports logo updated');
+        }
+
+        if (mobileLogo && logoUrl) {
+            mobileLogo.src = logoUrl;
+            mobileLogo.alt = 'Globengel Sports Logo';
+            console.log('Mobile sports logo updated');
+        }
+    }
+
+    // Update sports partner logos with enhanced styling
+    async function updateSportsPartnerLogos(logoData) {
+        const logoTrack = document.getElementById('logoTrack');
+        if (!logoTrack) {
+            console.warn('Sports logo track not found');
+            return;
+        }
+
+        // Sports-themed fallback logos
+        const sportsFallbackLogos = [
+            './images/icelandPartner.jpg',    // Sports venues
+            './images/polandPartner.png',     // Event organizers
+            './images/switzerlandpartner.png', // Sports federations
+            './images/par1.jpeg',             // Tournament partners
+            './images/par2.jpeg',             // Sports sponsors
+            './images/par3.jpeg',             // Broadcasting partners
+            './images/par4.jpeg',             // Equipment partners
+            './images/par5.jpeg'              // Hospitality partners
+        ];
+
+        let allLogos = [];
+
+        // Use API data if available
+        if (logoData && Array.isArray(logoData) && logoData.length > 0) {
+            logoData.forEach(logoSet => {
+                if (logoSet.images && Array.isArray(logoSet.images)) {
+                    logoSet.images.forEach(imagePath => {
+                        const logoUrl = getLogoImageUrl(imagePath);
+                        if (logoUrl) {
+                            allLogos.push(logoUrl);
+                        }
+                    });
+                }
+            });
+            console.log('Using API sports partner logos:', allLogos.length, 'logos loaded');
+        }
+
+        // Use fallback if no API data
+        if (allLogos.length === 0) {
+            allLogos = sportsFallbackLogos;
+            console.log('Using fallback sports partner logos');
+        }
+
+        // Create enhanced logo HTML with sports theme
+        const logoHTML = allLogos.map(logoUrl => 
+            `<img src="${logoUrl}" alt="sports partner logo" style="width: 150px; height: 100px; object-fit: contain; margin: 0 20px; filter: brightness(1.1);" />`
+        ).join('');
+
+        // Create multiple sets for seamless infinite scroll
+        logoTrack.innerHTML = logoHTML + logoHTML + logoHTML;
+        console.log('Sports partner logos updated with', allLogos.length, 'logos');
+    }
+
+    // Main initialization function for sports logos
+    async function initializeSportsLogos() {
+        try {
+            console.log('Initializing sports logo integration...');
+            const logoData = await fetchLogoData();
+            
+            if (logoData) {
+                // Update partner logos (always enabled)
+                await updateSportsPartnerLogos(logoData);
+                
+                // Update main logos (uncomment to enable sports branding)
+                // await updateMainLogos(logoData);
+                
+                console.log('Sports logo integration completed successfully');
+            } else {
+                // Fallback to default sports partner logos
+                await updateSportsPartnerLogos(null);
+                console.log('Sports logo integration completed with fallbacks');
+            }
+        } catch (error) {
+            console.error('Error in sports logo integration:', error);
+            // Ensure fallback logos are displayed
+            await updateSportsPartnerLogos(null);
+        }
+    }
+
+    // Initialize sports logos
+    initializeSportsLogos();
+
+    // Auto-refresh sports logos every 5 minutes for live events
+    setInterval(initializeSportsLogos, 300000);
 });
 </script>
 

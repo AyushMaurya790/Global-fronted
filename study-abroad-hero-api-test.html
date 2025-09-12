@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Abroad Hero API Integration Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+        .test-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .api-response {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .hero-preview {
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            margin: 20px 0;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            position: absolute;
+            bottom: 50px;
+            left: 40px;
+            z-index: 2;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        .swiper {
+            width: 100%;
+            height: 400px;
+        }
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.loading { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Study Abroad Hero API Integration Test</h1>
+        <p><strong>API Endpoint:</strong> http://globe.ridealmobility.com/api/studyabroad/hero</p>
+        
+        <div id="status" class="status loading">Loading API data...</div>
+        
+        <h2>Raw API Response:</h2>
+        <div id="apiResponse" class="api-response">Fetching data...</div>
+        
+        <h2>Hero Section Preview:</h2>
+        <div class="hero-preview">
+            <div class="swiper heroTestSwiper">
+                <div class="swiper-wrapper" id="heroSwiperWrapper">
+                    <!-- Slides will be populated by JavaScript -->
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="hero-content">
+                <h2 id="heroTitle">Loading...</h2>
+                <p id="heroSubtitle">Loading subtitle...</p>
+            </div>
+        </div>
+        
+        <h2>Parsed Data:</h2>
+        <div id="parsedData" class="api-response">Processing...</div>
+    </div>
+
+    <script>
+        let heroSwiper;
+
+        // Function to fetch hero data from Study Abroad API
+        async function fetchStudyAbroadHeroData() {
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/hero');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const heroData = await response.json();
+                return heroData;
+            } catch (error) {
+                console.error('Error fetching study abroad hero data:', error);
+                throw error;
+            }
+        }
+
+        // Function to parse and format title for display
+        function formatHeroTitle(title) {
+            if (title.includes('Gateway')) {
+                const parts = title.split('Gateway');
+                return `${parts[0]}<span style="font-size: 1.2em; color: #ffd700;">Gateway</span>${parts[1] || ''}`;
+            } else if (title.includes('World\'s Best')) {
+                const parts = title.split('World\'s Best');
+                return `${parts[0]}<span style="font-size: 1.2em; color: #ffd700;">World's Best</span>${parts[1] || ''}`;
+            }
+            return title;
+        }
+
+        // Function to get full image URL
+        function getImageUrl(imagePath) {
+            if (imagePath.startsWith('http')) {
+                return imagePath;
+            }
+            return `http://globe.ridealmobility.com/${imagePath}`;
+        }
+
+        // Initialize the test
+        async function initializeTest() {
+            const statusEl = document.getElementById('status');
+            const apiResponseEl = document.getElementById('apiResponse');
+            const parsedDataEl = document.getElementById('parsedData');
+            
+            try {
+                statusEl.textContent = 'Fetching data from API...';
+                statusEl.className = 'status loading';
+                
+                const heroData = await fetchStudyAbroadHeroData();
+                
+                // Display raw API response
+                apiResponseEl.textContent = JSON.stringify(heroData, null, 2);
+                
+                // Update status
+                statusEl.textContent = `✅ Successfully fetched ${heroData.length} hero items from API`;
+                statusEl.className = 'status success';
+                
+                // Process and display parsed data
+                const parsedInfo = heroData.map((hero, index) => ({
+                    index: index + 1,
+                    title: hero.title,
+                    subtitle: hero.subtitle,
+                    imageCount: hero.backgroundImage ? hero.backgroundImage.length : 0,
+                    images: hero.backgroundImage || []
+                }));
+                
+                parsedDataEl.textContent = JSON.stringify(parsedInfo, null, 2);
+                
+                // Initialize hero preview
+                await initializeHeroPreview(heroData);
+                
+            } catch (error) {
+                statusEl.textContent = `❌ Error: ${error.message}`;
+                statusEl.className = 'status error';
+                apiResponseEl.textContent = `Error: ${error.message}`;
+                parsedDataEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Initialize hero preview
+        async function initializeHeroPreview(heroData) {
+            if (heroData && heroData.length > 0) {
+                // Update content with the first hero item that contains "Gateway" or the first one
+                const primaryHero = heroData.find(hero => hero.title.includes('Gateway')) || heroData[0];
+                
+                if (primaryHero) {
+                    // Update title
+                    const titleElement = document.getElementById('heroTitle');
+                    if (titleElement) {
+                        titleElement.innerHTML = formatHeroTitle(primaryHero.title);
+                    }
+                    
+                    // Update subtitle
+                    const subtitleElement = document.getElementById('heroSubtitle');
+                    if (subtitleElement) {
+                        subtitleElement.textContent = primaryHero.subtitle;
+                    }
+                }
+
+                // Update Swiper slides with all hero images
+                const swiperWrapper = document.getElementById('heroSwiperWrapper');
+                if (swiperWrapper) {
+                    swiperWrapper.innerHTML = ''; // Clear existing slides
+                    
+                    // Add slides for each hero item and their images
+                    heroData.forEach((hero, heroIndex) => {
+                        if (hero.backgroundImage && hero.backgroundImage.length > 0) {
+                            hero.backgroundImage.forEach((image, imageIndex) => {
+                                const imageUrl = getImageUrl(image);
+                                const slide = document.createElement('div');
+                                slide.className = 'swiper-slide';
+                                slide.style.backgroundImage = `url('${imageUrl}')`;
+                                
+                                swiperWrapper.appendChild(slide);
+                            });
+                        }
+                    });
+
+                    // Initialize Swiper
+                    if (heroSwiper) {
+                        heroSwiper.destroy(true, true);
+                    }
+                    
+                    heroSwiper = new Swiper('.heroTestSwiper', {
+                        loop: true,
+                        autoplay: {
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        },
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        effect: 'fade',
+                        fadeEffect: {
+                            crossFade: true
+                        }
+                    });
+                }
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeTest);
+    </script>
+</body>
+</html>

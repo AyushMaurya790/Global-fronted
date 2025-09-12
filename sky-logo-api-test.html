@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Page (Private Charters) - Logo API Integration Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .test-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .api-response {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .logo-preview {
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        .main-logo-preview {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .partner-logos-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .partner-logos-preview img {
+            height: 60px;
+            max-width: 120px;
+            object-fit: contain;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .main-logo-preview img {
+            max-height: 80px;
+            max-width: 200px;
+            object-fit: contain;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.loading { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .scrolling-container {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 20px 0;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 8px;
+        }
+        .scrolling-content {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .aviation-theme {
+            background: linear-gradient(135deg, #e3f2fd 0%, #2196f3 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .aviation-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .aviation-icon {
+            font-size: 2em;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="aviation-theme">
+            <h1 class="aviation-header">
+                ✈️ Sky Page - Private Charters Logo API Integration Test 🛩️
+            </h1>
+            <p class="text-center">
+                <strong>API Endpoint:</strong> http://globe.ridealmobility.com/api/home/logo<br>
+                <strong>Context:</strong> Private Charter & Aviation Services
+            </p>
+        </div>
+        
+        <div id="status" class="status loading">Loading aviation partner data...</div>
+        
+        <h2>Raw API Response:</h2>
+        <div id="apiResponse" class="api-response">Fetching data...</div>
+        
+        <h2>Aviation Logo Previews:</h2>
+        
+        <div class="logo-preview">
+            <h3>✈️ Main Brand Logo Options:</h3>
+            <div id="mainLogoPreviews" class="main-logo-preview">
+                Loading...
+            </div>
+            
+            <h3>🛩️ Aviation Partner Logos:</h3>
+            <div id="partnerLogoPreviews" class="partner-logos-preview">
+                Loading...
+            </div>
+            
+            <h3>🛫 Aviation Marquee Demo:</h3>
+            <div class="scrolling-container">
+                <div id="scrollingLogos" class="scrolling-content">
+                    Loading...
+                </div>
+            </div>
+        </div>
+        
+        <h2>Integration Status:</h2>
+        <div id="integrationDetails" class="api-response">Processing...</div>
+        
+        <h2>Sky Page (Private Charters) Features:</h2>
+        <div class="alert alert-primary">
+            <h5>✈️ Aviation Logo Integration Features:</h5>
+            <ul>
+                <li><strong>🏷️ Aviation Branding:</strong> Specialized for private charter and aviation services</li>
+                <li><strong>✈️ Partner Showcase:</strong> Dynamic aviation partner logos from API</li>
+                <li><strong>🔄 Auto-refresh:</strong> Aviation partner logos update every 5 minutes</li>
+                <li><strong>🛡️ Fallback Protection:</strong> Default aviation partner logos if API fails</li>
+                <li><strong>📱 Responsive Design:</strong> Optimized for mobile charter booking</li>
+                <li><strong>🎨 Aviation Theme:</strong> Blue color scheme matching sky/aviation branding</li>
+                <li><strong>⚡ Performance:</strong> Fast loading for time-sensitive charter bookings</li>
+            </ul>
+        </div>
+
+        <h2>Aviation Implementation Notes:</h2>
+        <div class="alert alert-info">
+            <h5>📋 Technical Details:</h5>
+            <ul>
+                <li><strong>Page Context:</strong> sky.html - Private Charters & Aviation Services</li>
+                <li><strong>Partner Types:</strong> Airlines, charter companies, aircraft operators, ground services</li>
+                <li><strong>API Integration:</strong> Fetches from home/logo endpoint with aviation context</li>
+                <li><strong>Color Scheme:</strong> Blue tones (#2196f3, #e3f2fd) for sky/aviation theme</li>
+                <li><strong>Logo Categories:</strong> Aircraft operators, charter services, aviation fuel, ground handling</li>
+                <li><strong>Business Focus:</strong> Private jets, helicopter charters, aviation services</li>
+            </ul>
+        </div>
+
+        <h2>Aviation Partner Categories:</h2>
+        <div class="alert alert-warning">
+            <h5>🛩️ Expected Partner Types:</h5>
+            <ul>
+                <li><strong>✈️ Private Jet Operators:</strong> Charter companies and aircraft management</li>
+                <li><strong>🚁 Helicopter Services:</strong> Scenic tours and executive transport</li>
+                <li><strong>🏢 Airport Services:</strong> Ground handling and VIP terminals</li>
+                <li><strong>⛽ Aviation Fuel:</strong> Jet fuel providers and refueling services</li>
+                <li><strong>🍽️ Flight Catering:</strong> In-flight dining and catering services</li>
+                <li><strong>🛠️ Aircraft Maintenance:</strong> Technical support and maintenance providers</li>
+                <li><strong>📡 Aviation Technology:</strong> Flight planning and communication systems</li>
+                <li><strong>🏨 Destination Services:</strong> Ground transportation and luxury transfers</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch logo data from API
+        async function fetchLogoData() {
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/home/logo');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const logoData = await response.json();
+                return logoData;
+            } catch (error) {
+                console.error('Error fetching logo data:', error);
+                throw error;
+            }
+        }
+
+        // Function to get full image URL
+        function getLogoImageUrl(imagePath) {
+            if (imagePath.startsWith('http')) {
+                return imagePath;
+            }
+            return `http://globe.ridealmobility.com/${imagePath}`;
+        }
+
+        // Initialize the test
+        async function initializeTest() {
+            const statusEl = document.getElementById('status');
+            const apiResponseEl = document.getElementById('apiResponse');
+            const mainLogoPreviews = document.getElementById('mainLogoPreviews');
+            const partnerLogoPreviews = document.getElementById('partnerLogoPreviews');
+            const scrollingLogos = document.getElementById('scrollingLogos');
+            const integrationDetails = document.getElementById('integrationDetails');
+            
+            try {
+                statusEl.textContent = 'Fetching aviation partner logos from API...';
+                statusEl.className = 'status loading';
+                
+                const logoData = await fetchLogoData();
+                
+                // Display raw API response
+                apiResponseEl.textContent = JSON.stringify(logoData, null, 2);
+                
+                // Update status
+                const totalImages = logoData.reduce((count, logoSet) => count + (logoSet.images ? logoSet.images.length : 0), 0);
+                statusEl.textContent = `✈️ Successfully fetched ${logoData.length} logo sets with ${totalImages} total aviation partner images!`;
+                statusEl.className = 'status success';
+                
+                // Display main logo options
+                mainLogoPreviews.innerHTML = '';
+                if (logoData.length > 0 && logoData[0].images && logoData[0].images.length > 0) {
+                    logoData[0].images.slice(0, 3).forEach((image, index) => {
+                        const img = document.createElement('img');
+                        img.src = getLogoImageUrl(image);
+                        img.alt = `Aviation Main Logo Option ${index + 1}`;
+                        img.style.margin = '10px';
+                        img.onerror = function() {
+                            this.style.display = 'none';
+                        };
+                        mainLogoPreviews.appendChild(img);
+                    });
+                } else {
+                    mainLogoPreviews.innerHTML = '<div class="alert alert-warning">No main logo options available from API</div>';
+                }
+                
+                // Display aviation partner logos
+                partnerLogoPreviews.innerHTML = '';
+                scrollingLogos.innerHTML = '';
+                
+                const allLogos = [];
+                logoData.forEach(logoSet => {
+                    if (logoSet.images && logoSet.images.length > 0) {
+                        logoSet.images.forEach(image => {
+                            allLogos.push(getLogoImageUrl(image));
+                        });
+                    }
+                });
+                
+                if (allLogos.length > 0) {
+                    // Aviation partner logos grid
+                    allLogos.forEach((logoUrl, index) => {
+                        const img = document.createElement('img');
+                        img.src = logoUrl;
+                        img.alt = `Aviation Partner Logo ${index + 1}`;
+                        img.onerror = function() {
+                            this.style.display = 'none';
+                        };
+                        partnerLogoPreviews.appendChild(img);
+                        
+                        // Scrolling demo
+                        const scrollImg = img.cloneNode(true);
+                        scrollImg.style.height = '50px';
+                        scrollImg.style.margin = '0 15px';
+                        scrollImg.style.borderRadius = '4px';
+                        scrollingLogos.appendChild(scrollImg);
+                    });
+                } else {
+                    partnerLogoPreviews.innerHTML = '<div class="alert alert-warning">No aviation partner logos available from API</div>';
+                    scrollingLogos.innerHTML = '<span style="color: #2196f3;">No logos for aviation marquee demo</span>';
+                }
+                
+                // Integration details
+                const details = {
+                    pageContext: 'sky.html - Private Charters & Aviation Services',
+                    totalLogoSets: logoData.length,
+                    totalImages: totalImages,
+                    apiImages: allLogos,
+                    aviationFeatures: [
+                        'Dynamic aviation partner logo marquee',
+                        'Sky/aviation theme color integration (#2196f3)',
+                        'Seamless infinite scroll for partner showcase',
+                        'Mobile-responsive for charter bookings',
+                        'Error handling with aviation-specific fallbacks'
+                    ],
+                    implementationStatus: {
+                        mainLogoUpdate: 'Available but commented out (preserves Globengel aviation branding)',
+                        aviationPartnerLogos: 'Active for aviation partner showcase',
+                        errorHandling: 'Implemented with aviation theme',
+                        autoRefresh: 'Enabled (5 minutes)',
+                        fallbackSupport: 'Yes - aviation partner logos',
+                        themeIntegration: 'Blue aviation colors and styling applied'
+                    },
+                    aviationFallbackLogos: [
+                        './images/icelandPartner.jpg - Aviation partners',
+                        './images/polandPartner.png - Charter services', 
+                        './images/switzerlandpartner.png - Private jet companies',
+                        './images/par1.jpeg - Aircraft operators',
+                        './images/par2.jpeg - Airport services',
+                        './images/par3.jpeg - Aviation fuel',
+                        './images/par4.jpeg - Ground handling',
+                        './images/par5.jpeg - Flight catering'
+                    ],
+                    partnerCategories: [
+                        'Private Jet Operators',
+                        'Helicopter Services', 
+                        'Airport Ground Services',
+                        'Aviation Fuel Providers',
+                        'Flight Catering Services',
+                        'Aircraft Maintenance',
+                        'Aviation Technology',
+                        'Luxury Ground Transportation'
+                    ]
+                };
+                
+                integrationDetails.textContent = JSON.stringify(details, null, 2);
+                
+            } catch (error) {
+                statusEl.textContent = `❌ Error loading aviation logos: ${error.message}`;
+                statusEl.className = 'status error';
+                apiResponseEl.textContent = `Error: ${error.message}`;
+                mainLogoPreviews.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+                partnerLogoPreviews.innerHTML = `<div class="alert alert-danger">Error: ${error.message}</div>`;
+                scrollingLogos.innerHTML = `<span style="color: #dc3545;">Error: ${error.message}</span>`;
+                integrationDetails.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeTest);
+    </script>
+</body>
+</html>
