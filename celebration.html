@@ -2629,5 +2629,33 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 </body>
+<section id="celebration-events" style="margin-top: 60px; text-align: center;">
+  <h2>Upcoming Celebration Events</h2>
+  <div id="events-list">Loading events...</div>
+</section>
+<script>
+// Fetch celebration events from API and display them
+fetch('http://globe.ridealmobility.com/api/celebration/event')
+  .then(response => response.json())
+  .then(data => {
+    const eventsList = document.getElementById('events-list');
+    if (Array.isArray(data) && data.length > 0) {
+      eventsList.innerHTML = data.map(event => `
+        <div style="border:1px solid #ccc; margin:15px auto; padding:15px; max-width:600px; border-radius:8px;">
+          <h3>${event.name || 'Event'}</h3>
+          <p><strong>Date:</strong> ${event.date || 'TBA'}</p>
+          <p><strong>Location:</strong> ${event.location || 'TBA'}</p>
+          <p>${event.description || ''}</p>
+        </div>
+      `).join('');
+    } else {
+      eventsList.textContent = 'No events found.';
+    }
+  })
+  .catch(error => {
+    document.getElementById('events-list').textContent = 'Failed to load events.';
+    console.error('Error fetching events:', error);
+  });
+</script>
 
 </html>

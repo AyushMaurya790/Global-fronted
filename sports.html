@@ -988,11 +988,12 @@
     </div>
     <div class="overlay"></div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with API Integration -->
  <section class="hero-section" style="position:relative; width:100%; height:100vh; overflow:hidden; justify-content: start; align-items: end;">
-  <!-- Swiper for background images only -->
-  <div class="swiper heroBgSwiper" style="width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1;">
-    <div class="swiper-wrapper">
+  <!-- Swiper for background images from API -->
+  <div class="swiper heroBgSwiper" id="heroBgSwiper" style="width:100%; height:100vh; position:absolute; top:0; left:0; z-index:1;">
+    <div class="swiper-wrapper" id="heroSlides">
+      <!-- Fallback slides -->
       <div class="swiper-slide" style="width:100%; height:100vh;">
         <div style="background: url('./images/sports1.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
       </div>
@@ -1002,17 +1003,11 @@
       <div class="swiper-slide" style="width:100%; height:100vh;">
         <div style="background: url('./images/indiaflag.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
       </div>
-      <div class="swiper-slide" style="width:100%; height:100vh;">
-        <div style="background: url('./images/sports1.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
-      </div>
-      <div class="swiper-slide" style="width:100%; height:100vh;">
-        <div style="background: url('./images/sports2.png') no-repeat center center/cover; width:100%; height:100vh;"></div>
-      </div>
     </div>
   </div>
-  <!-- Fixed Content -->
+  <!-- Dynamic Content from API -->
   <div class="hero-content" style="position: absolute; bottom: 70px; left: 55px; z-index:2;">
-    <h5 class="hero-title" style="font-size:60px; text-align:left; font-weight: 400; font-family: 'Miller Display', Georgia, serif;">
+    <h5 class="hero-title" id="heroTitle" style="font-size:60px; text-align:left; font-weight: 400; font-family: 'Miller Display', Georgia, serif;">
       Be Part of the
       <span class="hero-subtitle silver-South-family"
         style="font-size: 75px; font-weight: 100; font-style: normal;"> Roar. </span>
@@ -1020,19 +1015,96 @@
         <span class="hero-subtitle silver-South-family"
         style="font-size: 75px; font-weight: 100; font-style: normal;"> Moment. </span>
     </h5>
-    <p style="font-size: 20px; text-align: start; font-family: 'Miller Display', Georgia, serif;">
+    <p id="heroDescription" style="font-size: 20px; text-align: start; font-family: 'Miller Display', Georgia, serif;">
       From Cricket World Cups to Formula 1, FIFA to Wimbledon - GLOBENGEL takes you closer to the world's greatest sporting experiences.
     </p>
-    <!-- <div class="search-box">
-      <input type="text" placeholder="Search by destinations, travel theme">
-      <i class="fa fa-search"></i>
-    </div> -->
   </div>
+
+  <!-- API Integration Script -->
+  <script>
+    // Helper function to get full image URL
+    function getHeroImageUrl(path) {
+      if (!path) return './images/sports1.jpg'; // default fallback
+      if (path.startsWith('http')) return path;
+      return 'http://globe.ridealmobility.com/' + path;
+    }
+
+    // Function to process title for styling
+    function processHeroTitle(title) {
+      if (!title) return `
+        Be Part of the
+        <span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;"> Roar. </span>
+        Be Part of the
+        <span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;"> Moment. </span>
+      `;
+
+      // Process title with special styling for "Roar" and "Moment"
+      let processedTitle = title;
+      
+      // Style "Roar" and "Moment" specially
+      processedTitle = processedTitle.replace(/(Roar\.?)/gi, '<span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;"> $1 </span>');
+      processedTitle = processedTitle.replace(/(Moment\.?)/gi, '<span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;"> $1 </span>');
+      
+      return processedTitle;
+    }
+
+    // Function to load hero data from API
+    function loadHeroMomentData() {
+      fetch('http://globe.ridealmobility.com/api/sport/moment')
+        .then(response => response.json())
+        .then(data => {
+          if (data && Array.isArray(data) && data[0]) {
+            const heroData = data[0];
+            
+            // Update title
+            if (heroData.title) {
+              document.getElementById('heroTitle').innerHTML = processHeroTitle(heroData.title);
+            }
+            
+            // Update description
+            if (heroData.description) {
+              document.getElementById('heroDescription').textContent = heroData.description;
+            }
+            
+            // Update background images
+            if (heroData.image && Array.isArray(heroData.image) && heroData.image.length > 0) {
+              const slides = heroData.image.map(img =>
+                `<div class='swiper-slide' style='width:100%; height:100vh;'>
+                  <div style="background: url('${getHeroImageUrl(img)}') no-repeat center center/cover; width:100%; height:100vh;"></div>
+                </div>`
+              ).join('');
+              document.getElementById('heroSlides').innerHTML = slides;
+              
+              // Re-init Swiper if needed
+              if (window.heroSwiperInstance) {
+                window.heroSwiperInstance.update();
+              }
+            }
+            
+            console.log('Hero moment data loaded from API');
+          } else {
+            console.log('No hero moment data from API, keeping fallback content');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching hero moment data:', error);
+          console.log('Keeping fallback hero content due to API error');
+        });
+    }
+
+    // Load data when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      loadHeroMomentData();
+      
+      // Optional: Refresh every 30 minutes
+      setInterval(loadHeroMomentData, 1800000);
+    });
+  </script>
 </section>
 
  <script>
 document.addEventListener('DOMContentLoaded', function() {
-  new Swiper('.heroBgSwiper', {
+  window.heroSwiperInstance = new Swiper('.heroBgSwiper', {
     loop: true,
     autoplay: {
       delay: 4000,
@@ -1251,8 +1323,9 @@ document.addEventListener('DOMContentLoaded', function() {
               Choose your sporting moment - from cricket stadiums to racing tracks, football arenas to tennis courts.
             </p>
    <div class="swiper-fl">
-    <div class="swiper-wrapper">
-      <!-- Card 1 -->
+    <div class="swiper-wrapper" id="sportsCardsWrapper">
+      <!-- Cards will be dynamically loaded from API -->
+      <!-- Fallback Card 1 -->
       <div class="swiper-slide">
         <div class="flip-card">
           <div class="flip-card-inner">
@@ -1275,7 +1348,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       </div>
-      <!-- Card 2 -->
+      <!-- Fallback Card 2 -->
       <div class="swiper-slide">
         <div class="flip-card">
           <div class="flip-card-inner">
@@ -1298,7 +1371,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       </div>
-      <!-- Card 3 -->
+      <!-- Fallback Card 3 -->
       <div class="swiper-slide">
         <div class="flip-card">
           <div class="flip-card-inner">
@@ -1321,61 +1394,98 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       </div>
-      <!-- Card 4 -->
-      <div class="swiper-slide">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img class="card-img" src="./images/sportcardf1img.avif" alt="F1 Race 2026">
-              <div class="card-content">
-                <div class="card-title">F1 Race 2025</div>
-                <div class="card-location"><i class="fa fa-map-marker-alt"></i> Italy</div>
-                <div class="card-date"><i class="fa fa-calendar-alt"></i> Sep 10, 25 - Sep 15, 25</div>
-              </div>
-            </div>
-            <div class="flip-card-back">
-              <div class="back-title">F1 Race 2025</div>
-              <div class="back-details">
-                <b>Location:</b> Italy<br>
-                <b>Dates:</b> Sep 10, 25 - Sep 15, 25
-              </div>
-              <button class="register-btn">Register Interest</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 5 -->
-      <div class="swiper-slide">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img class="card-img" src="./images/sportcartmotogpimg.jpg" alt="MotoGP 2025">
-              <div class="card-content">
-                <div class="card-title">MotoGP 2025</div>
-                <div class="card-location"><i class="fa fa-map-marker-alt"></i> Japan</div>
-                <div class="card-date"><i class="fa fa-calendar-alt"></i> Sep 26, 25 - May 28, 25</div>
-              </div>
-            </div>
-            <div class="flip-card-back">
-              <div class="back-title">MotoGP 2025</div>
-              <div class="back-details">
-                <b>Location:</b> Japan<br>
-                <b>Dates:</b> Sep 26, 25 - May 28, 25
-              </div>
-              <button class="register-btn">Register Interest</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <!-- Pagination -->
     <div class="swiper-pagination"></div>
   </div>
+
+  <!-- API Integration Script -->
+  <script>
+    // Helper function to get full image URL
+    function getSportImageUrl(path) {
+      if (!path) return './images/sportcardimg1.jpg'; // default fallback
+      if (path.startsWith('http')) return path;
+      return 'http://globe.ridealmobility.com/' + path;
+    }
+
+    // Helper function to format date
+    function formatDate(dateString) {
+      if (!dateString) return 'TBA';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: '2-digit', 
+        year: '2-digit' 
+      });
+    }
+
+    // Function to create a sport card
+    function createSportCard(sport) {
+      return `
+        <div class="swiper-slide">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img class="card-img" src="${getSportImageUrl(sport.image || sport.cardImage)}" alt="${sport.title || sport.name}">
+                <div class="card-content">
+                  <div class="card-title">${sport.title || sport.name || 'Sports Event'}</div>
+                  <div class="card-location"><i class="fa fa-map-marker-alt"></i> ${sport.location || sport.venue || 'TBA'}</div>
+                  <div class="card-date"><i class="fa fa-calendar-alt"></i> ${formatDate(sport.startDate)} - ${formatDate(sport.endDate)}</div>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-title">${sport.title || sport.name || 'Sports Event'}</div>
+                <div class="back-details">
+                  <b>Location:</b> ${sport.location || sport.venue || 'TBA'}<br>
+                  <b>Dates:</b> ${formatDate(sport.startDate)} - ${formatDate(sport.endDate)}
+                  ${sport.description ? '<br><b>Details:</b> ' + sport.description : ''}
+                </div>
+                <button class="register-btn" onclick="${sport.registrationLink ? "window.location.href='" + sport.registrationLink + "'" : 'alert("Registration coming soon!")'}" >Register Interest</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Fetch sports cards from API
+    function loadSportsCards() {
+      fetch('http://globe.ridealmobility.com/api/sport/card')
+        .then(response => response.json())
+        .then(data => {
+          if (data && Array.isArray(data) && data.length > 0) {
+            const cardsHTML = data.map(sport => createSportCard(sport)).join('');
+            document.getElementById('sportsCardsWrapper').innerHTML = cardsHTML;
+            
+            // Reinitialize Swiper after content update
+            if (window.sportsSwiper) {
+              window.sportsSwiper.update();
+            }
+            
+            console.log('Sports cards loaded from API:', data.length, 'cards');
+          } else {
+            console.log('No sports cards data from API, keeping fallback cards');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching sports cards:', error);
+          console.log('Keeping fallback sports cards due to API error');
+        });
+    }
+
+    // Load sports cards when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      loadSportsCards();
+      
+      // Optional: Refresh every 10 minutes for live sports updates
+      setInterval(loadSportsCards, 600000);
+    });
+  </script>
 </section>
 
  <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const swiper = new Swiper('.swiper-fl', {
+  window.sportsSwiper = new Swiper('.swiper-fl', {
     slidesPerView: 3,
     spaceBetween: 32,
     loop: true,
@@ -1398,10 +1508,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Pause autoplay on mouse enter, resume on mouse leave
   const swiperEl = document.querySelector('.swiper-fl');
   swiperEl.addEventListener('mouseenter', function() {
-    swiper.autoplay.stop();
+    window.sportsSwiper.autoplay.stop();
   });
   swiperEl.addEventListener('mouseleave', function() {
-    swiper.autoplay.start();
+    window.sportsSwiper.autoplay.start();
   });
 
   // Flip on hover for desktop, click for mobile
@@ -1423,17 +1533,17 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
- <!-- Choose experience section -->
+ <!-- Choose experience section with API Integration -->
     <section class="why-travel" style="background-color: #fff;">
         <div class="container text-center">
-            <!-- Section Heading -->
-            <h2 class="why-heading head_font_family" style="font-weight: 400; color: #333;">
+            <!-- Section Heading (Dynamic) -->
+            <h2 class="why-heading head_font_family" style="font-weight: 400; color: #333;" id="chooseHeading">
                 Choose How You <span class="silver-South-family"
                     style="font-size: 65px; font-weight: 400; font-style: normal;"> Experience </span> the Game
             </h2>
-            <!-- Features Grid -->
-            <div class="row justify-content-center mt-5 heading_font_family">
-                <!-- 1 -->
+            <!-- Features Grid (Dynamic) -->
+            <div class="row justify-content-center mt-5 heading_font_family" id="chooseExperienceGrid">
+                <!-- Fallback content -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
                         <img src="./iocon/sportIcon1.png" class="buss-why-icon" alt="Thoughtful Curation">
@@ -1443,8 +1553,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </p>
                     </div>
                 </div>
-
-                <!-- 2 -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
                         <img src="./iocon/sporticon2.png" class="buss-why-icon" alt="Global Connect">
@@ -1454,8 +1562,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </p>
                     </div>
                 </div>
-
-                <!-- 3 -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
                         <img src="./iocon/sporticon3.png" class="buss-why-icon" alt="Trust & Transparency">
@@ -1465,8 +1571,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </p>
                     </div>
                 </div>
-
-                <!-- 4 -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
                         <img src="./iocon/sporticon4.png" class="buss-why-icon" alt="24/7 Dedicated Support">
@@ -1478,19 +1582,87 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         </div>
+
+        <!-- API Integration Script -->
+        <script>
+            // Helper function to get full image URL
+            function getChooseImageUrl(path) {
+                if (!path) return './iocon/sportIcon1.png'; // default fallback
+                if (path.startsWith('http')) return path;
+                return 'http://globe.ridealmobility.com/' + path;
+            }
+
+            // Function to create experience card
+            function createExperienceCard(item, index) {
+                const fallbackIcons = [
+                    './iocon/sportIcon1.png',
+                    './iocon/sporticon2.png', 
+                    './iocon/sporticon3.png',
+                    './iocon/sporticon4.png'
+                ];
+                
+                return `
+                    <div class="col-12 col-md-6 col-lg-3 why-item">
+                        <div class="why-card">
+                            <img src="${getChooseImageUrl(item.image) || fallbackIcons[index % 4]}" class="buss-why-icon" alt="${item.title}">
+                            <h4 class="why-title">${item.title || 'Experience Option'}</h4>
+                            <p class="why-text">
+                                ${item.description || 'Premium sports experience.'}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Function to load choose experience data
+            function loadChooseExperienceData() {
+                fetch('http://globe.ridealmobility.com/api/sport/choose')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && Array.isArray(data) && data[0] && data[0].items) {
+                            const chooseData = data[0];
+                            
+                            // Update heading if provided
+                            if (chooseData.mainHeading) {
+                                document.getElementById('chooseHeading').innerHTML = chooseData.mainHeading;
+                            }
+                            
+                            // Update experience cards
+                            const cardsHTML = chooseData.items.map((item, index) => createExperienceCard(item, index)).join('');
+                            document.getElementById('chooseExperienceGrid').innerHTML = cardsHTML;
+                            
+                            console.log('Choose experience data loaded from API:', chooseData.items.length, 'items');
+                        } else {
+                            console.log('No choose experience data from API, keeping fallback content');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching choose experience data:', error);
+                        console.log('Keeping fallback choose experience content due to API error');
+                    });
+            }
+
+            // Load data when DOM is ready
+            document.addEventListener('DOMContentLoaded', function() {
+                loadChooseExperienceData();
+                
+                // Optional: Refresh every 15 minutes
+                setInterval(loadChooseExperienceData, 900000);
+            });
+        </script>
     </section>
 
-     <!-- why choose globengle section -->
+     <!-- why choose globengle section with API Integration -->
     <section class="why-travel" style="background-color: #fff6f3;">
         <div class="container text-center">
-            <!-- Section Heading -->
-            <h2 class="why-heading head_font_family" style="font-weight: 400; color: #333;">
+            <!-- Section Heading (Dynamic) -->
+            <h2 class="why-heading head_font_family" style="font-weight: 400; color: #333;" id="whyBookHeading">
                 <span class="silver-South-family"
                     style="font-size: 65px; font-weight: 400; font-style: normal;"> Why </span> book with GLOBENGEL?
             </h2>
-            <!-- Features Grid -->
-            <div class="row justify-content-center mt-5 heading_font_family">
-                <!-- 1 -->
+            <!-- Features Grid (Dynamic) -->
+            <div class="row justify-content-center mt-5 heading_font_family" id="whyBookGrid">
+                <!-- Fallback content -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
                         <img src="./iocon/sporticon5.png" class="buss-why-icon" alt="Thoughtful Curation">
@@ -1500,8 +1672,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </p>
                     </div>
                 </div>
-
-                <!-- 2 -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
                         <img src="./iocon/sporticon6.png" class="buss-why-icon" alt="Global Connect">
@@ -1511,8 +1681,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </p>
                     </div>
                 </div>
-
-                <!-- 3 -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
                         <img src="./iocon/sporticon7.png" class="buss-why-icon" alt="Trust & Transparency">
@@ -1522,8 +1690,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </p>
                     </div>
                 </div>
-
-                <!-- 4 -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
                         <img src="./iocon/sporticon8.png" class="buss-why-icon" alt="24/7 Dedicated Support">
@@ -1535,6 +1701,82 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         </div>
+
+        <!-- API Integration Script -->
+        <script>
+            // Helper function to get full image URL
+            function getBookImageUrl(path) {
+                if (!path) return './iocon/sporticon5.png'; // default fallback
+                if (path.startsWith('http')) return path;
+                return 'http://globe.ridealmobility.com/' + path;
+            }
+
+            // Function to create booking benefit card
+            function createBookingCard(item, index) {
+                const fallbackIcons = [
+                    './iocon/sporticon5.png',
+                    './iocon/sporticon6.png', 
+                    './iocon/sporticon7.png',
+                    './iocon/sporticon8.png'
+                ];
+                
+                return `
+                    <div class="col-12 col-md-6 col-lg-3 why-item">
+                        <div class="why-card">
+                            <img src="${getBookImageUrl(item.image) || fallbackIcons[index % 4]}" class="buss-why-icon" alt="${item.title}">
+                            <h4 class="why-title">${item.title || 'Booking Benefit'}</h4>
+                            <p class="why-text">
+                                ${item.description || 'Premium booking experience.'}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Function to load why book data
+            function loadWhyBookData() {
+                fetch('http://globe.ridealmobility.com/api/sport/book')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && Array.isArray(data) && data[0] && data[0].items) {
+                            const bookData = data[0];
+                            
+                            // Update heading if provided
+                            if (bookData.mainHeading) {
+                                // Extract the part after "Why" and combine with styling
+                                const headingText = bookData.mainHeading;
+                                if (headingText.includes('Why')) {
+                                    document.getElementById('whyBookHeading').innerHTML = `
+                                        <span class="silver-South-family" style="font-size: 65px; font-weight: 400; font-style: normal;"> Why </span> ${headingText.replace(/^Why\s*/i, '')}
+                                    `;
+                                } else {
+                                    document.getElementById('whyBookHeading').innerHTML = headingText;
+                                }
+                            }
+                            
+                            // Update booking benefit cards
+                            const cardsHTML = bookData.items.map((item, index) => createBookingCard(item, index)).join('');
+                            document.getElementById('whyBookGrid').innerHTML = cardsHTML;
+                            
+                            console.log('Why book data loaded from API:', bookData.items.length, 'items');
+                        } else {
+                            console.log('No why book data from API, keeping fallback content');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching why book data:', error);
+                        console.log('Keeping fallback why book content due to API error');
+                    });
+            }
+
+            // Load data when DOM is ready
+            document.addEventListener('DOMContentLoaded', function() {
+                loadWhyBookData();
+                
+                // Optional: Refresh every 15 minutes
+                setInterval(loadWhyBookData, 900000);
+            });
+        </script>
     </section>
 
     <!-- let -->
