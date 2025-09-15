@@ -666,10 +666,6 @@ With direct connections via Australia or Southeast Asia and a reputation for bei
     </div>
     <div class="japan-overview-image" style="height: 637px;">
       <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Japan">
-      <div class="japan-image-text">
-        <h4>When is the Best Time to Visit New Zealand?</h4>
-        <!-- <a href="#">Read more</a> -->
-      </div>
     </div>
   </div>
 </section>
@@ -1881,5 +1877,554 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
-`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n</body>
+`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n<!-- Countries API Integration for S4 Page -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Countries API integration for S4 page...');
+
+    // Function to fetch countries data from API
+    async function fetchCountriesData() {
+        try {
+            console.log('Fetching countries data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/countries/68c00412cd2575bd4c46121b', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Countries API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching countries data:', error);
+            return null;
+        }
+    }
+
+    // Function to update destinations menu with API data
+    async function updateDestinationsWithAPIData(countriesData) {
+        if (!countriesData) {
+            console.warn('No countries data provided, keeping default destinations');
+            return;
+        }
+
+        console.log('Updating destinations menu with API data for S4 page...');
+
+        // Handle different API response structures
+        let continents = [];
+        
+        if (Array.isArray(countriesData)) {
+            continents = countriesData;
+        } else if (countriesData.data && Array.isArray(countriesData.data)) {
+            continents = countriesData.data;
+        } else if (countriesData.continents && Array.isArray(countriesData.continents)) {
+            continents = countriesData.continents;
+        } else if (countriesData.countries && Array.isArray(countriesData.countries)) {
+            // If it's a flat list of countries, group them by continent
+            const countryList = countriesData.countries;
+            const continentMap = {};
+            
+            countryList.forEach(country => {
+                const continent = country.continent || country.continentName || 'Other';
+                if (!continentMap[continent]) {
+                    continentMap[continent] = {
+                        name: continent,
+                        countries: []
+                    };
+                }
+                continentMap[continent].countries.push(country);
+            });
+            
+            continents = Object.values(continentMap);
+        }
+
+        if (continents.length === 0) {
+            console.warn('No continents found in API response, keeping default destinations');
+            return;
+        }
+
+        console.log('Processing continents:', continents);
+
+        // Map continent names to menu IDs
+        const continentMapping = {
+            'africa': ['africa', 'african'],
+            'asia': ['asia', 'asian'],
+            'australasia': ['americas', 'america', 'north america', 'south america', 'australasia'],
+            'europe': ['europe', 'european'],
+            'indian': ['indian subcontinent', 'indian', 'south asia'],
+            'latin': ['oceania', 'oceanic', 'pacific'],
+            'middleeast': ['middle east', 'middle eastern', 'west asia'],
+            'polar': ['polar', 'arctic', 'antarctic']
+        };
+
+        // Update each continent section
+        continents.forEach((continent, index) => {
+            const continentName = (continent.name || continent.continentName || `Continent ${index + 1}`).toLowerCase();
+            const countries = continent.countries || continent.destinations || [];
+            
+            console.log(`Processing ${continentName} with ${countries.length} countries`);
+
+            // Find matching menu section
+            let menuId = null;
+            for (const [id, aliases] of Object.entries(continentMapping)) {
+                if (aliases.some(alias => continentName.includes(alias) || alias.includes(continentName))) {
+                    menuId = id;
+                    break;
+                }
+            }
+
+            if (menuId) {
+                const contentDiv = document.getElementById(menuId);
+                if (contentDiv && countries.length > 0) {
+                    // Clear existing content
+                    contentDiv.innerHTML = '';
+                    
+                    // Create columns
+                    const column1 = document.createElement('div');
+                    column1.className = 'column';
+                    const column2 = document.createElement('div');
+                    column2.className = 'column';
+                    
+                    // Distribute countries across two columns
+                    countries.forEach((country, countryIndex) => {
+                        const link = document.createElement('a');
+                        link.href = country.link || country.url || '#';
+                        link.textContent = country.name || country.countryName || `Country ${countryIndex + 1}`;
+                        
+                        // Add to alternating columns
+                        if (countryIndex % 2 === 0) {
+                            column1.appendChild(link);
+                        } else {
+                            column2.appendChild(link);
+                        }
+                    });
+                    
+                    contentDiv.appendChild(column1);
+                    contentDiv.appendChild(column2);
+                    
+                    console.log(`Updated ${menuId} section with ${countries.length} countries`);
+                } else {
+                    console.warn(`Menu section not found for: ${menuId}`);
+                }
+            } else {
+                console.warn(`No menu mapping found for continent: ${continentName}`);
+            }
+        });
+
+        console.log('S4 page destinations menu updated successfully with API data');
+    }
+
+    // Function to initialize countries data for S4 page
+    async function initializeS4Countries() {
+        try {
+            const countriesData = await fetchCountriesData();
+            await updateDestinationsWithAPIData(countriesData);
+        } catch (error) {
+            console.error('Error initializing S4 countries:', error);
+        }
+    }
+
+    // Initialize countries for S4 page
+    initializeS4Countries();
+
+    // Optional: Refresh countries data every 10 minutes
+    setInterval(initializeS4Countries, 600000);
+    
+    console.log('Countries API integration for S4 page initialized successfully');
+});
+</script>
+
+<!-- Home Logo API Integration for S4 Page -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Home Logo API integration for S4 page...');
+
+    // Function to get the complete image URL
+    function getLogoImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath.replace(/^\/+/, '');
+    }
+
+    // Function to fetch home logo data from API
+    async function fetchLogoData() {
+        try {
+            console.log('Fetching home logo data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Home logo API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching home logo data:', error);
+            return null;
+        }
+    }
+
+    // Function to update partner logos with API data
+    async function updatePartnerLogosWithAPIData(logoData) {
+        if (!logoData || !Array.isArray(logoData) || logoData.length === 0) {
+            console.warn('No logo data provided, keeping default logos');
+            return;
+        }
+
+        console.log('Updating partner logos with API data for S4 page...');
+
+        const logoTrack = document.querySelector('.logo-track');
+        if (logoTrack) {
+            // Store original logos as fallback
+            const originalLogos = [
+                './images/icelandPartner.jpg',
+                './images/polandPartner.png',
+                './images/switzerlandpartner.png',
+                './images/par1.jpeg',
+                './images/par2.jpeg',
+                './images/par3.jpeg',
+                './images/par4.jpeg',
+                './images/par5.jpeg'
+            ];
+
+            // Get the first item from the array (as per your API response structure)
+            const logoSection = logoData[0];
+            
+            if (!logoSection || !logoSection.images || !Array.isArray(logoSection.images)) {
+                console.warn('Invalid logo API response structure, keeping default logos');
+                return;
+            }
+
+            console.log('Logo images from API:', logoSection.images);
+
+            // Clear existing logos
+            logoTrack.innerHTML = '';
+
+            // Function to create logo set
+            const createLogoSet = () => {
+                logoSection.images.forEach((imagePath, index) => {
+                    const img = document.createElement('img');
+                    
+                    // Construct the logo URL
+                    const logoUrl = imagePath ? getLogoImageUrl(imagePath) : originalLogos[index % originalLogos.length];
+                    const altText = `Partner logo ${index + 1}`;
+                    
+                    console.log(`Processing logo ${index + 1}:`, {
+                        originalPath: imagePath,
+                        constructedUrl: logoUrl
+                    });
+                    
+                    img.src = logoUrl;
+                    img.alt = altText;
+                    
+                    // Add error handling to fallback to original logos
+                    img.onerror = function() {
+                        console.warn(`Failed to load API logo: ${logoUrl}, using fallback`);
+                        this.src = originalLogos[index % originalLogos.length];
+                    };
+                    
+                    img.onload = function() {
+                        console.log(`Successfully loaded logo: ${logoUrl}`);
+                    };
+                    
+                    logoTrack.appendChild(img);
+                });
+            };
+
+            // Create multiple sets for seamless loop (3 sets for smooth animation)
+            createLogoSet(); // First set
+            createLogoSet(); // Second set for seamless loop
+            createLogoSet(); // Third set for extra smoothness
+
+            console.log(`S4 page partner logos updated successfully with ${logoSection.images.length} logos`);
+        } else {
+            console.error('Logo track container not found on S4 page');
+        }
+    }
+
+    // Function to initialize logos with API data for S4 page
+    async function initializeS4Logos() {
+        try {
+            const logoData = await fetchLogoData();
+            await updatePartnerLogosWithAPIData(logoData);
+        } catch (error) {
+            console.error('Error initializing S4 logos:', error);
+        }
+    }
+
+    // Initialize logos for S4 page
+    initializeS4Logos();
+
+    // Optional: Refresh logo data every 5 minutes
+    setInterval(initializeS4Logos, 300000);
+    
+    console.log('Home Logo API integration for S4 page initialized successfully');
+});
+</script>
+
+<!-- View API Integration for S4 Overview Section -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing View API integration for S4 overview section...');
+
+    // Function to fetch view data from API
+    async function fetchViewData() {
+        try {
+            console.log('Fetching view data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/view/68c7e093c65039db3a688c25', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('View API Response:', data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching view data:', error);
+            return null;
+        }
+    }
+
+    // Function to get view image URL with fallback
+    function getViewImageUrl(imagePath, fallbackIndex = 1) {
+        if (!imagePath) {
+            return `./images/ov${fallbackIndex}.jpeg`; // fallback to existing images
+        }
+
+        // Handle different image path formats
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath; // Already a full URL
+        } else if (imagePath.startsWith('/')) {
+            return `http://globe.ridealmobility.com${imagePath}`; // Absolute path
+        } else {
+            return `http://globe.ridealmobility.com/${imagePath}`; // Relative path
+        }
+    }
+
+    // Function to update overview features with API data
+    async function updateOverviewFeaturesWithAPIData(viewData) {
+        if (!viewData || !viewData.features || !Array.isArray(viewData.features)) {
+            console.warn('Invalid view data structure for features update, keeping default content');
+            return;
+        }
+
+        const featuresRow = document.querySelector('.japan-features-row');
+        if (!featuresRow) {
+            console.error('Features row container not found');
+            return;
+        }
+
+        try {
+            // Clear existing content
+            featuresRow.innerHTML = '';
+
+            // Only show features from API - no padding with defaults
+            const features = viewData.features;
+
+            features.forEach((feature, index) => {
+                const featureBox = document.createElement('div');
+                featureBox.className = 'japan-feature-box';
+
+                // Get image URL from API
+                const imageUrl = getViewImageUrl(feature.icon, index + 1);
+
+                featureBox.innerHTML = `
+                    <img src="${imageUrl}" alt="${feature.title || `Feature ${index + 1}`}" 
+                         onerror="this.src='./images/ov${index + 1}.jpeg'">
+                    <h4>${feature.title || `Feature ${index + 1}`}</h4>
+                    <p>${feature.description || 'No description available.'}</p>
+                `;
+
+                featuresRow.appendChild(featureBox);
+            });
+
+            console.log(`Overview features updated with ${features.length} features from API (no static content)`);
+        } catch (error) {
+            console.error('Error updating overview features:', error);
+        }
+    }
+
+    // Function to update overview image with API data
+    async function updateOverviewImageWithAPIData(viewData) {
+        if (!viewData || !viewData.image) {
+            console.warn('No image data in API response, keeping default image');
+            return;
+        }
+
+        const overviewImage = document.querySelector('.japan-overview-image img');
+        if (!overviewImage) {
+            console.error('Overview image element not found');
+            return;
+        }
+
+        try {
+            const imageUrl = getViewImageUrl(viewData.image);
+            overviewImage.src = imageUrl;
+            overviewImage.alt = viewData.heading || viewData.country?.name || 'Destination';
+            
+            console.log('Overview image updated successfully from API');
+        } catch (error) {
+            console.error('Error updating overview image:', error);
+        }
+    }
+
+    // Function to update country info bar with API data
+    async function updateCountryInfoWithAPIData(viewData) {
+        if (!viewData || !viewData.country) {
+            console.warn('No country data in API response, keeping default info');
+            return;
+        }
+
+        try {
+            const country = viewData.country;
+            
+            // Update capital
+            const capitalValue = document.querySelector('.info-col:nth-child(2) .info-value');
+            if (capitalValue && country.capital) {
+                capitalValue.textContent = country.capital;
+            }
+
+            // Update currency
+            const currencyValue = document.querySelector('.info-col:nth-child(4) .info-value');
+            if (currencyValue && country.currency) {
+                currencyValue.textContent = country.currency;
+            }
+
+            // Update timezone
+            const timezoneValue = document.querySelector('.info-col:nth-child(6) .info-value');
+            if (timezoneValue && country.timezone) {
+                timezoneValue.textContent = country.timezone;
+            }
+
+            // Update visa info
+            const visaValue = document.querySelector('.info-col:nth-child(8) .info-value');
+            if (visaValue && country.visa) {
+                visaValue.textContent = country.visa;
+            }
+
+            console.log('Country info bar updated successfully from API');
+        } catch (error) {
+            console.error('Error updating country info:', error);
+        }
+    }
+
+    // Function to update page heading with API data
+    async function updatePageHeadingWithAPIData(viewData) {
+        if (!viewData || !viewData.country) {
+            console.warn('No country data in API response, keeping default heading');
+            return;
+        }
+
+        try {
+            // Image text overlay has been removed, so no updates needed here
+            console.log('Page heading function called - image text overlay removed');
+        } catch (error) {
+            console.error('Error updating page heading:', error);
+        }
+    }
+    async function updateOverviewTextWithAPIData(viewData) {
+        if (!viewData || !viewData.description) {
+            console.warn('Invalid view data structure for overview text update, keeping default content');
+            return;
+        }
+
+        const overviewTextContainer = document.querySelector('.japan-overview-text');
+        if (!overviewTextContainer) {
+            console.error('Overview text container not found');
+            return;
+        }
+
+        try {
+            // Clear existing paragraphs but keep the heading
+            const heading = overviewTextContainer.querySelector('h3');
+            overviewTextContainer.innerHTML = '';
+            
+            // Re-add the heading
+            if (heading) {
+                overviewTextContainer.appendChild(heading);
+            } else {
+                const newHeading = document.createElement('h3');
+                newHeading.className = 'silver-South-family';
+                newHeading.textContent = 'Overview';
+                overviewTextContainer.appendChild(newHeading);
+            }
+
+            // Add the main API description text as the first paragraph
+            const mainDescriptionParagraph = document.createElement('p');
+            mainDescriptionParagraph.innerHTML = `
+                <strong>${viewData.heading || 'Beautiful Beaches'}</strong><br>
+                ${viewData.description}
+            `;
+            overviewTextContainer.appendChild(mainDescriptionParagraph);
+
+            // Add country info as the second paragraph if available
+            if (viewData.country && viewData.country.info) {
+                const countryInfoParagraph = document.createElement('p');
+                countryInfoParagraph.textContent = viewData.country.info;
+                overviewTextContainer.appendChild(countryInfoParagraph);
+            }
+
+            console.log('Overview text updated successfully from API');
+        } catch (error) {
+            console.error('Error updating overview text:', error);
+        }
+    }
+
+    // Function to initialize view data for S4 page
+    async function initializeS4ViewData() {
+        try {
+            const viewData = await fetchViewData();
+            if (viewData) {
+                await updateOverviewFeaturesWithAPIData(viewData);
+                await updateOverviewTextWithAPIData(viewData);
+                await updateOverviewImageWithAPIData(viewData);
+                await updatePageHeadingWithAPIData(viewData);
+                await updateCountryInfoWithAPIData(viewData);
+            } else {
+                console.warn('Failed to fetch view data, keeping default content');
+            }
+        } catch (error) {
+            console.error('Error initializing S4 view data:', error);
+        }
+    }
+
+    // Initialize view data for S4 page
+    initializeS4ViewData();
+
+    // Optional: Refresh view data every 15 minutes
+    setInterval(initializeS4ViewData, 900000);
+    
+    console.log('View API integration for S4 overview section initialized successfully');
+});
+</script>
+</body>
 </html>

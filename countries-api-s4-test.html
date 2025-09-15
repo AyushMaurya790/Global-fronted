@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countries API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .api-test-container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .country-item {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+        }
+        .api-response {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+        }
+        .error {
+            color: red;
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .continent-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            background: #E3F2FD;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countries API Integration Test</h1>
+    <p>Testing: <code>http://globe.ridealmobility.com/api/countries/68c00412cd2575bd4c46121b</code></p>
+    
+    <div id="loading" class="loading">
+        <p>🔄 Fetching API data...</p>
+    </div>
+    
+    <div id="api-response-container" style="display: none;">
+        <h2>📡 Raw API Response</h2>
+        <div id="api-response" class="api-response"></div>
+    </div>
+    
+    <div id="parsed-data-container" style="display: none;">
+        <h2>📊 Parsed Data</h2>
+        <div id="parsed-data"></div>
+    </div>
+    
+    <div id="error-container" style="display: none;">
+        <div id="error-message" class="error"></div>
+    </div>
+
+    <script>
+        // Function to fetch countries data from API
+        async function fetchCountriesData() {
+            try {
+                console.log('Fetching countries data from API...');
+                const response = await fetch('http://globe.ridealmobility.com/api/countries/68c00412cd2575bd4c46121b', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Countries API response:', data);
+                return data;
+
+            } catch (error) {
+                console.error('Error fetching countries data:', error);
+                throw error;
+            }
+        }
+
+        // Main test function
+        async function testAPI() {
+            const loadingEl = document.getElementById('loading');
+            const responseEl = document.getElementById('api-response');
+            const responseContainer = document.getElementById('api-response-container');
+            const parsedContainer = document.getElementById('parsed-data-container');
+            const parsedDataEl = document.getElementById('parsed-data');
+            const errorContainer = document.getElementById('error-container');
+            const errorMessageEl = document.getElementById('error-message');
+
+            try {
+                // Fetch data
+                const data = await fetchCountriesData();
+                
+                // Hide loading
+                loadingEl.style.display = 'none';
+                
+                // Show raw response
+                responseContainer.style.display = 'block';
+                responseEl.textContent = JSON.stringify(data, null, 2);
+                
+                // Parse and display data
+                parsedContainer.style.display = 'block';
+                
+                let html = '<div class="api-test-container">';
+                
+                if (typeof data === 'object' && data !== null) {
+                    html += `<p><strong>Response Type:</strong> Object</p>`;
+                    
+                    // Display all top-level properties
+                    Object.keys(data).forEach(key => {
+                        if (Array.isArray(data[key])) {
+                            html += `<p><strong>${key}:</strong> Array with ${data[key].length} items</p>`;
+                            
+                            // If it's continents data
+                            if (key.toLowerCase().includes('continent') || key === 'data' || key === 'continents') {
+                                data[key].forEach((continent, continentIndex) => {
+                                    html += `<div class="continent-section">`;
+                                    html += `<h3>Continent ${continentIndex + 1}</h3>`;
+                                    
+                                    Object.keys(continent).forEach(continentKey => {
+                                        if (continentKey === 'countries' && Array.isArray(continent[continentKey])) {
+                                            html += `<h4>${continent.name || continent.continentName || 'Continent'} - ${continent[continentKey].length} Countries:</h4>`;
+                                            continent[continentKey].forEach((country, countryIndex) => {
+                                                html += `<div class="country-item">`;
+                                                html += `<h5>Country ${countryIndex + 1}</h5>`;
+                                                Object.keys(country).forEach(countryKey => {
+                                                    html += `<p><strong>${countryKey}:</strong> ${JSON.stringify(country[countryKey])}</p>`;
+                                                });
+                                                html += `</div>`;
+                                            });
+                                        } else {
+                                            html += `<p><strong>${continentKey}:</strong> ${JSON.stringify(continent[continentKey])}</p>`;
+                                        }
+                                    });
+                                    
+                                    html += `</div>`;
+                                });
+                            } else {
+                                // Display other arrays
+                                data[key].slice(0, 3).forEach((item, index) => {
+                                    html += `<div class="country-item">`;
+                                    html += `<h4>Item ${index + 1}</h4>`;
+                                    if (typeof item === 'object') {
+                                        Object.keys(item).forEach(itemKey => {
+                                            html += `<p><strong>${itemKey}:</strong> ${JSON.stringify(item[itemKey])}</p>`;
+                                        });
+                                    } else {
+                                        html += `<p>${JSON.stringify(item)}</p>`;
+                                    }
+                                    html += `</div>`;
+                                });
+                                if (data[key].length > 3) {
+                                    html += `<p><em>... and ${data[key].length - 3} more items</em></p>`;
+                                }
+                            }
+                        } else {
+                            html += `<p><strong>${key}:</strong> ${JSON.stringify(data[key])}</p>`;
+                        }
+                    });
+                } else if (Array.isArray(data)) {
+                    html += `<p><strong>Response Type:</strong> Array with ${data.length} items</p>`;
+                    
+                    data.slice(0, 5).forEach((item, index) => {
+                        html += `<div class="country-item">`;
+                        html += `<h3>Item ${index + 1}</h3>`;
+                        if (typeof item === 'object') {
+                            Object.keys(item).forEach(key => {
+                                html += `<p><strong>${key}:</strong> ${JSON.stringify(item[key])}</p>`;
+                            });
+                        } else {
+                            html += `<p>${JSON.stringify(item)}</p>`;
+                        }
+                        html += `</div>`;
+                    });
+                    
+                    if (data.length > 5) {
+                        html += `<p><em>... and ${data.length - 5} more items</em></p>`;
+                    }
+                }
+                
+                html += '</div>';
+                parsedDataEl.innerHTML = html;
+
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                errorContainer.style.display = 'block';
+                errorMessageEl.textContent = `Error: ${error.message}`;
+                console.error('API test failed:', error);
+            }
+        }
+
+        // Run test when page loads
+        window.addEventListener('DOMContentLoaded', testAPI);
+    </script>
+</body>
+</html>

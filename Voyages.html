@@ -1456,7 +1456,8 @@
 
     <section class="logo-slider-section">
         <div class="logo-marquee">
-            <div class="logo-track">
+            <div class="logo-track" id="partnerLogoTrack">
+                <!-- Dynamic logos will be loaded here from API -->
                 <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
                 <img src="./images/polandPartner.png" alt="wanderwell logo" />
                 <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
@@ -2699,6 +2700,151 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeVoyagesLuxuryDropdown();
+});
+
+// Home Logo API Integration for Voyages Partner Section
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Home Logo API integration for Voyages partners...');
+
+    // Function to get the complete image URL
+    function getLogoImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath.replace(/^\/+/, '');
+    }
+
+    // Function to fetch home logo data from API
+    async function fetchPartnerLogos() {
+        try {
+            console.log('Fetching partner logos from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Home logo API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching partner logos:', error);
+            return null;
+        }
+    }
+
+    // Function to update partner logos with API data
+    async function updatePartnerLogosWithAPIData() {
+        try {
+            const logoData = await fetchPartnerLogos();
+            
+            if (!logoData) {
+                console.warn('No logo data received from API, keeping default logos');
+                return;
+            }
+
+            // Handle different possible response structures
+            let images = [];
+            
+            if (Array.isArray(logoData) && logoData.length > 0) {
+                // If response is an array, take the first element
+                const firstSet = logoData[0];
+                images = firstSet.images || firstSet.logos || [];
+            } else if (logoData.images || logoData.logos) {
+                // If response is an object with images/logos property
+                images = logoData.images || logoData.logos;
+            } else if (Array.isArray(logoData)) {
+                // If response is directly an array of image paths
+                images = logoData;
+            }
+
+            if (images && images.length > 0) {
+                console.log('Updating partner logos with API data:', images);
+                
+                const logoTrack = document.querySelector('#partnerLogoTrack');
+                if (logoTrack) {
+                    // Clear existing content
+                    logoTrack.innerHTML = '';
+                    
+                    // Create logo elements from API data (first set)
+                    const logoElements = [];
+                    images.forEach((imagePath, index) => {
+                        const imageUrl = getLogoImageUrl(imagePath);
+                        if (imageUrl) {
+                            const img = document.createElement('img');
+                            img.src = imageUrl;
+                            img.alt = `Partner Logo ${index + 1}`;
+                            img.style.cssText = 'width: 150px; height: 100px; object-fit: contain; margin: 0 8px; display: block;';
+                            
+                            // Add error handling
+                            img.onerror = function() {
+                                console.warn(`Failed to load logo: ${this.src}, using fallback`);
+                                // Use fallback images
+                                const fallbacks = [
+                                    './images/icelandPartner.jpg',
+                                    './images/polandPartner.png',
+                                    './images/switzerlandpartner.png',
+                                    './images/par1.jpeg',
+                                    './images/par2.jpeg',
+                                    './images/par3.jpeg',
+                                    './images/par4.jpeg',
+                                    './images/par5.jpeg'
+                                ];
+                                this.src = fallbacks[index % fallbacks.length];
+                            };
+                            
+                            img.onload = function() {
+                                console.log(`Successfully loaded logo: ${this.src}`);
+                            };
+                            
+                            logoElements.push(img);
+                        }
+                    });
+                    
+                    // Duplicate logos 3 times for seamless marquee animation
+                    for (let i = 0; i < 3; i++) {
+                        logoElements.forEach(originalImg => {
+                            const img = originalImg.cloneNode(true);
+                            // Re-attach event handlers for cloned images
+                            img.onerror = originalImg.onerror;
+                            img.onload = originalImg.onload;
+                            logoTrack.appendChild(img);
+                        });
+                    }
+                    
+                    console.log(`Partner logos updated successfully with ${images.length} unique logos (${logoElements.length * 3} total including duplicates)`);
+                } else {
+                    console.error('Logo track element not found');
+                }
+            } else {
+                console.warn('No images found in API response, keeping existing logos');
+            }
+
+        } catch (error) {
+            console.error('Error updating partner logos with API data:', error);
+        }
+    }
+
+    // Initialize logo update
+    updatePartnerLogosWithAPIData();
+
+    // Auto-refresh logos every 10 minutes to keep content fresh
+    setInterval(updatePartnerLogosWithAPIData, 10 * 60 * 1000);
+    
+    console.log('Home Logo API integration initialized successfully for Voyages');
 });
 </script>
 

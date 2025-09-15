@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Private Fly Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .debug-container {
+            margin: 20px 0;
+        }
+        .item-debug {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .item-debug img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+        .url-info {
+            background: #f5f5f5;
+            padding: 5px;
+            margin: 5px 0;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <h1>Private Fly API Image Debug</h1>
+    <div id="debug-output"></div>
+
+    <script>
+        // Function to get the complete image URL
+        function getFlyImageUrl(imagePath) {
+            console.log('getFlyImageUrl called with:', imagePath);
+            
+            if (!imagePath) {
+                console.log('No image path provided, returning empty string');
+                return '';
+            }
+            
+            // If it's already a complete URL, use it as is
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                console.log('Complete URL detected, returning as is:', imagePath);
+                return imagePath;
+            }
+            
+            // If it's a relative path, construct the full URL
+            const baseUrl = 'http://globe.ridealmobility.com/';
+            const cleanPath = imagePath.replace(/^\/+/, '');
+            const fullUrl = baseUrl + cleanPath;
+            console.log('Constructing URL:', {
+                originalPath: imagePath,
+                cleanedPath: cleanPath,
+                fullUrl: fullUrl
+            });
+            return fullUrl;
+        }
+
+        // Function to fetch private fly data from API
+        async function fetchPrivateFlyData() {
+            try {
+                console.log('Fetching private fly data from API...');
+                const response = await fetch('http://globe.ridealmobility.com/api/private/fly', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Private fly API response:', data);
+                return data;
+
+            } catch (error) {
+                console.error('Error fetching private fly data:', error);
+                return null;
+            }
+        }
+
+        // Debug function
+        async function debugImages() {
+            const debugOutput = document.getElementById('debug-output');
+            debugOutput.innerHTML = '<p>Loading API data...</p>';
+
+            try {
+                const flyData = await fetchPrivateFlyData();
+                
+                if (!flyData || !Array.isArray(flyData) || flyData.length === 0) {
+                    debugOutput.innerHTML = '<p style="color: red;">No fly data received from API</p>';
+                    return;
+                }
+
+                // Get the first item from the array
+                const fleetData = flyData[0];
+                
+                if (!fleetData || !fleetData.items || !Array.isArray(fleetData.items)) {
+                    debugOutput.innerHTML = '<p style="color: red;">Invalid API response structure</p>';
+                    return;
+                }
+
+                console.log('Fleet data:', fleetData);
+                console.log('All image paths from API:');
+                fleetData.items.forEach((item, index) => {
+                    console.log(`Item ${index + 1}: ${item.title} - Icon: ${item.icon}`);
+                });
+
+                let html = `<h2>API Response Debug</h2>`;
+                html += `<p><strong>Main Heading:</strong> ${fleetData.mainHeading}</p>`;
+                html += `<p><strong>Items Count:</strong> ${fleetData.items.length}</p>`;
+                html += `<div class="debug-container">`;
+
+                fleetData.items.forEach((item, index) => {
+                    const iconPath = item.icon || '';
+                    const iconUrl = iconPath ? getFlyImageUrl(iconPath) : './images/aeroicon.png';
+                    
+                    html += `
+                        <div class="item-debug">
+                            <h3>Item ${index + 1}: ${item.title}</h3>
+                            <div class="url-info"><strong>Original Path:</strong> ${iconPath}</div>
+                            <div class="url-info"><strong>Constructed URL:</strong> ${iconUrl}</div>
+                            <img src="${iconUrl}" alt="${item.title}" 
+                                 onload="console.log('✅ Image loaded:', this.src)" 
+                                 onerror="console.error('❌ Image failed:', this.src); this.style.border='2px solid red';" />
+                            <p><strong>Description:</strong> ${item.description}</p>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+                debugOutput.innerHTML = html;
+
+            } catch (error) {
+                console.error('Debug error:', error);
+                debugOutput.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Run debug when page loads
+        window.addEventListener('DOMContentLoaded', debugImages);
+    </script>
+</body>
+</html>

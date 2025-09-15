@@ -1444,10 +1444,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Logo/Partner API Integration -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Home Logo API integration for partner section...');
     
     // Function to fetch partner logos data from API
     async function fetchPartnerLogos() {
         try {
+            console.log('Fetching logos from API...');
             const response = await fetch('http://globe.ridealmobility.com/api/home/logo', {
                 method: 'GET',
                 headers: {
@@ -1464,8 +1466,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             console.log('Partner logos data loaded from API:', data);
             
-            // The API returns an array, so we take the first element
-            return Array.isArray(data) ? data[0] : data;
+            // Handle different possible API response structures
+            if (Array.isArray(data) && data.length > 0) {
+                return data[0]; // Take first element if array
+            } else if (data && (data.images || data.logos)) {
+                return data; // Direct object with images/logos property
+            } else {
+                console.warn('Unexpected API response structure:', data);
+                return data;
+            }
             
         } catch (error) {
             console.error('Error fetching partner logos data:', error);
@@ -1473,7 +1482,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return {
                 images: [
                     './images/icelandPartner.jpg',
-                    './images/polandPartner.png',
+                    './images/polandPartner.png', 
                     './images/switzerlandpartner.png',
                     './images/par1.jpeg',
                     './images/par2.jpeg',
@@ -1494,9 +1503,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return imgPath;
         }
         
-        // If it starts with 'uploads/', prepend the base API URL
-        if (imgPath.startsWith('uploads/')) {
-            return `http://globe.ridealmobility.com/${imgPath}`;
+        // If it starts with 'uploads/' or any path, prepend the base API URL
+        if (imgPath.startsWith('uploads/') || (!imgPath.startsWith('./') && !imgPath.startsWith('/'))) {
+            return `http://globe.ridealmobility.com/${imgPath.replace(/^\/+/, '')}`;
         }
         
         // Otherwise, treat as relative path
@@ -1507,29 +1516,49 @@ document.addEventListener('DOMContentLoaded', function() {
     function populatePartnerLogos(data) {
         const logoTrack = document.getElementById('logoTrack');
         
-        if (logoTrack && data.images && data.images.length > 0) {
+        if (!logoTrack) {
+            console.error('Logo track element not found');
+            return;
+        }
+        
+        // Get images from the API data (try different property names)
+        const images = data.images || data.logos || data.partnerLogos || [];
+        
+        if (images && images.length > 0) {
+            console.log('Populating partner logos with API data:', images);
             logoTrack.innerHTML = ''; // Clear existing content
             
             // Create array to hold all logo elements (duplicated for seamless loop)
             const allLogos = [];
             
             // First set of logos
-            data.images.forEach(imagePath => {
+            images.forEach((imagePath, index) => {
                 const img = document.createElement('img');
                 img.src = getLogoImageUrl(imagePath);
-                img.alt = 'Partner Logo';
+                img.alt = `Partner Logo ${index + 1}`;
+                img.style.cssText = 'width: 150px; height: 100px; object-fit: contain; margin: 0 8px; display: block;';
+                
+                // Add error handling for individual images
                 img.onerror = function() {
+                    console.warn(`Failed to load logo: ${this.src}, using fallback`);
                     this.src = './images/par1.jpeg'; // fallback on error
                 };
+                
+                // Add load success logging
+                img.onload = function() {
+                    console.log(`Successfully loaded logo: ${this.src}`);
+                };
+                
                 allLogos.push(img);
             });
             
-            // Duplicate the logos for seamless loop (3 times for smooth animation)
+            // Duplicate the logos for seamless loop (2 additional sets for smooth animation)
             for (let i = 0; i < 2; i++) {
-                data.images.forEach(imagePath => {
+                images.forEach((imagePath, index) => {
                     const img = document.createElement('img');
                     img.src = getLogoImageUrl(imagePath);
-                    img.alt = 'Partner Logo';
+                    img.alt = `Partner Logo ${index + 1}`;
+                    img.style.cssText = 'width: 150px; height: 100px; object-fit: contain; margin: 0 8px; display: block;';
                     img.onerror = function() {
                         this.src = './images/par1.jpeg'; // fallback on error
                     };
@@ -1542,7 +1571,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 logoTrack.appendChild(img);
             });
             
-            console.log('Partner logos populated successfully');
+            console.log(`Partner logos populated successfully with ${images.length} unique logos (${allLogos.length} total including duplicates)`);
+        } else {
+            console.warn('No images found in API response, keeping existing logos');
         }
     }
     
@@ -1557,6 +1588,14 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         initializePartnerLogos();
     }, 700);
+    
+    // Add periodic refresh every 10 minutes to keep logos fresh
+    setInterval(() => {
+        console.log('Refreshing partner logos...');
+        initializePartnerLogos();
+    }, 10 * 60 * 1000);
+    
+    console.log('Home Logo API integration initialized for partner section');
 });
 </script>
 

@@ -2428,7 +2428,579 @@ document.addEventListener('DOMContentLoaded', function() {
     // Optional: Refresh logo data every 5 minutes
     setInterval(initializeSkyLogos, 300000);
 });
+
+// Private Charter API Integration for "Private Charters Categories" Section
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Private Charter API integration...');
+
+    // Function to get the complete image URL for charter images
+    function getCharterImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath.replace(/^\/+/, '');
+    }
+
+    // Function to fetch private charter data from API
+    async function fetchPrivateCharterData() {
+        try {
+            console.log('Fetching private charter data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/private/charter', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Private charter API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching private charter data:', error);
+            return null;
+        }
+    }
+
+    // Function to update Private Charters Categories section with API data
+    async function updatePrivateChartersWithAPIData() {
+        try {
+            const charterData = await fetchPrivateCharterData();
+            
+            if (!charterData || !Array.isArray(charterData) || charterData.length === 0) {
+                console.warn('No charter data received from API, keeping default content');
+                return;
+            }
+
+            // Get the first item from the array (as per your API response structure)
+            const charterSection = charterData[0];
+            
+            if (!charterSection || !charterSection.items || !Array.isArray(charterSection.items)) {
+                console.warn('Invalid charter API response structure, keeping default content');
+                return;
+            }
+
+            console.log('Updating Private Charters Categories section with API data:', charterSection);
+            console.log('Section title from API:', charterSection.sectionTitle);
+            console.log('Items count:', charterSection.items.length);
+            
+            // Update section title if provided
+            if (charterSection.sectionTitle) {
+                const sectionHeading = document.querySelector('#group-tours .beyond-heading');
+                if (sectionHeading) {
+                    sectionHeading.innerHTML = `
+                        <span>${charterSection.sectionTitle}</span>
+                    `;
+                    console.log('Section title updated to:', charterSection.sectionTitle);
+                } else {
+                    console.error('Section heading element not found');
+                }
+            }
+            
+            // Find the charter cards container
+            const charterContainer = document.querySelector('#group-tours .row.g-4');
+            if (charterContainer) {
+                // Clear existing cards
+                charterContainer.innerHTML = '';
+                
+                // Create cards from API items
+                charterSection.items.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'col-12 col-md-6 col-lg-4';
+                    
+                    // Get item properties from your API structure
+                    const title = item.title || `Charter ${index + 1}`;
+                    const subtitle = item.subtitle || '';
+                    const imagePath = item.image || '';
+                    const imageUrl = imagePath ? getCharterImageUrl(imagePath) : `./images/bm${(index % 3) + 1}.webp`;
+                    
+                    console.log(`Processing charter item ${index + 1}:`, {
+                        title: title,
+                        subtitle: subtitle,
+                        originalImagePath: imagePath,
+                        constructedImageUrl: imageUrl
+                    });
+                    
+                    card.innerHTML = `
+                        <div class="beyond-card">
+                            <img src="${imageUrl}" alt="${title}" class="beyond-img" 
+                                 onerror="console.error('Failed to load charter image:', this.src); this.src='./images/bm${(index % 3) + 1}.webp'" 
+                                 onload="console.log('Successfully loaded charter image:', this.src)" />
+                            <div class="beyond-overlay">
+                                <h4>${title}</h4>
+                                <p>${subtitle}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    charterContainer.appendChild(card);
+                });
+                
+                console.log(`Private Charter Categories updated successfully with ${charterSection.items.length} items`);
+            } else {
+                console.error('Private charter container not found');
+            }
+
+        } catch (error) {
+            console.error('Error updating Private Charter Categories with API data:', error);
+        }
+    }
+
+    // Initialize Private Charter Categories update
+    updatePrivateChartersWithAPIData();
+
+    // Auto-refresh content every 10 minutes
+    setInterval(updatePrivateChartersWithAPIData, 10 * 60 * 1000);
+    
+    console.log('Private Charter API integration initialized successfully');
+});
+
+// Private Mission API Integration for "Past mission & stories" Section
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Private Mission API integration...');
+
+    // Function to get the complete image URL for mission images
+    function getMissionImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath.replace(/^\/+/, '');
+    }
+
+    // Function to fetch private mission data from API
+    async function fetchPrivateMissionData() {
+        try {
+            console.log('Fetching private mission data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/private/mission', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Private mission API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching private mission data:', error);
+            return null;
+        }
+    }
+
+    // Function to update "Past mission & stories" section with API data
+    async function updateMissionWithAPIData() {
+        try {
+            const missionData = await fetchPrivateMissionData();
+            
+            if (!missionData) {
+                console.warn('No mission data received from API, keeping default content');
+                return;
+            }
+
+            console.log('Updating "Past mission & stories" section with API data:', missionData);
+            
+            // Find the gallery grid container
+            const galleryContainer = document.querySelector('.gallery-grid');
+            if (galleryContainer) {
+                // Clear existing cards
+                galleryContainer.innerHTML = '';
+                
+                let missionItems = [];
+                
+                // Handle different API response structures
+                if (Array.isArray(missionData)) {
+                    // If direct array, take items from first object or use array directly
+                    if (missionData.length > 0 && missionData[0].items) {
+                        missionItems = missionData[0].items;
+                    } else {
+                        missionItems = missionData;
+                    }
+                } else if (missionData.data && Array.isArray(missionData.data)) {
+                    missionItems = missionData.data;
+                } else if (missionData.items && Array.isArray(missionData.items)) {
+                    missionItems = missionData.items;
+                }
+                
+                // Define card classes for varied layout (wide, normal, tall)
+                const cardClasses = ['wide', '', '', '', '', 'wide', 'wide', '', ''];
+                
+                // Create cards from API data
+                missionItems.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    const cardClass = cardClasses[index % cardClasses.length] || '';
+                    card.className = `gallery-card ${cardClass}`.trim();
+                    
+                    // Get item properties
+                    const title = item.title || item.name || item.destination || `Mission ${index + 1}`;
+                    const subtitle = item.subtitle || item.places || item.description || `${Math.floor(Math.random() * 30) + 10} Place`;
+                    const imagePath = item.image || item.img || item.photo || '';
+                    const imageUrl = imagePath ? getMissionImageUrl(imagePath) : `./images/${['Australia.jpg', 'Finland.jpg', 'Japan.jpg', 'vietnam.jpg', 'itieneary.jpg'][index % 5]}`;
+                    
+                    console.log(`Processing mission item ${index + 1}:`, {
+                        title: title,
+                        subtitle: subtitle,
+                        originalImagePath: imagePath,
+                        constructedImageUrl: imageUrl,
+                        cardClass: cardClass
+                    });
+                    
+                    card.innerHTML = `
+                        <img src="${imageUrl}" alt="${title}" 
+                             onerror="console.error('Failed to load mission image:', this.src); this.src='./images/${['Australia.jpg', 'Finland.jpg', 'Japan.jpg', 'vietnam.jpg', 'itieneary.jpg'][index % 5]}'" 
+                             onload="console.log('Successfully loaded mission image:', this.src)">
+                        <div class="overlay">
+                            <h3>${title}</h3>
+                            <p>${subtitle}</p>
+                        </div>
+                    `;
+                    
+                    galleryContainer.appendChild(card);
+                });
+                
+                console.log(`"Past mission & stories" section updated successfully with ${missionItems.length} missions`);
+            } else {
+                console.error('Gallery container not found');
+            }
+
+        } catch (error) {
+            console.error('Error updating mission with API data:', error);
+        }
+    }
+
+    // Initialize mission update
+    updateMissionWithAPIData();
+
+    // Auto-refresh content every 8 minutes
+    setInterval(updateMissionWithAPIData, 8 * 60 * 1000);
+    
+    console.log('Private Mission API integration initialized successfully');
+});
+
+// Private Fleet API Integration for "Why GLOBENGEL Charters" Section
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Private Fleet API integration...');
+
+    // Function to get the complete image URL for fleet images
+    function getFleetImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath.replace(/^\/+/, '');
+    }
+
+    // Function to fetch private fleet data from API
+    async function fetchPrivateFleetData() {
+        try {
+            console.log('Fetching private fleet data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/private/fleet', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Private fleet API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching private fleet data:', error);
+            return null;
+        }
+    }
+
+    // Function to update "Why GLOBENGEL Charters" section with API data
+    async function updateFleetWithAPIData() {
+        try {
+            const fleetData = await fetchPrivateFleetData();
+            
+            if (!fleetData) {
+                console.warn('No fleet data received from API, keeping default content');
+                return;
+            }
+
+            console.log('Updating "Why GLOBENGEL Charters" section with API data:', fleetData);
+            
+            // Find the resort cards container
+            const fleetContainer = document.querySelector('.handpicked-resorts-grid');
+            if (fleetContainer) {
+                // Clear existing cards
+                fleetContainer.innerHTML = '';
+                
+                let fleetItems = [];
+                
+                // Handle different API response structures
+                if (Array.isArray(fleetData)) {
+                    // If direct array, take items from first object or use array directly
+                    if (fleetData.length > 0 && fleetData[0].items) {
+                        fleetItems = fleetData[0].items;
+                    } else {
+                        fleetItems = fleetData;
+                    }
+                } else if (fleetData.data && Array.isArray(fleetData.data)) {
+                    fleetItems = fleetData.data;
+                } else if (fleetData.items && Array.isArray(fleetData.items)) {
+                    fleetItems = fleetData.items;
+                }
+                
+                // Create cards from API data with specific positioning
+                const cardPositions = [
+                    { class: 'resort-card-lg', style: 'width: 181px; height:200px; left: 87px; top: 0;' },
+                    { class: 'resort-card-sm resort-card-sm-1', style: 'width:180px; height:212px; left:274px; top:22px;' },
+                    { class: 'resort-card-sm resort-card-sm-2', style: 'width:215px; height:183px; left:460px; top: 51px;' },
+                    { class: 'resort-card-lg resort-card-lg-2', style: 'width:260px; height:192px; left:0; top: 203px;' },
+                    { class: 'resort-card-lg resort-card-lg-3', style: 'width: 332px; height: 193px; left:267px; top:238px;' }
+                ];
+                
+                fleetItems.slice(0, 5).forEach((item, index) => {
+                    const card = document.createElement('div');
+                    const position = cardPositions[index] || cardPositions[0];
+                    card.className = `resort-card ${position.class}`;
+                    
+                    // Get item properties
+                    const title = item.title || item.name || `Fleet ${index + 1}`;
+                    const description = item.description || item.subtitle || item.desc || '';
+                    const imagePath = item.image || item.img || item.photo || '';
+                    const imageUrl = imagePath ? getFleetImageUrl(imagePath) : `./images/${['Australia.jpg', 'itieneary.jpg', 'Japan.jpg', 'Finland.jpg', 'Australia.jpg'][index]}`;
+                    
+                    card.style.cssText = `background-image:url('${imageUrl}'); ${position.style}`;
+                    
+                    card.innerHTML = `
+                        <div class="resort-card-content">
+                            <div class="resort-card-title">${title}</div>
+                            <div class="resort-card-desc">${description}</div>
+                        </div>
+                    `;
+                    
+                    // Add error handling for background images
+                    const img = new Image();
+                    img.onload = function() {
+                        console.log('Successfully loaded fleet image:', imageUrl);
+                    };
+                    img.onerror = function() {
+                        console.error('Failed to load fleet image:', imageUrl);
+                        const fallbackImage = `./images/${['Australia.jpg', 'itieneary.jpg', 'Japan.jpg', 'Finland.jpg', 'Australia.jpg'][index]}`;
+                        card.style.backgroundImage = `url('${fallbackImage}')`;
+                    };
+                    img.src = imageUrl;
+                    
+                    fleetContainer.appendChild(card);
+                });
+                
+                console.log(`"Why GLOBENGEL Charters" section updated successfully with ${fleetItems.length} fleet items`);
+            } else {
+                console.error('Fleet container not found');
+            }
+
+        } catch (error) {
+            console.error('Error updating fleet with API data:', error);
+        }
+    }
+
+    // Initialize fleet update
+    updateFleetWithAPIData();
+
+    // Auto-refresh content every 12 minutes
+    setInterval(updateFleetWithAPIData, 12 * 60 * 1000);
+    
+    console.log('Private Fleet API integration initialized successfully');
+});
+
+// Private Fly API Integration for "Who We Fly" Section
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Private Fly API integration...');
+
+    // Function to get the complete image URL
+    function getFlyImageUrl(imagePath) {
+        console.log('getFlyImageUrl called with:', imagePath);
+        
+        if (!imagePath) {
+            console.log('No image path provided, returning empty string');
+            return '';
+        }
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            console.log('Complete URL detected, returning as is:', imagePath);
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        const cleanPath = imagePath.replace(/^\/+/, '');
+        const fullUrl = baseUrl + cleanPath;
+        console.log('Constructing URL:', {
+            originalPath: imagePath,
+            cleanedPath: cleanPath,
+            fullUrl: fullUrl
+        });
+        return fullUrl;
+    }
+
+    // Function to fetch private fly data from API
+    async function fetchPrivateFlyData() {
+        try {
+            console.log('Fetching private fly data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/private/fly', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Private fly API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching private fly data:', error);
+            return null;
+        }
+    }
+
+    // Function to update "Who We Fly" section with API data
+    async function updateWhoWeFlyWithAPIData() {
+        try {
+            const flyData = await fetchPrivateFlyData();
+            
+            if (!flyData || !Array.isArray(flyData) || flyData.length === 0) {
+                console.warn('No fly data received from API, keeping default content');
+                return;
+            }
+
+            // Get the first item from the array (as per your API response structure)
+            const fleetData = flyData[0];
+            
+            if (!fleetData || !fleetData.items || !Array.isArray(fleetData.items)) {
+                console.warn('Invalid API response structure, keeping default content');
+                return;
+            }
+
+            console.log('Updating "Who We Fly" section with API data:', fleetData);
+            
+            // Log all image paths to see if they're different
+            if (fleetData.items) {
+                console.log('All image paths from API:');
+                fleetData.items.forEach((item, index) => {
+                    console.log(`Item ${index + 1}: ${item.title} - Icon: ${item.icon}`);
+                });
+            }
+            
+            // Update section title with mainHeading from API
+            if (fleetData.mainHeading) {
+                const titleElement = document.querySelector('.who-we-fly-title');
+                if (titleElement) {
+                    // Keep the "Tailored" styling while updating the main heading
+                    titleElement.innerHTML = `${fleetData.mainHeading} – <span class="who-we-fly-script">Tailored</span> for every purpose`;
+                    console.log('Section title updated to:', fleetData.mainHeading);
+                }
+            }
+            
+            const gridContainer = document.querySelector('.who-we-fly-grid');
+            if (gridContainer) {
+                // Clear existing content
+                gridContainer.innerHTML = '';
+                
+                // Create cards from API items
+                fleetData.items.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'who-we-fly-card';
+                    
+                    // Get item properties
+                    const title = item.title || `Service ${index + 1}`;
+                    const description = item.description || '';
+                    const iconPath = item.icon || '';
+                    const iconUrl = iconPath ? getFlyImageUrl(iconPath) : './images/aeroicon.png';
+                    
+                    // Debug logging for each item
+                    console.log(`Processing item ${index + 1}:`, {
+                        title: title,
+                        originalIconPath: iconPath,
+                        constructedIconUrl: iconUrl,
+                        description: description
+                    });
+                    
+                    card.innerHTML = `
+                        <div class="who-we-fly-icon">
+                            <img src="${iconUrl}" alt="${title}" onerror="console.error('Failed to load icon for ${title}:', this.src); this.src='./images/aeroicon.png'" onload="console.log('Successfully loaded icon for ${title}:', this.src)" />
+                        </div>
+                        <div class="who-we-fly-card-title">${title}</div>
+                        <div class="who-we-fly-card-desc">${description}</div>
+                    `;
+                    
+                    gridContainer.appendChild(card);
+                });
+                
+                console.log(`"Who We Fly" section updated successfully with ${fleetData.items.length} services`);
+                
+                // Log each service for debugging
+                fleetData.items.forEach((item, index) => {
+                    console.log(`Service ${index + 1}:`, {
+                        title: item.title,
+                        description: item.description,
+                        icon: item.icon
+                    });
+                });
+                
+            } else {
+                console.error('Who We Fly grid container not found');
+            }
+
+        } catch (error) {
+            console.error('Error updating "Who We Fly" with API data:', error);
+        }
+    }
+
+    // Initialize "Who We Fly" update
+    updateWhoWeFlyWithAPIData();
+
+    // Auto-refresh content every 15 minutes to keep it fresh
+    setInterval(updateWhoWeFlyWithAPIData, 15 * 60 * 1000);
+    
+    console.log('Private Fly API integration initialized successfully');
+});
 </script>
 
-`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n</body>
+<!-- Luxury Options API Integration -->
+<script src="./js/luxury-options-integration.js"></script>
+</body>
 </html>

@@ -1878,5 +1878,147 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
-`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n</body>
+`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n<!-- Home Logo API Integration for S3 Page -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Home Logo API integration for S3 page...');
+
+    // Function to get the complete image URL
+    function getLogoImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath.replace(/^\/+/, '');
+    }
+
+    // Function to fetch home logo data from API
+    async function fetchLogoData() {
+        try {
+            console.log('Fetching home logo data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Home logo API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching home logo data:', error);
+            return null;
+        }
+    }
+
+    // Function to update partner logos with API data
+    async function updatePartnerLogosWithAPIData(logoData) {
+        if (!logoData || !Array.isArray(logoData) || logoData.length === 0) {
+            console.warn('No logo data provided, keeping default logos');
+            return;
+        }
+
+        console.log('Updating partner logos with API data for S3 page...');
+
+        const logoTrack = document.querySelector('.logo-track');
+        if (logoTrack) {
+            // Store original logos as fallback
+            const originalLogos = [
+                './images/icelandPartner.jpg',
+                './images/polandPartner.png',
+                './images/switzerlandpartner.png',
+                './images/par1.jpeg',
+                './images/par2.jpeg',
+                './images/par3.jpeg',
+                './images/par4.jpeg',
+                './images/par5.jpeg'
+            ];
+
+            // Get the first item from the array (as per your API response structure)
+            const logoSection = logoData[0];
+            
+            if (!logoSection || !logoSection.images || !Array.isArray(logoSection.images)) {
+                console.warn('Invalid logo API response structure, keeping default logos');
+                return;
+            }
+
+            console.log('Logo images from API:', logoSection.images);
+
+            // Clear existing logos
+            logoTrack.innerHTML = '';
+
+            // Function to create logo set
+            const createLogoSet = () => {
+                logoSection.images.forEach((imagePath, index) => {
+                    const img = document.createElement('img');
+                    
+                    // Construct the logo URL
+                    const logoUrl = imagePath ? getLogoImageUrl(imagePath) : originalLogos[index % originalLogos.length];
+                    const altText = `Partner logo ${index + 1}`;
+                    
+                    console.log(`Processing logo ${index + 1}:`, {
+                        originalPath: imagePath,
+                        constructedUrl: logoUrl
+                    });
+                    
+                    img.src = logoUrl;
+                    img.alt = altText;
+                    
+                    // Add error handling to fallback to original logos
+                    img.onerror = function() {
+                        console.warn(`Failed to load API logo: ${logoUrl}, using fallback`);
+                        this.src = originalLogos[index % originalLogos.length];
+                    };
+                    
+                    img.onload = function() {
+                        console.log(`Successfully loaded logo: ${logoUrl}`);
+                    };
+                    
+                    logoTrack.appendChild(img);
+                });
+            };
+
+            // Create multiple sets for seamless loop (3 sets for smooth animation)
+            createLogoSet(); // First set
+            createLogoSet(); // Second set for seamless loop
+            createLogoSet(); // Third set for extra smoothness
+
+            console.log(`S3 page partner logos updated successfully with ${logoSection.images.length} logos`);
+        } else {
+            console.error('Logo track container not found on S3 page');
+        }
+    }
+
+    // Function to initialize logos with API data for S3 page
+    async function initializeS3Logos() {
+        try {
+            const logoData = await fetchLogoData();
+            await updatePartnerLogosWithAPIData(logoData);
+        } catch (error) {
+            console.error('Error initializing S3 logos:', error);
+        }
+    }
+
+    // Initialize logos for S3 page
+    initializeS3Logos();
+
+    // Optional: Refresh logo data every 5 minutes
+    setInterval(initializeS3Logos, 300000);
+    
+    console.log('Home Logo API integration for S3 page initialized successfully');
+});
+</script>
+</body>
 </html>

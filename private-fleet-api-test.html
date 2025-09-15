@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Fleet API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .api-test-container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .fleet-item {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+        }
+        .fleet-item img {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .api-response {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+        }
+        .error {
+            color: red;
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Private Fleet API Integration Test</h1>
+    <p>Testing: <code>http://globe.ridealmobility.com/api/private/fleet</code></p>
+    
+    <div id="loading" class="loading">
+        <p>🔄 Fetching API data...</p>
+    </div>
+    
+    <div id="api-response-container" style="display: none;">
+        <h2>📡 Raw API Response</h2>
+        <div id="api-response" class="api-response"></div>
+    </div>
+    
+    <div id="parsed-data-container" style="display: none;">
+        <h2>📊 Parsed Data</h2>
+        <div id="parsed-data"></div>
+    </div>
+    
+    <div id="error-container" style="display: none;">
+        <div id="error-message" class="error"></div>
+    </div>
+
+    <script>
+        // Function to get the complete image URL
+        function getFleetImageUrl(imagePath) {
+            if (!imagePath) return '';
+            
+            // If it's already a complete URL, use it as is
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                return imagePath;
+            }
+            
+            // If it's a relative path, construct the full URL
+            const baseUrl = 'http://globe.ridealmobility.com/';
+            return baseUrl + imagePath.replace(/^\/+/, '');
+        }
+
+        // Function to fetch private fleet data from API
+        async function fetchPrivateFleetData() {
+            try {
+                console.log('Fetching private fleet data from API...');
+                const response = await fetch('http://globe.ridealmobility.com/api/private/fleet', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Private fleet API response:', data);
+                return data;
+
+            } catch (error) {
+                console.error('Error fetching private fleet data:', error);
+                throw error;
+            }
+        }
+
+        // Main test function
+        async function testAPI() {
+            const loadingEl = document.getElementById('loading');
+            const responseEl = document.getElementById('api-response');
+            const responseContainer = document.getElementById('api-response-container');
+            const parsedContainer = document.getElementById('parsed-data-container');
+            const parsedDataEl = document.getElementById('parsed-data');
+            const errorContainer = document.getElementById('error-container');
+            const errorMessageEl = document.getElementById('error-message');
+
+            try {
+                // Fetch data
+                const data = await fetchPrivateFleetData();
+                
+                // Hide loading
+                loadingEl.style.display = 'none';
+                
+                // Show raw response
+                responseContainer.style.display = 'block';
+                responseEl.textContent = JSON.stringify(data, null, 2);
+                
+                // Parse and display data
+                parsedContainer.style.display = 'block';
+                
+                let html = '<div class="api-test-container">';
+                
+                if (Array.isArray(data)) {
+                    html += `<p><strong>Response Type:</strong> Array with ${data.length} items</p>`;
+                    
+                    data.forEach((section, sectionIndex) => {
+                        html += `<div class="fleet-item">`;
+                        html += `<h3>Section ${sectionIndex + 1}</h3>`;
+                        
+                        // Display all properties
+                        Object.keys(section).forEach(key => {
+                            if (key === 'items' && Array.isArray(section[key])) {
+                                html += `<p><strong>${key}:</strong> Array with ${section[key].length} items</p>`;
+                                section[key].forEach((item, itemIndex) => {
+                                    html += `<div style="margin-left: 20px; border-left: 3px solid #ccc; padding-left: 15px; margin: 10px 0;">`;
+                                    html += `<h4>Item ${itemIndex + 1}</h4>`;
+                                    Object.keys(item).forEach(itemKey => {
+                                        if (itemKey === 'image' || itemKey === 'img' || itemKey.includes('image')) {
+                                            const imageUrl = getFleetImageUrl(item[itemKey]);
+                                            html += `<p><strong>${itemKey}:</strong> ${item[itemKey]}</p>`;
+                                            if (imageUrl) {
+                                                html += `<img src="${imageUrl}" alt="Fleet ${itemIndex + 1}" 
+                                                       onerror="this.style.border='2px solid red'; this.alt='Failed to load'"/>`;
+                                            }
+                                        } else {
+                                            html += `<p><strong>${itemKey}:</strong> ${JSON.stringify(item[itemKey])}</p>`;
+                                        }
+                                    });
+                                    html += `</div>`;
+                                });
+                            } else if (key === 'image' || key === 'img' || key.includes('image')) {
+                                const imageUrl = getFleetImageUrl(section[key]);
+                                html += `<p><strong>${key}:</strong> ${section[key]}</p>`;
+                                if (imageUrl) {
+                                    html += `<img src="${imageUrl}" alt="Fleet ${sectionIndex + 1}" 
+                                           onerror="this.style.border='2px solid red'; this.alt='Failed to load'"/>`;
+                                }
+                            } else {
+                                html += `<p><strong>${key}:</strong> ${JSON.stringify(section[key])}</p>`;
+                            }
+                        });
+                        
+                        html += `</div>`;
+                    });
+                } else if (typeof data === 'object') {
+                    html += `<p><strong>Response Type:</strong> Object</p>`;
+                    
+                    // Display root object properties
+                    Object.keys(data).forEach(key => {
+                        if (key === 'image' || key === 'img' || key.includes('image')) {
+                            const imageUrl = getFleetImageUrl(data[key]);
+                            html += `<p><strong>${key}:</strong> ${data[key]}</p>`;
+                            if (imageUrl) {
+                                html += `<img src="${imageUrl}" alt="Fleet image" 
+                                       onerror="this.style.border='2px solid red'; this.alt='Failed to load'"/>`;
+                            }
+                        } else {
+                            html += `<p><strong>${key}:</strong> ${JSON.stringify(data[key])}</p>`;
+                        }
+                    });
+                }
+                
+                html += '</div>';
+                parsedDataEl.innerHTML = html;
+
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                errorContainer.style.display = 'block';
+                errorMessageEl.textContent = `Error: ${error.message}`;
+                console.error('API test failed:', error);
+            }
+        }
+
+        // Run test when page loads
+        window.addEventListener('DOMContentLoaded', testAPI);
+    </script>
+</body>
+</html>
