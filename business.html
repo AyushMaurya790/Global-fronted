@@ -418,8 +418,9 @@
             min-width: 240px;
             margin-top: 30px;
             margin-right: 0;
-            height: 420px;
-            justify-content: space-between;
+            height: auto;
+            justify-content: flex-start;
+            gap: 20px;
         }
 
         .timeline-line {
@@ -428,7 +429,7 @@
             /* Adjust so line matches icons */
             top: 2px;
             width: 3px;
-            height: 100%;
+            height: calc(100% - 40px);
             background: #676767;
             z-index: 1;
             border-radius: 2px;
@@ -440,7 +441,7 @@
             position: relative;
             z-index: 2;
             margin-bottom: 0;
-            min-height: 60px;
+            min-height: 50px;
             margin-left: 0;
             /* Ensure all steps start at same left */
         }
@@ -1196,25 +1197,7 @@
             </div>
         </div>
     </section>
-<script>
-     // Steps functionality
-        const steps = document.querySelectorAll(".step-label-btn");
-        const panels = document.querySelectorAll(".steps-panel");
-
-        steps.forEach(step => {
-            step.addEventListener("click", function () {
-                const targetPanel = document.getElementById(this.dataset.step + "-panel");
-
-                // Update active step
-                steps.forEach(s => s.classList.remove("active-label", "step-label"));
-                this.classList.add("active-label");
-
-                // Show corresponding panel
-                panels.forEach(p => p.classList.remove("active"));
-                targetPanel.classList.add("active");
-            });
-        });
-</script>
+<!-- Steps functionality will be handled dynamically by the API integration script -->
 
 
     <!-- Business Travel Section -->
@@ -2442,6 +2425,133 @@ document.addEventListener('DOMContentLoaded', function () {
         
         container.innerHTML = fallbackLogos;
         console.log('Fallback logos loaded');
+    }
+});
+
+// Business Steps API Integration
+document.addEventListener('DOMContentLoaded', function () {
+    fetch('http://globe.ridealmobility.com/api/business/step')
+        .then(async response => {
+            if (!response.ok) throw new Error('Failed to fetch business steps data');
+            const data = await response.json();
+            renderBusinessSteps(Array.isArray(data) ? data : (data.data || []));
+        })
+        .catch(error => {
+            console.error('Error fetching business steps:', error);
+            // Keep fallback content if API fails
+            console.log('Using fallback business steps content');
+        });
+
+    function renderBusinessSteps(stepsData) {
+        if (!stepsData || !Array.isArray(stepsData) || stepsData.length === 0) {
+            console.warn('No business steps data found, keeping fallback content');
+            return;
+        }
+
+        // Sort steps by order
+        stepsData.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+        // Update timeline (left side)
+        const timelineContainer = document.querySelector('.steps-timeline');
+        if (timelineContainer) {
+            // Keep the timeline line
+            let timelineHTML = '<div class="timeline-line"></div>';
+            
+            stepsData.forEach((step, index) => {
+                const stepId = `step-${index}`;
+                const isActive = index === 0 ? 'active-label' : 'step-label';
+                const iconUrl = step.icon ? `http://globe.ridealmobility.com/${step.icon.replace(/^\/*/, '')}` : './GLOBENGEL/GLOBENGEL Pinpoint Logo.png';
+                
+                timelineHTML += `
+                    <div class="step">
+                        <div class="step-icon">
+                            <img src="${iconUrl}" alt="${step.stepTitle || 'Step Icon'}" onerror="this.src='./GLOBENGEL/GLOBENGEL Pinpoint Logo.png';" />
+                        </div>
+                        <button class="step-label-btn ${isActive}" data-step="${stepId}">${step.stepTitle || `Step ${index + 1}`}</button>
+                    </div>
+                `;
+            });
+            
+            timelineContainer.innerHTML = timelineHTML;
+        }
+
+        // Update content panels (right side)
+        const contentContainer = document.querySelector('.steps-content');
+        if (contentContainer) {
+            let panelsHTML = '';
+            
+            stepsData.forEach((step, index) => {
+                const stepId = `step-${index}`;
+                const isActive = index === 0 ? 'active' : '';
+                
+                // Get images from the step
+                let sideImage = 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80';
+                let mainImage = 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=500&q=80';
+                
+                if (step.images && Array.isArray(step.images) && step.images.length > 0) {
+                    sideImage = `http://globe.ridealmobility.com/${step.images[0].replace(/^\/*/, '')}`;
+                    mainImage = step.images.length > 1 ? 
+                        `http://globe.ridealmobility.com/${step.images[1].replace(/^\/*/, '')}` : 
+                        sideImage;
+                }
+                
+                panelsHTML += `
+                    <div class="steps-panel ${isActive}" id="${stepId}-panel">
+                        <div class="steps-images-row">
+                            <img src="${sideImage}" 
+                                class="steps-img side-img" 
+                                alt="${step.stepTitle || 'Step Image'}"
+                                onerror="this.src='https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80';" />
+                            <img src="${mainImage}"
+                                class="steps-img main-img" 
+                                alt="${step.stepTitle || 'Step Image'}"
+                                onerror="this.src='https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=500&q=80';" />
+                        </div>
+                        <div class="steps-desc">
+                            <div class="steps-divider"></div>
+                            <div class="steps-title-row">
+                                <span class="steps-title-script">${step.contentTitle || step.stepTitle || ''}</span>
+                                <span class="steps-title-bold">${step.stepTitle || `Step ${index + 1}`}</span>
+                            </div>
+                            <p class="steps-text">
+                                ${step.description || 'No description available for this step.'}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            contentContainer.innerHTML = panelsHTML;
+        }
+
+        // Re-initialize step functionality after content is loaded
+        initializeStepFunctionality();
+        
+        console.log('Business steps updated from API');
+        console.log('Steps loaded:', stepsData.length);
+    }
+
+    function initializeStepFunctionality() {
+        const steps = document.querySelectorAll(".step-label-btn");
+        const panels = document.querySelectorAll(".steps-panel");
+
+        steps.forEach(step => {
+            step.addEventListener("click", function () {
+                const targetPanel = document.getElementById(this.dataset.step + "-panel");
+
+                if (targetPanel) {
+                    // Update active step
+                    steps.forEach(s => s.classList.remove("active-label"));
+                    steps.forEach(s => s.classList.add("step-label"));
+                    this.classList.remove("step-label");
+                    this.classList.add("active-label");
+
+                    // Show corresponding panel
+                    panels.forEach(p => p.classList.remove("active"));
+                    targetPanel.classList.add("active");
+                }
+            });
+        });
     }
 });
 </script>

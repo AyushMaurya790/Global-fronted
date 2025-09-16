@@ -1169,7 +1169,7 @@
     <section class="cruise-partners-section">
         <div class="cruise-partners-wrapper">
             <h2 class="cruise-partners-title">
-                Our <span class="cruise-partners-script silver-South-family">Cruise</span> line partners
+                Our <span class="cruise-partners-script silver-South-family">Partners</span>
             </h2>
             <div class="cruise-logos-marquee">
                 <div class="cruise-logos-track" id="partnersTrack1">
@@ -1180,23 +1180,6 @@
             <div class="cruise-logos-marquee-rtl">
                 <div class="cruise-logos-track-rtl" id="partnersTrack2">
                     <!-- API partners will be injected here -->
-                </div>
-            </div>
-        </div>
-    </section>
-                    <!-- Repeat logos for seamless loop -->
-                    <img src="./CruisesLogo/NCL.png" alt="Holland America Line" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/Oceania.png" alt="Royal Caribbean" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/POCruisesNewLogo48px.svg" alt="Ponant" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/princess-cruises-1-logo-svg-vector.svg" alt="Silversea" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/Resorts-World-Cruises_EN_Horizontal_Red.png" alt="Azamara" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/VARIETY CRUISES (1)-png.png" alt="Seabourn" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/Viking.png" alt="Regent" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/windstar-cruises-best-travel-agents.png" alt="Celebrity Cruises" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/Albatros Expeditions.svg" alt="MSC Cruises" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/Dream_Cruises_Logo.png" alt="Regent" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/logocord.png" alt="Regent" class="cruise-logo-rtl">
-                    <img src="./CruisesLogo/logocosta.svg" alt="Regent" class="cruise-logo-rtl">
                 </div>
             </div>
         </div>
@@ -2700,6 +2683,162 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeVoyagesLuxuryDropdown();
+});
+
+// Partners API Integration for Voyages
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Partners API integration for Voyages...');
+
+    // Function to get the complete image URL
+    function getPartnerImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath.replace(/^\/+/, '');
+    }
+
+    // Function to fetch partners data from API
+    async function fetchPartnersData() {
+        try {
+            console.log('Fetching partners data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/partners', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Partners API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching partners data:', error);
+            return null;
+        }
+    }
+
+    // Function to create partner logo element
+    function createPartnerLogo(imagePath, className, index) {
+        const img = document.createElement('img');
+        img.src = getPartnerImageUrl(imagePath);
+        img.alt = `Partner ${index + 1}`;
+        img.className = className;
+        
+        // Error handling for images
+        img.onerror = function() {
+            console.warn(`Failed to load partner image: ${this.src}`);
+            // Hide broken images instead of showing broken image icon
+            this.style.display = 'none';
+        };
+        
+        img.onload = function() {
+            console.log(`Successfully loaded partner logo: ${this.src}`);
+        };
+        
+        return img;
+    }
+
+    // Function to update partner logos with API data
+    async function updatePartnerLogosWithAPIData() {
+        try {
+            const apiData = await fetchPartnersData();
+            
+            if (apiData && apiData.partners && apiData.partners.images && Array.isArray(apiData.partners.images)) {
+                const images = apiData.partners.images;
+                console.log(`Processing ${images.length} partner images from API`);
+
+                // Split images into two halves for the two tracks
+                const midPoint = Math.ceil(images.length / 2);
+                const firstHalf = images.slice(0, midPoint);
+                const secondHalf = images.slice(midPoint);
+
+                // Update first track (left to right)
+                const track1 = document.getElementById('partnersTrack1');
+                if (track1) {
+                    track1.innerHTML = '';
+                    
+                    // Create logos for first half
+                    const logoElements1 = [];
+                    firstHalf.forEach((imagePath, index) => {
+                        if (imagePath && imagePath.trim()) {
+                            const img = createPartnerLogo(imagePath, 'cruise-logo', index);
+                            logoElements1.push(img);
+                        }
+                    });
+                    
+                    // Duplicate logos 4 times for seamless marquee animation
+                    for (let i = 0; i < 4; i++) {
+                        logoElements1.forEach(originalImg => {
+                            const img = originalImg.cloneNode(true);
+                            // Re-attach event handlers for cloned images
+                            img.onerror = originalImg.onerror;
+                            img.onload = originalImg.onload;
+                            track1.appendChild(img);
+                        });
+                    }
+                    
+                    console.log(`Track 1 updated with ${firstHalf.length} unique logos (${logoElements1.length * 4} total)`);
+                }
+
+                // Update second track (right to left)
+                const track2 = document.getElementById('partnersTrack2');
+                if (track2) {
+                    track2.innerHTML = '';
+                    
+                    // Create logos for second half
+                    const logoElements2 = [];
+                    secondHalf.forEach((imagePath, index) => {
+                        if (imagePath && imagePath.trim()) {
+                            const img = createPartnerLogo(imagePath, 'cruise-logo-rtl', index);
+                            logoElements2.push(img);
+                        }
+                    });
+                    
+                    // Duplicate logos 4 times for seamless marquee animation
+                    for (let i = 0; i < 4; i++) {
+                        logoElements2.forEach(originalImg => {
+                            const img = originalImg.cloneNode(true);
+                            // Re-attach event handlers for cloned images
+                            img.onerror = originalImg.onerror;
+                            img.onload = originalImg.onload;
+                            track2.appendChild(img);
+                        });
+                    }
+                    
+                    console.log(`Track 2 updated with ${secondHalf.length} unique logos (${logoElements2.length * 4} total)`);
+                }
+
+                console.log(`Partners section updated successfully with ${images.length} total partner logos`);
+                
+            } else {
+                console.warn('No valid images found in API response, keeping existing content');
+                console.log('API Data structure:', apiData);
+            }
+
+        } catch (error) {
+            console.error('Error updating partner logos with API data:', error);
+        }
+    }
+
+    // Initialize partners update
+    updatePartnerLogosWithAPIData();
+
+    // Auto-refresh partners every 15 minutes to keep content fresh
+    setInterval(updatePartnerLogosWithAPIData, 15 * 60 * 1000);
+    
+    console.log('Partners API integration initialized successfully for Voyages');
 });
 
 // Home Logo API Integration for Voyages Partner Section

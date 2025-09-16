@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Globengel: My Profile</title>
+  <title>Globengel: FIFA World Cup schedule</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" /> -->
@@ -293,6 +293,425 @@
     .glob-service-item.flip {
       transform: rotateY(180deg);
     }
+
+    /* F1 Race Card Styles */
+    .f1-race-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      padding: 22px 22px 18px 22px;
+      margin-bottom: 24px;
+      font-family: 'Montserrat', Arial, sans-serif;
+      max-width: 577px;
+    }
+
+    .f1-race-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .f1-race-round {
+      color: #222;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .f1-race-date {
+      background: #f3f3f3;
+      border-radius: 6px;
+      padding: 2px 10px;
+      font-size: 12px;
+      color: #444;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .f1-race-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .f1-race-flag {
+      width: 20px;
+      height: 20px;
+      /* border-radius: 50%; */
+      /* object-fit: cover; */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    }
+
+    .f1-race-location {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #222;
+      letter-spacing: 1px;
+    }
+
+    .f1-race-desc {
+      font-size: 14px;
+      color: #666;
+      /* margin-bottom: 14px; */
+      font-weight: 500;
+    }
+
+    .f1-race-results {
+      display: flex;
+      gap: 12px;
+      margin-top: 11px;
+    }
+
+    .f1-result-card {
+      background: #f3f3f3;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #222;
+      display: flex;
+      /* flex-direction: column; */
+      align-items: center;
+      gap: 5px;
+      min-width: 110px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    }
+
+
+    .f1-result-pos {
+      font-size: 18px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 2px;
+      text-align: center;
+    }
+
+    .f1-result-pos span {
+      font-size: 10px;
+      font-weight: 600;
+      color: #888;
+      margin-left: 2px;
+    }
+
+    .f1-driver-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    }
+
+    .f1-result-driver {
+      font-weight: 700;
+      color: #222;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .f1-result-time {
+      font-size: 13px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    @media (max-width: 700px) {
+      .f1-race-card {
+        padding: 12px 8px 10px 8px;
+        max-width: 98vw;
+      }
+
+      .f1-race-title {
+        gap: 6px;
+      }
+
+      .f1-race-location {
+        font-size: 1rem;
+      }
+
+      .f1-race-flag {
+        width: 22px;
+        height: 16px;
+      }
+
+      .f1-race-results {
+        gap: 8px;
+        flex-direction: column;
+      }
+
+      .f1-result-card {
+        min-width: 80px;
+        padding: 8px 6px;
+        font-size: 12px;
+      }
+
+      .f1-driver-img {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    /* F1 Testing Card Styles */
+    .f1-testing-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      padding: 22px 22px 18px 22px;
+      margin-bottom: 24px;
+      font-family: 'Montserrat', Arial, sans-serif;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      min-height: 160px;
+      max-width: 600px;
+    }
+
+    .f1-testing-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .f1-testing-round {
+      font-size: 13px;
+      font-weight: 700;
+      color: #222;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    .f1-testing-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    .f1-testing-flag {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      /* object-fit: cover; */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    }
+
+    .f1-testing-location {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: 1px;
+    }
+
+    .f1-testing-desc {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .f1-testing-date {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #111;
+      margin-top: 32px;
+      letter-spacing: 1px;
+    }
+
+    .f1-testing-right {
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .f1-testing-img {
+      width: 110px;
+      height: 215px;
+      border-radius: 10px;
+      /* object-fit: cover; */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    }
+
+    @media (max-width: 700px) {
+      .f1-testing-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 8px 10px 8px;
+        max-width: 98vw;
+        gap: 12px;
+      }
+
+      .f1-testing-img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .f1-testing-location {
+        font-size: 1rem;
+      }
+
+      .f1-testing-date {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Card 18: Azerbaijan (Styled as per screenshot) */
+    .azerbaijan-card {
+      background: linear-gradient(90deg, #e60012 60%, #c8001c 100%);
+      color: #fff;
+      position: relative;
+      min-height: 180px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      border-radius: 12px;
+      padding: 28px 32px 22px 32px;
+      margin-bottom: 24px;
+      font-family: 'Montserrat', Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .azerbaijan-card .f1-race-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .azerbaijan-card .f1-race-round {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+
+    .next-race-btn {
+      background: #fff;
+      color: #e60012;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 7px 18px 7px 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .next-race-btn:hover {
+      background: #ffe6e6;
+    }
+
+    .azerbaijan-card .f1-race-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .azerbaijan-card .f1-race-flag {
+      width: 20px;
+      height: 20px;
+      /* border-radius: 50%; */
+      /* object-fit: cover; */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    }
+
+    .azerbaijan-card .f1-race-location {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    .azerbaijan-card .f1-race-desc {
+      font-size: 15px;
+      color: #fff;
+      /* margin-bottom: 18px; */
+      font-weight: 500;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    }
+
+    .f1-race-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 14px;
+    }
+
+    .f1-race-date-bold {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+
+    .qatar-logo {
+      height: 32px;
+      width: auto;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 700px) {
+      .azerbaijan-card {
+        padding: 16px 10px 14px 10px;
+        min-height: 120px;
+      }
+
+      .azerbaijan-card .f1-race-location {
+        font-size: 1.1rem;
+      }
+
+      .azerbaijan-card .f1-race-desc {
+        font-size: 14px;
+      }
+
+      .f1-race-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .f1-race-date-bold {
+        font-size: 1.2rem;
+      }
+
+      .qatar-logo {
+        height: 28px;
+      }
+    }
+
+    .book-now-btn {
+      background: #e55d17;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 2px 8px rgba(229, 93, 23, 0.08);
+      transition: background 0.2s;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .book-now-btn:hover {
+      background: #d04e0f;
+    }
   </style>
 </head>
 
@@ -566,722 +985,325 @@
   <div class="overlay"></div>
   <!-- Hero Section -->
 
-  <!-- Asia Cup 2025 Schedule & Results Section -->
-  <div class="asia-cup-schedule">
-    <h3 class="schedule-title">Asia Cup 2025 Schedule &amp; Results</h3>
-    <div class="schedule-list">
-      <!-- Match Row 1 -->
-      <div class="schedule-row highlight">
-        <div class="schedule-date">Tue, 09 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">1st Match, Group B (N) - Abu Dhabi, Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/af.png" alt="Afghanistan" class="team-flag"> Afghanistan
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/hk.png" alt="Hong Kong" class="team-flag"> Hong Kong
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 2 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Wed, 10 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">2nd Match, Group A (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/ae.png" alt="UAE" class="team-flag"> United Arab Emirates
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 3 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Thu, 11 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">3rd Match, Group B (N) - Abu Dhabi, Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/bd.png" alt="Bangladesh" class="team-flag"> Bangladesh
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/hk.png" alt="Hong Kong" class="team-flag"> Hong Kong
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 4 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Fri, 12 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">4th Match, Group A (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/om.png" alt="Oman" class="team-flag"> Oman
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/pk.png" alt="Pakistan" class="team-flag"> Pakistan
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 5 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Sat, 13 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">5th Match, Group B (N) - Abu Dhabi, Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/bd.png" alt="Bangladesh" class="team-flag"> Bangladesh
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/lk.png" alt="Sri Lanka" class="team-flag"> Sri Lanka
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
+  <!-- FIFA World Cup Schedule Section -->
+  <section class="fifa-schedule-section" id="fifaScheduleSection">
+    <div class="fifa-schedule-container">
+      <div class="fifa-schedule-header">
+        <h2>FIFA World Cup 2026</h2>
+        <p>USA • Canada • Mexico | June 11 - July 19, 2026</p>
       </div>
 
-      <!-- Match Row 6 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Sun, 14 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">6th Match, Group A (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/pk.png" alt="Pakistan" class="team-flag"> Pakistan
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
+      <div class="fifa-schedule-controls">
+        <input type="text" class="fifa-search-box" placeholder="Search teams, venues, or dates..." id="fifaSearchInput">
+        <select class="fifa-filter-select" id="fifaGroupFilter">
+          <option value="">All Groups</option>
+          <option value="A">Group A</option>
+          <option value="B">Group B</option>
+          <option value="C">Group C</option>
+          <option value="D">Group D</option>
+          <option value="E">Group E</option>
+          <option value="F">Group F</option>
+          <option value="G">Group G</option>
+          <option value="H">Group H</option>
+        </select>
+        <select class="fifa-filter-select" id="fifaVenueFilter">
+          <option value="">All Venues</option>
+          <option value="MetLife Stadium">MetLife Stadium</option>
+          <option value="AT&T Stadium">AT&T Stadium</option>
+          <option value="Rose Bowl">Rose Bowl</option>
+          <option value="Mercedes-Benz Stadium">Mercedes-Benz Stadium</option>
+          <option value="Hard Rock Stadium">Hard Rock Stadium</option>
+          <option value="Azteca Stadium">Azteca Stadium</option>
+        </select>
       </div>
 
-      <!-- Match Row 7 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Mon, 15 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">7th Match, Group A (D/N) - Abu Dhabi, Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/ae.png" alt="United Arab Emirates" class="team-flag"> United Arab
-                Emirates
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/om.png" alt="Oman" class="team-flag"> Oman
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">5:30 PM</span>
-            <span class="sub-time">12:00 pm GMT | 4:00 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
+      <div class="fifa-phase-tabs">
+        <button class="fifa-tab-btn active" data-phase="group">Group Stage</button>
+        <button class="fifa-tab-btn" data-phase="round16">Round of 16</button>
+        <button class="fifa-tab-btn" data-phase="quarter">Quarter Finals</button>
+        <button class="fifa-tab-btn" data-phase="semi">Semi Finals</button>
+        <button class="fifa-tab-btn" data-phase="final">Final</button>
       </div>
 
-      <!-- Match Row 8 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Mon, 15 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">8th Match, Group B (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/hk.png" alt="Hong Kong" class="team-flag"> Hong Kong
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/lk.png" alt="Sri Lanka" class="team-flag"> Sri Lanka
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Match Row 9 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Tue, 16 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">9th Match, Group B (N) - Abu Dhabi, Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/af.png" alt="Afghanistan" class="team-flag"> Afghanistan
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/bd.png" alt="Bangladesh" class="team-flag"> Bangladesh
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Match Row 10 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Wed, 17 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">10th Match, Group A (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/ae.png" alt="United Arab Emirates" class="team-flag"> United Arab
-                Emirates
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/pk.png" alt="Pakistan" class="team-flag"> Pakistan
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Match Row 11 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Thu, 18 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">11th Match, Group B (N) - Abu Dhabi, Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/af.png" alt="Afghanistan" class="team-flag"> Afghanistan
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/lk.png" alt="Sri Lanka" class="team-flag"> Sri Lanka
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 12 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Fri, 19 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">12th Match, Group A (N) - Abu Dhabi, Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
-              </span>
-              <span class="team">
-                <img src="https://flagcdn.com/16x12/om.png" alt="Oman" class="team-flag"> Oman
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 13 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Sat, 20 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">13th Match, Super Fours (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 14 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Sun, 21 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">14th Match, Super Fours (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 15 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Tue, 23 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">15th Match, Super Fours (N) - Abu Dhabi, Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 16 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Wed, 24 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">16th Match, Super Fours (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 17 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Thu, 25 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">17th Match, Super Fours (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 18 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Fri, 26 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">18th Match, Super Fours (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
-      </div>
-      <!-- Match Row 19 -->
-      <div class="schedule-row">
-        <div class="schedule-date">Sun, 28 Sep '25</div>
-        <div class="schedule-details">
-          <div class="schedule-match-info">
-            <span class="match-desc">Final (N) - Dubai (DICS), Men's T20 Asia Cup</span>
-            <div class="teams">
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-              <span class="team">
-                <span
-                  style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>
-                TBA
-              </span>
-            </div>
-            <div class="match-status">Match yet to begin</div>
-          </div>
-          <div class="schedule-time">
-            <span class="main-time">8:00 PM</span>
-            <span class="sub-time">2:30 pm GMT | 6:30 pm Local</span>
-          </div>
-          <div class="schedule-type">
-            <button class="book-ticket-btn">Enquire</button>
-          </div>
-        </div>
+      <div id="fifaMatchesContainer">
+        <div class="fifa-loading">Loading matches...</div>
       </div>
     </div>
-  </div>
-
+  </section>
   <style>
-    .asia-cup-schedule {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-      max-width: 1200px;
-      margin: 32px auto;
-      padding: 24px 18px 18px 18px;
-      font-family: 'Montserrat', Arial, sans-serif;
-    }
-
-    .schedule-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 18px;
-      color: #222;
-    }
-
-    .schedule-list {
-      width: 100%;
-    }
-
-    .schedule-row {
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
-      border-bottom: 1px solid #eaeaea;
-      background: #f9f9f9;
-      border-radius: 8px;
-      margin-bottom: 8px;
+    /* FIFA World Cup Schedule Section Styles */
+    .fifa-schedule-section {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #FFF6F3;
+      padding: 60px 0;
+      color: #333;
+      position: relative;
       overflow: hidden;
     }
 
-    .schedule-row:last-child {
-      border-bottom: none;
+    .fifa-schedule-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .schedule-row.highlight {
-      background: #eaf6ff;
+    .fifa-schedule-header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding: 40px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .schedule-date {
-      min-width: 120px;
-      background: transparent;
-      color: #222;
-      font-weight: 600;
-      font-size: 15px;
-      padding: 18px 12px 0 12px;
+    .fifa-schedule-header h2 {
+      color: black;
+      font-size: 3em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .fifa-schedule-header p {
+      color: black;
+      font-size: 1.2em;
+    }
+
+    .fifa-schedule-controls {
       display: flex;
-      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
     }
 
-    .schedule-details {
-      flex: 1;
+    .fifa-search-box,
+    .fifa-filter-select {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      font-size: 16px;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .fifa-search-box:focus,
+    .fifa-filter-select:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .fifa-phase-tabs {
       display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      padding: 12px 0;
-      gap: 18px;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
     }
 
-    .schedule-match-info {
-      flex: 2;
+    .fifa-tab-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.2);
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .fifa-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .fifa-tab-btn.active {
+      background: #e55d17;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .fifa-matches-grid {
+      display: grid;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .fifa-match-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .fifa-match-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+    }
+
+    .fifa-match-header {
       display: flex;
-      flex-direction: column;
-      gap: 6px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
     }
 
-    .match-desc {
-      font-size: 13px;
-      color: #444;
-      margin-bottom: 2px;
+    .fifa-match-info {
+      font-size: 14px;
+      color: #666;
+      font-weight: bold;
     }
 
-    .teams {
+    .fifa-match-time {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .fifa-teams {
       display: flex;
-      gap: 18px;
-      margin-bottom: 2px;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
     }
 
-    .team {
+    .fifa-team {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #222;
-    }
-
-    .team-flag {
-      width: 22px;
-      height: 16px;
-      border-radius: 3px;
-      object-fit: cover;
-      border: 1px solid #eee;
-      background: #fff;
-    }
-
-    .match-status {
-      font-size: 13px;
-      color: #888;
-      margin-top: 2px;
-    }
-
-    .schedule-time {
+      gap: 12px;
       flex: 1;
+    }
+
+    .fifa-team.away {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    .fifa-flag {
+      width: 40px;
+      height: 30px;
+      border-radius: 5px;
+      background: linear-gradient(45deg, #ff6b6b, #ff8e53);
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
-      font-size: 15px;
-      font-weight: 600;
-      color: #222;
-      min-width: 90px;
-      padding-top: 35px;
-    }
-
-    .main-time {
-      font-size: 16px;
-      font-weight: 700;
-      color: #222;
-    }
-
-    .sub-time {
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
       font-size: 12px;
-      color: #888;
-      margin-top: 2px;
     }
 
-    .schedule-type {
-      min-width: 60px;
-      font-size: 14px;
+    .fifa-team-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .fifa-vs {
+      font-size: 20px;
+      font-weight: bold;
+      color: #667eea;
+      margin: 0 20px;
+    }
+
+    .fifa-venue {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      margin-top: 10px;
+    }
+
+    .fifa-group-header {
+      background: white;
       color: #444;
-      font-weight: 600;
-      align-self: center;
-      padding-top: 2px;
+      padding: 15px 25px;
+      border-radius: 10px;
+      margin: 30px 0 20px 0;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
 
-    @media (max-width: 700px) {
-      .asia-cup-schedule {
-        max-width: 98vw;
-        padding: 12px 4px 8px 4px;
+    .fifa-round-section {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .fifa-round-title {
+      color: #444;
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .fifa-loading {
+      text-align: center;
+      color: white;
+      font-size: 18px;
+      margin: 40px 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .fifa-schedule-header h2 {
+        font-size: 2em;
       }
 
-      .schedule-row {
+      .fifa-schedule-controls {
         flex-direction: column;
-        margin-bottom: 12px;
-        border-radius: 8px;
+        align-items: stretch;
       }
 
-      .schedule-date {
-        min-width: 0;
-        padding: 10px 8px 0 8px;
-        font-size: 14px;
+      .fifa-search-box,
+      .fifa-filter-select {
+        min-width: auto;
+        width: 100%;
       }
 
-      .schedule-details {
+      .fifa-teams {
         flex-direction: column;
-        gap: 8px;
-        padding: 8px 0;
+        gap: 15px;
       }
 
-      .schedule-match-info {
-        gap: 4px;
+      .fifa-team.away {
+        flex-direction: row;
+        text-align: left;
       }
 
-      .teams {
-        gap: 10px;
+      .fifa-vs {
+        margin: 0;
+        align-self: center;
       }
 
-      .team {
-        font-size: 13px;
+      .fifa-phase-tabs {
+        justify-content: center;
       }
 
-      .schedule-time {
-        align-items: flex-start;
-        font-size: 13px;
-        min-width: 0;
-        padding-top: 0;
+      .fifa-tab-btn {
+        flex: 1;
+        min-width: 120px;
       }
+    }
 
-      .main-time {
-        font-size: 14px;
-      }
-
-      .sub-time {
-        font-size: 11px;
-      }
-
-      .schedule-type {
-        font-size: 12px;
-        min-width: 0;
-        padding-top: 0;
-      }
+    .fifa-hidden {
+      display: none !important;
     }
   </style>
-
 
 
 
@@ -1668,118 +1690,9 @@
         </ul>
         <button id="engelSignUpBtn"
           style="background:#e55d17; color:#fff; font-size:16px; font-weight:600; border:none; border-radius:6px; padding:10px 32px; margin-top:8px;">SIGN-UP</button>
-           </div>
+      </div>
     </div>
   </div>
-
-  <style>
-    /* Responsive styles for auth modal */
-    @media (max-width: 700px) {
-      #authModalInner {
-        flex-direction: column !important;
-        max-width: 98vw !important;
-        width: 98vw !important;
-        padding: 18px 8px 18px 8px !important;
-        gap: 0 !important;
-        align-items: stretch !important;
-      }
-
-      #authModalInner>div {
-        min-width: 0 !important;
-        width: 100% !important;
-        border-radius: 12px !important;
-        padding: 0 !important;
-        margin-bottom: 18px !important;
-      }
-
-      #engelClubCard {
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
-        padding: 18px 8px !important;
-        border-radius: 12px !important;
-        width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100vw !important;
-      }
-
-      #closeAuthModal {
-        top: 8px !important;
-        right: 8px !important;
-        font-size: 28px !important;
-      }
-
-      .auth-tab {
-        font-size: 16px !important;
-        padding: 6px 0 !important;
-      }
-
-      #signInForm,
-      #createForm {
-        padding: 0 !important;
-      }
-
-      #engelClubCard img {
-        width: 90px !important;
-        margin-bottom: 8px !important;
-      }
-
-      #engelClubCard h3,
-      #engelClubCard h4 {
-        font-size: 18px !important;
-        margin-bottom: 10px !important;
-      }
-
-      #engelClubCard ul {
-        font-size: 13px !important;
-        margin-bottom: 10px !important;
-      }
-
-      #engelSignUpBtn {
-        font-size: 15px !important;
-        padding: 8px 18px !important;
-        margin-top: 6px !important;
-      }
-    }
-
-    /* Responsive styles for Create Account form fields */
-    @media (max-width: 700px) {
-
-      #createForm .display-flex,
-      #createForm .display-flex>div,
-      #createForm .display-flex>div>div {
-        flex-direction: column !important;
-        gap: 0 !important;
-        width: 100% !important;
-        min-width: 0 !important;
-        margin-bottom: 0 !important;
-        padding: 0 !important;
-      }
-
-      #createForm .display-flex>div {
-        margin-bottom: 12px !important;
-      }
-
-      #createForm input,
-      #createForm select {
-        width: 100% !important;
-        margin-bottom: 8px !important;
-        border-radius: 6px !important;
-        font-size: 15px !important;
-      }
-
-      #createForm label {
-        font-size: 14px !important;
-        margin-bottom: 4px !important;
-        display: block !important;
-      }
-
-      #createForm .display-flex {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 0 !important;
-      }
-    }
-  </style>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -1833,6 +1746,26 @@
       }
     });
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Make sure these match your modal's HTML IDs/classes
+      window.bookingOverlay = document.getElementById('bookingOverlay');
+      window.bookingForm = document.getElementById('bookingForm');
+      window.bookingMatchInfo = document.getElementById('bookingMatchInfo');
+      window.ticketCounts = { cat1: 0, cat2: 0, cat3: 0 };
+      window.ticketPrices = { cat1: 100, cat2: 70, cat3: 40 }; // Example prices
+      window.selectedMatch = null;
+
+      // If you have a close button in your modal
+      document.getElementById('closeBookingBtn').onclick = function () {
+        bookingOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+      };
+
+      // Booking form submit
+      bookingForm.onsubmit = handleBookingSubmit;
+    });
+  </script>
 
 
   <!-- Font Awesome for icons -->
@@ -1840,59 +1773,605 @@
   <!-- SwiperJS for slider -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-  <!-- Ticket Booking Modal -->
-  <div id="ticketModal" class="ticket-modal">
-    <div class="ticket-modal-content">
-      <button class="close-ticket-modal" title="Close">&times;</button>
-      <h4>Book Your Ticket</h4>
-      <form id="ticketForm">
-        <div class="form-group">
-          <label>Match</label>
-          <input type="text" id="matchName" readonly>
+  <script>
+    // FIFA World Cup Schedule JavaScript Module
+    const FIFASchedule = (function () {
+      // Sample match data
+      const matchData = {
+        group: {
+          'A': [
+            {
+              id: 1,
+              date: '2026-06-11',
+              time: '17:00',
+              team1: 'Mexico',
+              team2: 'Canada',
+              venue: 'Azteca Stadium, Mexico City',
+              group: 'A'
+            },
+            {
+              id: 2,
+              date: '2026-06-12',
+              time: '14:00',
+              team1: 'USA',
+              team2: 'Morocco',
+              venue: 'Rose Bowl, Los Angeles',
+              group: 'A'
+            },
+            {
+              id: 3,
+              date: '2026-06-16',
+              time: '20:00',
+              team1: 'Mexico',
+              team2: 'Morocco',
+              venue: 'AT&T Stadium, Dallas',
+              group: 'A'
+            },
+            {
+              id: 4,
+              date: '2026-06-17',
+              time: '17:00',
+              team1: 'Canada',
+              team2: 'USA',
+              venue: 'MetLife Stadium, New York',
+              group: 'A'
+            },
+            {
+              id: 5,
+              date: '2026-06-22',
+              time: '16:00',
+              team1: 'Morocco',
+              team2: 'Canada',
+              venue: 'Hard Rock Stadium, Miami',
+              group: 'A'
+            },
+            {
+              id: 6,
+              date: '2026-06-22',
+              time: '16:00',
+              team1: 'USA',
+              team2: 'Mexico',
+              venue: 'Rose Bowl, Los Angeles',
+              group: 'A'
+            }
+          ],
+          'B': [
+            {
+              id: 7,
+              date: '2026-06-13',
+              time: '15:00',
+              team1: 'Brazil',
+              team2: 'Serbia',
+              venue: 'Mercedes-Benz Stadium, Atlanta',
+              group: 'B'
+            },
+            {
+              id: 8,
+              date: '2026-06-14',
+              time: '18:00',
+              team1: 'Argentina',
+              team2: 'Japan',
+              venue: 'MetLife Stadium, New York',
+              group: 'B'
+            },
+            {
+              id: 9,
+              date: '2026-06-18',
+              time: '21:00',
+              team1: 'Brazil',
+              team2: 'Japan',
+              venue: 'AT&T Stadium, Dallas',
+              group: 'B'
+            },
+            {
+              id: 10,
+              date: '2026-06-19',
+              time: '19:00',
+              team1: 'Argentina',
+              team2: 'Serbia',
+              venue: 'Hard Rock Stadium, Miami',
+              group: 'B'
+            },
+            {
+              id: 11,
+              date: '2026-06-23',
+              time: '20:00',
+              team1: 'Japan',
+              team2: 'Serbia',
+              venue: 'Rose Bowl, Los Angeles',
+              group: 'B'
+            },
+            {
+              id: 12,
+              date: '2026-06-23',
+              time: '20:00',
+              team1: 'Argentina',
+              team2: 'Brazil',
+              venue: 'Mercedes-Benz Stadium, Atlanta',
+              group: 'B'
+            }
+          ],
+          'C': [
+            {
+              id: 13,
+              date: '2026-06-15',
+              time: '14:00',
+              team1: 'Spain',
+              team2: 'Croatia',
+              venue: 'Hard Rock Stadium, Miami',
+              group: 'C'
+            },
+            {
+              id: 14,
+              date: '2026-06-15',
+              time: '17:00',
+              team1: 'Germany',
+              team2: 'South Korea',
+              venue: 'AT&T Stadium, Dallas',
+              group: 'C'
+            },
+            {
+              id: 15,
+              date: '2026-06-20',
+              time: '15:00',
+              team1: 'Spain',
+              team2: 'South Korea',
+              venue: 'Rose Bowl, Los Angeles',
+              group: 'C'
+            },
+            {
+              id: 16,
+              date: '2026-06-20',
+              time: '18:00',
+              team1: 'Germany',
+              team2: 'Croatia',
+              venue: 'MetLife Stadium, New York',
+              group: 'C'
+            },
+            {
+              id: 17,
+              date: '2026-06-25',
+              time: '16:00',
+              team1: 'South Korea',
+              team2: 'Croatia',
+              venue: 'Mercedes-Benz Stadium, Atlanta',
+              group: 'C'
+            },
+            {
+              id: 18,
+              date: '2026-06-25',
+              time: '16:00',
+              team1: 'Germany',
+              team2: 'Spain',
+              venue: 'Hard Rock Stadium, Miami',
+              group: 'C'
+            }
+          ]
+        },
+        knockout: {
+          round16: [
+            {
+              id: 49,
+              date: '2026-06-29',
+              time: '16:00',
+              team1: 'Winner Group A',
+              team2: 'Runner-up Group B',
+              venue: 'MetLife Stadium, New York',
+              stage: 'Round of 16'
+            },
+            {
+              id: 50,
+              date: '2026-06-29',
+              time: '20:00',
+              team1: 'Winner Group C',
+              team2: 'Runner-up Group D',
+              venue: 'AT&T Stadium, Dallas',
+              stage: 'Round of 16'
+            },
+            {
+              id: 51,
+              date: '2026-06-30',
+              time: '16:00',
+              team1: 'Winner Group E',
+              team2: 'Runner-up Group F',
+              venue: 'Rose Bowl, Los Angeles',
+              stage: 'Round of 16'
+            },
+            {
+              id: 52,
+              date: '2026-06-30',
+              time: '20:00',
+              team1: 'Winner Group G',
+              team2: 'Runner-up Group H',
+              venue: 'Hard Rock Stadium, Miami',
+              stage: 'Round of 16'
+            }
+          ],
+          quarter: [
+            {
+              id: 57,
+              date: '2026-07-05',
+              time: '16:00',
+              team1: 'Winner Match 49',
+              team2: 'Winner Match 50',
+              venue: 'Hard Rock Stadium, Miami',
+              stage: 'Quarter Final'
+            },
+            {
+              id: 58,
+              date: '2026-07-05',
+              time: '20:00',
+              team1: 'Winner Match 51',
+              team2: 'Winner Match 52',
+              venue: 'Rose Bowl, Los Angeles',
+              stage: 'Quarter Final'
+            }
+          ],
+          semi: [
+            {
+              id: 61,
+              date: '2026-07-09',
+              time: '20:00',
+              team1: 'Winner QF1',
+              team2: 'Winner QF2',
+              venue: 'Mercedes-Benz Stadium, Atlanta',
+              stage: 'Semi Final'
+            },
+            {
+              id: 62,
+              date: '2026-07-10',
+              time: '20:00',
+              team1: 'Winner QF3',
+              team2: 'Winner QF4',
+              venue: 'AT&T Stadium, Dallas',
+              stage: 'Semi Final'
+            }
+          ],
+          final: [
+            {
+              id: 63,
+              date: '2026-07-13',
+              time: '18:00',
+              team1: 'Loser SF1',
+              team2: 'Loser SF2',
+              venue: 'Hard Rock Stadium, Miami',
+              stage: '3rd Place Play-off'
+            },
+            {
+              id: 64,
+              date: '2026-07-19',
+              time: '18:00',
+              team1: 'Winner SF1',
+              team2: 'Winner SF2',
+              venue: 'MetLife Stadium, New York',
+              stage: 'Final'
+            }
+          ]
+        }
+      };
+
+      let currentPhase = 'group';
+
+      // DOM Elements
+      const searchInput = document.getElementById('fifaSearchInput');
+      const groupFilter = document.getElementById('fifaGroupFilter');
+      const venueFilter = document.getElementById('fifaVenueFilter');
+      const matchesContainer = document.getElementById('fifaMatchesContainer');
+      const tabButtons = document.querySelectorAll('.fifa-tab-btn');
+
+      function init() {
+        if (!searchInput || !matchesContainer) return; // Guard clause
+        renderMatches();
+        setupEventListeners();
+      }
+
+      function setupEventListeners() {
+        // Tab switching
+        tabButtons.forEach(btn => {
+          btn.addEventListener('click', function () {
+            tabButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentPhase = this.dataset.phase;
+            renderMatches();
+          });
+        });
+
+        // Search and filter
+        searchInput.addEventListener('input', renderMatches);
+        groupFilter.addEventListener('change', renderMatches);
+        venueFilter.addEventListener('change', renderMatches);
+      }
+
+      function renderMatches() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const groupFilterValue = groupFilter.value;
+        const venueFilterValue = venueFilter.value;
+
+        matchesContainer.innerHTML = '';
+
+        if (currentPhase === 'group') {
+          renderGroupStage(searchTerm, groupFilterValue, venueFilterValue);
+        } else {
+          renderKnockoutStage(searchTerm, venueFilterValue);
+        }
+      }
+
+      function renderGroupStage(searchTerm, groupFilterValue, venueFilterValue) {
+        const groups = Object.keys(matchData.group);
+
+        groups.forEach(groupKey => {
+          if (groupFilterValue && groupKey !== groupFilterValue) return;
+
+          const groupMatches = matchData.group[groupKey].filter(match => {
+            const matchesSearch = !searchTerm ||
+              match.team1.toLowerCase().includes(searchTerm) ||
+              match.team2.toLowerCase().includes(searchTerm) ||
+              match.venue.toLowerCase().includes(searchTerm) ||
+              match.date.includes(searchTerm);
+
+            const matchesVenue = !venueFilterValue ||
+              match.venue.toLowerCase().includes(venueFilterValue.toLowerCase());
+
+            return matchesSearch && matchesVenue;
+          });
+
+          if (groupMatches.length > 0) {
+            const groupHeader = document.createElement('div');
+            groupHeader.className = 'fifa-group-header';
+            groupHeader.textContent = `Group ${groupKey}`;
+            matchesContainer.appendChild(groupHeader);
+
+            const matchesGrid = document.createElement('div');
+            matchesGrid.className = 'fifa-matches-grid';
+
+            groupMatches.forEach(match => {
+              matchesGrid.appendChild(createMatchCard(match));
+            });
+
+            matchesContainer.appendChild(matchesGrid);
+          }
+        });
+      }
+
+      function renderKnockoutStage(searchTerm, venueFilterValue) {
+        const knockoutMatches = matchData.knockout[currentPhase];
+
+        if (!knockoutMatches) return;
+
+        const filteredMatches = knockoutMatches.filter(match => {
+          const matchesSearch = !searchTerm ||
+            match.team1.toLowerCase().includes(searchTerm) ||
+            match.team2.toLowerCase().includes(searchTerm) ||
+            match.venue.toLowerCase().includes(searchTerm) ||
+            match.date.includes(searchTerm);
+
+          const matchesVenue = !venueFilterValue ||
+            match.venue.toLowerCase().includes(venueFilterValue.toLowerCase());
+
+          return matchesSearch && matchesVenue;
+        });
+
+        if (filteredMatches.length > 0) {
+          const roundSection = document.createElement('div');
+          roundSection.className = 'fifa-round-section';
+
+          const roundTitle = document.createElement('div');
+          roundTitle.className = 'fifa-round-title';
+          roundTitle.textContent = getStageTitle(currentPhase);
+          roundSection.appendChild(roundTitle);
+
+          const matchesGrid = document.createElement('div');
+          matchesGrid.className = 'fifa-matches-grid';
+
+          filteredMatches.forEach(match => {
+            matchesGrid.appendChild(createMatchCard(match));
+          });
+
+          roundSection.appendChild(matchesGrid);
+          matchesContainer.appendChild(roundSection);
+        }
+      }
+
+      function createMatchCard(match) {
+        const card = document.createElement('div');
+        card.className = 'fifa-match-card';
+
+        const formattedDate = new Date(match.date).toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        card.innerHTML = `
+        <div class="fifa-match-header">
+            <div class="fifa-match-info">
+                ${match.group ? `Group ${match.group} • ` : ''}${match.stage || ''} Match ${match.id}
+                <br>${formattedDate}
+            </div>
+            <div class="fifa-match-time">${match.time}</div>
         </div>
+        <div class="fifa-teams">
+            <div class="fifa-team">
+                <div class="fifa-flag">${getCountryCode(match.team1)}</div>
+                <div class="fifa-team-name">${match.team1}</div>
+            </div>
+            <div class="fifa-vs">VS</div>
+            <div class="fifa-team away">
+                <div class="fifa-flag">${getCountryCode(match.team2)}</div>
+                <div class="fifa-team-name">${match.team2}</div>
+            </div>
+        </div>
+        <div class="fifa-venue">${match.venue}</div>
+        <button class="fifa-book-btn book-now-btn">Enquire</button>
+    `;
+
+        // Fix: Call your modal popup function
+        card.querySelector('.fifa-book-btn').onclick = function () {
+          openBookingPopup(match);
+        };
+
+        return card;
+      }
+      function getCountryCode(country) {
+        const codes = {
+          'Mexico': 'MEX', 'Canada': 'CAN', 'USA': 'USA', 'Morocco': 'MAR',
+          'Brazil': 'BRA', 'Serbia': 'SRB', 'Argentina': 'ARG', 'Japan': 'JPN',
+          'Spain': 'ESP', 'Croatia': 'CRO', 'Germany': 'GER', 'South Korea': 'KOR'
+        };
+        return codes[country] || country.substring(0, 3).toUpperCase();
+      }
+
+      function getStageTitle(stage) {
+        const titles = {
+          'round16': 'Round of 16',
+          'quarter': 'Quarter Finals',
+          'semi': 'Semi Finals',
+          'final': 'Final & 3rd Place'
+        };
+        return titles[stage] || stage;
+      }
+
+      function openBookingPopup(match) {
+        selectedMatch = match;
+
+
+        // Populate match info
+        const formattedDate = new Date(match.date).toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        bookingMatchInfo.innerHTML = `
+                    <div style="text-align: center;">
+                        <h4>${match.team1} vs ${match.team2}</h4>
+                        <p>${formattedDate} • ${match.time}</p>
+                        <p>${match.venue}</p>
+                    </div>
+                `;
+
+        // Reset form
+        bookingForm.reset();
+
+        // Show popup
+        bookingOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeBookingPopup() {
+        bookingOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+        selectedMatch = null;
+      }
+
+      function updateTicketDisplay() {
+        document.getElementById('cat1Count').textContent = ticketCounts.cat1;
+        document.getElementById('cat2Count').textContent = ticketCounts.cat2;
+        document.getElementById('cat3Count').textContent = ticketCounts.cat3;
+
+        const total = (ticketCounts.cat1 * ticketPrices.cat1) +
+          (ticketCounts.cat2 * ticketPrices.cat2) +
+          (ticketCounts.cat3 * ticketPrices.cat3);
+
+        document.getElementById('totalPrice').textContent = total;
+      }
+
+      function handleBookingSubmit(e) {
+        e.preventDefault();
+
+
+        const formData = new FormData(bookingForm);
+        const bookingData = {
+          match: selectedMatch,
+          customerInfo: {
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            country: formData.get('country')
+          },
+        };
+
+        // Here you would normally send the data to your backend
+        console.log('Booking Data:', bookingData);
+
+        alert(`Booking confirmed! 🎉\n\nMatch: ${selectedMatch.team1} vs ${selectedMatch.team2}\nTotal: ${bookingData.totalAmount}\n\nConfirmation details will be sent to ${bookingData.customerInfo.email}`);
+
+        closeBookingPopup();
+      }
+
+      // Make functions globally accessible for onclick handlers
+      window.openBookingPopup = openBookingPopup;
+      window.updateTicketCount = function (category, change) {
+        const newCount = ticketCounts[category] + change;
+        if (newCount >= 0 && newCount <= 8) {
+          ticketCounts[category] = newCount;
+          updateTicketDisplay();
+        }
+      };
+
+      // Public API
+      return {
+        init: init,
+        updateMatches: function (newMatchData) {
+          if (newMatchData) {
+            Object.assign(matchData, newMatchData);
+            renderMatches();
+          }
+        }
+      };
+    })();
+
+    // Auto-initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+      FIFASchedule.init();
+    });
+
+    // Also initialize if already loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', FIFASchedule.init);
+    } else {
+      FIFASchedule.init();
+    }
+  </script>
+
+  <!-- Booking Modal -->
+  <div id="bookingOverlay" class="booking-modal">
+    <div class="booking-modal-content">
+      <button id="closeBookingBtn" class="close-booking-modal" title="Close">&times;</button>
+      <div id="bookingMatchInfo"></div>
+      <form id="bookingForm">
         <div class="form-group">
-          <label>Your Name</label>
-          <input type="text" required>
+          <label>Name</label>
+          <input type="text" name="firstName" required>
         </div>
         <div class="form-group">
           <label>Email</label>
-          <input type="email" required>
+          <input type="email" name="email" required>
         </div>
         <div class="form-group">
-          <label>Mobile</label>
-          <input type="text" required>
+          <label>Phone</label>
+          <input type="text" name="phone" required>
         </div>
-        <div class="form-group" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+        <div class="form-group">
+          <label>Country</label>
+          <input type="text" name="country" required>
+        </div>
+        <div class="form-group" style="display:flex; gap:10px; justify-content: center;align-items: center;">
           <label>Adults</label>
-          <input type="number" min="1" max="10" required placeholder="Adults">
-          <label>Children</label>
-          <input type="number" min="0" max="10" placeholder="Children">
+          <input type="number" name="adults" min="1" max="20" required placeholder="Adults">
+           <label>Children</label>
+          <input type="number" name="children" min="0" max="20" required placeholder="Child">
         </div>
-        <button type="submit" class="submit-ticket-btn">Enquire Now</button>
+        <button type="submit" class="submit-booking-btn">Book Now</button>
       </form>
     </div>
   </div>
 
   <style>
-    .book-ticket-btn {
-      background: #e55d17;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 15px;
-      margin: 10px;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(229, 93, 23, 0.08);
-      transition: background 0.2s;
-    }
-
-    .book-ticket-btn:hover {
-      background: #d04e0f;
-    }
-
-    .ticket-modal {
+    .booking-modal {
       display: none;
       position: fixed;
       top: 0;
@@ -1905,7 +2384,11 @@
       justify-content: center;
     }
 
-    .ticket-modal-content {
+    .booking-modal.show {
+      display: flex;
+    }
+
+    .booking-modal-content {
       background: #fff;
       border-radius: 16px;
       max-width: 380px;
@@ -1918,7 +2401,7 @@
       align-items: center;
     }
 
-    .close-ticket-modal {
+    .close-booking-modal {
       position: absolute;
       top: 14px;
       right: 18px;
@@ -1929,19 +2412,19 @@
       cursor: pointer;
     }
 
-    .ticket-modal-content h4 {
+    .booking-modal-content h4 {
       font-size: 20px;
       font-weight: 700;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
       color: #e55d17;
     }
 
-    #ticketForm {
-      width: 100%;
+    .booking-modal-content p {
+      margin-bottom: 10px !important;
     }
 
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 10px;
       width: 100%;
     }
 
@@ -1960,7 +2443,7 @@
       font-size: 15px;
     }
 
-    .submit-ticket-btn {
+    .submit-booking-btn {
       width: 100%;
       background: #e55d17;
       color: #fff;
@@ -1973,66 +2456,84 @@
       cursor: pointer;
     }
 
-    @media (max-width: 600px) {
-      .ticket-modal-content {
-        max-width: 98vw;
-        padding: 18px 8px;
-      }
+  .book-now-btn {
+  background: #e55d17;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(229,93,23,0.08);
+  transition: background 0.2s;
+  display: inline-block;
+  width: fit-content;
+}
+.book-now-btn:hover {
+  background: #d04e0f;
+}
+  </style>
 
-      .ticket-modal-content h4 {
-        font-size: 16px;
-        margin-bottom: 12px;
-      }
+  <!-- CSS for Destinations Menu Hover Functionality -->
+  <style>
+    /* Hide all content divs by default */
+    .destinations-menu .mega-right .content {
+      display: none !important;
+    }
 
-      .form-group input {
-        font-size: 13px;
-        padding: 6px 8px;
-      }
+    /* Show content when parent has active class or on hover */
+    .destinations-menu .mega-left li.active + .mega-right .content,
+    .destinations-menu .mega-right .content.show {
+      display: flex !important;
+    }
 
-      .submit-ticket-btn {
-        font-size: 14px;
-        padding: 8px 0;
-      }
+    /* Active state for continent items */
+    .destinations-menu .mega-left li.active {
+      background-color: rgba(229, 93, 23, 0.1);
+      color: #e55d17;
+    }
+
+    /* Hover effect for continent items */
+    .destinations-menu .mega-left li:hover {
+      background-color: rgba(229, 93, 23, 0.05);
+      color: #e55d17;
+      cursor: pointer;
+    }
+
+    /* Ensure proper flex layout for content */
+    .destinations-menu .mega-right .content {
+      flex-direction: row;
+      gap: 2rem;
+    }
+
+    .destinations-menu .mega-right .content .column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
   </style>
 
   <script>
-    // Open modal on Enquire button click
-    document.querySelectorAll('.book-ticket-btn').forEach(function (btn) {
-      btn.onclick = function (e) {
-        // Get match name from the row
-        const matchRow = btn.closest('.schedule-row');
-        const matchName = matchRow.querySelector('.match-desc')?.textContent || '';
-        document.getElementById('matchName').value = matchName;
-        document.getElementById('ticketModal').style.display = 'flex';
-      };
+    // API Integration for Continents and Countries
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Initializing continents API integration for navbar destinations...');
+      initializeContinentsData();
+      
+      // Auto-refresh every 30 minutes
+      setInterval(initializeContinentsData, 30 * 60 * 1000);
     });
-    // Close modal
-    document.querySelector('.close-ticket-modal').onclick = function () {
-      document.getElementById('ticketModal').style.display = 'none';
-    };
-    // Optional: handle form submit
-    document.getElementById('ticketForm').onsubmit = function (e) {
-      e.preventDefault();
-      alert('Your ticket booking request has been submitted!');
-      document.getElementById('ticketModal').style.display = 'none';
-    };
-  </script>
-
-  <!-- Continents API Integration for Navbar Destinations -->
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing Continents API integration for navbar...');
 
     // Function to fetch continents data from API
     async function fetchContinentsData() {
       try {
         console.log('Fetching continents data from API...');
+        
         const response = await fetch('http://globe.ridealmobility.com/api/continents', {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Content-Type': 'application/json'
           }
         });
 
@@ -2041,7 +2542,7 @@
         }
 
         const data = await response.json();
-        console.log('Continents API Response:', data);
+        console.log('Continents API response:', data);
         return data;
       } catch (error) {
         console.error('Error fetching continents data:', error);
@@ -2053,11 +2554,11 @@
     async function fetchCountriesData(continentId) {
       try {
         console.log(`Fetching countries data for continent ID: ${continentId}`);
+        
         const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`, {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Content-Type': 'application/json'
           }
         });
 
@@ -2066,7 +2567,7 @@
         }
 
         const data = await response.json();
-        console.log(`Countries API Response for continent ${continentId}:`, data);
+        console.log(`Countries API response for continent ${continentId}:`, data);
         return data;
       } catch (error) {
         console.error(`Error fetching countries data for continent ${continentId}:`, error);
@@ -2205,10 +2706,10 @@
               
               console.log(`Updated ${continentId} section with ${countries.length} countries from API`);
             } else {
-              console.warn(`No countries found in API response for continent ${continentId}`);
+              console.warn(`No countries found for continent ${continentName}`);
             }
           } else {
-            console.warn(`Failed to fetch countries for continent ${continentId}`);
+            console.warn(`Failed to fetch countries for continent ${continentName}`);
           }
         }
       }
@@ -2216,27 +2717,90 @@
       console.log('Destinations menu updated successfully with continents and countries API data');
     }
 
-    // Function to initialize continents data
+    // Initialize continents data on page load
     async function initializeContinentsData() {
       try {
+        console.log('Initializing continents data...');
         const continentsData = await fetchContinentsData();
+        
         if (continentsData) {
           await updateDestinationsWithAPIData(continentsData);
+          // Initialize hover functionality after data is loaded
+          initializeDestinationsHover();
         } else {
-          console.error('Failed to fetch continents data');
+          console.warn('Failed to load continents data, using default menu');
+          // Initialize hover functionality with default menu
+          initializeDestinationsHover();
         }
       } catch (error) {
         console.error('Error initializing continents data:', error);
+        // Initialize hover functionality even if API fails
+        initializeDestinationsHover();
       }
     }
 
-    // Initialize continents data
-    initializeContinentsData();
+    // Function to initialize destinations menu hover functionality
+    function initializeDestinationsHover() {
+      console.log('Initializing destinations menu hover functionality...');
+      
+      const megaLeft = document.querySelector('.destinations-menu .mega-left ul');
+      const megaRight = document.querySelector('.destinations-menu .mega-right');
+      
+      if (!megaLeft || !megaRight) {
+        console.warn('Destinations menu elements not found');
+        return;
+      }
 
-    // Optional: Refresh continents data every 30 minutes
-    setInterval(initializeContinentsData, 1800000);
-    
-    console.log('Continents API integration initialized successfully');
+      // Add hover event listeners to continent items
+      const continentItems = megaLeft.querySelectorAll('li[data-target]');
+      
+      continentItems.forEach(item => {
+        const target = item.getAttribute('data-target');
+        const contentDiv = document.getElementById(target);
+        
+        if (contentDiv) {
+          // Mouse enter - show the continent's countries
+          item.addEventListener('mouseenter', () => {
+            console.log(`Hovering over continent: ${target}`);
+            
+            // Hide all content divs
+            const allContentDivs = megaRight.querySelectorAll('.content');
+            allContentDivs.forEach(div => {
+              div.style.display = 'none';
+              div.classList.remove('show');
+            });
+            
+            // Show the target content div
+            contentDiv.style.display = 'flex';
+            contentDiv.classList.add('show');
+            
+            // Add active class to hovered item
+            continentItems.forEach(ci => ci.classList.remove('active'));
+            item.classList.add('active');
+          });
+        }
+      });
+      
+      // Handle mouse leave from the entire destinations menu
+      const destinationsMenu = document.querySelector('.destinations-menu');
+      if (destinationsMenu) {
+        destinationsMenu.addEventListener('mouseleave', () => {
+          console.log('Mouse left destinations menu');
+          
+          // Hide all content divs
+          const allContentDivs = megaRight.querySelectorAll('.content');
+          allContentDivs.forEach(div => {
+            div.style.display = 'none';
+            div.classList.remove('show');
+          });
+          
+          // Remove active class from all items
+          continentItems.forEach(item => item.classList.remove('active'));
+        });
+      }
+      
+      console.log(`Destinations hover functionality initialized for ${continentItems.length} continents`);
+    }
 
     // Function to fetch luxury cities data
     async function fetchLuxuryCitiesData() {
@@ -2643,132 +3207,131 @@
     }
 
     // Initialize luxury options when DOM is loaded
-    initializeLuxuryOptionsData();
-    
-    // Auto-refresh luxury data every 30 minutes
-    setInterval(initializeLuxuryOptionsData, 30 * 60 * 1000);
-
-    console.log('Luxury cities API integration initialized successfully');
-  });
-  </script>
-
-  <!-- Signup Form Section -->
-    <!-- Login Form Section -->
-    <section id="login-section" style="max-width:400px;margin:40px auto 24px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-      <h3 style="color:#007bff;text-align:center;margin-bottom:18px;">Login</h3>
-      <form id="loginForm">
-        <div class="mb-3">
-          <label for="loginFirstName" class="form-label">First Name</label>
-          <input type="text" class="form-control" id="loginFirstName" name="firstName" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginLastName" class="form-label">Last Name</label>
-          <input type="text" class="form-control" id="loginLastName" name="lastName" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginGender" class="form-label">Gender</label>
-          <select class="form-control" id="loginGender" name="gender" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="loginDob" class="form-label">Date of Birth</label>
-          <input type="date" class="form-control" id="loginDob" name="dob" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginMobile" class="form-label">Mobile</label>
-          <input type="text" class="form-control" id="loginMobile" name="mobile" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginEmail" class="form-label">Email</label>
-          <input type="email" class="form-control" id="loginEmail" name="email" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginPassword" class="form-label">Password</label>
-          <input type="password" class="form-control" id="loginPassword" name="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-        <div id="loginMessage" style="margin-top:16px;text-align:center;"></div>
-      </form>
-    </section>
-  <section id="signup-section" style="max-width:400px;margin:40px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-    <h3 style="color:#e55d17;text-align:center;margin-bottom:18px;">Sign Up</h3>
-    <form id="signupForm">
-      <div class="mb-3">
-        <label for="firstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="firstName" name="firstName" required>
-      </div>
-      <div class="mb-3">
-        <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName" name="lastName" required>
-      </div>
-      <div class="mb-3">
-        <label for="gender" class="form-label">Gender</label>
-        <select class="form-control" id="gender" name="gender" required>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="dob" class="form-label">Date of Birth</label>
-        <input type="date" class="form-control" id="dob" name="dob" required>
-      </div>
-      <div class="mb-3">
-        <label for="mobile" class="form-label">Mobile</label>
-        <input type="text" class="form-control" id="mobile" name="mobile" required>
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-      </div>
-      <button type="submit" class="btn btn-primary w-100" style="background:#e55d17;border:none;">Sign Up</button>
-      <div id="signupMessage" style="margin-top:16px;text-align:center;"></div>
-    </form>
-  </section>
-
-  <script>
-  document.getElementById('signupForm').onsubmit = async function(e) {
-    e.preventDefault();
-    const form = e.target;
-    const data = {
-      firstName: form.firstName.value,
-      lastName: form.lastName.value,
-      gender: form.gender.value,
-      dob: form.dob.value,
-      mobile: form.mobile.value,
-      email: form.email.value,
-      password: form.password.value
-    };
-    const messageDiv = document.getElementById('signupMessage');
-    messageDiv.textContent = 'Signing up...';
-    try {
-      const response = await fetch('http://globe.ridealmobility.com/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const result = await response.json();
-      if (response.ok) {
-        messageDiv.textContent = 'Signup successful!';
-        messageDiv.style.color = '#28a745';
-        form.reset();
-      } else {
-        messageDiv.textContent = result.message || 'Signup failed.';
-        messageDiv.style.color = '#dc3545';
-      }
-    } catch (error) {
-      messageDiv.textContent = 'Network error. Please try again.';
-      messageDiv.style.color = '#dc3545';
-    }
-  };
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeLuxuryOptionsData();
+      
+      // Auto-refresh luxury data every 30 minutes
+      setInterval(initializeLuxuryOptionsData, 30 * 60 * 1000);
+    });
   </script>
 </body>
+<!-- Signup Form Section -->
+<!-- Login Form Section -->
+<section id="login-section" style="max-width:400px;margin:40px auto 24px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+  <h3 style="color:#007bff;text-align:center;margin-bottom:18px;">Login</h3>
+  <form id="loginForm">
+    <div class="mb-3">
+      <label for="loginFirstName" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="loginFirstName" name="firstName" required>
+    </div>
+    <div class="mb-3">
+      <label for="loginLastName" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="loginLastName" name="lastName" required>
+    </div>
+    <div class="mb-3">
+      <label for="loginGender" class="form-label">Gender</label>
+      <select class="form-control" id="loginGender" name="gender" required>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="loginDob" class="form-label">Date of Birth</label>
+      <input type="date" class="form-control" id="loginDob" name="dob" required>
+    </div>
+    <div class="mb-3">
+      <label for="loginMobile" class="form-label">Mobile</label>
+      <input type="text" class="form-control" id="loginMobile" name="mobile" required>
+    </div>
+    <div class="mb-3">
+      <label for="loginEmail" class="form-label">Email</label>
+      <input type="email" class="form-control" id="loginEmail" name="email" required>
+    </div>
+    <div class="mb-3">
+      <label for="loginPassword" class="form-label">Password</label>
+      <input type="password" class="form-control" id="loginPassword" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+    <div id="loginMessage" style="margin-top:16px;text-align:center;"></div>
+  </form>
+</section>
+<section id="signup-section" style="max-width:400px;margin:40px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+  <h3 style="color:#e55d17;text-align:center;margin-bottom:18px;">Sign Up</h3>
+  <form id="signupForm">
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="firstName" name="firstName" required>
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="lastName" name="lastName" required>
+    </div>
+    <div class="mb-3">
+      <label for="gender" class="form-label">Gender</label>
+      <select class="form-control" id="gender" name="gender" required>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="dob" class="form-label">Date of Birth</label>
+      <input type="date" class="form-control" id="dob" name="dob" required>
+    </div>
+    <div class="mb-3">
+      <label for="mobile" class="form-label">Mobile</label>
+      <input type="text" class="form-control" id="mobile" name="mobile" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100" style="background:#e55d17;border:none;">Sign Up</button>
+    <div id="signupMessage" style="margin-top:16px;text-align:center;"></div>
+  </form>
+</section>
+
+<script>
+// Signup API integration
+document.getElementById('signupForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = {
+    firstName: form.firstName.value,
+    lastName: form.lastName.value,
+    gender: form.gender.value,
+    dob: form.dob.value,
+    mobile: form.mobile.value,
+    email: form.email.value,
+    password: form.password.value
+  };
+  const messageDiv = document.getElementById('signupMessage');
+  messageDiv.textContent = 'Signing up...';
+  try {
+    const response = await fetch('http://globe.ridealmobility.com/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    if (response.ok) {
+      messageDiv.textContent = 'Signup successful!';
+      messageDiv.style.color = '#28a745';
+      form.reset();
+    } else {
+      messageDiv.textContent = result.message || 'Signup failed.';
+      messageDiv.style.color = '#dc3545';
+    }
+  } catch (error) {
+    messageDiv.textContent = 'Network error. Please try again.';
+    messageDiv.style.color = '#dc3545';
+  }
+};
+</script>
 
 </html>

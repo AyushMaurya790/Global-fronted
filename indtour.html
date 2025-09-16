@@ -1,0 +1,2589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globengel: My Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" /> -->
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&family=Montserrat:wght@500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/group-cards.css">
+
+    <!-- CSS for Services Section -->
+    <style>
+        .glob-services-container {
+            width: 100%;
+            height: 520px;
+            /* Further reduced height for better fit */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glob-services {
+            height: 480px !important;
+            /* Match container height */
+            display: flex;
+            width: 100%;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.5s ease;
+            background-attachment: scroll;
+        }
+
+        .glob-service-item {
+            flex: 1;
+            position: relative;
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 20px 14px 24px 14px;
+            /* More bottom padding for text */
+            z-index: 2;
+            transition: all 0.3s ease;
+            overflow: visible;
+            /* Allow text to expand */
+            min-width: 0;
+        }
+
+        .glob-service-item:last-child {
+            border-right: none;
+        }
+
+        /* Mobile styles for services section */
+        @media (max-width: 768px) {
+            .glob-services-container {
+                display: none;
+                /* Hide the desktop version */
+            }
+
+            .glob-service-mobile-card {
+                height: 200px;
+                border-radius: 12px;
+                background-size: cover;
+                background-position: center;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-end;
+                padding: 20px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .glob-service-mobile-card::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 60%);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="1"]::after,
+            .glob-service-mobile-card[data-bg="2"]::after,
+            .glob-service-mobile-card[data-bg="5"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(233, 142, 111, 0.4);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="3"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(140, 85, 69, 0.5);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card[data-bg="4"]::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(72, 109, 149, 0.4);
+                z-index: 1;
+            }
+
+            .glob-service-mobile-card .glob-service-text {
+                position: relative;
+                z-index: 2;
+                transition: transform 0.3s ease;
+                width: 100%;
+            }
+
+            .glob-service-mobile-card .glob-service-description {
+                position: relative;
+                z-index: 2;
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+                transform: translateY(20px);
+                color: white;
+                font-size: 14px;
+                line-height: 1.4;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+                padding-top: 10px;
+                width: 100%;
+            }
+
+            .glob-service-mobile-card.tapped .glob-service-text {
+                transform: translateY(-10px);
+            }
+
+            .glob-service-mobile-card.tapped .glob-service-description {
+                opacity: 1;
+                max-height: 200px;
+                transform: translateY(0);
+            }
+
+            .glob-service-mobile-card:active,
+            .glob-service-mobile-card.tapped {
+                transform: scale(0.98);
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+                height: auto;
+                min-height: 250px;
+                background-position: top center;
+            }
+        }
+
+        /* Hide mobile cards on desktop */
+        @media (min-width: 769px) {
+            .glob-mobile-services {
+                display: none;
+            }
+        }
+
+        /* Color overlays for each section - matching the image */
+        /* .glob-service-item:nth-child(1) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    }
+    
+    .glob-service-item:nth-child(2) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    }
+    
+    .glob-service-item:nth-child(3) {
+        background-color: rgba(140, 85, 69, 0.6); 
+    }
+    
+    .glob-service-item:nth-child(4) {
+        background-color: rgba(72, 109, 149, 0.4); 
+    }
+    
+    .glob-service-item:nth-child(5) {
+        background-color: rgba(233, 142, 111, 0.5); 
+    } */
+
+        /* Text style */
+        .glob-service-text {
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.3;
+            z-index: 2;
+            position: relative;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+            transition: transform 0.3s ease, height 0.3s ease;
+            letter-spacing: 1px;
+            padding-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .glob-service-item:hover .glob-service-text {
+            transform: translateY(-10px);
+        }
+
+        .glob-service-description {
+            color: white;
+            font-size: 13px;
+            line-height: 1.4;
+            z-index: 2;
+            position: relative;
+            opacity: 0;
+            max-height: 0;
+            overflow: visible;
+            transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+            transform: translateY(20px);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+            padding-top: 2px;
+            margin-bottom: 0;
+            background: none;
+        }
+
+        .glob-service-item:hover .glob-service-description,
+        .glob-service-mobile-card:active .glob-service-description,
+        .glob-service-mobile-card.tapped .glob-service-description {
+            opacity: 1;
+            max-height: 120px;
+            transform: translateY(0);
+        }
+
+        /* Plus icon */
+        .glob-plus-icon {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hover effects for sections */
+        .glob-service-item {
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .glob-services:hover .glob-service-item {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Service with active class */
+        .glob-service-item.glob-active {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-services {
+            background-color: #FFF6F3;
+        }
+
+        /* Flip animation styles */
+        .glob-service-item {
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .glob-service-item.flip {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg"
+        style="padding: 0.5rem 2rem; transition: all 0.3s ease; background: #fff; position: sticky; width: 100%; z-index: 1000;">
+        <div class="container-fluid">
+            <ul class="navbar-nav d-none d-lg-flex">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#">DESTINATIONS</a>
+                    <div class="mega-menu destinations-menu">
+                        <!-- Left Side -->
+                        <div class="mega-left">
+                            <ul>
+                                <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
+                                <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
+                                <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
+                                <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
+                                <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
+                                <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
+                                <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
+                                <li data-target="polar">POLAR <span class="arrow">&#8250;</span></li>
+                            </ul>
+                        </div>
+                        <!-- Right Side -->
+                        <div class="mega-right">
+                            <div class="content" id="africa">
+                                <div class="column">
+                                    <a href="#">Ascension Island</a>
+                                    <a href="#">Botswana</a>
+                                    <a href="#">Ethiopia</a>
+                                    <a href="#">Kenya</a>
+                                    <a href="#">Madagascar</a>
+                                    <a href="s10.html">Mauritius</a>
+                                    <a href="#">Morocco</a>
+                                    <a href="#">Namibia</a>
+                                    <a href="#">ReUnion Island</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Saint Helena Island</a>
+                                    <a href="#">Seychelles</a>
+                                    <a href="#">South Africa</a>
+                                    <a href="#">TanZania</a>
+                                    <a href="#">Zanzibar</a>
+                                    <a href="#">Tristan Da Cunha</a>
+                                    <a href="#">Zimbabwe</a>
+                                </div>
+                            </div>
+                            <div class="content" id="asia">
+                                <div class="column">
+                                    <a href="#">Armenia</a>
+                                    <a href="#">Azerbaijan</a>
+                                    <a href="#">Cambodia</a>
+                                    <a href="#">Georgia</a>
+                                    <a href="#">Hong Kong & Macau</a>
+                                    <a href="s9.html">Indonesia</a>
+                                    <a href="Destination.html">Japan</a>
+                                    <a href="#">Kazakhstan</a>
+                                    <a href="#">Laos</a>
+                                    <a href="#">Malaysia</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Maldives</a>
+                                    <a href="#">Mongolia</a>
+                                    <a href="#">Philippines</a>
+                                    <a href="#">Russia</a>
+                                    <a href="#">Singapore</a>
+                                    <a href="#">Taiwan</a>
+                                    <a href="#">South Korea</a>
+                                    <a href="s6.html">Thailand</a>
+                                    <a href="#">Uzbekistan</a>
+                                    <a href="s1.html">Vietnam</a>
+                                </div>
+                            </div>
+                            <div class="content" id="australasia">
+                                <div class="column">
+                                    <a href="#">Argentina</a>
+                                    <a href="#">Brazil</a>
+                                    <a href="#">Canada</a>
+                                    <a href="#">Caribbean</a>
+                                    <a href="#">Chile</a>
+                                    <a href="#">Colombia</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Equador</a>
+                                    <a href="#">Mexico</a>
+                                    <a href="#">Peru</a>
+                                    <a href="#">Uruguay</a>
+                                    <a href="#">USA</a>
+                                </div>
+                            </div>
+                            <div class="content" id="europe">
+                                <div class="column">
+                                    <a href="#">Austria</a>
+                                    <a href="#">Belgium</a>
+                                    <a href="#">Bosnia & Herzegovinia</a>
+                                    <a href="#">Croatia</a>
+                                    <a href="#">Cyprus</a>
+                                    <a href="#">Czechia</a>
+                                    <a href="#">Denmark</a>
+                                    <a href="s2.html">Finland</a>
+                                    <a href="#">France</a>
+                                    <a href="#">Germany</a>
+                                    <a href="#">Greece</a>
+                                    <a href="#">Hungary</a>
+                                    <a href="#">Iceland</a>
+                                    <a href="#">Ireland</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Italy</a>
+                                    <a href="#">Netherlands</a>
+                                    <a href="#">Norway</a>
+                                    <a href="#">Poland</a>
+                                    <a href="#">Portugal</a>
+                                    <a href="#">Romania</a>
+                                    <a href="#">Scotland</a>
+                                    <a href="#">Slovakia</a>
+                                    <a href="#">Slovenia</a>
+                                    <a href="#">Spain</a>
+                                    <a href="#">Sweden</a>
+                                    <a href="#">Switzerland</a>
+                                    <a href="#">United Kingdom</a>
+                                </div>
+                            </div>
+                            <div class="content" id="indian">
+                                <div class="column">
+                                    <a href="#">India</a>
+                                    <a href="#">Nepal</a>
+                                    <a href="s8.html">Sri Lanka</a>
+                                </div>
+                                <div class="column">
+                                    <a href="s5.html">Bhutan</a>
+                                    <a href="s7.html">Maldives</a>
+                                </div>
+                            </div>
+                            <div class="content" id="latin">
+                                <div class="column">
+                                    <a href="s3.html">Australia</a>
+                                    <a href="#">Fiji</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">French Polynesia</a>
+                                    <a href="s4.html">New Zealand</a>
+                                </div>
+                            </div>
+                            <div class="content" id="middleeast">
+                                <div class="column">
+                                    <a href="#">Bahrain</a>
+                                    <a href="#">Egypt</a>
+                                    <a href="#">Jordan</a>
+                                    <a href="s11.html">Oman</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Qatar</a>
+                                    <a href="#">Saudi Arabia</a>
+                                    <a href="#">Turkey</a>
+                                    <a href="#">UAE</a>
+                                </div>
+                            </div>
+                            <div class="content" id="polar">
+                                <div class="column">
+                                    <a href="#">Antarctica</a>
+                                    <a href="#">Arctic</a>
+                                    <a href="#">Greenland</a>
+                                </div>
+                                <div class="column">
+                                    <a href="#">Iceland</a>
+                                    <a href="#">Norway</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#">LUXURY</a>
+                    <div class="mega-menu itinerary-menu">
+                        <div class="mega-left">
+                            <ul>
+                                <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
+                                <li data-target="adventure"><a href="">JAPAN</a></li>
+                                <li data-target="luxury"><a href="">KENYA</a></li>
+                                <li data-target="classic"><a href="">NORWAY</a></li>
+                                <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
+                                <li data-target="luxury"><a href="">TANZANIA</a></li>
+                                <li data-target="classic"><a href="">ZANZIBAR</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="tourpakages.html">GROUP TOURS</a>
+                    <!-- <div class="mega-menu group-menu">
+        <div class="mega-left">
+          <ul>
+            <li data-target="family">LATIN AMERICA</li>
+            <li data-target="friends">AUSTRALIA</li>
+            <li data-target="corporate">CANADA</li>
+            <li data-target="couples">EUROPE</li>
+            <li data-target="family">GREECE</li>
+            <li data-target="friends">ICELAND</li>
+            <li data-target="corporate">JAPAN</li>
+            <li data-target="couples">MOROCCO</li>
+            <li data-target="family">NEW ZEALAND</li>
+            <li data-target="friends">SOUTH AFRICA</li>
+            <li data-target="corporate">UNITED KINGDOM</li>
+            <li data-target="couples">USA</li>
+            <li data-target="friends">VIETNAM</li>
+          </ul>
+        </div>
+      </div> -->
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="Voyages.html">VOYAGES</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#">BEYOND HOLIDAYS</a>
+                    <div class="mega-menu group-menu">
+                        <div class="mega-left">
+                            <ul>
+                                <li data-target="family"><a href="business.html">BUSINESS TRAVEL</a></li>
+                                <li data-target="friends"><a href="Eduwings.html">EDUWINGS (STUDY ABROAD)</a></li>
+                                <li data-target="corporate"><a href="celebration.html">DESTINATION CELEBRATIONS</a></li>
+                                <li data-target="couples"><a href="sky.html">PRIVATE CHARTERS</a></li>
+                                <li data-target="couples"><a href="sports.html">SPORTS TRAVEL</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <a class="navbar-brand mx-auto" href="index.html">
+                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;" alt="Globengel Logo" class="logo">
+
+            </a>
+
+            <div class="d-flex align-items-center ">
+                <div class="contact-info d-none d-lg-block me-3">
+                    CALL US AT:<br>
+                    <a href="tel:+919793405883">+91 97934-05883</a>
+                </div>
+                <span class="signin d-none d-lg-block"><img src="./iocon/account.png"
+                        style="display:block; font-size:1.5rem; margin:0 auto 2px auto; width: 30px;"></img>Sign
+                    In</span>
+
+                <!-- Mobile Toggle -->
+                <button class="navbar-toggler ms-2" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sliding Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="menu-header">
+            <a class="menu-logo" href="index.html">
+                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
+            </a>
+            <div class="close-btn">&times;</div>
+        </div>
+        <a class="nav-link" href="Destination.html">DESTINATIONS</a>
+        <a class="nav-link" href="Luxury.html">LUXURY</a>
+        <a class="nav-link" href="GroupTours.html">GROUP TOURS</a>
+        <a class="nav-link" href="#">VOYAGES</a>
+        <a class="nav-link" href="#">BEYOND LEISURE</a>
+        <a class="nav-link mt-3" href="#">Sign In</a>
+    </div>
+    <div class="overlay"></div>
+    <!-- Hero Section -->
+
+    <!-- Asia Cup 2025 Schedule & Results Section -->
+    <div class="asia-cup-schedule">
+        <h3 class="schedule-title">India Tour of Australia Schedule &amp; Results</h3>
+        <div class="schedule-list">
+            <!-- Match Row 1 -->
+            <div class="schedule-row highlight">
+                <div class="schedule-date">Sun, 19 Oct '25</div>
+                <div class="schedule-details">
+                    <div class="schedule-match-info">
+                        <span class="match-desc">1st ODI (D/N) - Perth, India tour of Australia</span>
+                        <div class="teams">
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/au.png" alt="Australia" class="team-flag"> Australia
+                            </span>
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
+                            </span>
+                        </div>
+                        <div class="match-status">Match yet to begin</div>
+                    </div>
+                    <div class="schedule-time">
+                        <span class="main-time">11:00 AM</span>
+                        <span class="sub-time">5:30 am GMT | 1:30 pm Local</span>
+                    </div>
+                    <div class="schedule-type">
+                        <button class="book-ticket-btn">Enquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Row 2 -->
+            <div class="schedule-row">
+                <div class="schedule-date">Thu, 23 Oct '25</div>
+                <div class="schedule-details">
+                    <div class="schedule-match-info">
+                        <span class="match-desc">2nd ODI (D/N) - Adelaide, India tour of Australia</span>
+                        <div class="teams">
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/au.png" alt="Australia" class="team-flag"> Australia
+                            </span>
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
+                            </span>
+                        </div>
+                        <div class="match-status">Match yet to begin</div>
+                    </div>
+                    <div class="schedule-time">
+                        <span class="main-time">9:30 AM</span>
+                        <span class="sub-time">4:00 am GMT | 2:30 pm Local</span>
+                    </div>
+                    <div class="schedule-type">
+                        <button class="book-ticket-btn">Enquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Row 3 -->
+            <div class="schedule-row">
+                <div class="schedule-date">Sat, 25 Oct '25</div>
+                <div class="schedule-details">
+                    <div class="schedule-match-info">
+                        <span class="match-desc">3rd ODI (D/N) - Sydney, India tour of Australia</span>
+                        <div class="teams">
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/au.png" alt="Australia" class="team-flag"> Australia
+                            </span>
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
+                            </span>
+                        </div>
+                        <div class="match-status">Match yet to begin</div>
+                    </div>
+                    <div class="schedule-time">
+                        <span class="main-time">9:00 AM</span>
+                        <span class="sub-time">3:30 am GMT | 2:30 pm Local</span>
+                    </div>
+                    <div class="schedule-type">
+                        <button class="book-ticket-btn">Enquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Row 4 -->
+            <div class="schedule-row">
+                <div class="schedule-date">Wed, 29 Oct '25</div>
+                <div class="schedule-details">
+                    <div class="schedule-match-info">
+                        <span class="match-desc">1st T20I (N) - Canberra, India tour of Australia</span>
+                        <div class="teams">
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/au.png" alt="Australia" class="team-flag"> Australia
+                            </span>
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
+                            </span>
+                        </div>
+                        <div class="match-status">Match yet to begin</div>
+                    </div>
+                    <div class="schedule-time">
+                        <span class="main-time">1:30 PM</span>
+                        <span class="sub-time">8:00 am GMT | 7:00 pm Local</span>
+                    </div>
+                    <div class="schedule-type">
+                        <button class="book-ticket-btn">Enquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Row 5 -->
+            <div class="schedule-row">
+                <div class="schedule-date">Fri, 31 Oct '25</div>
+                <div class="schedule-details">
+                    <div class="schedule-match-info">
+                        <span class="match-desc">2nd T20I (N) - Melbourne, India tour of Australia</span>
+                        <div class="teams">
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/au.png" alt="Australia" class="team-flag"> Australia
+                            </span>
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
+                            </span>
+                        </div>
+                        <div class="match-status">Match yet to begin</div>
+                    </div>
+                    <div class="schedule-time">
+                        <span class="main-time">1:30 PM</span>
+                        <span class="sub-time">8:00 am GMT | 7:00 pm Local</span>
+                    </div>
+                    <div class="schedule-type">
+                        <button class="book-ticket-btn">Enquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Row 6 -->
+            <div class="schedule-row">
+                <div class="schedule-date">Sun, 02 Nov '25</div>
+                <div class="schedule-details">
+                    <div class="schedule-match-info">
+                        <span class="match-desc">3rd T20I (N) - Hobart, India tour of Australia</span>
+                        <div class="teams">
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/au.png" alt="Australia" class="team-flag"> Australia
+                            </span>
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
+                            </span>
+                        </div>
+                        <div class="match-status">Match yet to begin</div>
+                    </div>
+                    <div class="schedule-time">
+                        <span class="main-time">1:30 PM</span>
+                        <span class="sub-time">8:00 am GMT | 7:00 pm Local</span>
+                    </div>
+                    <div class="schedule-type">
+                        <button class="book-ticket-btn">Enquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Row 7 -->
+            <div class="schedule-row">
+                <div class="schedule-date">Thu, 06 Nov '25</div>
+                <div class="schedule-details">
+                    <div class="schedule-match-info">
+                        <span class="match-desc">4th T20I (N) - Gold Coast, India tour of Australia</span>
+                        <div class="teams">
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/au.png" alt="Australia" class="team-flag"> Australia
+                            </span>
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
+                            </span>
+                        </div>
+                        <div class="match-status">Match yet to begin</div>
+                    </div>
+                    <div class="schedule-time">
+                        <span class="main-time">2:00 PM</span>
+                        <span class="sub-time">8:30 am GMT | 6:30 pm Local</span>
+                    </div>
+                    <div class="schedule-type">
+                        <button class="book-ticket-btn">Enquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Row 8 -->
+             <div class="schedule-row">
+                <div class="schedule-date">Sat, 08 Nov '25</div>
+                <div class="schedule-details">
+                    <div class="schedule-match-info">
+                        <span class="match-desc">5th T20I (N) - Brisbane, India tour of Australia</span>
+                        <div class="teams">
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/au.png" alt="Australia" class="team-flag"> Australia
+                            </span>
+                            <span class="team">
+                                <img src="https://flagcdn.com/16x12/in.png" alt="India" class="team-flag"> India
+                            </span>
+                        </div>
+                        <div class="match-status">Match yet to begin</div>
+                    </div>
+                    <div class="schedule-time">
+                        <span class="main-time">2:00 PM</span>
+                        <span class="sub-time">8:30 am GMT | 6:30 pm Local</span>
+                    </div>
+                    <div class="schedule-type">
+                        <button class="book-ticket-btn">Enquire</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .asia-cup-schedule {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 24px 18px 18px 18px;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+
+        .schedule-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #222;
+        }
+
+        .schedule-list {
+            width: 100%;
+        }
+
+        .schedule-row {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            border-bottom: 1px solid #eaeaea;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .schedule-row:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-row.highlight {
+            background: #eaf6ff;
+        }
+
+        .schedule-date {
+            min-width: 120px;
+            background: transparent;
+            color: #222;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 18px 12px 0 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .schedule-details {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            padding: 12px 0;
+            gap: 18px;
+        }
+
+        .schedule-match-info {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .match-desc {
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 2px;
+        }
+
+        .teams {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 2px;
+            flex-direction: column;
+        }
+
+        .team {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .team-flag {
+            width: 22px;
+            height: 16px;
+            border-radius: 3px;
+            object-fit: cover;
+            border: 1px solid #eee;
+            background: #fff;
+        }
+
+        .match-status {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .schedule-time {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            font-size: 15px;
+            font-weight: 600;
+            color: #222;
+            min-width: 90px;
+            padding-top: 35px;
+        }
+
+        .main-time {
+            font-size: 16px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .sub-time {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .schedule-type {
+            min-width: 60px;
+            font-size: 14px;
+            color: #444;
+            font-weight: 600;
+            align-self: center;
+            padding-top: 2px;
+        }
+
+        @media (max-width: 700px) {
+            .asia-cup-schedule {
+                max-width: 98vw;
+                padding: 12px 4px 8px 4px;
+            }
+
+            .schedule-row {
+                flex-direction: column;
+                margin-bottom: 12px;
+                border-radius: 8px;
+            }
+
+            .schedule-date {
+                min-width: 0;
+                padding: 10px 8px 0 8px;
+                font-size: 14px;
+            }
+
+            .schedule-details {
+                flex-direction: column;
+                gap: 8px;
+                padding: 8px 0;
+            }
+
+            .schedule-match-info {
+                gap: 4px;
+            }
+
+            .teams {
+                gap: 10px;
+            }
+
+            .team {
+                font-size: 13px;
+            }
+
+            .schedule-time {
+                align-items: flex-start;
+                font-size: 13px;
+                min-width: 0;
+                padding-top: 0;
+            }
+
+            .main-time {
+                font-size: 14px;
+            }
+
+            .sub-time {
+                font-size: 11px;
+            }
+
+            .schedule-type {
+                font-size: 12px;
+                min-width: 0;
+                padding-top: 0;
+            }
+        }
+    </style>
+
+
+
+
+    <!-- Footer Section -->
+    <!-- footer 2 -->
+    <footer class="site-footer">
+        <div class="footer-top">
+
+            <!-- Newsletter -->
+            <div class="footer-newsletter">
+                <h4>LET'S BUILD EXPERIENCES TOGETHER</h4>
+                <form class="heading_font_family">
+                    <input type="text" placeholder="First Name*" required>
+                    <input type="text" placeholder="Last Name*" required>
+                    <input type="email" placeholder="Email*" required>
+                    <label class="checkbox heading_font_family">
+                        <input type="checkbox">
+                        I am happy to receive emails from Globengel, including upcoming events and information.*
+                    </label>
+                    <button type="submit" class="signup-btn">Sign Up</button>
+                </form>
+            </div>
+
+            <!-- Award Badge -->
+            <div class="footer-badge">
+                <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Award 2025">
+            </div>
+
+
+            <!-- Destinations -->
+            <div class="footer-destinations">
+                <h4 class="heading_font_family" style="font-size: 18px;">Home</h4>
+                <ul class="heading_font_family">
+
+                    <!-- <li><a href="Destination.html">Destinations</a></li>
+           <li><a href="Luxury.html">Luxury</a></li> -->
+                    <li><a href="GroupTours.html">Group Tours</a></li>
+                    <li><a href="voyages.html">Voyages</a></li>
+                    <li><a href="business.html">Business Travel</a></li>
+                    <li><a href="celebration.html">Destination Celebration</a></li>
+                    <li><a href="Eduwings.html">Eduwings (STUDY ABROAD)</a></li>
+                    <li><a href="sky.html">Private Charter</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="Contactus.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact">
+                <h4 class="heading_font_family">Get in Touch</h4>
+                <p><a href="tel:+919910405255">+91 99104-05255</a></p>
+                <p class="heading_font_family"><a href="mailto:info@globengel.com">info@globengel.com</a></p>
+
+                <h4 class="heading_font_family">Find us on</h4>
+                <!-- Social Media Icons -->
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/globengel" class="social-icon-box"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@globengel" class="social-icon-box"><i
+                            class="fab fa-youtube"></i></a>
+                    <a href="https://x.com/globengel" class="social-icon-box"><i class="fab fa-x"></i></a>
+                    <a href="https://www.instagram.com/globengel" class="social-icon-box"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="http://www.linkedin.com/company/globengel" class="social-icon-box"><i
+                            class="fab fa-linkedin-in"></i></a>
+                </div>
+
+                <div class="footer-tagline">
+                    <h2 class="heading_font_family">DREAM.
+                        EXPLORE.
+                        DISCOVER.</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="footer-bottom">
+            <div class="footer-logo">
+                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 130px;" alt="MITÉRA Goddess Logo">
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <p>Copyright 2019-2025 GLOBENGEL</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <!-- JavaScript for Services Section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const serviceItems = document.querySelectorAll('.glob-service-item');
+            const servicesContainer = document.querySelector('.glob-services');
+
+            // Set the first service as active by default
+            serviceItems[0].classList.add('glob-active');
+
+            // Store the default background
+            const defaultBg = window.getComputedStyle(servicesContainer).backgroundImage;
+
+            // Function to check if mobile view
+            function isMobileView() {
+                return window.innerWidth <= 768;
+            }
+
+            // Set initial background images based on viewport
+            function setInitialBackgrounds() {
+                if (isMobileView()) {
+                    // For mobile: Set individual backgrounds for each card
+                    serviceItems.forEach((item, index) => {
+                        const bgNum = item.getAttribute('data-bg');
+                        let bgImage = '/images/Vietnam.jpg'; // default
+
+                        if (bgNum === '1') bgImage = './images/Vietnam.jpg';
+                        else if (bgNum === '2') bgImage = './images/Japan.jpg';
+                        else if (bgNum === '3') bgImage = './images/Finland.jpg';
+                        else if (bgNum === '4') bgImage = './images/Australia.jpg';
+                        else if (bgNum === '5') bgImage = './images/New Zealand.jpg';
+
+                        item.style.backgroundImage = `url('./images/${bgImage}')`;
+                    });
+                } else {
+                    // For desktop: Set container background
+                    servicesContainer.style.backgroundImage = `url('./images/Vietnam.jpg')`;
+                }
+            }
+
+            // Initialize backgrounds
+            setInitialBackgrounds();
+
+            // Handle window resize to adjust backgrounds
+            window.addEventListener('resize', setInitialBackgrounds);
+
+            serviceItems.forEach((serviceItem, index) => {
+                serviceItem.addEventListener('mouseenter', function () {
+                    const bgNum = this.getAttribute('data-bg');
+                    // Store reference to current element
+                    const currentElement = this;
+
+                    // Apply immediate color change to ALL sections
+                    serviceItems.forEach(s => s.classList.add('glob-active'));
+
+                    // Only change container background on desktop view
+                    if (!isMobileView()) {
+                        // Delay background image change for smooth transition
+                        setTimeout(() => {
+                            if (bgNum === '1') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Vietnam.jpg")';
+                            } else if (bgNum === '2') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Japan.jpg")';
+                            } else if (bgNum === '3') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Finland.jpg")';
+                            } else if (bgNum === '4') {
+                                servicesContainer.style.backgroundImage = 'url("./images/Australia.jpg")';
+                            } else if (bgNum === '5') {
+                                servicesContainer.style.backgroundImage = 'url("./images/New Zealand.jpg")';
+                            }
+                        }, 200); // 200ms delay for smooth transition
+                    }
+                });
+
+                // Add touch event for mobile
+                serviceItem.addEventListener('touchstart', function () {
+                    serviceItems.forEach(s => s.classList.add('glob-active'));
+                });
+            });    // Handle mobile card interactions
+            const mobileCards = document.querySelectorAll('.glob-service-mobile-card');
+
+            mobileCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Reset other cards
+                    mobileCards.forEach(otherCard => {
+                        if (otherCard !== this) {
+                            otherCard.classList.remove('tapped');
+                            otherCard.style.height = '200px';
+                        }
+                    });
+
+                    // Toggle tapped state for current card
+                    this.classList.toggle('tapped');
+
+                    // Adjust card height based on content
+                    if (this.classList.contains('tapped')) {
+                        const description = this.querySelector('.glob-service-description');
+                        const textHeight = this.querySelector('.glob-service-text').offsetHeight;
+                        const descHeight = description.scrollHeight;
+
+                        // Set a min height to ensure there's space for the content
+                        const newHeight = Math.max(250, textHeight + descHeight + 60);
+                        this.style.height = `${newHeight}px`;
+
+                        // Make description visible with a slight delay
+                        setTimeout(() => {
+                            description.style.opacity = '1';
+                            description.style.maxHeight = '200px';
+                            description.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        this.style.height = '200px';
+
+                        // Hide description
+                        const description = this.querySelector('.glob-service-description');
+                        description.style.opacity = '0';
+                        description.style.maxHeight = '0';
+                        description.style.transform = 'translateY(20px)';
+                    }
+                });
+
+                // Add touch event listener for better mobile experience
+                card.addEventListener('touchstart', function () {
+                    this.classList.add('touch-active');
+                });
+
+                card.addEventListener('touchend', function () {
+                    this.classList.remove('touch-active');
+                });
+            });
+
+            // Add event listener for mouseleave on the entire services container
+            servicesContainer.addEventListener('mouseleave', function () {
+                // Remove active class from all services when mouse leaves the entire container
+                serviceItems.forEach(s => s.classList.remove('glob-active'));
+            });
+        });
+
+        // Add this in your existing DOMContentLoaded function after defining serviceItems
+        serviceItems.forEach((item, index) => {
+            setTimeout(() => {
+                // Add flip class to start animation
+                item.classList.add('flip');
+
+                // Remove flip after 3 seconds
+                setTimeout(() => {
+                    item.classList.remove('flip');
+                }, 3000);
+
+            }, index * 300); // delay each box animation slightly for a wave effect
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/group-tours.js"></script>
+    <!-- Swiper initialization is in script.js -->
+
+    <div id="authModal"
+        style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:99999; align-items:center; justify-content:center;">
+        <div id="authModalInner"
+            style="background:#fff6f3; border-radius:16px; max-width:900px; width:95vw; padding:32px 28px 24px 28px; box-shadow:0 8px 32px rgba(0,0,0,0.18); position:relative; display:flex; gap:32px; flex-wrap:wrap;">
+            <!-- Left: Forms -->
+            <div style="flex:1 1 350px; min-width:320px;">
+                <button id="closeAuthModal"
+                    style="position:absolute; top:16px; right:18px; background:none; border:none; font-size:22px; color:#e55d17; cursor:pointer;">&times;</button>
+                <!-- Tabs -->
+                <div style="display:flex; justify-content:center; gap:24px; margin-bottom: 10px;">
+                    <button id="signInTab" class="auth-tab active"
+                        style="background:none; border:none; font-size:18px; font-weight:600; color:#e55d17; cursor:pointer;">Sign
+                        In</button>
+                    <button id="createTab" class="auth-tab"
+                        style="background:none; border:none; font-size:18px; font-weight:600; color:#888; cursor:pointer;">Create
+                        Account</button>
+                </div>
+                <!-- Sign In Form -->
+                <form id="signInForm" style="display:block;">
+                    <h3 style="font-size:22px; font-weight:600; margin-bottom:18px;">Sign In to Your Account</h3>
+                    <div style="margin-bottom:14px;">
+                        <label style="font-size:14px;">Email or Mobile Number*</label>
+                        <input type="text" required
+                            style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+                    </div>
+                    <div style="margin-bottom:14px;">
+                        <label style="font-size:14px;">Password*</label>
+                        <input type="password" required
+                            style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+                    </div>
+                    <button type="submit"
+                        style="width:100%; background:#e55d17; color:#fff; font-size:17px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign
+                        In</button>
+                    <div style="text-align:center; margin-top:18px; font-size:14px;">
+                        Don't have an account? <span id="gotoCreate"
+                            style="color:#e55d17; cursor:pointer; font-weight:500;">Create
+                            Account</span>
+                    </div>
+                </form>
+                <!-- Create Account Form -->
+                <form id="createForm" style="display:none;">
+                    <h3 style="font-size:22px; font-weight:600; margin-bottom:10px;">Create an Account</h3>
+                    <p style="margin-bottom: 10px; font-size: 14px;">Enter the below details to start setting up your
+                        ENGEL CLUB
+                        account. If you already have an account, please <span
+                            style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span> to continue.</p>
+                    <!-- ...your create account fields as before... -->
+                    <div style="display:flex; gap:12px; margin-bottom:12px;">
+                        <div style="flex:1;">
+                            <label style="font-size:14px;">First Name*</label>
+                            <input type="text" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-size:14px;">Last Name*</label>
+                            <input type="text" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-bottom:12px;">
+                        <div style="flex:1;">
+                            <label style="font-size:14px;">Gender</label>
+                            <input type="text" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-size:14px;">Date of Birth</label>
+                            <input type="text" placeholder="DD/MM/YYYY"
+                                style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-size:14px;">Mobile Number*</label>
+                            <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
+                                <select style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
+                                    <option value="+91">+91</option>
+                                    <option value="+1">+1</option>
+                                    <option value="+44">+44</option>
+                                    <option value="+61">+61</option>
+                                    <option value="+81">+81</option>
+                                    <!-- Add more country codes as needed -->
+                                </select>
+                                <input type="text" required
+                                    style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="font-size:14px;">Email*</label>
+                        <input type="email" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+                    </div>
+                    <div style="display:flex; gap:12px; margin-bottom:12px;">
+                        <div style="flex:1;">
+                            <label style="font-size:14px;">Password*</label>
+                            <input type="password" required
+                                style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+                        </div>
+                        <div style="flex:1;">
+                            <label style="font-size:14px;">Confirm Password*</label>
+                            <input type="password" required
+                                style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+                        </div>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="font-size:13px;">
+                            <input type="checkbox" style="margin-right:6px;">
+                            I wish to receive news and promotions from GLOBENGEL. You may unsubscribe at any time by
+                            updating your
+                            account preferences.
+                        </label>
+                        <p style="margin-bottom: 0; font-size: 13px;">By submitting this form, I agree to Maharaja Club
+                            Terms and
+                            Conditions and Privacy Notice.</p>
+                    </div>
+                    <button type="submit"
+                        style="width:100%; background:#e55d17; color:#fff; font-size:15px; font-weight:600; border:none; padding:5px 0; margin-top:8px;">Sign
+                        Up</button>
+                    <div style="text-align:center; margin-top:18px; font-size:14px;">
+                        Already have an account? <span id="gotoSignIn"
+                            style="color:#e55d17; cursor:pointer; font-weight:500;">Sign
+                            In</span>
+                    </div>
+                </form>
+            </div>
+            <!-- Right: ENGEL CLUB Info Card -->
+            <div id="engelClubCard"
+                style="flex:1 1 320px; min-width:280px; background: #fad7c0; border-radius:12px; padding:28px 22px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                <img src="./images/engleClubLogo.png" alt="ENGEL CLUB" style="width:150px; margin-bottom:12px;">
+                <h4 style="font-size:18px; font-weight:600; color:#444; margin-bottom:18px;">SIGN UP FOR ENGEL CLUB</h4>
+                <ul style="list-style:none; padding:0; margin:0 0 18px 0; font-size:15px; color:#444;">
+                    <li style="margin-bottom:12px; display:flex; align-items:center;">
+                        <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+                        Earn rewards every time you travel with us.
+                    </li>
+                    <li style="margin-bottom:12px; display:flex; align-items:center;">
+                        <i class="fa fa-arrow-up" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+                        Unlock special upgrades &amp; priority assistance.
+                    </li>
+                    <li style="margin-bottom:12px; display:flex; align-items:center;">
+                        <i class="fa fa-users" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+                        Access member-only deals on holidays &amp; services.
+                    </li>
+                    <li style="margin-bottom:12px; display:flex; align-items:center;">
+                        <i class="fa fa-gift" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+                        Surprise perks for milestone trips (honeymoons, anniversaries, etc.).
+                    </li>
+                    <li style="margin-bottom:12px; display:flex; align-items:center;">
+                        <i class="fa fa-lightbulb" style="color:#e55d17; font-size:18px; margin-right:10px;"></i>
+                        Early access to new offers
+                    </li>
+                </ul>
+                <button id="engelSignUpBtn"
+                    style="background:#e55d17; color:#fff; font-size:16px; font-weight:600; border:none; border-radius:6px; padding:10px 32px; margin-top:8px;">SIGN-UP</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Responsive styles for auth modal */
+        @media (max-width: 700px) {
+            #authModalInner {
+                flex-direction: column !important;
+                max-width: 98vw !important;
+                width: 98vw !important;
+                padding: 18px 8px 18px 8px !important;
+                gap: 0 !important;
+                align-items: stretch !important;
+            }
+
+            #authModalInner>div {
+                min-width: 0 !important;
+                width: 100% !important;
+                border-radius: 12px !important;
+                padding: 0 !important;
+                margin-bottom: 18px !important;
+            }
+
+            #engelClubCard {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+                padding: 18px 8px !important;
+                border-radius: 12px !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100vw !important;
+            }
+
+            #closeAuthModal {
+                top: 8px !important;
+                right: 8px !important;
+                font-size: 28px !important;
+            }
+
+            .auth-tab {
+                font-size: 16px !important;
+                padding: 6px 0 !important;
+            }
+
+            #signInForm,
+            #createForm {
+                padding: 0 !important;
+            }
+
+            #engelClubCard img {
+                width: 90px !important;
+                margin-bottom: 8px !important;
+            }
+
+            #engelClubCard h3,
+            #engelClubCard h4 {
+                font-size: 18px !important;
+                margin-bottom: 10px !important;
+            }
+
+            #engelClubCard ul {
+                font-size: 13px !important;
+                margin-bottom: 10px !important;
+            }
+
+            #engelSignUpBtn {
+                font-size: 15px !important;
+                padding: 8px 18px !important;
+                margin-top: 6px !important;
+            }
+        }
+
+        /* Responsive styles for Create Account form fields */
+        @media (max-width: 700px) {
+
+            #createForm .display-flex,
+            #createForm .display-flex>div,
+            #createForm .display-flex>div>div {
+                flex-direction: column !important;
+                gap: 0 !important;
+                width: 100% !important;
+                min-width: 0 !important;
+                margin-bottom: 0 !important;
+                padding: 0 !important;
+            }
+
+            #createForm .display-flex>div {
+                margin-bottom: 12px !important;
+            }
+
+            #createForm input,
+            #createForm select {
+                width: 100% !important;
+                margin-bottom: 8px !important;
+                border-radius: 6px !important;
+                font-size: 15px !important;
+            }
+
+            #createForm label {
+                font-size: 14px !important;
+                margin-bottom: 4px !important;
+                display: block !important;
+            }
+
+            #createForm .display-flex {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Open modal on Sign In click
+            document.querySelector('.signin').addEventListener('click', function () {
+                document.getElementById('authModal').style.display = 'flex';
+                showTab('signIn');
+            });
+
+            // Mobile menu Sign In link
+            document.querySelector('.mobile-menu .nav-link.mt-3').addEventListener('click', function (e) {
+                e.preventDefault();
+                document.getElementById('authModal').style.display = 'flex';
+                showTab('signIn');
+                // Optionally close mobile menu if you have a function for that
+                document.querySelector('.mobile-menu').classList.remove('open');
+                document.querySelector('.overlay').style.display = 'none';
+            });
+
+            // Close modal
+            document.getElementById('closeAuthModal').onclick = function () {
+                document.getElementById('authModal').style.display = 'none';
+            };
+
+            // Tab switching
+            document.getElementById('signInTab').onclick = function () { showTab('signIn'); };
+            document.getElementById('createTab').onclick = function () { showTab('create'); };
+            document.getElementById('gotoCreate').onclick = function () { showTab('create'); };
+            document.getElementById('gotoSignIn').onclick = function () { showTab('signIn'); };
+
+            // ENGEL CLUB card sign-up button opens create account
+            document.getElementById('engelSignUpBtn').onclick = function () {
+                showTab('create');
+            };
+
+            // Show/hide ENGEL CLUB card based on tab
+            function showTab(tab) {
+                if (tab === 'signIn') {
+                    document.getElementById('signInForm').style.display = 'block';
+                    document.getElementById('createForm').style.display = 'none';
+                    document.getElementById('signInTab').classList.add('active');
+                    document.getElementById('createTab').classList.remove('active');
+                    document.getElementById('engelClubCard').style.display = 'flex';
+                } else {
+                    document.getElementById('signInForm').style.display = 'none';
+                    document.getElementById('createForm').style.display = 'block';
+                    document.getElementById('signInTab').classList.remove('active');
+                    document.getElementById('createTab').classList.add('active');
+                    document.getElementById('engelClubCard').style.display = 'none';
+                }
+            }
+        });
+    </script>
+
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/8f3b2e0e2a.js" crossorigin="anonymous"></script>
+    <!-- SwiperJS for slider -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Ticket Booking Modal -->
+    <div id="ticketModal" class="ticket-modal">
+        <div class="ticket-modal-content">
+            <button class="close-ticket-modal" title="Close">&times;</button>
+            <h4>Book Your Ticket</h4>
+            <form id="ticketForm">
+                <div class="form-group">
+                    <label>Match</label>
+                    <input type="text" id="matchName" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Mobile</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group"
+                    style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                    <label>Adults</label>
+                    <input type="number" min="1" max="10" required placeholder="Adults">
+                    <label>Children</label>
+                    <input type="number" min="0" max="10" placeholder="Children">
+                </div>
+                <button type="submit" class="submit-ticket-btn">Enquire Now</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .book-ticket-btn {
+            background: #e55d17;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 15px;
+            margin: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(229, 93, 23, 0.08);
+            transition: background 0.2s;
+        }
+
+        .book-ticket-btn:hover {
+            background: #d04e0f;
+        }
+
+        .ticket-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.18);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ticket-modal-content {
+            background: #fff;
+            border-radius: 16px;
+            max-width: 380px;
+            width: 95vw;
+            padding: 32px 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .close-ticket-modal {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .ticket-modal-content h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #e55d17;
+        }
+
+        #ticketForm {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+            width: 100%;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 7px 10px;
+            border: 1px solid #e55d17;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .submit-ticket-btn {
+            width: 100%;
+            background: #e55d17;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 0;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .ticket-modal-content {
+                max-width: 98vw;
+                padding: 18px 8px;
+            }
+
+            .ticket-modal-content h4 {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .form-group input {
+                font-size: 13px;
+                padding: 6px 8px;
+            }
+
+            .submit-ticket-btn {
+                font-size: 14px;
+                padding: 8px 0;
+            }
+        }
+    </style>
+
+    <!-- CSS for Destinations Menu Hover Functionality -->
+    <style>
+        /* Hide all content divs by default */
+        .destinations-menu .mega-right .content {
+            display: none !important;
+        }
+
+        /* Show content when parent has active class or on hover */
+        .destinations-menu .mega-left li.active + .mega-right .content,
+        .destinations-menu .mega-right .content.show {
+            display: flex !important;
+        }
+
+        /* Active state for continent items */
+        .destinations-menu .mega-left li.active {
+            background-color: rgba(229, 93, 23, 0.1);
+            color: #e55d17;
+        }
+
+        /* Hover effect for continent items */
+        .destinations-menu .mega-left li:hover {
+            background-color: rgba(229, 93, 23, 0.05);
+            color: #e55d17;
+            cursor: pointer;
+        }
+
+        /* Ensure proper flex layout for content */
+        .destinations-menu .mega-right .content {
+            flex-direction: row;
+            gap: 2rem;
+        }
+
+        .destinations-menu .mega-right .content .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+
+    <script>
+        // API Integration for Continents and Countries
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing continents API integration for navbar destinations...');
+            initializeContinentsData();
+            
+            // Auto-refresh every 30 minutes
+            setInterval(initializeContinentsData, 30 * 60 * 1000);
+        });
+
+        // Function to fetch continents data from API
+        async function fetchContinentsData() {
+            try {
+                console.log('Fetching continents data from API...');
+                
+                const response = await fetch('http://globe.ridealmobility.com/api/continents', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Continents API response:', data);
+                return data;
+            } catch (error) {
+                console.error('Error fetching continents data:', error);
+                return null;
+            }
+        }
+
+        // Function to fetch countries data for a specific continent
+        async function fetchCountriesData(continentId) {
+            try {
+                console.log(`Fetching countries data for continent ID: ${continentId}`);
+                
+                const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(`Countries API response for continent ${continentId}:`, data);
+                return data;
+            } catch (error) {
+                console.error(`Error fetching countries data for continent ${continentId}:`, error);
+                return null;
+            }
+        }
+
+        // Function to update destinations menu with API data
+        async function updateDestinationsWithAPIData(continentsData) {
+            if (!continentsData) {
+                console.warn('No continents data provided, keeping default destinations');
+                return;
+            }
+
+            console.log('Updating destinations menu with API data...');
+
+            // Handle different API response structures
+            let continents = [];
+            
+            if (Array.isArray(continentsData)) {
+                continents = continentsData;
+            } else if (continentsData.data && Array.isArray(continentsData.data)) {
+                continents = continentsData.data;
+            } else if (continentsData.continents && Array.isArray(continentsData.continents)) {
+                continents = continentsData.continents;
+            }
+
+            if (continents.length === 0) {
+                console.warn('No continents found in API response, keeping default destinations');
+                return;
+            }
+
+            console.log('Processing continents:', continents);
+
+            // Map continent names to menu IDs
+            const continentMapping = {
+                'africa': ['africa', 'african'],
+                'asia': ['asia', 'asian'],
+                'australasia': ['americas', 'america', 'north america', 'south america', 'australasia'],
+                'europe': ['europe', 'european'],
+                'indian': ['indian subcontinent', 'indian', 'south asia'],
+                'latin': ['oceania', 'oceanic', 'pacific'],
+                'middleeast': ['middle east', 'middle eastern', 'west asia'],
+                'polar': ['polar', 'arctic', 'antarctic']
+            };
+
+            // Update left side continent menu first
+            const megaLeft = document.querySelector('.destinations-menu .mega-left ul');
+            if (megaLeft && continents.length > 0) {
+                // Clear existing continent items
+                megaLeft.innerHTML = '';
+                
+                // Add continents from API
+                continents.forEach((continent, index) => {
+                    const continentName = continent.name || continent.continentName || `Continent ${index + 1}`;
+                    const continentId = continentName.toLowerCase().replace(/\s+/g, '');
+                    
+                    const listItem = document.createElement('li');
+                    listItem.setAttribute('data-target', continentId);
+                    listItem.innerHTML = `${continentName.toUpperCase()} <span class="arrow">&#8250;</span>`;
+                    megaLeft.appendChild(listItem);
+                });
+            }
+
+            // Update each continent section with countries from API
+            for (const continent of continents) {
+                const continentName = (continent.name || continent.continentName || '').toLowerCase();
+                const continentId = continentName.replace(/\s+/g, '');
+                const continentApiId = continent._id || continent.id;
+                
+                console.log(`Processing ${continentName} with ID: ${continentApiId}`);
+
+                // Find or create matching content div
+                let contentDiv = document.getElementById(continentId);
+                
+                // If not found, try mapping to existing IDs
+                if (!contentDiv) {
+                    for (const [id, aliases] of Object.entries(continentMapping)) {
+                        if (aliases.some(alias => continentName.includes(alias) || alias.includes(continentName))) {
+                            contentDiv = document.getElementById(id);
+                            break;
+                        }
+                    }
+                }
+
+                // If still not found, create new content div
+                if (!contentDiv) {
+                    contentDiv = document.createElement('div');
+                    contentDiv.className = 'content';
+                    contentDiv.id = continentId;
+                    document.querySelector('.destinations-menu .mega-right').appendChild(contentDiv);
+                }
+
+                if (contentDiv && continentApiId) {
+                    // Fetch countries for this continent
+                    const countriesData = await fetchCountriesData(continentApiId);
+                    
+                    if (countriesData) {
+                        // Handle different country response structures
+                        let countries = [];
+                        
+                        if (Array.isArray(countriesData)) {
+                            countries = countriesData;
+                        } else if (countriesData.data && Array.isArray(countriesData.data)) {
+                            countries = countriesData.data;
+                        } else if (countriesData.countries && Array.isArray(countriesData.countries)) {
+                            countries = countriesData.countries;
+                        }
+
+                        if (countries.length > 0) {
+                            // Clear existing content
+                            contentDiv.innerHTML = '';
+                            
+                            // Create columns
+                            const column1 = document.createElement('div');
+                            column1.className = 'column';
+                            const column2 = document.createElement('div');
+                            column2.className = 'column';
+                            
+                            // Distribute countries across two columns
+                            countries.forEach((country, countryIndex) => {
+                                const link = document.createElement('a');
+                                link.href = country.link || country.url || '#';
+                                link.textContent = country.name || country.countryName || `Country ${countryIndex + 1}`;
+                                
+                                // Add to alternating columns
+                                if (countryIndex % 2 === 0) {
+                                    column1.appendChild(link);
+                                } else {
+                                    column2.appendChild(link);
+                                }
+                            });
+                            
+                            contentDiv.appendChild(column1);
+                            contentDiv.appendChild(column2);
+                            
+                            console.log(`Updated ${continentId} section with ${countries.length} countries from API`);
+                        } else {
+                            console.warn(`No countries found for continent ${continentName}`);
+                        }
+                    } else {
+                        console.warn(`Failed to fetch countries for continent ${continentName}`);
+                    }
+                }
+            }
+
+            console.log('Destinations menu updated successfully with continents and countries API data');
+        }
+
+        // Initialize continents data on page load
+        async function initializeContinentsData() {
+            try {
+                console.log('Initializing continents data...');
+                const continentsData = await fetchContinentsData();
+                
+                if (continentsData) {
+                    await updateDestinationsWithAPIData(continentsData);
+                    // Initialize hover functionality after data is loaded
+                    initializeDestinationsHover();
+                } else {
+                    console.warn('Failed to load continents data, using default menu');
+                    // Initialize hover functionality with default menu
+                    initializeDestinationsHover();
+                }
+            } catch (error) {
+                console.error('Error initializing continents data:', error);
+                // Initialize hover functionality even if API fails
+                initializeDestinationsHover();
+            }
+        }
+
+        // Function to initialize destinations menu hover functionality
+        function initializeDestinationsHover() {
+            console.log('Initializing destinations menu hover functionality...');
+            
+            const megaLeft = document.querySelector('.destinations-menu .mega-left ul');
+            const megaRight = document.querySelector('.destinations-menu .mega-right');
+            
+            if (!megaLeft || !megaRight) {
+                console.warn('Destinations menu elements not found');
+                return;
+            }
+
+            // Add hover event listeners to continent items
+            const continentItems = megaLeft.querySelectorAll('li[data-target]');
+            
+            continentItems.forEach(item => {
+                const target = item.getAttribute('data-target');
+                const contentDiv = document.getElementById(target);
+                
+                if (contentDiv) {
+                    // Mouse enter - show the continent's countries
+                    item.addEventListener('mouseenter', () => {
+                        console.log(`Hovering over continent: ${target}`);
+                        
+                        // Hide all content divs
+                        const allContentDivs = megaRight.querySelectorAll('.content');
+                        allContentDivs.forEach(div => {
+                            div.style.display = 'none';
+                            div.classList.remove('show');
+                        });
+                        
+                        // Show the target content div
+                        contentDiv.style.display = 'flex';
+                        contentDiv.classList.add('show');
+                        
+                        // Add active class to hovered item
+                        continentItems.forEach(ci => ci.classList.remove('active'));
+                        item.classList.add('active');
+                    });
+                }
+            });
+            
+            // Handle mouse leave from the entire destinations menu
+            const destinationsMenu = document.querySelector('.destinations-menu');
+            if (destinationsMenu) {
+                destinationsMenu.addEventListener('mouseleave', () => {
+                    console.log('Mouse left destinations menu');
+                    
+                    // Hide all content divs
+                    const allContentDivs = megaRight.querySelectorAll('.content');
+                    allContentDivs.forEach(div => {
+                        div.style.display = 'none';
+                        div.classList.remove('show');
+                    });
+                    
+                    // Remove active class from all items
+                    continentItems.forEach(item => item.classList.remove('active'));
+                });
+            }
+            
+            console.log(`Destinations hover functionality initialized for ${continentItems.length} continents`);
+        }
+
+        // Function to fetch luxury cities data
+        async function fetchLuxuryCitiesData() {
+            try {
+                console.log('Fetching luxury cities data...');
+                
+                const response = await fetch('http://globe.ridealmobility.com/api/luxury-options', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Luxury cities data received:', data);
+                return data;
+            } catch (error) {
+                console.error('Error fetching luxury cities data:', error);
+                return null;
+            }
+        }
+
+        // Function to fetch specific luxury options data for a city
+        async function fetchLuxuryOptionsData(cityName) {
+            try {
+                console.log(`Fetching luxury options data for ${cityName}...`);
+                
+                const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityName}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(`Luxury options data for ${cityName}:`, data);
+                return data;
+            } catch (error) {
+                console.error(`Error fetching luxury options data for ${cityName}:`, error);
+                return null;
+            }
+        }
+
+        // Function to update luxury menu with cities from API
+        function updateLuxuryMenuWithCities(luxuryCitiesData) {
+            if (!luxuryCitiesData) {
+                console.warn('No luxury cities data provided, keeping default menu');
+                return;
+            }
+
+            console.log('Updating luxury menu with cities from API...');
+
+            // Handle different API response structures for cities list
+            let cities = [];
+            
+            if (Array.isArray(luxuryCitiesData)) {
+                cities = luxuryCitiesData;
+            } else if (luxuryCitiesData.data && Array.isArray(luxuryCitiesData.data)) {
+                cities = luxuryCitiesData.data;
+            } else if (luxuryCitiesData.cities && Array.isArray(luxuryCitiesData.cities)) {
+                cities = luxuryCitiesData.cities;
+            }
+
+            if (cities.length === 0) {
+                console.warn('No luxury cities found in API response, keeping default menu');
+                return;
+            }
+
+            console.log('Processing luxury cities:', cities);
+
+            // Update luxury menu left side with cities from API
+            const luxuryMenuLeft = document.querySelector('.itinerary-menu .mega-left ul');
+            if (luxuryMenuLeft && cities.length > 0) {
+                // Clear existing menu items
+                luxuryMenuLeft.innerHTML = '';
+                
+                // Add cities from API as menu items
+                cities.forEach((cityData, index) => {
+                    const cityName = cityData.city || cityData.name || cityData;
+                    const cityId = typeof cityName === 'string' ? cityName.toLowerCase().replace(/\s+/g, '') : `city${index}`;
+                    
+                    const listItem = document.createElement('li');
+                    listItem.setAttribute('data-target', 'luxury');
+                    listItem.setAttribute('data-city', cityName);
+                    
+                    const link = document.createElement('a');
+                    link.href = '#luxury-' + cityId;
+                    link.textContent = typeof cityName === 'string' ? cityName.toUpperCase() : `CITY ${index + 1}`;
+                    link.title = `Luxury options in ${cityName}`;
+                    
+                    // Add click event to load specific city data
+                    link.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        await loadCityLuxuryOptions(cityName);
+                    });
+                    
+                    listItem.appendChild(link);
+                    luxuryMenuLeft.appendChild(listItem);
+                });
+                
+                console.log(`Added ${cities.length} luxury cities to menu`);
+            }
+
+            // Create or update the mega-right section for luxury content
+            let luxuryMenuRight = document.querySelector('.itinerary-menu .mega-right');
+            if (!luxuryMenuRight) {
+                const luxuryMenu = document.querySelector('.itinerary-menu');
+                if (luxuryMenu) {
+                    luxuryMenuRight = document.createElement('div');
+                    luxuryMenuRight.className = 'mega-right';
+                    luxuryMenu.appendChild(luxuryMenuRight);
+                }
+            }
+
+            if (luxuryMenuRight) {
+                // Create initial welcome content
+                createLuxuryCitiesWelcomeContent(luxuryMenuRight, cities);
+            }
+
+            console.log('Luxury menu updated successfully with cities from API');
+        }
+
+        // Function to load specific city luxury options
+        async function loadCityLuxuryOptions(cityName) {
+            console.log(`Loading luxury options for ${cityName}...`);
+            
+            const luxuryData = await fetchLuxuryOptionsData(cityName);
+            if (luxuryData) {
+                const luxuryMenuRight = document.querySelector('.itinerary-menu .mega-right');
+                if (luxuryMenuRight) {
+                    createCityLuxuryContent(luxuryMenuRight, luxuryData);
+                }
+            }
+        }
+
+        // Function to create welcome content showing all cities
+        function createLuxuryCitiesWelcomeContent(container, cities) {
+            // Clear existing content
+            container.innerHTML = '';
+            
+            // Create welcome content
+            const welcomeContent = document.createElement('div');
+            welcomeContent.className = 'content luxury-cities-overview';
+            welcomeContent.id = 'luxury-welcome';
+            
+            // Header section
+            const headerSection = document.createElement('div');
+            headerSection.className = 'luxury-header';
+            headerSection.style.marginBottom = '20px';
+            headerSection.style.padding = '20px';
+            headerSection.style.borderRadius = '12px';
+            headerSection.style.background = 'linear-gradient(135deg, rgba(229, 93, 23, 0.1) 0%, rgba(229, 93, 23, 0.05) 100%)';
+            headerSection.style.border = '1px solid rgba(229, 93, 23, 0.2)';
+            headerSection.style.textAlign = 'center';
+            
+            const welcomeTitle = document.createElement('h3');
+            welcomeTitle.textContent = 'Luxury Destinations';
+            welcomeTitle.style.color = '#e55d17';
+            welcomeTitle.style.marginBottom = '12px';
+            welcomeTitle.style.fontWeight = '700';
+            welcomeTitle.style.fontSize = '24px';
+            
+            const welcomeSubtitle = document.createElement('p');
+            welcomeSubtitle.textContent = 'Discover premium luxury experiences across our exclusive destinations';
+            welcomeSubtitle.style.color = '#666';
+            welcomeSubtitle.style.fontSize = '16px';
+            welcomeSubtitle.style.fontStyle = 'italic';
+            welcomeSubtitle.style.marginBottom = '0';
+            
+            headerSection.appendChild(welcomeTitle);
+            headerSection.appendChild(welcomeSubtitle);
+            
+            // Cities grid
+            const citiesGrid = document.createElement('div');
+            citiesGrid.style.display = 'grid';
+            citiesGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 1fr))';
+            citiesGrid.style.gap = '15px';
+            citiesGrid.style.marginTop = '20px';
+            
+            cities.forEach((cityData, index) => {
+                const cityName = cityData.city || cityData.name || cityData;
+                const cityCard = createCityCard(cityName, index);
+                citiesGrid.appendChild(cityCard);
+            });
+            
+            welcomeContent.appendChild(headerSection);
+            welcomeContent.appendChild(citiesGrid);
+            container.appendChild(welcomeContent);
+            
+            console.log(`Created welcome content with ${cities.length} luxury cities`);
+        }
+
+        // Function to create city card
+        function createCityCard(cityName, index) {
+            const card = document.createElement('div');
+            card.className = 'luxury-city-card';
+            card.style.padding = '15px';
+            card.style.borderRadius = '10px';
+            card.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+            card.style.border = '1px solid rgba(229, 93, 23, 0.15)';
+            card.style.transition = 'all 0.3s ease';
+            card.style.cursor = 'pointer';
+            card.style.textAlign = 'center';
+            
+            // Hover effects
+            card.addEventListener('mouseenter', () => {
+                card.style.backgroundColor = 'rgba(229, 93, 23, 0.08)';
+                card.style.borderColor = 'rgba(229, 93, 23, 0.3)';
+                card.style.transform = 'translateY(-3px)';
+                card.style.boxShadow = '0 6px 20px rgba(229, 93, 23, 0.15)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                card.style.borderColor = 'rgba(229, 93, 23, 0.15)';
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+            
+            // Click event to load city details
+            card.addEventListener('click', async () => {
+                await loadCityLuxuryOptions(cityName);
+            });
+            
+            const cityTitle = document.createElement('h5');
+            cityTitle.textContent = typeof cityName === 'string' ? cityName.toUpperCase() : `DESTINATION ${index + 1}`;
+            cityTitle.style.color = '#e55d17';
+            cityTitle.style.marginBottom = '8px';
+            cityTitle.style.fontWeight = '600';
+            cityTitle.style.fontSize = '16px';
+            
+            const citySubtext = document.createElement('p');
+            citySubtext.textContent = 'Luxury Experiences';
+            citySubtext.style.color = '#888';
+            citySubtext.style.fontSize = '13px';
+            citySubtext.style.marginBottom = '10px';
+            
+            const exploreButton = document.createElement('span');
+            exploreButton.textContent = 'Explore →';
+            exploreButton.style.color = '#e55d17';
+            exploreButton.style.fontSize = '12px';
+            exploreButton.style.fontWeight = '500';
+            
+            card.appendChild(cityTitle);
+            card.appendChild(citySubtext);
+            card.appendChild(exploreButton);
+            
+            return card;
+        }
+
+        // Function to create city luxury content
+        function createCityLuxuryContent(container, luxuryData) {
+            // Clear existing content
+            container.innerHTML = '';
+            
+            // Create city luxury content
+            const cityContent = document.createElement('div');
+            cityContent.className = 'content city-luxury';
+            cityContent.id = 'city-luxury';
+            
+            // Main header section
+            const headerSection = document.createElement('div');
+            headerSection.className = 'luxury-header';
+            headerSection.style.marginBottom = '20px';
+            headerSection.style.padding = '15px';
+            headerSection.style.borderRadius = '10px';
+            headerSection.style.background = 'linear-gradient(135deg, rgba(229, 93, 23, 0.1) 0%, rgba(229, 93, 23, 0.05) 100%)';
+            headerSection.style.border = '1px solid rgba(229, 93, 23, 0.2)';
+            
+            const mainTitle = document.createElement('h4');
+            mainTitle.textContent = luxuryData.heading || `Luxury ${luxuryData.city || 'Experience'}`;
+            mainTitle.style.color = '#e55d17';
+            mainTitle.style.marginBottom = '8px';
+            mainTitle.style.fontWeight = '700';
+            mainTitle.style.fontSize = '20px';
+            
+            const mainSubtitle = document.createElement('p');
+            mainSubtitle.textContent = luxuryData.subheading || `Experience luxury in ${luxuryData.city || 'this destination'}`;
+            mainSubtitle.style.color = '#666';
+            mainSubtitle.style.fontSize = '14px';
+            mainSubtitle.style.fontStyle = 'italic';
+            mainSubtitle.style.marginBottom = '0';
+            
+            headerSection.appendChild(mainTitle);
+            headerSection.appendChild(mainSubtitle);
+            
+            // Create columns for experiences and resorts
+            const column1 = document.createElement('div');
+            column1.className = 'column';
+            const column2 = document.createElement('div');
+            column2.className = 'column';
+            
+            // Add header to first column
+            column1.appendChild(headerSection);
+            
+            // Add signature experiences
+            if (luxuryData.signatureExperiences && luxuryData.signatureExperiences.length > 0) {
+                const experiencesTitle = document.createElement('h6');
+                experiencesTitle.textContent = 'Signature Experiences';
+                experiencesTitle.style.color = '#e55d17';
+                experiencesTitle.style.fontWeight = '600';
+                experiencesTitle.style.marginBottom = '12px';
+                experiencesTitle.style.fontSize = '16px';
+                column1.appendChild(experiencesTitle);
+                
+                luxuryData.signatureExperiences.forEach((experience, index) => {
+                    const expCard = createLuxuryCard(experience, 'experience', index);
+                    column1.appendChild(expCard);
+                });
+            }
+            
+            // Add luxury resorts
+            if (luxuryData.luxuryResorts && luxuryData.luxuryResorts.length > 0) {
+                const resortsTitle = document.createElement('h6');
+                resortsTitle.textContent = 'Luxury Resorts';
+                resortsTitle.style.color = '#e55d17';
+                resortsTitle.style.fontWeight = '600';
+                resortsTitle.style.marginBottom = '12px';
+                resortsTitle.style.fontSize = '16px';
+                column2.appendChild(resortsTitle);
+                
+                luxuryData.luxuryResorts.forEach((resort, index) => {
+                    const resortCard = createLuxuryCard(resort, 'resort', index);
+                    column2.appendChild(resortCard);
+                });
+            }
+            
+            cityContent.appendChild(column1);
+            cityContent.appendChild(column2);
+            container.appendChild(cityContent);
+            
+            console.log(`Created luxury content for ${luxuryData.city}`);
+        }
+
+        // Function to create luxury card (experience or resort)
+        function createLuxuryCard(item, type, index) {
+            const card = document.createElement('div');
+            card.className = `luxury-${type}-card`;
+            card.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+            card.style.border = '1px solid rgba(229, 93, 23, 0.15)';
+            card.style.borderRadius = '8px';
+            card.style.padding = '12px';
+            card.style.marginBottom = '12px';
+            card.style.transition = 'all 0.3s ease';
+            
+            // Hover effect
+            card.addEventListener('mouseenter', () => {
+                card.style.backgroundColor = 'rgba(229, 93, 23, 0.05)';
+                card.style.borderColor = 'rgba(229, 93, 23, 0.25)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                card.style.borderColor = 'rgba(229, 93, 23, 0.15)';
+            });
+            
+            const title = document.createElement('h6');
+            title.textContent = item.heading || `${type === 'experience' ? 'Experience' : 'Resort'} ${index + 1}`;
+            title.style.color = '#e55d17';
+            title.style.fontSize = '14px';
+            title.style.fontWeight = '600';
+            title.style.marginBottom = '6px';
+            
+            const subtitle = document.createElement('p');
+            subtitle.textContent = item.subheading || item.description || 'Luxury experience awaits';
+            subtitle.style.color = '#666';
+            subtitle.style.fontSize = '12px';
+            subtitle.style.marginBottom = '0';
+            subtitle.style.lineHeight = '1.4';
+            
+            card.appendChild(title);
+            card.appendChild(subtitle);
+            
+            return card;
+        }
+
+        // Initialize luxury options data on page load
+        async function initializeLuxuryOptionsData() {
+            try {
+                console.log('Initializing luxury options data with dynamic cities...');
+                
+                // First, fetch all luxury cities to populate the menu
+                const luxuryCitiesData = await fetchLuxuryCitiesData();
+                
+                if (luxuryCitiesData) {
+                    updateLuxuryMenuWithCities(luxuryCitiesData);
+                    console.log('Luxury menu populated with dynamic cities from API');
+                } else {
+                    console.warn('Failed to load luxury cities data, keeping default menu');
+                }
+            } catch (error) {
+                console.error('Error initializing luxury options data:', error);
+            }
+        }
+
+        // Initialize luxury options when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLuxuryOptionsData();
+            
+            // Auto-refresh luxury data every 30 minutes
+            setInterval(initializeLuxuryOptionsData, 30 * 60 * 1000);
+        });
+    </script>
+
+    <script>
+        // Open modal on Enquire button click
+        document.querySelectorAll('.book-ticket-btn').forEach(function (btn) {
+            btn.onclick = function (e) {
+                // Get match name from the row
+                const matchRow = btn.closest('.schedule-row');
+                const matchName = matchRow.querySelector('.match-desc')?.textContent || '';
+                document.getElementById('matchName').value = matchName;
+                document.getElementById('ticketModal').style.display = 'flex';
+            };
+        });
+        // Close modal
+        document.querySelector('.close-ticket-modal').onclick = function () {
+            document.getElementById('ticketModal').style.display = 'none';
+        };
+        // Optional: handle form submit
+        document.getElementById('ticketForm').onsubmit = function (e) {
+            e.preventDefault();
+            alert('Your ticket booking request has been submitted!');
+            document.getElementById('ticketModal').style.display = 'none';
+        };
+    </script>
+</body>
+<!-- Signup Form Section -->
+<!-- Login Form Section -->
+<section id="login-section" style="max-width:400px;margin:40px auto 24px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+    <h3 style="color:#007bff;text-align:center;margin-bottom:18px;">Login</h3>
+    <form id="loginForm">
+        <div class="mb-3">
+            <label for="loginFirstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="loginFirstName" name="firstName" required>
+        </div>
+        <div class="mb-3">
+            <label for="loginLastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="loginLastName" name="lastName" required>
+        </div>
+        <div class="mb-3">
+            <label for="loginGender" class="form-label">Gender</label>
+            <select class="form-control" id="loginGender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="loginDob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="loginDob" name="dob" required>
+        </div>
+        <div class="mb-3">
+            <label for="loginMobile" class="form-label">Mobile</label>
+            <input type="text" class="form-control" id="loginMobile" name="mobile" required>
+        </div>
+        <div class="mb-3">
+            <label for="loginEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="loginEmail" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="loginPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="loginPassword" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+        <div id="loginMessage" style="margin-top:16px;text-align:center;"></div>
+    </form>
+</section>
+<section id="signup-section" style="max-width:400px;margin:40px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+    <h3 style="color:#e55d17;text-align:center;margin-bottom:18px;">Sign Up</h3>
+    <form id="signupForm">
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" required>
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" required>
+        </div>
+        <div class="mb-3">
+            <label for="gender" class="form-label">Gender</label>
+            <select class="form-control" id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="dob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="dob" name="dob" required>
+        </div>
+        <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100" style="background:#e55d17;border:none;">Sign Up</button>
+        <div id="signupMessage" style="margin-top:16px;text-align:center;"></div>
+    </form>
+</section>
+
+<script>
+// Signup API integration
+document.getElementById('signupForm').onsubmit = async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = {
+        firstName: form.firstName.value,
+        lastName: form.lastName.value,
+        gender: form.gender.value,
+        dob: form.dob.value,
+        mobile: form.mobile.value,
+        email: form.email.value,
+        password: form.password.value
+    };
+    const messageDiv = document.getElementById('signupMessage');
+    messageDiv.textContent = 'Signing up...';
+    try {
+        const response = await fetch('http://globe.ridealmobility.com/api/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (response.ok) {
+            messageDiv.textContent = 'Signup successful!';
+            messageDiv.style.color = '#28a745';
+            form.reset();
+        } else {
+            messageDiv.textContent = result.message || 'Signup failed.';
+            messageDiv.style.color = '#dc3545';
+        }
+    } catch (error) {
+        messageDiv.textContent = 'Network error. Please try again.';
+        messageDiv.style.color = '#dc3545';
+    }
+};
+</script>
+
+</html>

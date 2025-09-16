@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eduwing API Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .feature-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #007bff;
+        }
+
+        .feature-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+        }
+
+        .feature-icon img {
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon img {
+            transform: scale(1.1);
+        }
+
+        .feature-title {
+            color: #333;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .loading-spinner {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-5">Eduwing API Integration Test</h1>
+                <div class="mb-4">
+                    <h3>API Response:</h3>
+                    <pre id="apiResponse" class="bg-light p-3 rounded"></pre>
+                </div>
+                <h3>Rendered Features:</h3>
+                <div class="row" id="studyAbroadFeaturesContainer">
+                    <div class="col-12 text-center">
+                        <div class="loading-spinner mb-4">
+                            <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                        </div>
+                        <h5>Loading Features...</h5>
+                        <p class="text-muted">Please wait while we load the study abroad features from our API.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Eduwings API Integration Test
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to fetch eduwing data from API
+            async function fetchEduwingData() {
+                try {
+                    console.log('Fetching eduwing data from API...');
+                    const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/eduwing');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const eduwingData = await response.json();
+                    console.log('Eduwing data loaded from API:', eduwingData);
+                    
+                    // Display raw API response
+                    document.getElementById('apiResponse').textContent = JSON.stringify(eduwingData, null, 2);
+                    
+                    return eduwingData;
+                } catch (error) {
+                    console.error('Error fetching eduwing data:', error);
+                    
+                    // Display error in API response
+                    document.getElementById('apiResponse').textContent = 'Error: ' + error.message;
+                    
+                    // Return fallback data to maintain functionality
+                    return [
+                        {
+                            _id: 'fallback-1',
+                            icon: './images/world-icon.png',
+                            title: 'A World of Opportunities',
+                            description: 'Explore global education opportunities with our comprehensive study abroad programs.'
+                        },
+                        {
+                            _id: 'fallback-2',
+                            icon: './images/guidance-icon.png',
+                            title: 'End-to-End Guidance',
+                            description: 'From application to graduation, we provide complete support throughout your educational journey.'
+                        }
+                    ];
+                }
+            }
+
+            // Function to get full image URL for icons
+            function getIconUrl(iconPath) {
+                if (!iconPath) return './images/default-icon.png';
+                
+                if (iconPath.startsWith('http')) {
+                    return iconPath;
+                }
+                
+                // Construct full URL for API images
+                return `http://globe.ridealmobility.com/${iconPath.replace(/^\/*/, '')}`;
+            }
+
+            // Function to render eduwing features in the UI
+            function renderEduwingFeatures(eduwingData) {
+                if (!eduwingData || !Array.isArray(eduwingData) || eduwingData.length === 0) {
+                    console.warn('No eduwing data available, using fallback content');
+                    return;
+                }
+
+                // Find the features container
+                const featuresContainer = document.getElementById('studyAbroadFeaturesContainer');
+                
+                if (!featuresContainer) {
+                    console.warn('Features container not found');
+                    return;
+                }
+
+                // Clear the loading content
+                featuresContainer.innerHTML = '';
+
+                // Create feature cards from API data
+                let featuresHTML = '';
+                
+                eduwingData.forEach((feature, index) => {
+                    const iconUrl = getIconUrl(feature.icon);
+                    const title = feature.title || `Feature ${index + 1}`;
+                    const description = feature.description || 'No description available.';
+                    
+                    featuresHTML += `
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="feature-card text-center p-4">
+                                <div class="feature-icon mb-3">
+                                    <img src="${iconUrl}" 
+                                         alt="${title}" 
+                                         class="img-fluid"
+                                         style="height: 60px; width: 60px; object-fit: contain;"
+                                         onerror="this.src='https://via.placeholder.com/60x60/007bff/white?text=Icon';" />
+                                </div>
+                                <h4 class="feature-title mb-3">${title}</h4>
+                                <p class="feature-description text-muted">${description}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Add the features to the container
+                featuresContainer.innerHTML = featuresHTML;
+                
+                console.log('Eduwing features rendered successfully');
+                console.log('Total features displayed:', eduwingData.length);
+            }
+
+            // Function to initialize eduwing features
+            async function initializeEduwingFeatures() {
+                console.log('Initializing eduwing features...');
+                
+                // Fetch and render data
+                try {
+                    const eduwingData = await fetchEduwingData();
+                    renderEduwingFeatures(eduwingData);
+                } catch (error) {
+                    console.error('Failed to initialize eduwing features:', error);
+                    
+                    // Show error state
+                    const featuresContainer = document.getElementById('studyAbroadFeaturesContainer');
+                    if (featuresContainer) {
+                        featuresContainer.innerHTML = `
+                            <div class="col-12 text-center">
+                                <div class="alert alert-warning" role="alert">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Unable to load features from API. Please try again later.
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            // Initialize the eduwing features
+            initializeEduwingFeatures();
+        });
+    </script>
+</body>
+</html>

@@ -25,6 +25,113 @@
         .hero-section {
             background: url('./images/globaleduHeroImg.jpg') no-repeat center center/cover;
         }
+
+        /* Eduwing Feature Cards Styles - Matching Screenshot Design */
+        .eduwing-features-section {
+            padding: 60px 0;
+            background: #ffffff;
+        }
+
+        .features-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            flex: 0 1 250px;
+            text-align: center;
+            padding: 20px;
+            min-width: 200px;
+        }
+
+        .feature-icon-container {
+            margin-bottom: 20px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon-container img {
+            max-height: 100px;
+            max-width: 120px;
+            object-fit: contain;
+            filter: grayscale(20%);
+            opacity: 0.8;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .feature-description {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Loading spinner animation */
+        .loading-spinner {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .features-container {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+            
+            .feature-item {
+                flex: 1 1 calc(50% - 15px);
+                min-width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .feature-item {
+                flex: 1 1 100%;
+            }
+            
+            .feature-icon-container {
+                height: 100px;
+            }
+            
+            .feature-icon-container img {
+                max-height: 80px;
+            }
+            
+            .feature-title {
+                font-size: 1.1rem;
+            }
+            
+            .feature-description {
+                font-size: 0.9rem;
+            }
+        }
     </style>
     <!-- CSS for Services Section -->
     <style>
@@ -413,8 +520,9 @@
             min-width: 240px;
             margin-top: 30px;
             margin-right: 0;
-            height: 420px;
-            justify-content: space-between;
+            height: auto;
+            justify-content: flex-start;
+            gap: 20px;
         }
 
         .timeline-line {
@@ -423,7 +531,7 @@
             /* Adjust so line matches icons */
             top: 2px;
             width: 3px;
-            height: 100%;
+            height: calc(100% - 40px);
             background: #676767;
             z-index: 1;
             border-radius: 2px;
@@ -435,7 +543,7 @@
             position: relative;
             z-index: 2;
             margin-bottom: 0;
-            min-height: 60px;
+            min-height: 50px;
             margin-left: 0;
             /* Ensure all steps start at same left */
         }
@@ -1054,7 +1162,8 @@
          <div class="mega-menu destinations-menu">
         <!-- Left Side -->
         <div class="mega-left">
-          <ul>
+          <ul id="continentsMenuList">
+            <!-- Static content (will be replaced by API) -->
             <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
             <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
             <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
@@ -1352,49 +1461,15 @@
             </h2>
 
             <!-- Features Grid -->
-            <div class="row justify-content-center mt-5 heading_font_family">
-                <!-- 1 -->
+            <div class="row justify-content-center mt-5 heading_font_family" id="studyAbroadFeaturesContainer">
+                <!-- Dynamic study abroad features will be loaded here from API -->
+                <!-- Fallback content while loading -->
                 <div class="col-12 col-md-6 col-lg-3 why-item">
                     <div class="why-card">
-                        <img src="./images/globalbookicon.png" class="buss-why-icon" alt="Thoughtful Curation">
-                        <h4 class="why-title">A World of Opportunities</h4>
+                        <img src="./images/globalbookicon.png" class="buss-why-icon" alt="Loading">
+                        <h4 class="why-title">Loading Features...</h4>
                         <p class="why-text">
-                            Tie-ups with leading universities across 30+ countries in Medicine, Engineering, Arts,
-                            Business, and more.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 2 -->
-                <div class="col-12 col-md-6 col-lg-3 why-item">
-                    <div class="why-card">
-                        <img src="./images/corponlyicon.png" class="buss-why-icon" alt="Global Connect">
-                        <h4 class="why-title">End-to-End Guidance</h4>
-                        <p class="why-text">
-                            From career counselling to travel arrangements - we handle the process so you can focus on
-                            your academic goals.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 3 -->
-                <div class="col-12 col-md-6 col-lg-3 why-item">
-                    <div class="why-card">
-                        <img src="./images/travelmangmenticon.png" class="buss-why-icon" alt="Trust & Transparency">
-                        <h4 class="why-title">Trusted by Families</h4>
-                        <p class="why-text">
-                            Transparent, safe, and personalised - we earn parents' trust at every stage.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- 4 -->
-                <div class="col-12 col-md-6 col-lg-3 why-item">
-                    <div class="why-card">
-                        <img src="./images/dedicatedsupporticon.png" class="buss-why-icon" alt="24/7 Dedicated Support">
-                        <h4 class="why-title">Career-Centric Approach</h4>
-                        <p class="why-text">
-                            Programs chosen to match future job markets and global career paths.
+                            Please wait while we load the study abroad features from our API.
                         </p>
                     </div>
                 </div>
@@ -1412,156 +1487,45 @@
                 to Global Education
             </h2>
         </div>
-        <div class="steps-wrapper">
+        <div class="steps-wrapper" id="studyAbroadStepsWrapper">
             <!-- Timeline Left -->
-            <div class="steps-timeline">
+            <div class="steps-timeline" id="studyAbroadStepsTimeline">
                 <div class="timeline-line"></div>
+                <!-- Dynamic steps will be loaded here from API -->
+                <!-- Fallback content while loading -->
                 <div class="step">
                     <div class="step-icon">
-                        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Balloon" />
+                        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Loading" />
                     </div>
-                    <button class="step-label-btn active-label" data-step="briefing">Boarding Pass to Your Dreams</button>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Balloon" />
-                    </div>
-                    <button class="step-label-btn step-label" data-step="curated">Choose Your Destination</button>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Balloon" />
-                    </div>
-                    <button class="step-label-btn step-label" data-step="booking">Clear for Take-off</button>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Balloon" />
-                    </div>
-                    <button class="step-label-btn step-label" data-step="support">Smooth Landing</button>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="Balloon" />
-                    </div>
-                    <button class="step-label-btn step-label" data-step="analysis">Ready to Soar</button>
+                    <button class="step-label-btn active-label" data-step="0">Loading Steps...</button>
                 </div>
             </div>
             <!-- Content Right -->
-            <div class="steps-content">
-                <div class="steps-panel active" id="briefing-panel">
+            <div class="steps-content" id="studyAbroadStepsContent">
+                <!-- Dynamic step panels will be loaded here from API -->
+                <!-- Fallback content while loading -->
+                <div class="steps-panel active" id="step-panel-0">
                     <div class="steps-images-row">
                         <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80"
-                            class="steps-img side-img" alt="Business Meeting">
+                            class="steps-img side-img" alt="Loading">
                         <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=500&q=80"
-                            class="steps-img main-img" alt="Business Meeting">
+                            class="steps-img main-img" alt="Loading">
                     </div>
                     <div class="steps-desc">
                         <div class="steps-divider"></div>
                         <div class="steps-title-row">
-                            <span class="steps-title-script">Boarding</span>
-                            <span class="steps-title-bold">Pass to Your Dreams</span>
+                            <span class="steps-title-script">Loading</span>
+                            <span class="steps-title-bold">Study Abroad Steps...</span>
                         </div>
                         <p class="steps-text">
-                           – Career counselling and goal setting.
-                        </p>
-                    </div>
-                </div>
-                <div class="steps-panel" id="curated-panel">
-                    <div class="steps-images-row">
-                        <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80"
-                            class="steps-img side-img" alt="Curated Options">
-                        <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=500&q=80"
-                            class="steps-img main-img" alt="Curated Options">
-                    </div>
-                    <div class="steps-desc">
-                        <div class="steps-divider"></div>
-                        <div class="steps-title-row">
-                            <span class="steps-title-bold"> Choose Your </span>
-                            <span class="steps-title-script"> Destination </span>
-                        </div>
-                        <p class="steps-text">
-                           – Country, course, and university selection.
-                        </p>
-                    </div>
-                </div>
-                <div class="steps-panel" id="booking-panel">
-                    <div class="steps-images-row">
-                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
-                            class="steps-img side-img" alt="Instant Booking">
-                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=500&q=80"
-                            class="steps-img main-img" alt="Instant Booking">
-                    </div>
-                    <div class="steps-desc">
-                        <div class="steps-divider"></div>
-                        <div class="steps-title-row">
-                            <span class="steps-title-bold"> Clear for </span>
-                            <span class="steps-title-script">Take-off</span>
-                            
-                        </div>
-                        <p class="steps-text">
-                           – Application submission, test prep, and documentation.
-                        </p>
-                    </div>
-                </div>
-                <div class="steps-panel" id="support-panel">
-                    <div class="steps-images-row">
-                        <img src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=400&q=80"
-                            class="steps-img side-img" alt="On-Trip Support">
-                        <img src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?auto=format&fit=crop&w=500&q=80"
-                            class="steps-img main-img" alt="On-Trip Support">
-                    </div>
-                    <div class="steps-desc">
-                        <div class="steps-divider"></div>
-                        <div class="steps-title-row">
-                            <span class="steps-title-bold"> Smooth </span>
-                            <span class="steps-title-script"> Landing </span>
-                        </div>
-                        <p class="steps-text">
-                            – Visa assistance, travel bookings, and orientation.
-                        </p>
-                    </div>
-                </div>
-                <div class="steps-panel" id="analysis-panel">
-                    <div class="steps-images-row">
-                        <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80"
-                            class="steps-img side-img" alt="Post-Trip Analysis">
-                        <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=500&q=80"
-                            class="steps-img main-img" alt="Post-Trip Analysis">
-                    </div>
-                    <div class="steps-desc">
-                        <div class="steps-divider"></div>
-                        <div class="steps-title-row">
-                            <span class="steps-title-script"> Ready </span>
-                            <span class="steps-title-bold"> to Soar</span>
-                        </div>
-                        <p class="steps-text">
-                            – Campus arrival and settling-in support.
+                            Please wait while we load the study abroad journey steps from our API.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-<script>
-     // Steps functionality
-        const steps = document.querySelectorAll(".step-label-btn");
-        const panels = document.querySelectorAll(".steps-panel");
-
-        steps.forEach(step => {
-            step.addEventListener("click", function () {
-                const targetPanel = document.getElementById(this.dataset.step + "-panel");
-
-                // Update active step
-                steps.forEach(s => s.classList.remove("active-label", "step-label"));
-                this.classList.add("active-label");
-
-                // Show corresponding panel
-                panels.forEach(p => p.classList.remove("active"));
-                targetPanel.classList.add("active");
-            });
-        });
-</script>
+<!-- Steps functionality will be handled dynamically by the API integration script -->
 
 
     <section class="programs-section">
@@ -1569,42 +1533,11 @@
             <h2 class="programs-title">
                 <span class="programs-script silver-South-family">Programs</span> We Offer
             </h2>
-            <div class="programs-grid">
-                <div class="program-card">
-                    <img src="https://cdn-icons-png.flaticon.com/128/3135/3135789.png" alt="Undergraduate Degrees"
-                        class="program-icon">
-                    <h3>Undergraduate Degrees</h3>
-                    <p>Build your foundation for a global career</p>
-                </div>
-                <div class="program-card">
-                    <img src="https://cdn-icons-png.flaticon.com/128/3135/3135810.png" alt="Postgraduate & Masters"
-                        class="program-icon">
-                    <h3>Postgraduate &amp; Masters</h3>
-                    <p>Specialise and expand your expertise</p>
-                </div>
-                <div class="program-card">
-                    <img src="https://cdn-icons-png.flaticon.com/128/3135/3135823.png" alt="Doctoral & Research"
-                        class="program-icon">
-                    <h3>Doctoral &amp; Research</h3>
-                    <p>Shape the future with your ideas</p>
-                </div>
-                <div class="program-card">
-                    <img src="https://cdn-icons-png.flaticon.com/128/3135/3135793.png" alt="Postgraduate Diplomas"
-                        class="program-icon">
-                    <h3>Postgraduate Diplomas</h3>
-                    <p>Industry-aligned programs for immediate impact</p>
-                </div>
-                <div class="program-card">
-                    <img src="https://cdn-icons-png.flaticon.com/128/3135/3135807.png" alt="Exchange & Summer Schools"
-                        class="program-icon">
-                    <h3>Exchange &amp; Summer Schools</h3>
-                    <p>Short-term, high-value global exposure</p>
-                </div>
-                <div class="program-card">
-                    <img src="https://cdn-icons-png.flaticon.com/128/3135/3135817.png" alt="Specialised Fields"
-                        class="program-icon">
-                    <h3>Specialised Fields</h3>
-                    <p>Medicine, Engineering, Business, Arts, and more</p>
+            <div class="programs-grid" id="programsContainer">
+                <!-- Loading state -->
+                <div class="loading-state" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: #666;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px;"></i>
+                    <p style="margin: 0; font-size: 16px;">Loading programs from API...</p>
                 </div>
             </div>
         </div>
@@ -2156,17 +2089,6 @@
             }, index * 300); // delay each box animation slightly for a wave effect
         });
     </script>
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-  new Swiper('.heroEduSwiper', {
-    loop: true,
-    autoplay: {
-      delay: 4000,
-      disableOnInteraction: false
-    }
-  });
-});
-</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./js/script.js"></script>
     <script src="./js/group-tours.js"></script>
@@ -2439,194 +2361,204 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Luxury Options API Integration
+// Removed luxury options API integration
+
+// Removed study abroad hero API integration
+
+// Removed logo API integration
+
+// Removed study abroad features API integration
+
+// Removed continents API integration
+
+// Removed study abroad programs API integration
+
+// Removed business steps API integration
+
+// Eduwings API Integration
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to fetch luxury options from API
-    async function fetchLuxuryOptions() {
+    // Function to fetch eduwing data from API
+    async function fetchEduwingData() {
         try {
-            const response = await fetch('http://globe.ridealmobility.com/api/luxury-options');
+            console.log('Fetching eduwing data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/eduwing');
+            
             if (!response.ok) {
-                throw new Error('Failed to fetch luxury options');
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const luxuryOptions = await response.json();
-            console.log('Luxury options loaded from API:', luxuryOptions);
-            return luxuryOptions;
+            
+            const eduwingData = await response.json();
+            console.log('Eduwing data loaded from API:', eduwingData);
+            return eduwingData;
         } catch (error) {
-            console.error('Error fetching luxury options:', error);
-            // Return fallback data to maintain functionality
-            return [
-                { city: 'FINLAND', _id: '1' },
-                { city: 'JAPAN', _id: '2' },
-                { city: 'KENYA', _id: '3' },
-                { city: 'NORWAY', _id: '4' },
-                { city: 'SAUDI ARABIA', _id: '5' },
-                { city: 'TANZANIA', _id: '6' },
-                { city: 'ZANZIBAR', _id: '7' }
-            ];
+            console.error('Error fetching eduwing data:', error);
+            // Return empty array when API fails - no static fallback
+            return [];
         }
     }
 
-    // Initialize luxury dropdown with API data
-    async function initializeEduwingsLuxuryDropdown() {
-        const luxuryOptions = await fetchLuxuryOptions();
-        const luxuryDropdown = document.getElementById('eduwings-luxury-dropdown');
-        
-        if (luxuryDropdown && luxuryOptions) {
-            // Clear existing content
-            luxuryDropdown.innerHTML = '';
-            
-            // Populate with API data
-            luxuryOptions.forEach((option, index) => {
-                const li = document.createElement('li');
-                li.setAttribute('data-target', 'luxury');
+            // Function to get full image URL for icons
+            function getIconUrl(iconPath) {
+                if (!iconPath) return './images/default-icon.png';
                 
-                const a = document.createElement('a');
-                a.href = option.url || `luxury-${option._id}.html` || '';
-                a.textContent = option.city || option.name || `Luxury Option ${index + 1}`;
-                
-                li.appendChild(a);
-                luxuryDropdown.appendChild(li);
-            });
-            
-            console.log('Eduwings luxury dropdown populated with API data');
-        } else {
-            console.warn('Eduwings luxury dropdown not found');
-        }
-    }
-
-    // Initialize luxury dropdown
-    initializeEduwingsLuxuryDropdown();
-});
-
-// Study Abroad Hero API Integration
-document.addEventListener('DOMContentLoaded', function() {
-    let heroSwiper; // Define swiper variable
-
-    // Function to fetch hero data from Study Abroad API
-    async function fetchStudyAbroadHeroData() {
-        try {
-            const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/hero');
-            if (!response.ok) {
-                throw new Error('Failed to fetch study abroad hero data');
-            }
-            const heroData = await response.json();
-            console.log('Study abroad hero data loaded from API:', heroData);
-            return heroData;
-        } catch (error) {
-            console.error('Error fetching study abroad hero data:', error);
-            // Return fallback data to maintain functionality
-            return [
-                {
-                    title: "Your Gateway to Global Education",
-                    subtitle: "From application to arrival - GLOBENGEL EduWings guides you every step towards your dream university",
-                    backgroundImage: ["./images/globaleduHeroImg.jpg"]
-                }
-            ];
-        }
-    }
-
-    // Function to parse and format title for display
-    function formatHeroTitle(title) {
-        // Check if title contains line breaks or specific patterns for styling
-        if (title.includes('Gateway')) {
-            const parts = title.split('Gateway');
-            return `${parts[0]}<span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;">Gateway</span>${parts[1] || ''}`;
-        } else if (title.includes('World\'s Best')) {
-            const parts = title.split('World\'s Best');
-            return `${parts[0]}<span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;">World's Best</span>${parts[1] || ''}`;
-        }
-        return title;
-    }
-
-    // Function to get full image URL
-    function getImageUrl(imagePath) {
-        if (imagePath.startsWith('http')) {
-            return imagePath;
-        }
-        // Construct full URL for API images
-        return `http://globe.ridealmobility.com/${imagePath}`;
-    }
-
-    // Function to initialize hero section with API data
-    async function initializeStudyAbroadHero() {
-        const heroData = await fetchStudyAbroadHeroData();
-        
-        if (heroData && heroData.length > 0) {
-            // Update content with the first hero item (or you can cycle through them)
-            const primaryHero = heroData.find(hero => hero.title.includes('Gateway')) || heroData[0];
-            
-            if (primaryHero) {
-                // Update title
-                const titleElement = document.getElementById('heroTitle');
-                if (titleElement) {
-                    titleElement.innerHTML = formatHeroTitle(primaryHero.title);
+                if (iconPath.startsWith('http')) {
+                    return iconPath;
                 }
                 
-                // Update subtitle
-                const subtitleElement = document.getElementById('heroSubtitle');
-                if (subtitleElement) {
-                    subtitleElement.textContent = primaryHero.subtitle;
-                }
+                // Construct full URL for API images
+                return `http://globe.ridealmobility.com/${iconPath.replace(/^\/*/, '')}`;
             }
 
-            // Update Swiper slides with all hero images
-            const swiperWrapper = document.getElementById('heroSwiperWrapper');
-            if (swiperWrapper) {
-                swiperWrapper.innerHTML = ''; // Clear existing slides
-                
-                // Add slides for each hero item and their images
-                heroData.forEach((hero, heroIndex) => {
-                    if (hero.backgroundImage && hero.backgroundImage.length > 0) {
-                        hero.backgroundImage.forEach((image, imageIndex) => {
-                            const imageUrl = getImageUrl(image);
-                            const slide = document.createElement('div');
-                            slide.className = 'swiper-slide';
-                            slide.style.cssText = 'width:100%; height:100vh;';
-                            
-                            const imageDiv = document.createElement('div');
-                            imageDiv.style.cssText = `background: url('${imageUrl}') no-repeat center center/cover; width:100%; height:100vh;`;
-                            
-                            slide.appendChild(imageDiv);
-                            swiperWrapper.appendChild(slide);
-                        });
+            // Function to render eduwing features in the UI
+            function renderEduwingFeatures(eduwingData) {
+                if (!eduwingData || !Array.isArray(eduwingData) || eduwingData.length === 0) {
+                    console.warn('No eduwing data available from API');
+                    
+                    // Find the features container
+                    const featuresContainer = document.getElementById('studyAbroadFeaturesContainer');
+                    if (featuresContainer) {
+                        featuresContainer.className = 'features-container';
+                        featuresContainer.innerHTML = `
+                            <div class="feature-item">
+                                <div class="feature-icon-container">
+                                    <i class="fas fa-exclamation-circle fa-3x text-muted"></i>
+                                </div>
+                                <h3 class="feature-title">No Data Available</h3>
+                                <p class="feature-description">No features are currently available from the API.</p>
+                            </div>
+                        `;
                     }
+                    return;
+                }
+
+                // Find the features container
+                const featuresContainer = document.getElementById('studyAbroadFeaturesContainer');
+                
+                if (!featuresContainer) {
+                    console.warn('Features container not found');
+                    return;
+                }
+
+                // Clear the loading content and update classes for new layout
+                featuresContainer.innerHTML = '';
+                featuresContainer.className = 'features-container';
+
+                // Only use API data - no static fallback content
+                const displayFeatures = [];
+                
+                // Add only API features
+                eduwingData.forEach(feature => {
+                    displayFeatures.push({
+                        icon: feature.icon,
+                        title: feature.title,
+                        description: feature.description
+                    });
                 });
 
-                // Initialize or update Swiper
-                if (heroSwiper) {
-                    heroSwiper.destroy(true, true);
-                }
+                // Create feature items HTML only from API data
+                let featuresHTML = '';
                 
-                heroSwiper = new Swiper('.heroEduSwiper', {
-                    loop: true,
-                    autoplay: {
-                        delay: 5000,
-                        disableOnInteraction: false,
-                    },
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                    },
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    effect: 'fade',
-                    fadeEffect: {
-                        crossFade: true
-                    }
+                displayFeatures.forEach((feature, index) => {
+                    const iconUrl = getIconUrl(feature.icon);
+                    const title = feature.title || `Feature ${index + 1}`;
+                    const description = feature.description || 'No description available.';
+                    
+                    featuresHTML += `
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <img src="${iconUrl}" 
+                                     alt="${title}" 
+                                     onerror="this.src='https://via.placeholder.com/100x100/cccccc/666666?text=${encodeURIComponent(title.charAt(0))}';" />
+                            </div>
+                            <h3 class="feature-title">${title}</h3>
+                            <p class="feature-description">${description}</p>
+                        </div>
+                    `;
                 });
+
+                // Add the features to the container
+                featuresContainer.innerHTML = featuresHTML;
                 
-                console.log('Study abroad hero section initialized with API data');
+                console.log('Eduwing features rendered successfully');
+                console.log('Total features displayed:', displayFeatures.length);
             }
+
+            // Function to initialize eduwing features
+            async function initializeEduwingFeatures() {
+                console.log('Initializing eduwing features...');
+                
+                // Show loading state with new layout
+                const featuresContainer = document.getElementById('studyAbroadFeaturesContainer');
+                if (featuresContainer) {
+                    featuresContainer.className = 'features-container';
+                    featuresContainer.innerHTML = `
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                                </div>
+                            </div>
+                            <h3 class="feature-title">Loading Features...</h3>
+                            <p class="feature-description">Please wait while we load the study abroad features from our API.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-circle-notch fa-spin fa-2x text-secondary"></i>
+                                </div>
+                            </div>
+                            <h3 class="feature-title">Preparing Content...</h3>
+                            <p class="feature-description">Getting the latest information for you.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-sync-alt fa-spin fa-2x text-info"></i>
+                                </div>
+                            </div>
+                            <h3 class="feature-title">Fetching Data...</h3>
+                            <p class="feature-description">Almost ready to show your features.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-cog fa-spin fa-2x text-success"></i>
+                                </div>
+                            </div>
+                            <h3 class="feature-title">Finalizing...</h3>
+                            <p class="feature-description">Just a moment more.</p>
+                        </div>
+                    `;
+                }
+
+                // Fetch and render data
+                try {
+                    const eduwingData = await fetchEduwingData();
+                    renderEduwingFeatures(eduwingData);
+                } catch (error) {
+                    console.error('Failed to initialize eduwing features:', error);
+                    
+                    // Show error state with new layout
+                    if (featuresContainer) {
+                        featuresContainer.className = 'features-container';
+                        featuresContainer.innerHTML = `
+                            <div class="feature-item">
+                                <div class="feature-icon-container">
+                                    <i class="fas fa-exclamation-triangle fa-3x text-warning"></i>
+                                </div>
+                                <h3 class="feature-title">Unable to Load</h3>
+                                <p class="feature-description">We're having trouble connecting to our server. Please try refreshing the page.</p>
+                            </div>
+                        `;
+                    }
         }
     }
 
-    // Initialize hero section
-    initializeStudyAbroadHero();
+    // Initialize the eduwing features
+    initializeEduwingFeatures();
 
-    // Optional: Refresh hero data every 30 seconds
-    setInterval(initializeStudyAbroadHero, 30000);
+    // Optional: Refresh data periodically (every 5 minutes)
+    setInterval(initializeEduwingFeatures, 300000);
 });
 
 // Logo API Integration
@@ -2635,145 +2567,1047 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to fetch logo data from API
     async function fetchLogoData() {
         try {
+            console.log('Fetching logo data from API...');
             const response = await fetch('http://globe.ridealmobility.com/api/home/logo');
+            
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+            
             const logoData = await response.json();
             console.log('Logo data loaded from API:', logoData);
             return logoData;
         } catch (error) {
             console.error('Error fetching logo data:', error);
-            // Return fallback data to maintain functionality
-            return [
-                {
-                    images: [
-                        './images/icelandPartner.jpg',
-                        './images/polandPartner.png',
-                        './images/switzerlandpartner.png',
-                        './images/par1.jpeg',
-                        './images/par2.jpeg'
-                    ]
-                }
-            ];
+            // Return empty array when API fails - no static fallback
+            return [];
+        }
+    }
+
+    // Function to get full image URL for logos
+    function getLogoImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+        
+        // Construct full URL for API images
+        return `http://globe.ridealmobility.com/${imagePath.replace(/^\/*/, '')}`;
+    }
+
+    // Function to render partner logos
+    function renderPartnerLogos(logoData) {
+        const logoTrack = document.getElementById('logoTrack');
+        
+        if (!logoTrack) {
+            console.warn('Logo track container not found');
+            return;
+        }
+
+        // Clear existing logos
+        logoTrack.innerHTML = '';
+
+        if (!logoData || !Array.isArray(logoData) || logoData.length === 0) {
+            console.warn('No logo data available from API');
+            logoTrack.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 60px; width: 100%; color: #666;">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    No partner logos available
+                </div>
+            `;
+            return;
+        }
+
+        // Get all logo images from API
+        const allLogos = [];
+        logoData.forEach(logoSet => {
+            if (logoSet.images && Array.isArray(logoSet.images) && logoSet.images.length > 0) {
+                logoSet.images.forEach(image => {
+                    const logoUrl = getLogoImageUrl(image);
+                    if (logoUrl) {
+                        allLogos.push(logoUrl);
+                    }
+                });
+            }
+        });
+
+        if (allLogos.length === 0) {
+            logoTrack.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 60px; width: 100%; color: #666;">
+                    <i class="fas fa-image me-2"></i>
+                    No logo images found in API data
+                </div>
+            `;
+            return;
+        }
+
+        // Create logo elements and duplicate for seamless scrolling
+        const createLogoSet = () => {
+            allLogos.forEach((logoUrl, index) => {
+                const img = document.createElement('img');
+                img.src = logoUrl;
+                img.alt = `Partner Logo ${index + 1}`;
+                img.style.cssText = 'height: 60px; margin: 0 20px; object-fit: contain; opacity: 0.8; transition: opacity 0.3s ease;';
+                
+                // Add hover effect
+                img.addEventListener('mouseenter', function() {
+                    this.style.opacity = '1';
+                });
+                img.addEventListener('mouseleave', function() {
+                    this.style.opacity = '0.8';
+                });
+                
+                // Add error handling for logo images
+                img.onerror = function() {
+                    console.warn('Failed to load logo:', logoUrl);
+                    this.style.display = 'none';
+                };
+                
+                logoTrack.appendChild(img);
+            });
+        };
+
+        // Create multiple sets for seamless loop effect
+        createLogoSet(); // First set
+        createLogoSet(); // Second set for seamless loop
+        createLogoSet(); // Third set for extra smoothness
+
+        console.log('Partner logos rendered successfully');
+        console.log('Total logo images:', allLogos.length);
+    }
+
+    // Function to initialize partner logos
+    async function initializePartnerLogos() {
+        console.log('Initializing partner logos...');
+        
+        // Show loading state
+        const logoTrack = document.getElementById('logoTrack');
+        if (logoTrack) {
+            logoTrack.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 60px; width: 100%; color: #666;">
+                    <i class="fas fa-spinner fa-spin me-2"></i>
+                    Loading partner logos from API...
+                </div>
+            `;
+        }
+
+        // Fetch and render logo data
+        try {
+            const logoData = await fetchLogoData();
+            renderPartnerLogos(logoData);
+        } catch (error) {
+            console.error('Failed to initialize partner logos:', error);
+            
+            // Show error state
+            if (logoTrack) {
+                logoTrack.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; height: 60px; width: 100%; color: #dc3545;">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Unable to load partner logos from API
+                    </div>
+                `;
+            }
+        }
+    }
+
+    // Initialize partner logos
+    initializePartnerLogos();
+
+    // Optional: Refresh logo data every 10 minutes
+    setInterval(initializePartnerLogos, 600000);
+});
+
+// Study Abroad Program API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch program data from API
+    async function fetchProgramData() {
+        try {
+            console.log('Fetching program data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/program');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const programData = await response.json();
+            console.log('Program data loaded from API:', programData);
+            return programData;
+        } catch (error) {
+            console.error('Error fetching program data:', error);
+            // Return empty array when API fails - no static fallback
+            return [];
+        }
+    }
+
+    // Function to get full image URL for program icons
+    function getProgramIconUrl(iconPath) {
+        if (!iconPath) return 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png'; // fallback icon
+        
+        if (iconPath.startsWith('http')) {
+            return iconPath;
+        }
+        
+        // Construct full URL for API images
+        return `http://globe.ridealmobility.com/${iconPath.replace(/^\/*/, '')}`;
+    }
+
+    // Function to render programs
+    function renderPrograms(programData) {
+        const programsContainer = document.getElementById('programsContainer');
+        
+        if (!programsContainer) {
+            console.warn('Programs container not found');
+            return;
+        }
+
+        // Clear existing content
+        programsContainer.innerHTML = '';
+
+        if (!programData || !Array.isArray(programData) || programData.length === 0) {
+            console.warn('No program data available from API');
+            programsContainer.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: #666;">
+                    <i class="fas fa-exclamation-circle" style="font-size: 24px; margin-bottom: 10px; color: #dc3545;"></i>
+                    <p style="margin: 0; font-size: 16px;">No programs available from API</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Create program cards from API data
+        programData.forEach((program, index) => {
+            const programCard = document.createElement('div');
+            programCard.className = 'program-card';
+            
+            const iconUrl = getProgramIconUrl(program.icon);
+            
+            programCard.innerHTML = `
+                <img src="${iconUrl}" alt="${program.title}" class="program-icon" 
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/128/3135/3135789.png'">
+                <h3>${program.title}</h3>
+                <p>${program.description}</p>
+            `;
+            
+            // Add animation delay for staggered appearance
+            programCard.style.animationDelay = `${index * 0.1}s`;
+            
+            programsContainer.appendChild(programCard);
+        });
+
+        console.log('Programs rendered successfully');
+        console.log('Total programs displayed:', programData.length);
+    }
+
+    // Function to initialize programs
+    async function initializePrograms() {
+        console.log('Initializing study abroad programs...');
+        
+        // Show loading state
+        const programsContainer = document.getElementById('programsContainer');
+        if (programsContainer) {
+            programsContainer.innerHTML = `
+                <div class="loading-state" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: #666;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px;"></i>
+                    <p style="margin: 0; font-size: 16px;">Loading programs from API...</p>
+                </div>
+            `;
+        }
+
+        // Fetch and render program data
+        try {
+            const programData = await fetchProgramData();
+            renderPrograms(programData);
+        } catch (error) {
+            console.error('Failed to initialize programs:', error);
+            
+            // Show error state
+            if (programsContainer) {
+                programsContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: #dc3545;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 24px; margin-bottom: 10px;"></i>
+                        <p style="margin: 0; font-size: 16px;">Unable to load programs from API</p>
+                    </div>
+                `;
+            }
+        }
+    }
+
+    // Initialize programs
+    initializePrograms();
+
+    // Optional: Refresh program data every 15 minutes
+    setInterval(initializePrograms, 900000);
+});
+
+// Luxury Options API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch luxury options data from API
+    async function fetchLuxuryOptions() {
+        try {
+            console.log('Fetching luxury options data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-options');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const luxuryData = await response.json();
+            console.log('Luxury options data loaded from API:', luxuryData);
+            return luxuryData;
+        } catch (error) {
+            console.error('Error fetching luxury options data:', error);
+            // Return empty array when API fails
+            return [];
         }
     }
 
     // Function to get full image URL
-    function getLogoImageUrl(imagePath) {
+    function getLuxuryImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
         if (imagePath.startsWith('http')) {
             return imagePath;
         }
+        
         // Construct full URL for API images
-        return `http://globe.ridealmobility.com/${imagePath}`;
+        return `http://globe.ridealmobility.com${imagePath}`;
     }
 
-    // Function to update main brand logos
-    async function updateMainLogos(logoData) {
-        if (logoData && logoData.length > 0 && logoData[0].images && logoData[0].images.length > 0) {
-            // Use the first logo image for main brand logo
-            const primaryLogoUrl = getLogoImageUrl(logoData[0].images[0]);
+    // Function to render luxury options in navbar dropdown
+    function renderLuxuryNavigation(luxuryData) {
+        const luxuryDropdown = document.getElementById('eduwings-luxury-dropdown');
+        
+        if (!luxuryDropdown) {
+            console.warn('Luxury dropdown container not found');
+            return;
+        }
+
+        // Clear existing content
+        luxuryDropdown.innerHTML = '';
+
+        if (!luxuryData || !Array.isArray(luxuryData) || luxuryData.length === 0) {
+            console.warn('No luxury options data available from API');
+            luxuryDropdown.innerHTML = `
+                <li><a href="Luxury.html">No luxury destinations available</a></li>
+            `;
+            return;
+        }
+
+        // Create luxury navigation items from API data
+        luxuryData.forEach((luxuryOption, index) => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <a href="Luxury.html?destination=${encodeURIComponent(luxuryOption.city)}" 
+                   data-luxury-id="${luxuryOption._id}"
+                   title="${luxuryOption.heading}">
+                    ${luxuryOption.city}
+                </a>
+            `;
+            luxuryDropdown.appendChild(listItem);
+        });
+
+        console.log('Luxury navigation rendered successfully');
+        console.log('Total luxury destinations:', luxuryData.length);
+    }
+
+    // Function to initialize luxury navigation
+    async function initializeLuxuryNavigation() {
+        console.log('Initializing luxury navigation...');
+        
+        // Show loading state
+        const luxuryDropdown = document.getElementById('eduwings-luxury-dropdown');
+        if (luxuryDropdown) {
+            luxuryDropdown.innerHTML = `
+                <li><a href="#">Loading luxury options...</a></li>
+            `;
+        }
+
+        // Fetch and render luxury data
+        try {
+            const luxuryData = await fetchLuxuryOptions();
+            renderLuxuryNavigation(luxuryData);
+        } catch (error) {
+            console.error('Failed to initialize luxury navigation:', error);
             
-            // Update main logo
-            const mainLogo = document.getElementById('mainLogo');
-            if (mainLogo) {
-                mainLogo.src = primaryLogoUrl;
-                mainLogo.onerror = function() {
-                    // Fallback to default logo if API image fails
-                    this.src = './GLOBENGEL/GLOBENGEL Logo.png';
-                };
+            // Show error state with fallback
+            if (luxuryDropdown) {
+                luxuryDropdown.innerHTML = `
+                    <li><a href="Luxury.html">Luxury Experiences</a></li>
+                    <li><a href="#">Premium Destinations</a></li>
+                    <li><a href="#">Exclusive Resorts</a></li>
+                `;
             }
-
-            // Update mobile logo
-            const mobileLogo = document.getElementById('mobileLogo');
-            if (mobileLogo) {
-                mobileLogo.src = primaryLogoUrl;
-                mobileLogo.onerror = function() {
-                    // Fallback to default logo if API image fails
-                    this.src = './GLOBENGEL/GLOBENGEL Logo.png';
-                };
-            }
-
-            console.log('Main logos updated with API data');
         }
     }
 
-    // Function to update partner logos
-    async function updatePartnerLogos(logoData) {
-        const logoTrack = document.getElementById('logoTrack');
-        if (logoTrack && logoData && logoData.length > 0) {
-            // Clear existing content
-            logoTrack.innerHTML = '';
+    // Initialize luxury navigation
+    initializeLuxuryNavigation();
+
+    // Optional: Refresh luxury navigation data every 20 minutes
+    setInterval(initializeLuxuryNavigation, 1200000);
+});
+
+// Study Abroad Feature API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch study abroad feature data from API
+    async function fetchStudyAbroadFeatures() {
+        try {
+            console.log('Fetching study abroad feature data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/feature');
             
-            // Get all logo images from API
-            const allLogos = [];
-            logoData.forEach(logoSet => {
-                if (logoSet.images && logoSet.images.length > 0) {
-                    logoSet.images.forEach(image => {
-                        allLogos.push(getLogoImageUrl(image));
-                    });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const featureData = await response.json();
+            console.log('Study abroad feature data loaded from API:', featureData);
+            return featureData;
+        } catch (error) {
+            console.error('Error fetching study abroad feature data:', error);
+            // Return empty array when API fails - no static fallback
+            return [];
+        }
+    }
+
+    // Function to get full image URL for feature images
+    function getFeatureImageUrl(imagePath) {
+        if (!imagePath) return 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80';
+        
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+        
+        // Construct full URL for API images
+        return `http://globe.ridealmobility.com/${imagePath.replace(/^\/*/, '')}`;
+    }
+
+    // Function to render study abroad steps
+    function renderStudySteps(featureData) {
+        const stepsTimeline = document.getElementById('studyAbroadStepsTimeline');
+        const stepsContent = document.getElementById('studyAbroadStepsContent');
+        
+        if (!stepsTimeline || !stepsContent) {
+            console.warn('Steps containers not found');
+            return;
+        }
+
+        // Clear existing content
+        stepsTimeline.innerHTML = '<div class="timeline-line"></div>';
+        stepsContent.innerHTML = '';
+
+        if (!featureData || !Array.isArray(featureData) || featureData.length === 0) {
+            console.warn('No study abroad feature data available from API');
+            
+            // Show error state
+            stepsTimeline.innerHTML = `
+                <div class="timeline-line"></div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-exclamation-circle" style="font-size: 24px; color: #dc3545;"></i>
+                    </div>
+                    <button class="step-label-btn active-label">No Steps Available</button>
+                </div>
+            `;
+            
+            stepsContent.innerHTML = `
+                <div class="steps-panel active">
+                    <div class="steps-images-row">
+                        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80"
+                            class="steps-img side-img" alt="No data">
+                        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=500&q=80"
+                            class="steps-img main-img" alt="No data">
+                    </div>
+                    <div class="steps-desc">
+                        <div class="steps-divider"></div>
+                        <div class="steps-title-row">
+                            <span class="steps-title-script">No Data</span>
+                            <span class="steps-title-bold">Available from API</span>
+                        </div>
+                        <p class="steps-text">
+                            Unable to load study abroad feature data from the API.
+                        </p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        // Process each feature from API
+        featureData.forEach((feature, featureIndex) => {
+            const mainTitle = feature.mainTitle || 'Study Abroad Feature';
+            const stepNumber = feature.stepNumber || (featureIndex + 1);
+            
+            // Process points within each feature
+            if (feature.points && Array.isArray(feature.points) && feature.points.length > 0) {
+                feature.points.forEach((point, pointIndex) => {
+                    const stepId = `${featureIndex}-${pointIndex}`;
+                    const isFirst = featureIndex === 0 && pointIndex === 0;
+                    
+                    // Create timeline step
+                    const stepElement = document.createElement('div');
+                    stepElement.className = 'step';
+                    stepElement.innerHTML = `
+                        <div class="step-icon">
+                            <img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" alt="${point.pointTitle}" />
+                        </div>
+                        <button class="step-label-btn ${isFirst ? 'active-label' : ''}" data-step="${stepId}">
+                            ${point.pointTitle || 'Step'}
+                        </button>
+                    `;
+                    stepsTimeline.appendChild(stepElement);
+                    
+                    // Create content panel
+                    const panelElement = document.createElement('div');
+                    panelElement.className = `steps-panel ${isFirst ? 'active' : ''}`;
+                    panelElement.id = `step-panel-${stepId}`;
+                    
+                    // Get images for this point
+                    const images = point.images && Array.isArray(point.images) && point.images.length > 0 
+                        ? point.images 
+                        : ['https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80'];
+                    
+                    const sideImage = getFeatureImageUrl(images[0]);
+                    const mainImage = getFeatureImageUrl(images[1] || images[0]);
+                    
+                    panelElement.innerHTML = `
+                        <div class="steps-images-row">
+                            <img src="${sideImage}" class="steps-img side-img" alt="${point.pointTitle}"
+                                 onerror="this.src='https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80'">
+                            <img src="${mainImage}" class="steps-img main-img" alt="${point.contentTitle || point.pointTitle}"
+                                 onerror="this.src='https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=500&q=80'">
+                        </div>
+                        <div class="steps-desc">
+                            <div class="steps-divider"></div>
+                            <div class="steps-title-row">
+                                <span class="steps-title-script">${point.pointTitle || 'Step'}</span>
+                                <span class="steps-title-bold">${point.contentTitle || mainTitle}</span>
+                            </div>
+                            <p class="steps-text">
+                                ${point.description || 'No description available for this step.'}
+                            </p>
+                        </div>
+                    `;
+                    stepsContent.appendChild(panelElement);
+                });
+            }
+        });
+
+        // Add click handlers for step navigation
+        const stepButtons = stepsTimeline.querySelectorAll('.step-label-btn');
+        stepButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const stepId = this.getAttribute('data-step');
+                
+                // Remove active classes
+                stepButtons.forEach(btn => btn.classList.remove('active-label'));
+                document.querySelectorAll('.steps-panel').forEach(panel => panel.classList.remove('active'));
+                
+                // Add active classes
+                this.classList.add('active-label');
+                const targetPanel = document.getElementById(`step-panel-${stepId}`);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
                 }
             });
+        });
 
-            // Add fallback logos if no API logos
-            if (allLogos.length === 0) {
-                allLogos.push(
-                    './images/icelandPartner.jpg',
-                    './images/polandPartner.png',
-                    './images/switzerlandpartner.png',
-                    './images/par1.jpeg',
-                    './images/par2.jpeg',
-                    './images/par3.jpeg',
-                    './images/par4.jpeg',
-                    './images/par5.jpeg'
-                );
+        console.log('Study abroad steps rendered successfully');
+        console.log('Total features processed:', featureData.length);
+    }
+
+    // Function to initialize study abroad steps
+    async function initializeStudySteps() {
+        console.log('Initializing study abroad steps...');
+        
+        // Show loading state
+        const stepsTimeline = document.getElementById('studyAbroadStepsTimeline');
+        const stepsContent = document.getElementById('studyAbroadStepsContent');
+        
+        if (stepsTimeline) {
+            stepsTimeline.innerHTML = `
+                <div class="timeline-line"></div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #f27130;"></i>
+                    </div>
+                    <button class="step-label-btn active-label">Loading Steps...</button>
+                </div>
+            `;
+        }
+        
+        if (stepsContent) {
+            stepsContent.innerHTML = `
+                <div class="steps-panel active">
+                    <div class="steps-images-row">
+                        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80"
+                            class="steps-img side-img" alt="Loading">
+                        <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=500&q=80"
+                            class="steps-img main-img" alt="Loading">
+                    </div>
+                    <div class="steps-desc">
+                        <div class="steps-divider"></div>
+                        <div class="steps-title-row">
+                            <span class="steps-title-script">Loading</span>
+                            <span class="steps-title-bold">Study Abroad Steps...</span>
+                        </div>
+                        <p class="steps-text">
+                            <i class="fas fa-spinner fa-spin me-2"></i>
+                            Please wait while we load the study abroad journey steps from our API.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Fetch and render study steps data
+        try {
+            const featureData = await fetchStudyAbroadFeatures();
+            renderStudySteps(featureData);
+        } catch (error) {
+            console.error('Failed to initialize study abroad steps:', error);
+            
+            // Show error state
+            if (stepsContent) {
+                stepsContent.innerHTML = `
+                    <div class="steps-panel active">
+                        <div class="steps-images-row">
+                            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80"
+                                class="steps-img side-img" alt="Error">
+                            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=500&q=80"
+                                class="steps-img main-img" alt="Error">
+                        </div>
+                        <div class="steps-desc">
+                            <div class="steps-divider"></div>
+                            <div class="steps-title-row">
+                                <span class="steps-title-script">Error</span>
+                                <span class="steps-title-bold">Loading Steps</span>
+                            </div>
+                            <p class="steps-text" style="color: #dc3545;">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Unable to load study abroad steps from API.
+                            </p>
+                        </div>
+                    </div>
+                `;
             }
-
-            // Create logo elements and duplicate for seamless scrolling
-            const createLogoSet = () => {
-                allLogos.forEach((logoUrl, index) => {
-                    const img = document.createElement('img');
-                    img.src = logoUrl;
-                    img.alt = `Partner Logo ${index + 1}`;
-                    img.style.cssText = 'height: 60px; margin: 0 20px; object-fit: contain;';
-                    
-                    // Add error handling for logo images
-                    img.onerror = function() {
-                        this.style.display = 'none';
-                    };
-                    
-                    logoTrack.appendChild(img);
-                });
-            };
-
-            // Create multiple sets for seamless loop
-            createLogoSet(); // First set
-            createLogoSet(); // Second set for seamless loop
-            createLogoSet(); // Third set for extra smoothness
-
-            console.log('Partner logos updated with API data:', allLogos.length, 'logos loaded');
         }
     }
 
-    // Function to initialize all logos with API data
-    async function initializeLogos() {
-        const logoData = await fetchLogoData();
-        
-        // Update main brand logos (optional - comment out if you want to keep original Globengel logo)
-        // await updateMainLogos(logoData);
-        
-        // Update partner logos
-        await updatePartnerLogos(logoData);
-        
-        console.log('Logo integration completed');
+    // Initialize study abroad steps
+    initializeStudySteps();
+
+    // Optional: Refresh step data every 20 minutes
+    setInterval(initializeStudySteps, 1200000);
+});
+
+// Study Abroad Hero API Integration
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch hero data from API
+    async function fetchHeroData() {
+        try {
+            console.log('Fetching hero data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/hero');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const heroData = await response.json();
+            console.log('Hero data loaded from API:', heroData);
+            return heroData;
+        } catch (error) {
+            console.error('Error fetching hero data:', error);
+            // Return empty array when API fails - no static fallback
+            return [];
+        }
     }
 
-    // Initialize logos
-    initializeLogos();
+    // Function to get full image URL for hero background images
+    function getHeroImageUrl(imagePath) {
+        if (!imagePath) return './images/globaleduHeroImg.jpg'; // fallback image
+        
+        if (imagePath.startsWith('http')) {
+            return imagePath;
+        }
+        
+        // Construct full URL for API images
+        return `http://globe.ridealmobility.com/${imagePath.replace(/^\/*/, '')}`;
+    }
 
-    // Optional: Refresh logo data every 5 minutes
-    setInterval(initializeLogos, 300000);
+    // Function to render hero content and background images
+    function renderHeroContent(heroData) {
+        const heroTitle = document.getElementById('heroTitle');
+        const heroSubtitle = document.getElementById('heroSubtitle');
+        const heroSwiperWrapper = document.getElementById('heroSwiperWrapper');
+        
+        if (!heroTitle || !heroSubtitle || !heroSwiperWrapper) {
+            console.warn('Hero elements not found');
+            return;
+        }
+
+        if (!heroData || !Array.isArray(heroData) || heroData.length === 0) {
+            console.warn('No hero data available from API');
+            
+            // Keep default content when API fails
+            heroTitle.innerHTML = `
+                Your
+                <span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;"> Gateway </span>
+                to Global Education
+            `;
+            heroSubtitle.textContent = 'From application to arrival - GLOBENGEL EduWings guides you every step towards your dream university';
+            
+            // Keep default background image
+            heroSwiperWrapper.innerHTML = `
+                <div class="swiper-slide" style="width:100%; height:100vh;">
+                    <div style="background: url('./images/globaleduHeroImg.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
+                </div>
+            `;
+            return;
+        }
+
+        // Use the first hero item from API
+        const heroItem = heroData[0];
+        
+        // Update title and subtitle from API
+        const title = heroItem.title || 'Your Gateway to Global Education';
+        const subtitle = heroItem.subtitle || 'From application to arrival - GLOBENGEL EduWings guides you every step towards your dream university';
+        
+        // Parse the title to separate main title and highlight word
+        const titleWords = title.split(' ');
+        let mainTitle = '';
+        let highlightWord = '';
+        
+        // Look for common highlight words or use middle word as highlight
+        const highlightWords = ['Gateway', 'Journey', 'Path', 'Route', 'Adventure'];
+        let highlightIndex = -1;
+        
+        for (let i = 0; i < titleWords.length; i++) {
+            if (highlightWords.some(hw => titleWords[i].toLowerCase().includes(hw.toLowerCase()))) {
+                highlightIndex = i;
+                break;
+            }
+        }
+        
+        if (highlightIndex === -1 && titleWords.length >= 3) {
+            // Use middle word as highlight if no specific highlight word found
+            highlightIndex = Math.floor(titleWords.length / 2);
+        }
+        
+        if (highlightIndex !== -1) {
+            mainTitle = titleWords.slice(0, highlightIndex).join(' ');
+            highlightWord = titleWords[highlightIndex];
+            const remainingTitle = titleWords.slice(highlightIndex + 1).join(' ');
+            if (remainingTitle) {
+                mainTitle += ` <span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;"> ${highlightWord} </span> ${remainingTitle}`;
+            } else {
+                mainTitle += ` <span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;"> ${highlightWord} </span>`;
+            }
+        } else {
+            mainTitle = title;
+        }
+        
+        // Update hero content
+        heroTitle.innerHTML = mainTitle;
+        heroSubtitle.textContent = subtitle;
+        
+        // Update background images from API
+        heroSwiperWrapper.innerHTML = '';
+        
+        if (heroItem.backgroundImage && Array.isArray(heroItem.backgroundImage) && heroItem.backgroundImage.length > 0) {
+            heroItem.backgroundImage.forEach((imagePath, index) => {
+                const imageUrl = getHeroImageUrl(imagePath);
+                
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.style.cssText = 'width:100%; height:100vh;';
+                
+                slide.innerHTML = `
+                    <div style="background: url('${imageUrl}') no-repeat center center/cover; width:100%; height:100vh;"
+                         onError="this.style.background = 'url(./images/globaleduHeroImg.jpg) no-repeat center center/cover';"></div>
+                `;
+                
+                heroSwiperWrapper.appendChild(slide);
+            });
+            
+            // Reinitialize Swiper after updating slides
+            setTimeout(() => {
+                if (window.heroSwiper) {
+                    window.heroSwiper.update();
+                    window.heroSwiper.slideTo(0);
+                }
+            }, 100);
+        } else {
+            // Fallback to default image if no background images in API
+            heroSwiperWrapper.innerHTML = `
+                <div class="swiper-slide" style="width:100%; height:100vh;">
+                    <div style="background: url('./images/globaleduHeroImg.jpg') no-repeat center center/cover; width:100%; height:100vh;"></div>
+                </div>
+            `;
+        }
+
+        console.log('Hero content rendered successfully');
+        console.log('Title:', title);
+        console.log('Subtitle:', subtitle);
+        console.log('Background images:', heroItem.backgroundImage?.length || 0);
+    }
+
+    // Function to initialize hero section
+    async function initializeHero() {
+        console.log('Initializing hero section...');
+        
+        // Show loading state
+        const heroTitle = document.getElementById('heroTitle');
+        const heroSubtitle = document.getElementById('heroSubtitle');
+        
+        if (heroTitle && heroSubtitle) {
+            heroTitle.innerHTML = `
+                <i class="fas fa-spinner fa-spin me-2"></i>
+                Loading <span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100;"> Hero </span> Content...
+            `;
+            heroSubtitle.textContent = 'Please wait while we load the hero content from our API...';
+        }
+
+        // Fetch and render hero data
+        try {
+            const heroData = await fetchHeroData();
+            renderHeroContent(heroData);
+        } catch (error) {
+            console.error('Failed to initialize hero section:', error);
+            
+            // Show error state briefly, then revert to default
+            if (heroTitle && heroSubtitle) {
+                heroTitle.innerHTML = `
+                    <i class="fas fa-exclamation-triangle me-2" style="color: #dc3545;"></i>
+                    Error <span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100;"> Loading </span> Hero
+                `;
+                heroSubtitle.textContent = 'Unable to load hero content from API. Using default content...';
+                
+                // Revert to default after 3 seconds
+                setTimeout(() => {
+                    heroTitle.innerHTML = `
+                        Your
+                        <span class="hero-subtitle silver-South-family" style="font-size: 75px; font-weight: 100; font-style: normal;"> Gateway </span>
+                        to Global Education
+                    `;
+                    heroSubtitle.textContent = 'From application to arrival - GLOBENGEL EduWings guides you every step towards your dream university';
+                }, 3000);
+            }
+        }
+    }
+
+    // Initialize hero section
+    initializeHero();
+
+    // Store Swiper instance globally for updates
+    window.heroSwiper = new Swiper('.heroEduSwiper', {
+        loop: true,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        effect: 'fade',
+        fadeEffect: {
+            crossFade: true
+        }
+    });
+
+    // Optional: Refresh hero data every 30 minutes
+    setInterval(initializeHero, 1800000);
 });
+
+// Continents API Integration for Navigation
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch continents data from API
+    async function fetchContinents() {
+        try {
+            console.log('Fetching continents data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/continents');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const continentsData = await response.json();
+            console.log('Continents data loaded from API:', continentsData);
+            return continentsData;
+        } catch (error) {
+            console.error('Error fetching continents data:', error);
+            // Return empty array when API fails
+            return [];
+        }
+    }
+
+    // Function to normalize continent names for data-target attributes
+    function normalizeContinentName(name) {
+        return name.toLowerCase()
+            .replace(/\s+/g, '')
+            .replace(/[^a-z0-9]/g, '')
+            .substring(0, 15); // Limit length for data-target
+    }
+
+    // Function to render continents in navigation
+    function renderContinentsNavigation(continentsData) {
+        const megaLeftContainer = document.querySelector('.destinations-menu .mega-left ul');
+        
+        if (!megaLeftContainer) {
+            console.warn('Destinations menu container not found');
+            return;
+        }
+
+        if (!continentsData || !Array.isArray(continentsData) || continentsData.length === 0) {
+            console.warn('No continents data available from API, keeping static content');
+            return;
+        }
+
+        // Clear existing static content
+        megaLeftContainer.innerHTML = '';
+
+        // Create continent menu items from API data
+        continentsData.forEach((continent, index) => {
+            const continentName = continent.name || `Continent ${index + 1}`;
+            const dataTarget = normalizeContinentName(continentName);
+            
+            const li = document.createElement('li');
+            li.setAttribute('data-target', dataTarget);
+            li.innerHTML = `${continentName} <span class="arrow">&#8250;</span>`;
+            
+            megaLeftContainer.appendChild(li);
+        });
+
+        // Update right side content containers to match new data-targets
+        const megaRightContainer = document.querySelector('.destinations-menu .mega-right');
+        if (megaRightContainer) {
+            // Clear existing content containers
+            megaRightContainer.innerHTML = '';
+            
+            // Create new content containers for each continent
+            continentsData.forEach((continent, index) => {
+                const continentName = continent.name || `Continent ${index + 1}`;
+                const dataTarget = normalizeContinentName(continentName);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'content';
+                contentDiv.id = dataTarget;
+                
+                contentDiv.innerHTML = `
+                    <div class="column">
+                        <p style="color: #666; font-style: italic; padding: 20px;">
+                            Destinations for ${continentName} will be loaded here.
+                        </p>
+                    </div>
+                    <div class="column">
+                        <p style="color: #666; font-style: italic; padding: 20px;">
+                            Countries and regions coming soon...
+                        </p>
+                    </div>
+                `;
+                
+                megaRightContainer.appendChild(contentDiv);
+            });
+        }
+
+        // Reinitialize navigation interactions
+        initializeNavigationInteractions();
+
+        console.log('Continents navigation rendered successfully');
+        console.log('Total continents displayed:', continentsData.length);
+    }
+
+    // Function to initialize navigation interactions
+    function initializeNavigationInteractions() {
+        const menuItems = document.querySelectorAll('.destinations-menu .mega-left li');
+        const contentSections = document.querySelectorAll('.destinations-menu .mega-right .content');
+        
+        // Remove existing event listeners and add new ones
+        menuItems.forEach(item => {
+            // Clone node to remove existing event listeners
+            const newItem = item.cloneNode(true);
+            item.parentNode.replaceChild(newItem, item);
+        });
+        
+        // Add new event listeners
+        const newMenuItems = document.querySelectorAll('.destinations-menu .mega-left li');
+        newMenuItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                const target = this.getAttribute('data-target');
+                
+                // Hide all content sections
+                contentSections.forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // Show target content section
+                const targetContent = document.getElementById(target);
+                if (targetContent) {
+                    targetContent.style.display = 'block';
+                }
+                
+                // Update active state
+                newMenuItems.forEach(menuItem => {
+                    menuItem.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Show first item by default
+        if (newMenuItems.length > 0) {
+            newMenuItems[0].classList.add('active');
+            const firstTarget = newMenuItems[0].getAttribute('data-target');
+            const firstContent = document.getElementById(firstTarget);
+            if (firstContent) {
+                firstContent.style.display = 'block';
+            }
+        }
+    }
+
+    // Function to initialize continents navigation
+    async function initializeContinentsNavigation() {
+        console.log('Initializing continents navigation...');
+        
+        // Show loading state
+        const megaLeftContainer = document.querySelector('.destinations-menu .mega-left ul');
+        if (megaLeftContainer) {
+            const loadingItem = document.createElement('li');
+            loadingItem.innerHTML = `<i class="fas fa-spinner fa-spin me-2"></i>Loading Continents...`;
+            loadingItem.style.color = '#666';
+            loadingItem.style.fontStyle = 'italic';
+            megaLeftContainer.appendChild(loadingItem);
+        }
+
+        // Fetch and render continents data
+        try {
+            const continentsData = await fetchContinents();
+            renderContinentsNavigation(continentsData);
+        } catch (error) {
+            console.error('Failed to initialize continents navigation:', error);
+            
+            // Keep static content on error
+            console.log('Keeping static navigation content due to API error');
+        }
+    }
+
+    // Initialize continents navigation
+    initializeContinentsNavigation();
+
+    // Optional: Refresh continents data every 60 minutes
+    setInterval(initializeContinentsNavigation, 3600000);
+});
+
 </script>
 </body>
 

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eduwing Layout Test - Screenshot Style</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafafa;
+            margin: 0;
+            padding: 20px 0;
+        }
+
+        .eduwing-features-section {
+            padding: 60px 0;
+            background: #ffffff;
+        }
+
+        .features-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .feature-item {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon-container {
+            margin-bottom: 20px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon-container img {
+            max-height: 100px;
+            max-width: 120px;
+            object-fit: contain;
+            filter: grayscale(20%);
+            opacity: 0.8;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .feature-description {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+            text-align: center;
+            margin: 0;
+        }
+
+        .loading-spinner {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .features-container {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+            
+            .feature-item {
+                flex: 1 1 calc(50% - 15px);
+                min-width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .feature-item {
+                flex: 1 1 100%;
+            }
+            
+            .feature-icon-container {
+                height: 100px;
+            }
+            
+            .feature-icon-container img {
+                max-height: 80px;
+            }
+            
+            .feature-title {
+                font-size: 1.1rem;
+            }
+            
+            .feature-description {
+                font-size: 0.9rem;
+            }
+        }
+
+        .test-info {
+            background: #e3f2fd;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h2>Eduwing API Integration Test - Screenshot Layout</h2>
+        <p><strong>API Endpoint:</strong> http://globe.ridealmobility.com/api/studyabroad/eduwing</p>
+        <p><strong>Layout:</strong> 4-column horizontal layout matching the provided screenshot</p>
+        <div id="apiStatus" class="mt-3">
+            <strong>API Status:</strong> <span class="text-warning">Testing...</span>
+        </div>
+    </div>
+
+    <div class="eduwing-features-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2>Why Choose GLOBENGEL EduWings</h2>
+            </div>
+            
+            <div class="features-container" id="studyAbroadFeaturesContainer">
+                <!-- Features will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Eduwings API Integration - Screenshot Layout
+        document.addEventListener('DOMContentLoaded', function() {
+            const apiStatusElement = document.getElementById('apiStatus');
+            
+            // Function to fetch eduwing data from API
+            async function fetchEduwingData() {
+                try {
+                    console.log('Fetching eduwing data from API...');
+                    const response = await fetch('http://globe.ridealmobility.com/api/studyabroad/eduwing');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const eduwingData = await response.json();
+                    console.log('Eduwing data loaded from API:', eduwingData);
+                    
+                    apiStatusElement.innerHTML = '<strong>API Status:</strong> <span class="text-success">✓ Connected Successfully</span>';
+                    
+                    return eduwingData;
+                } catch (error) {
+                    console.error('Error fetching eduwing data:', error);
+                    
+                    apiStatusElement.innerHTML = '<strong>API Status:</strong> <span class="text-danger">✗ Connection Failed - Using Fallback Data</span>';
+                    
+                    // Return fallback data that matches the screenshot
+                    return [
+                        {
+                            _id: 'fallback-1',
+                            icon: 'https://via.placeholder.com/100x100/e0e0e0/666666?text=🌍',
+                            title: 'A World of Opportunities',
+                            description: 'Your Eduwing Description'
+                        },
+                        {
+                            _id: 'fallback-2',
+                            icon: 'https://via.placeholder.com/100x100/e0e0e0/666666?text=🎯',
+                            title: 'End-to-End Guidance',
+                            description: 'Your Eduwing Description'
+                        }
+                    ];
+                }
+            }
+
+            // Function to get full image URL for icons
+            function getIconUrl(iconPath) {
+                if (!iconPath) return 'https://via.placeholder.com/100x100/cccccc/666666?text=?';
+                
+                if (iconPath.startsWith('http')) {
+                    return iconPath;
+                }
+                
+                // Construct full URL for API images
+                return `http://globe.ridealmobility.com/${iconPath.replace(/^\/*/, '')}`;
+            }
+
+            // Function to render eduwing features in the UI
+            function renderEduwingFeatures(eduwingData) {
+                if (!eduwingData || !Array.isArray(eduwingData)) {
+                    console.warn('No eduwing data available, using fallback content');
+                    return;
+                }
+
+                // Find the features container
+                const featuresContainer = document.getElementById('studyAbroadFeaturesContainer');
+                
+                if (!featuresContainer) {
+                    console.warn('Features container not found');
+                    return;
+                }
+
+                // Clear the loading content and update classes for new layout
+                featuresContainer.innerHTML = '';
+                featuresContainer.className = 'features-container';
+
+                // Create fallback features if API returns less than 4 items
+                const defaultFeatures = [
+                    {
+                        icon: 'https://via.placeholder.com/100x100/e0e0e0/666666?text=🌍',
+                        title: 'A World of Opportunities',
+                        description: 'Tie-ups with leading universities across 30+ countries in Medicine, Engineering, Arts, Business, and more.'
+                    },
+                    {
+                        icon: 'https://via.placeholder.com/100x100/e0e0e0/666666?text=🎯', 
+                        title: 'End-to-End Guidance',
+                        description: 'From career counselling to travel arrangements - we handle the process so you can focus on your academic goals.'
+                    },
+                    {
+                        icon: 'https://via.placeholder.com/100x100/e0e0e0/666666?text=👨‍👩‍👧‍👦',
+                        title: 'Trusted by Families', 
+                        description: 'Transparent, safe, and personalised - we earn parents\' trust at every stage.'
+                    },
+                    {
+                        icon: 'https://via.placeholder.com/100x100/e0e0e0/666666?text=🚀',
+                        title: 'Career-Centric Approach',
+                        description: 'Programs chosen to match future job markets and global career paths.'
+                    }
+                ];
+
+                // Use API data for available items, fill with defaults if needed
+                const displayFeatures = [];
+                
+                // Add API features first
+                eduwingData.forEach(feature => {
+                    displayFeatures.push({
+                        icon: feature.icon,
+                        title: feature.title,
+                        description: feature.description
+                    });
+                });
+                
+                // Fill remaining slots with default features if less than 4 API items
+                while (displayFeatures.length < 4) {
+                    const defaultIndex = displayFeatures.length;
+                    if (defaultFeatures[defaultIndex]) {
+                        displayFeatures.push(defaultFeatures[defaultIndex]);
+                    } else {
+                        break;
+                    }
+                }
+
+                // Create feature items HTML
+                let featuresHTML = '';
+                
+                displayFeatures.slice(0, 4).forEach((feature, index) => {
+                    const iconUrl = getIconUrl(feature.icon);
+                    const title = feature.title || `Feature ${index + 1}`;
+                    const description = feature.description || 'No description available.';
+                    
+                    featuresHTML += `
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <img src="${iconUrl}" 
+                                     alt="${title}" 
+                                     onerror="this.src='https://via.placeholder.com/100x100/cccccc/666666?text=${encodeURIComponent(title.charAt(0))}';" />
+                            </div>
+                            <h3 class="feature-title">${title}</h3>
+                            <p class="feature-description">${description}</p>
+                        </div>
+                    `;
+                });
+
+                // Add the features to the container
+                featuresContainer.innerHTML = featuresHTML;
+                
+                console.log('Eduwing features rendered successfully');
+                console.log('Total features displayed:', displayFeatures.length);
+            }
+
+            // Function to initialize eduwing features
+            async function initializeEduwingFeatures() {
+                console.log('Initializing eduwing features...');
+                
+                // Show loading state with new layout
+                const featuresContainer = document.getElementById('studyAbroadFeaturesContainer');
+                if (featuresContainer) {
+                    featuresContainer.className = 'features-container';
+                    featuresContainer.innerHTML = `
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                                </div>
+                            </div>
+                            <h3 class="feature-title">Loading...</h3>
+                            <p class="feature-description">Fetching data from API...</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-circle-notch fa-spin fa-2x text-secondary"></i>
+                                </div>
+                            </div>
+                            <h3 class="feature-title">Loading...</h3>
+                            <p class="feature-description">Preparing content...</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-sync-alt fa-spin fa-2x text-info"></i>
+                                </div>
+                            </div>
+                            <h3 class="feature-title">Loading...</h3>
+                            <p class="feature-description">Almost ready...</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon-container">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-cog fa-spin fa-2x text-success"></i>
+                                </div>
+                            </div>
+                            <h3 class="feature-title">Loading...</h3>
+                            <p class="feature-description">Final touches...</p>
+                        </div>
+                    `;
+                }
+
+                // Fetch and render data
+                try {
+                    const eduwingData = await fetchEduwingData();
+                    renderEduwingFeatures(eduwingData);
+                } catch (error) {
+                    console.error('Failed to initialize eduwing features:', error);
+                    
+                    // Show error state with new layout
+                    if (featuresContainer) {
+                        featuresContainer.className = 'features-container';
+                        featuresContainer.innerHTML = `
+                            <div class="feature-item">
+                                <div class="feature-icon-container">
+                                    <i class="fas fa-exclamation-triangle fa-3x text-warning"></i>
+                                </div>
+                                <h3 class="feature-title">Unable to Load</h3>
+                                <p class="feature-description">Please refresh the page to try again.</p>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            // Initialize the eduwing features
+            initializeEduwingFeatures();
+        });
+    </script>
+</body>
+</html>

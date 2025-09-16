@@ -1323,9 +1323,9 @@ document.addEventListener('DOMContentLoaded', function() {
               Choose your sporting moment - from cricket stadiums to racing tracks, football arenas to tennis courts.
             </p>
    <div class="swiper-fl">
-    <div class="swiper-wrapper" id="sportsCardsWrapper">
-      <!-- Cards will be dynamically loaded from API -->
-      <!-- Fallback Card 1 -->
+    <div class="swiper-wrapper">
+      <!-- Static Sports Cards -->
+      <!-- Card 1 -->
       <div class="swiper-slide">
         <div class="flip-card">
           <div class="flip-card-inner">
@@ -1348,7 +1348,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       </div>
-      <!-- Fallback Card 2 -->
+      <!-- Card 2 -->
       <div class="swiper-slide">
         <div class="flip-card">
           <div class="flip-card-inner">
@@ -1366,12 +1366,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 <b>Location:</b> Australia<br>
                 <b>Dates:</b> Oct 19, 26 - Nov 08, 26
               </div>
-              <button class="register-btn">Register Interest</button>
+              <button class="register-btn" onclick="window.location.href='indtour.html'">Register Interest</button>
             </div>
           </div>
         </div>
       </div>
-      <!-- Fallback Card 3 -->
+      <!-- Card 3 -->
       <div class="swiper-slide">
         <div class="flip-card">
           <div class="flip-card-inner">
@@ -1389,7 +1389,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 <b>Location:</b> Mexico, Canada, USA<br>
                 <b>Dates:</b> Jun 11, 26 - Jul 19, 26
               </div>
-              <button class="register-btn">Register Interest</button>
+              <button class="register-btn" onclick="window.location.href='fifa.html'">Register Interest</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="swiper-slide">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img class="card-img" src="./images/sportcardf1img.avif" alt="F1 Race 2026">
+              <div class="card-content">
+                <div class="card-title">F1 Race 2025</div>
+                <div class="card-location"><i class="fa fa-map-marker-alt"></i> Italy</div>
+                <div class="card-date"><i class="fa fa-calendar-alt"></i> Sep 10, 25 - Sep 15, 25</div>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-title">F1 Race 2025</div>
+              <div class="back-details">
+                <b>Location:</b> Italy<br>
+                <b>Dates:</b> Sep 10, 25 - Sep 15, 25
+              </div>
+              <button class="register-btn" onclick="window.location.href='f1.html'" >Register Interest</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="swiper-slide">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img class="card-img" src="./images/sportcartmotogpimg.jpg" alt="MotoGP 2025">
+              <div class="card-content">
+                <div class="card-title">MotoGP 2025</div>
+                <div class="card-location"><i class="fa fa-map-marker-alt"></i> Japan</div>
+                <div class="card-date"><i class="fa fa-calendar-alt"></i> Sep 26, 25 - May 28, 25</div>
+              </div>
+            </div>
+            <div class="flip-card-back">
+              <div class="back-title">MotoGP 2025</div>
+              <div class="back-details">
+                <b>Location:</b> Japan<br>
+                <b>Dates:</b> Sep 26, 25 - May 28, 25
+              </div>
+              <button class="register-btn" onclick="window.location.href='motpgp.html'" >Register Interest</button>
             </div>
           </div>
         </div>
@@ -1398,89 +1444,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- Pagination -->
     <div class="swiper-pagination"></div>
   </div>
-
-  <!-- API Integration Script -->
-  <script>
-    // Helper function to get full image URL
-    function getSportImageUrl(path) {
-      if (!path) return './images/sportcardimg1.jpg'; // default fallback
-      if (path.startsWith('http')) return path;
-      return 'http://globe.ridealmobility.com/' + path;
-    }
-
-    // Helper function to format date
-    function formatDate(dateString) {
-      if (!dateString) return 'TBA';
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: '2-digit', 
-        year: '2-digit' 
-      });
-    }
-
-    // Function to create a sport card
-    function createSportCard(sport) {
-      return `
-        <div class="swiper-slide">
-          <div class="flip-card">
-            <div class="flip-card-inner">
-              <div class="flip-card-front">
-                <img class="card-img" src="${getSportImageUrl(sport.image || sport.cardImage)}" alt="${sport.title || sport.name}">
-                <div class="card-content">
-                  <div class="card-title">${sport.title || sport.name || 'Sports Event'}</div>
-                  <div class="card-location"><i class="fa fa-map-marker-alt"></i> ${sport.location || sport.venue || 'TBA'}</div>
-                  <div class="card-date"><i class="fa fa-calendar-alt"></i> ${formatDate(sport.startDate)} - ${formatDate(sport.endDate)}</div>
-                </div>
-              </div>
-              <div class="flip-card-back">
-                <div class="back-title">${sport.title || sport.name || 'Sports Event'}</div>
-                <div class="back-details">
-                  <b>Location:</b> ${sport.location || sport.venue || 'TBA'}<br>
-                  <b>Dates:</b> ${formatDate(sport.startDate)} - ${formatDate(sport.endDate)}
-                  ${sport.description ? '<br><b>Details:</b> ' + sport.description : ''}
-                </div>
-                <button class="register-btn" onclick="${sport.registrationLink ? "window.location.href='" + sport.registrationLink + "'" : 'alert("Registration coming soon!")'}" >Register Interest</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    // Fetch sports cards from API
-    function loadSportsCards() {
-      fetch('http://globe.ridealmobility.com/api/sport/card')
-        .then(response => response.json())
-        .then(data => {
-          if (data && Array.isArray(data) && data.length > 0) {
-            const cardsHTML = data.map(sport => createSportCard(sport)).join('');
-            document.getElementById('sportsCardsWrapper').innerHTML = cardsHTML;
-            
-            // Reinitialize Swiper after content update
-            if (window.sportsSwiper) {
-              window.sportsSwiper.update();
-            }
-            
-            console.log('Sports cards loaded from API:', data.length, 'cards');
-          } else {
-            console.log('No sports cards data from API, keeping fallback cards');
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching sports cards:', error);
-          console.log('Keeping fallback sports cards due to API error');
-        });
-    }
-
-    // Load sports cards when DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {
-      loadSportsCards();
-      
-      // Optional: Refresh every 10 minutes for live sports updates
-      setInterval(loadSportsCards, 600000);
-    });
-  </script>
 </section>
 
  <script>
