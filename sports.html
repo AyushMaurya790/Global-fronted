@@ -2479,27 +2479,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the dropdown
     initializeDestinationsDropdown();
 
-    // Luxury Options API Integration
+    // Luxury Cities API Integration
     async function fetchLuxuryOptions() {
         try {
-            const response = await fetch('http://globe.ridealmobility.com/api/luxury-options');
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
             if (!response.ok) {
-                throw new Error('Failed to fetch luxury options');
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             const luxuryOptions = await response.json();
-            console.log('Luxury options loaded from API:', luxuryOptions);
+            console.log('Luxury cities loaded from API:', luxuryOptions);
             return luxuryOptions;
         } catch (error) {
-            console.error('Error fetching luxury options:', error);
+            console.error('Error fetching luxury cities:', error);
             // Return fallback data to maintain functionality
             return [
-                { city: 'FINLAND', _id: '1' },
-                { city: 'JAPAN', _id: '2' },
-                { city: 'KENYA', _id: '3' },
-                { city: 'NORWAY', _id: '4' },
-                { city: 'SAUDI ARABIA', _id: '5' },
-                { city: 'TANZANIA', _id: '6' },
-                { city: 'ZANZIBAR', _id: '7' }
+                { name: 'SAUDI ARABIA', _id: '68c95fad8955d15262c1a30b' },
+                { name: 'NORWAY', _id: '68c95f9d8955d15262c1a309' },
+                { name: 'KENYA', _id: '68c95f8c8955d15262c1a306' },
+                { name: 'JAPAN', _id: '68c95f7e8955d15262c1a304' },
+                { name: 'FINLAND', _id: '68c95f758955d15262c1a302' }
             ];
         }
     }
@@ -2520,13 +2518,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const a = document.createElement('a');
                 a.href = option.url || `luxury-${option._id}.html` || '';
-                a.textContent = option.city || option.name || `Luxury Option ${index + 1}`;
+                a.textContent = option.name || `Luxury City ${index + 1}`;
                 
                 li.appendChild(a);
                 luxuryDropdown.appendChild(li);
             });
             
-            console.log('Sports luxury dropdown populated with API data');
+            console.log('Sports luxury dropdown populated with luxury cities API data');
         } else {
             console.warn('Sports luxury dropdown not found');
         }

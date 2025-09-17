@@ -24,6 +24,123 @@
     <style>
         .hero-section {
             background: url('../images/storyHeroImg.jpg') no-repeat center center/cover;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Enhanced API-driven content styles */
+        .main-story-img:hover {
+            transform: scale(1.05) !important;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25) !important;
+        }
+
+        .story-section {
+            padding: 80px 0;
+        }
+
+        .story-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-left {
+            padding-right: 20px;
+        }
+
+        .story-desc {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .story-services {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .story-services-list li {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #e55d17;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .story-services-list li:hover {
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateX(5px);
+        }
+
+        .story-services-list li b {
+            color: #e55d17;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .story-services-list p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Loading animations */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .loading-content {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .story-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .story-left {
+                padding-right: 0;
+            }
+            
+            .hero-title {
+                font-size: 36px !important;
+                margin-left: 20px !important;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px !important;
+                margin-left: 20px !important;
+            }
+
+            .main-story-img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        /* Video background enhancements */
+        #about-hero-video {
+            transition: opacity 0.5s ease;
+        }
+
+        #about-hero-overlay {
+            transition: opacity 0.5s ease;
         }
     </style>
     <!-- CSS for Services Section -->
@@ -704,6 +821,40 @@
             }
         }
 
+        /* Award items styles */
+        .award-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .award-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .award-logo img {
+            transition: transform 0.3s ease;
+        }
+
+        .award-item:hover .award-logo img {
+            transform: scale(1.1);
+        }
+
+        .award-title {
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .award-subtitle {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
         /* careers section styles */
 
         .careers-section {
@@ -1187,14 +1338,8 @@
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-        <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-        <li data-target="adventure"><a href="">JAPAN</a></li>
-        <li data-target="luxury"><a href="">KENYA</a></li>
-        <li data-target="classic"><a href="">NORWAY</a></li>
-        <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-        <li data-target="luxury"><a href="">TANZANIA</a></li>
-        <li data-target="classic"><a href="">ZANZIBAR</a></li>
+          <ul id="aboutus-luxury-dropdown">
+        <li data-target="luxury"><a href="">Loading...</a></li>
 </ul>
         </div>
         
@@ -1243,7 +1388,7 @@
     </ul>
 
     <a class="navbar-brand mx-auto" href="index.html">
-      <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
+      <img id="mainLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 200px;"  alt="Globengel Logo" class="logo">
       
     </a>
 
@@ -1266,7 +1411,7 @@
     <div class="mobile-menu">
         <div class="menu-header">
             <a class="menu-logo" href="index.html">
-                <img src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
+                <img id="mobileLogo" src="./GLOBENGEL/GLOBENGEL Logo.png" style="width: 136px;" alt="Globengel Logo" class="logo">
             </a>
             <div class="close-btn">&times;</div>
         </div>
@@ -1280,12 +1425,21 @@
     <div class="overlay"></div>
 
     <!-- Hero Section -->
-    <section class="hero-section" style="justify-content: start; align-items: end;">
-        <div class="hero-content" style="position: relative; bottom: 70px; max-width: 960px;">
-            <h5 class="hero-title" style="font-size:60px; margin-left: 35px; text-align: left; font-weight: 400; font-family: 'Miller Display', Georgia, serif;">
+    <section id="about-hero-section" class="hero-section" style="justify-content: start; align-items: end; position: relative; overflow: hidden;">
+        <!-- Background Video -->
+        <video id="about-hero-video" autoplay muted loop style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; display: none;">
+            <source id="about-video-source" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <!-- Overlay for better text readability -->
+        <div id="about-hero-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); z-index: 0; display: none;"></div>
+        
+        <div class="hero-content" style="position: relative; bottom: 70px; max-width: 960px; z-index: 1;">
+            <h5 id="about-hero-title" class="hero-title" style="font-size:60px; margin-left: 35px; text-align: left; font-weight: 400; font-family: 'Miller Display', Georgia, serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
                 DREAM. EXPLORE. DISCOVER.
             </h5>
-            <p class="" style="font-size: 20px; text-align: start; margin-left: 40px; font-family: 'Miller Display', Georgia, serif;">
+            <p id="about-hero-subtitle" class="hero-subtitle" style="font-size: 20px; text-align: start; margin-left: 40px; font-family: 'Miller Display', Georgia, serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
                 From unforgettable escapes to life-changing missions, we bring the world closer to you.
             </p>
             <!-- <div class="search-box">
@@ -1301,7 +1455,7 @@
     <section class="story-section">
         <div class="story-wrapper">
             <div class="story-left">
-                <h2 class="story-title">
+                <h2 id="about-story-title" class="story-title">
                     Our <span class="story-script silver-South-family"> Story </span>
                 </h2>
                 <p class="story-desc mb-2">
@@ -1327,23 +1481,31 @@
             </div>
             <div class="story-right">
                 <div class="story-imgs">
-                    <img src="./images/awardAboutImg.jpg" alt="Trophy" class="story-img img1">
-                    <img src="./images/awardAboutImg.jpg" alt="Trophy" class="story-img img2">
-                    <img src="./images/awardAboutImg.jpg" alt="Trophy" class="story-img img3">
-                    <img src="./images/awardAboutImg.jpg" alt="Trophy" class="story-img img4">
-                    <img src="./images/awardAboutImg.jpg" alt="Trophy" class="story-img img5">
-                    <img src="./images/awardAboutImg.jpg" alt="Trophy" class="story-img img6">
-                    <img src="./images/awardAboutImg.jpg" alt="Trophy" class="story-img img7">
+                    <!-- Main story image from API -->
+                    <img id="about-story-main-image" src="./images/awardAboutImg.jpg" alt="Our Story" class="story-img main-story-img" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); transition: transform 0.3s ease;">
+                    
+                    <!-- Loading placeholder for story image -->
+                    <div id="about-story-image-loading" style="display: none; width: 100%; height: 300px; background: #f0f0f0; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #666;">
+                        <i class="fa fa-spinner fa-spin" style="margin-right: 8px;"></i>
+                        Loading image...
+                    </div>
+                    
+                    <!-- Decorative smaller images for visual appeal -->
+                    <div class="decorative-imgs" style="display: flex; gap: 10px; margin-top: 15px; opacity: 0.7;">
+                        <img src="./images/awardAboutImg.jpg" alt="Award" class="story-img small-img" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                        <img src="./images/awardAboutImg.jpg" alt="Achievement" class="story-img small-img" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                        <img src="./images/awardAboutImg.jpg" alt="Recognition" class="story-img small-img" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <section class="story-section" style="background-color: #fff; padding-bottom: 60px;">
        <div class="story-services">
-            <h3 class="story-services-title">
+            <h3 id="about-services-title" class="story-services-title">
                 Our <span class="story-script silver-South-family">Key</span> Services
             </h3>
-            <ul class="story-services-list">
+            <ul id="about-services-list" class="story-services-list">
                 <li>
                     <b>Flight Tickets – International & Domestic</b>
                 </li>
@@ -1399,32 +1561,42 @@
     <!-- award-section -->
     <section class="awards-section">
         <div class="awards-wrapper">
-            <h2 class="awards-title">
+            <h2 class="awards-title" id="awards-main-heading">
                 <span class="awards-script silver-South-family">Awards</span> &amp; Recognitions
             </h2>
-            <p class="awards-desc">
+            <p class="awards-desc" id="awards-description">
                 Celebrated for our excellence in travel, GLOBENGEL has earned industry accolades for innovation, service
                 quality, and client satisfaction. Each recognition reflects our unwavering commitment to creating
                 journeys that inspire
             </p>
-            <div class="awards-grid">
-                <div class="award-card">
-                    <img src="./images/gratitudeAward.jpg" alt="National Gratitude Awards 2020" class="award-icon">
-                    <h3>National Gratitude Awards 2020</h3>
-                    <p>Best emerging Tour &amp; Travel Company in Delhi - NCR</p>
+            <div class="row" id="awards-items-container">
+                <!-- Awards will be populated from API -->
+                <div class="col-md-4 text-center mb-4">
+                    <div class="award-item h-100 p-4">
+                        <div class="award-logo mb-3">
+                            <img src="./images/gratitudeAward.jpg" alt="National Gratitude Awards 2020" class="img-fluid" style="max-height: 80px; object-fit: contain;">
+                        </div>
+                        <h5 class="award-title mb-2">National Gratitude Awards 2020</h5>
+                        <p class="award-subtitle text-muted">Best emerging Tour & Travel Company in Delhi - NCR</p>
+                    </div>
                 </div>
-                <div class="award-divider"></div>
-                <div class="award-card">
-                    <img src="./images/globeAward.jpg" alt="Golden Globe Business Excellence Award 2022"
-                        class="award-icon">
-                    <h3>Golden Globe Business Excellence Award 2022</h3>
-                    <p>Women Entrepreneur of the Year</p>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="award-item h-100 p-4">
+                        <div class="award-logo mb-3">
+                            <img src="./images/globeAward.jpg" alt="Golden Globe Business Excellence Award 2022" class="img-fluid" style="max-height: 80px; object-fit: contain;">
+                        </div>
+                        <h5 class="award-title mb-2">Golden Globe Business Excellence Award 2022</h5>
+                        <p class="award-subtitle text-muted">Women Entrepreneur of the Year</p>
+                    </div>
                 </div>
-                <div class="award-divider"></div>
-                <div class="award-card">
-                    <img src="./images/faceAward.jpg" alt="FoxStory India" class="award-icon">
-                    <h3>Women Face of The Year 2023</h3>
-                    <p>FOXSTORY INDIA</p>
+                <div class="col-md-4 text-center mb-4">
+                    <div class="award-item h-100 p-4">
+                        <div class="award-logo mb-3">
+                            <img src="./images/faceAward.jpg" alt="Women Face of The Year 2023" class="img-fluid" style="max-height: 80px; object-fit: contain;">
+                        </div>
+                        <h5 class="award-title mb-2">Women Face of The Year 2023</h5>
+                        <p class="award-subtitle text-muted">FOXSTORY INDIA</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1434,12 +1606,13 @@
     <section class="careers-section">
         <div class="careers-wrapper">
             <div class="careers-img">
-                <img src="./images/globengleCareeImg.jpg" alt="Globengel Careers Items">
+                <img id="career-image" src="./images/globengleCareeImg.jpg" alt="Globengel Careers Items">
             </div>
             <div class="careers-content">
-                <h2 class="careers-title">
+                <h2 class="careers-title" id="careers-heading">
                     <span class="careers-script silver-South-family">Careers</span> – Join Our Journey
                 </h2>
+                <div id="careers-paragraph">
                 <p class="careers-desc">
                     At GLOBENGEL, every day is an opportunity to inspire and be inspired.<br>
                     Our team thrives on creativity, collaboration, and delivering excellence at every stage of the
@@ -1448,6 +1621,7 @@
                 <p class="careers-desc">
                     Send your CV to <b>careers@globengel.com</b> and step into a career that’s going places.
                 </p>
+                </div>
             </div>
         </div>
     </section>
@@ -1501,7 +1675,7 @@
 
 <section class="logo-slider-section">
   <div class="logo-marquee">
-    <div class="logo-track">
+    <div class="logo-track" id="aboutUsLogoTrack">
       <img src="./images/icelandPartner.jpg" alt="wanderwell logo" />
       <img src="./images/polandPartner.png" alt="wanderwell logo" />
       <img src="./images/switzerlandpartner.png" alt="wanderwell logo" />
@@ -2329,6 +2503,931 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the dropdown
     initializeDestinationsDropdown();
+});
+
+// Luxury Cities API Integration for About Us Page
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch luxury cities from API
+    async function fetchLuxuryCities() {
+        try {
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const luxuryCities = await response.json();
+            console.log('Luxury cities loaded from API for About Us page:', luxuryCities);
+            return luxuryCities;
+        } catch (error) {
+            console.error('Error fetching luxury cities for About Us:', error);
+            // Return fallback data to maintain functionality
+            return [
+                { name: 'FINLAND', _id: '68c95f758955d15262c1a302' },
+                { name: 'JAPAN', _id: '68c95f7e8955d15262c1a304' },
+                { name: 'KENYA', _id: '68c95f8c8955d15262c1a306' },
+                { name: 'NORWAY', _id: '68c95f9d8955d15262c1a309' },
+                { name: 'SAUDI ARABIA', _id: '68c95fad8955d15262c1a30b' },
+                { name: 'TANZANIA', _id: '68c95f918955d15262c1a308' },
+                { name: 'ZANZIBAR', _id: '68c95f858955d15262c1a305' }
+            ];
+        }
+    }
+
+    // Initialize luxury dropdown with API data
+    async function initializeAboutUsLuxuryDropdown() {
+        const luxuryCities = await fetchLuxuryCities();
+        const luxuryDropdown = document.getElementById('aboutus-luxury-dropdown');
+        
+        if (luxuryDropdown && luxuryCities) {
+            // Clear existing content
+            luxuryDropdown.innerHTML = '';
+            
+            // Populate with API data
+            luxuryCities.forEach((city, index) => {
+                const li = document.createElement('li');
+                li.setAttribute('data-target', 'luxury');
+                
+                const a = document.createElement('a');
+                a.href = city.url || `luxury-${city._id}.html` || '#';
+                a.textContent = city.name || `Luxury City ${index + 1}`;
+                
+                li.appendChild(a);
+                luxuryDropdown.appendChild(li);
+            });
+            
+            console.log('About Us luxury dropdown populated with luxury cities API data');
+        } else {
+            console.warn('About Us luxury dropdown not found');
+        }
+    }
+
+    // Initialize luxury dropdown
+    initializeAboutUsLuxuryDropdown();
+});
+
+// Home Logo API Integration for About Us Page
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to get the complete image URL
+    function getLogoImageUrl(imagePath) {
+        if (!imagePath) return '';
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // If it's a relative path, construct the full URL
+        const baseUrl = 'http://globe.ridealmobility.com/';
+        return baseUrl + imagePath.replace(/^\/+/, '');
+    }
+
+    // Function to fetch home logo data from API
+    async function fetchLogoData() {
+        try {
+            console.log('Fetching home logo data from API for About Us page...');
+            const response = await fetch('http://globe.ridealmobility.com/api/home/logo', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Home logo API response for About Us:', data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching home logo data for About Us:', error);
+            return null;
+        }
+    }
+
+    // Function to update main logos (commented out to preserve Globengel branding)
+    /*
+    async function updateMainLogos(logoData) {
+        if (!logoData || !Array.isArray(logoData) || logoData.length === 0) return;
+        
+        const firstLogoSet = logoData[0];
+        if (!firstLogoSet.images || firstLogoSet.images.length === 0) return;
+        
+        const firstImagePath = firstLogoSet.images[0];
+        const logoUrl = getLogoImageUrl(firstImagePath);
+        
+        try {
+            // Update main navbar logo
+            const mainLogo = document.getElementById('mainLogo');
+            if (mainLogo && logoUrl) {
+                const img = new Image();
+                img.onload = function() {
+                    mainLogo.src = logoUrl;
+                    console.log('About Us main logo updated from API');
+                };
+                img.onerror = function() {
+                    console.log('Failed to load About Us main logo from API, keeping original');
+                };
+                img.src = logoUrl;
+            }
+            
+            // Update mobile menu logo
+            const mobileLogo = document.getElementById('mobileLogo');
+            if (mobileLogo && logoUrl) {
+                const img = new Image();
+                img.onload = function() {
+                    mobileLogo.src = logoUrl;
+                    console.log('About Us mobile logo updated from API');
+                };
+                img.onerror = function() {
+                    console.log('Failed to load About Us mobile logo from API, keeping original');
+                };
+                img.src = logoUrl;
+            }
+        } catch (error) {
+            console.error('Error updating About Us main logos:', error);
+        }
+    }
+    */
+
+    // Function to update partner logos
+    async function updatePartnerLogos(logoData) {
+        const logoTrack = document.getElementById('aboutUsLogoTrack');
+        if (!logoTrack) {
+            console.warn('About Us logo track container not found');
+            return;
+        }
+
+        if (!logoData || !Array.isArray(logoData) || logoData.length === 0) {
+            console.log('No About Us logo data available, keeping default partner logos');
+            return;
+        }
+
+        try {
+            // Collect all images from all logo sets
+            const allImages = [];
+            logoData.forEach(logoSet => {
+                if (logoSet.images && Array.isArray(logoSet.images)) {
+                    logoSet.images.forEach(imagePath => {
+                        const imageUrl = getLogoImageUrl(imagePath);
+                        if (imageUrl) {
+                            allImages.push(imageUrl);
+                        }
+                    });
+                }
+            });
+
+            if (allImages.length === 0) {
+                console.log('No valid About Us images found in API data, keeping defaults');
+                return;
+            }
+
+            // Create new logo content (duplicate for seamless loop)
+            let logoHTML = '';
+            const duplicateImages = [...allImages, ...allImages]; // Duplicate for seamless scrolling
+
+            duplicateImages.forEach((imageUrl, index) => {
+                logoHTML += `<img src="${imageUrl}" alt="Partner Logo ${index + 1}" onerror="this.style.display='none'" />`;
+            });
+
+            logoTrack.innerHTML = logoHTML;
+            console.log(`About Us partner logos updated from API with ${allImages.length} unique images`);
+        } catch (error) {
+            console.error('Error updating About Us partner logos:', error);
+        }
+    }
+
+    // Function to initialize logos from API
+    async function initializeAboutUsLogos() {
+        try {
+            const logoData = await fetchLogoData();
+            if (logoData) {
+                // Update partner logos (active)
+                await updatePartnerLogos(logoData);
+                
+                // Update main logos (commented out to preserve Globengel branding)
+                // await updateMainLogos(logoData);
+                
+                console.log('About Us logos initialization completed');
+            } else {
+                console.log('About Us logo API failed, keeping default logos');
+            }
+        } catch (error) {
+            console.error('Error initializing About Us logos:', error);
+        }
+    }
+
+    // Initialize logos on page load
+    initializeAboutUsLogos();
+    
+    // Set up auto-refresh every 5 minutes for partner logos
+    setInterval(() => {
+        console.log('Auto-refreshing About Us partner logos...');
+        initializeAboutUsLogos();
+    }, 5 * 60 * 1000);
+
+    // About API Integration
+    async function fetchAboutData() {
+        try {
+            console.log('Fetching about data from API...');
+            
+            // Add timeout to fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            const response = await fetch('http://globe.ridealmobility.com/api/about', {
+                method: 'GET',
+                signal: controller.signal,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const aboutData = await response.json();
+            console.log('About data loaded from API:', aboutData);
+            
+            // Handle array response - get the first item
+            const data = Array.isArray(aboutData) ? aboutData[0] : aboutData;
+            
+            // Add base URL for media files if they're relative paths
+            if (data.backgroundVideo && !data.backgroundVideo.startsWith('http')) {
+                data.backgroundVideoUrl = `http://globe.ridealmobility.com/${data.backgroundVideo}`;
+            } else {
+                data.backgroundVideoUrl = data.backgroundVideo;
+            }
+            
+            if (data.img && !data.img.startsWith('http')) {
+                data.storyImageUrl = `http://globe.ridealmobility.com/${data.img}`;
+            } else {
+                data.storyImageUrl = data.img;
+            }
+            
+            console.log('Processed about data:', {
+                heroTitle: data.heroTitle,
+                backgroundVideo: data.backgroundVideoUrl,
+                storyImage: data.storyImageUrl,
+                servicesCount: data.highlights?.length || 0
+            });
+            
+            return data;
+            
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.error('API request timed out after 10 seconds');
+            } else {
+                console.error('Error fetching about data:', error);
+            }
+            
+            // Return fallback data to maintain functionality
+            return {
+                heroTitle: "DREAM. EXPLORE. DISCOVER.",
+                heroSubtitle: "From unforgettable escapes to life-changing missions, we bring the world closer to you.",
+                title: "Our Story",
+                description: "With over 25 years of hands-on experience in the tourism industry and a business presence since 2019, GLOBENGEL stands as a trusted name in creating journeys that go far beyond travel.\n\nOur foundation was built on one simple belief – travel should be seamless, personalized, and memorable. Since our inception, we have curated thousands of blissful holidays and orchestrated unforgettable client events for families, friends, and businesses.\n\nOur expertise has extended to managing events with true responsibility – from preparing flight tickets and hotel bookings to managing complex collaborations, student relocations, and destination weddings. In every project, our focus remains the same: delivering precision, creativity, and care.\n\nToday, GLOBENGEL continues to open its expertise that inspire – whether it's a luxury escape, a cultural festival, a corporate incentive, or a once-in-a-lifetime adventure.",
+                footerHeading: "Our Key Services",
+                highlights: [
+                    {
+                        heading: "Flight Tickets – International & Domestic",
+                        paragraph: "Best fare options, flexible bookings, and seamless ticketing for every journey."
+                    },
+                    {
+                        heading: "International Hotel Packages",
+                        paragraph: "Curated stays for leisure travellers, families, and honeymooners - in destinations worldwide."
+                    },
+                    {
+                        heading: "MICE – Meetings, Incentives, Conferences & Exhibitions",
+                        paragraph: "Flawless planning and execution for corporate events, incentive trips, and conferences."
+                    },
+                    {
+                        heading: "Business Travel",
+                        paragraph: "Efficient, tailored solutions for corporate travellers with dedicated account management."
+                    },
+                    {
+                        heading: "Charters",
+                        paragraph: "Private aircraft, yachts, and exclusive transport for weddings, MICE, and VIP movements."
+                    },
+                    {
+                        heading: "Cruises",
+                        paragraph: "Sail across the world's most iconic waters - from the Mediterranean to Alaska -with luxury and comfort."
+                    },
+                    {
+                        heading: "Luxury Travel",
+                        paragraph: "Bespoke, high-end experiences designed for the discerning traveller."
+                    },
+                    {
+                        heading: "Special Projects – Ministry & Government",
+                        paragraph: "Trusted travel partner for ministries, embassies, and high-level official movements."
+                    }
+                ]
+            };
+        }
+    }
+
+    // Function to update hero section with API data
+    function updateHeroSection(aboutData) {
+        try {
+            // Update hero title with animation
+            const heroTitleElement = document.getElementById('about-hero-title');
+            if (heroTitleElement && aboutData.heroTitle) {
+                animateContentUpdate(heroTitleElement, aboutData.heroTitle);
+                console.log('Updated hero title:', aboutData.heroTitle);
+            }
+            
+            // Update hero subtitle with animation
+            const heroSubtitleElement = document.getElementById('about-hero-subtitle');
+            if (heroSubtitleElement && aboutData.heroSubtitle) {
+                animateContentUpdate(heroSubtitleElement, aboutData.heroSubtitle);
+                console.log('Updated hero subtitle:', aboutData.heroSubtitle);
+            }
+            
+            // Update background video if available
+            if (aboutData.backgroundVideoUrl) {
+                updateBackgroundVideo(aboutData.backgroundVideoUrl);
+            }
+            
+        } catch (error) {
+            console.error('Error updating hero section:', error);
+        }
+    }
+
+    // Function to update background video
+    function updateBackgroundVideo(videoUrl) {
+        try {
+            const videoElement = document.getElementById('about-hero-video');
+            const videoSource = document.getElementById('about-video-source');
+            const overlay = document.getElementById('about-hero-overlay');
+            
+            if (videoElement && videoSource && videoUrl) {
+                console.log('Loading background video:', videoUrl);
+                
+                // Set video source
+                videoSource.src = videoUrl;
+                
+                // Load and play video
+                videoElement.load();
+                
+                // Handle video load success
+                videoElement.onloadeddata = function() {
+                    console.log('Background video loaded successfully');
+                    videoElement.style.display = 'block';
+                    overlay.style.display = 'block';
+                    
+                    // Play video
+                    videoElement.play().catch(e => {
+                        console.log('Video autoplay prevented by browser policy');
+                    });
+                };
+                
+                // Handle video load error
+                videoElement.onerror = function() {
+                    console.warn('Failed to load background video, keeping static background');
+                    videoElement.style.display = 'none';
+                    overlay.style.display = 'none';
+                    
+                    // Apply fallback gradient background to hero section
+                    const heroSection = document.querySelector('.hero-section');
+                    if (heroSection) {
+                        heroSection.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                        heroSection.style.backgroundSize = 'cover';
+                    }
+                };
+                
+            }
+            
+        } catch (error) {
+            console.error('Error updating background video:', error);
+        }
+    }
+
+    // Function to update story section with API data
+    function updateStorySection(aboutData) {
+        try {
+            // Update story title with animation
+            const storyTitleElement = document.getElementById('about-story-title');
+            if (storyTitleElement && aboutData.title) {
+                const formattedTitle = aboutData.title.replace(/Our\s+/, 'Our <span class="story-script silver-South-family"> ').replace(/Story/, 'Story </span>');
+                animateContentUpdate(storyTitleElement, () => {
+                    storyTitleElement.innerHTML = formattedTitle;
+                });
+                console.log('Updated story title:', aboutData.title);
+            }
+            
+            // Update story description
+            if (aboutData.description) {
+                const storyLeft = document.querySelector('.story-left');
+                if (storyLeft) {
+                    // Split description by double line breaks to create paragraphs
+                    const paragraphs = aboutData.description.split(/\r?\n\r?\n|\r\r/);
+                    
+                    // Remove existing story-desc paragraphs but keep title
+                    const existingParagraphs = storyLeft.querySelectorAll('.story-desc');
+                    existingParagraphs.forEach(p => p.remove());
+                    
+                    // Add new paragraphs from API with fade-in effect
+                    paragraphs.forEach((paragraph, index) => {
+                        if (paragraph.trim()) {
+                            setTimeout(() => {
+                                const p = document.createElement('p');
+                                p.className = 'story-desc mb-2';
+                                p.textContent = paragraph.trim();
+                                p.style.opacity = '0';
+                                p.style.transition = 'opacity 0.5s ease';
+                                storyLeft.appendChild(p);
+                                
+                                // Fade in paragraph
+                                setTimeout(() => {
+                                    p.style.opacity = '1';
+                                }, 100);
+                            }, index * 200);
+                        }
+                    });
+                    
+                    console.log('Updated story description with', paragraphs.length, 'paragraphs');
+                }
+            }
+            
+            // Update story image
+            if (aboutData.storyImageUrl) {
+                updateStoryImage(aboutData.storyImageUrl);
+            }
+            
+        } catch (error) {
+            console.error('Error updating story section:', error);
+        }
+    }
+
+    // Function to update story image
+    function updateStoryImage(imageUrl) {
+        try {
+            const mainImage = document.getElementById('about-story-main-image');
+            const loadingPlaceholder = document.getElementById('about-story-image-loading');
+            
+            if (mainImage && imageUrl) {
+                console.log('Loading story image:', imageUrl);
+                
+                // Show loading state
+                if (loadingPlaceholder) {
+                    loadingPlaceholder.style.display = 'flex';
+                }
+                mainImage.style.opacity = '0.5';
+                
+                // Create new image to preload
+                const newImage = new Image();
+                
+                newImage.onload = function() {
+                    console.log('Story image loaded successfully');
+                    
+                    // Update main image source
+                    mainImage.src = imageUrl;
+                    mainImage.alt = 'Our Story - GLOBENGEL';
+                    
+                    // Hide loading state
+                    if (loadingPlaceholder) {
+                        loadingPlaceholder.style.display = 'none';
+                    }
+                    
+                    // Fade in image
+                    mainImage.style.opacity = '1';
+                    mainImage.style.transform = 'scale(1.02)';
+                    
+                    setTimeout(() => {
+                        mainImage.style.transform = 'scale(1)';
+                    }, 300);
+                };
+                
+                newImage.onerror = function() {
+                    console.warn('Failed to load story image, keeping fallback');
+                    
+                    // Hide loading state
+                    if (loadingPlaceholder) {
+                        loadingPlaceholder.style.display = 'none';
+                    }
+                    mainImage.style.opacity = '1';
+                    
+                    // Adjust layout if image fails to load
+                    const storyContainer = document.querySelector('.story-content');
+                    if (storyContainer) {
+                        storyContainer.style.gridTemplateColumns = '1fr';
+                        const storyLeft = document.querySelector('.story-left');
+                        if (storyLeft) {
+                            storyLeft.style.textAlign = 'center';
+                            storyLeft.style.maxWidth = '800px';
+                            storyLeft.style.margin = '0 auto';
+                        }
+                    }
+                };
+                
+                // Start preloading
+                newImage.src = imageUrl;
+            }
+            
+        } catch (error) {
+            console.error('Error updating story image:', error);
+        }
+    }
+
+    // Function to update services section with API data
+    function updateServicesSection(aboutData) {
+        try {
+            // Update services title
+            const servicesTitleElement = document.getElementById('about-services-title');
+            if (servicesTitleElement && aboutData.footerHeading) {
+                const titleParts = aboutData.footerHeading.split(' ');
+                if (titleParts.length >= 2) {
+                    servicesTitleElement.innerHTML = `${titleParts[0]} <span class="story-script silver-South-family">${titleParts[1]}</span> ${titleParts.slice(2).join(' ')}`;
+                } else {
+                    servicesTitleElement.textContent = aboutData.footerHeading;
+                }
+                console.log('Updated services title:', aboutData.footerHeading);
+            }
+            
+            // Update services list
+            if (aboutData.highlights && Array.isArray(aboutData.highlights)) {
+                const servicesListElement = document.getElementById('about-services-list');
+                if (servicesListElement) {
+                    // Clear existing content
+                    servicesListElement.innerHTML = '';
+                    
+                    // Add new services from API
+                    aboutData.highlights.forEach(service => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<b>${service.heading}</b>`;
+                        servicesListElement.appendChild(listItem);
+                        
+                        const paragraph = document.createElement('p');
+                        paragraph.textContent = service.paragraph;
+                        servicesListElement.appendChild(paragraph);
+                    });
+                    
+                    console.log('Updated services list with', aboutData.highlights.length, 'services');
+                }
+            }
+            
+        } catch (error) {
+            console.error('Error updating services section:', error);
+        }
+    }
+
+    // Function to show loading states
+    function showLoadingStates() {
+        // Add loading indicators to key sections
+        const heroTitle = document.getElementById('about-hero-title');
+        const heroSubtitle = document.getElementById('about-hero-subtitle');
+        const storyTitle = document.getElementById('about-story-title');
+        const servicesTitle = document.getElementById('about-services-title');
+        const servicesList = document.getElementById('about-services-list');
+        
+        if (heroTitle) heroTitle.textContent = 'Loading...';
+        if (heroSubtitle) heroSubtitle.textContent = 'Loading content from our servers...';
+        if (storyTitle) storyTitle.innerHTML = 'Loading <span class="story-script silver-South-family"> Story </span>';
+        if (servicesTitle) servicesTitle.innerHTML = 'Loading <span class="story-script silver-South-family">Services</span>';
+        if (servicesList) servicesList.innerHTML = '<li style="text-align: center; padding: 20px;"><i class="fa fa-spinner fa-spin"></i> Loading services...</li>';
+    }
+
+    // Function to show error state
+    function showErrorState(error) {
+        console.error('About API Error:', error);
+        
+        const heroTitle = document.getElementById('about-hero-title');
+        const heroSubtitle = document.getElementById('about-hero-subtitle');
+        const servicesList = document.getElementById('about-services-list');
+        
+        // Show subtle error indication without breaking the user experience
+        if (heroSubtitle) {
+            heroSubtitle.textContent = 'Connecting you to extraordinary experiences worldwide.';
+        }
+        
+        if (servicesList) {
+            servicesList.innerHTML = '<li style="text-align: center; padding: 10px; color: #666;"><i class="fa fa-info-circle"></i> Using cached content - some information may not be up to date.</li>';
+        }
+        
+        // Auto-retry after 30 seconds
+        setTimeout(() => {
+            console.log('Auto-retrying About API after error...');
+            initializeAboutPage();
+        }, 30000);
+    }
+
+    // Function to validate API response data
+    function validateAboutData(data) {
+        if (!data) return false;
+        
+        // Check if essential fields exist
+        const hasRequiredFields = data.heroTitle || data.title || data.footerHeading || 
+                                  (data.highlights && Array.isArray(data.highlights));
+        
+        if (!hasRequiredFields) {
+            console.warn('About API returned incomplete data:', data);
+            return false;
+        }
+        
+        return true;
+    }
+
+    // Function to add smooth animations to content updates
+    function animateContentUpdate(element, newContent) {
+        if (!element) return;
+        
+        // Fade out
+        element.style.transition = 'opacity 0.3s ease';
+        element.style.opacity = '0';
+        
+        setTimeout(() => {
+            // Update content
+            if (typeof newContent === 'function') {
+                newContent();
+            } else {
+                element.innerHTML = newContent;
+            }
+            
+            // Fade in
+            element.style.opacity = '1';
+        }, 300);
+    }
+
+    // Main function to initialize about page with API data
+    async function initializeAboutPage() {
+        try {
+            console.log('Initializing About page with API data...');
+            
+            // Show loading states
+            showLoadingStates();
+            
+            // Add a small delay for better UX (prevents flash of loading content)
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Fetch about data from API
+            const aboutData = await fetchAboutData();
+            
+            // Validate the received data
+            if (validateAboutData(aboutData)) {
+                // Update all sections with API data using smooth animations
+                updateHeroSection(aboutData);
+                updateStorySection(aboutData);
+                updateServicesSection(aboutData);
+                
+                console.log('About page initialized successfully with API data');
+                
+                // Add success indicator in console
+                console.log('✅ About content loaded from API:', {
+                    heroTitle: aboutData.heroTitle,
+                    services: aboutData.highlights?.length || 0,
+                    lastUpdated: new Date().toLocaleString()
+                });
+                
+            } else {
+                console.warn('Invalid about data received, using fallback content');
+                showErrorState(new Error('Invalid API response data'));
+            }
+            
+        } catch (error) {
+            console.error('Error initializing about page:', error);
+            showErrorState(error);
+        }
+    }
+
+    // Function to refresh about data (can be called manually or on intervals)
+    async function refreshAboutData() {
+        console.log('Refreshing About page data...');
+        try {
+            const aboutData = await fetchAboutData();
+            if (validateAboutData(aboutData)) {
+                updateHeroSection(aboutData);
+                updateStorySection(aboutData);
+                updateServicesSection(aboutData);
+                console.log('About data refreshed successfully');
+            }
+        } catch (error) {
+            console.error('Error refreshing about data:', error);
+        }
+    }
+
+    // Initialize about page on load
+    initializeAboutPage();
+    
+    // Set up periodic refresh for about data (every 10 minutes)
+    setInterval(() => {
+        console.log('Auto-refreshing About page data...');
+        refreshAboutData();
+    }, 10 * 60 * 1000);
+    
+    // Fetch about footer data from API
+    async function fetchAboutFooterData() {
+        try {
+            console.log('Fetching about footer data from API...');
+            
+            // Add timeout to fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            const response = await fetch('http://globe.ridealmobility.com/api/about-footer', {
+                signal: controller.signal,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Footer API Response received:', data);
+            
+            // Handle array response - get first item
+            const footerData = Array.isArray(data) ? data[0] : data;
+            
+            if (footerData) {
+                console.log('Processing footer data:', footerData);
+                
+                // Construct full URLs for media files
+                if (footerData.items && footerData.items.length > 0) {
+                    footerData.items = footerData.items.map(item => ({
+                        ...item,
+                        logoUrl: item.logo ? `http://globe.ridealmobility.com/${item.logo}` : null
+                    }));
+                }
+                
+                footerData.careerImageUrl = footerData.img 
+                    ? `http://globe.ridealmobility.com/${footerData.img}`
+                    : null;
+                
+                // Update footer sections with API data
+                updateAwardsSection(footerData);
+                updateCareersSection(footerData);
+                
+                console.log('Footer sections updated successfully with API data');
+                return footerData;
+            } else {
+                console.warn('No footer data received from API');
+                return null;
+            }
+            
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.error('Footer API request timed out after 10 seconds');
+            } else {
+                console.error('Error fetching footer data:', error);
+            }
+            return null;
+        }
+    }
+
+    // Function to update awards section
+    function updateAwardsSection(footerData) {
+        try {
+            // Update main heading
+            const mainHeading = document.querySelector('#awards-main-heading');
+            if (mainHeading && footerData.mainHeading) {
+                mainHeading.textContent = footerData.mainHeading;
+            }
+            
+            // Update description
+            const description = document.querySelector('#awards-description');
+            if (description && footerData.description) {
+                description.textContent = footerData.description;
+            }
+            
+            // Update awards items
+            if (footerData.items && footerData.items.length > 0) {
+                updateAwardsItems(footerData.items);
+            }
+            
+            console.log('Awards section updated successfully');
+            
+        } catch (error) {
+            console.error('Error updating awards section:', error);
+        }
+    }
+
+    // Function to update awards items
+    function updateAwardsItems(items) {
+        try {
+            const awardsContainer = document.querySelector('#awards-items-container');
+            if (!awardsContainer) return;
+            
+            // Clear existing items
+            awardsContainer.innerHTML = '';
+            
+            // Add new items from API
+            items.forEach((item, index) => {
+                const awardDiv = document.createElement('div');
+                awardDiv.className = 'col-md-4 text-center mb-4';
+                
+                awardDiv.innerHTML = `
+                    <div class="award-item h-100 p-4">
+                        ${item.logoUrl ? `
+                            <div class="award-logo mb-3">
+                                <img src="${item.logoUrl}" alt="${item.title}" 
+                                     class="img-fluid" style="max-height: 80px; object-fit: contain;"
+                                     onerror="this.style.display='none'">
+                            </div>
+                        ` : ''}
+                        <h5 class="award-title mb-2">${item.title}</h5>
+                        <p class="award-subtitle text-muted">${item.subtitle}</p>
+                    </div>
+                `;
+                
+                // Add animation delay
+                awardDiv.style.animationDelay = `${index * 0.2}s`;
+                awardsContainer.appendChild(awardDiv);
+            });
+            
+            console.log('Awards items updated with', items.length, 'items');
+            
+        } catch (error) {
+            console.error('Error updating awards items:', error);
+        }
+    }
+
+    // Function to update careers section
+    function updateCareersSection(footerData) {
+        try {
+            // Update footer heading
+            const footerHeading = document.querySelector('#careers-heading');
+            if (footerHeading && footerData.footerHeading) {
+                footerHeading.textContent = footerData.footerHeading;
+            }
+            
+            // Update paragraph
+            const paragraph = document.querySelector('#careers-paragraph');
+            if (paragraph && footerData.paragraph) {
+                // Replace \r\n with proper line breaks for display
+                const formattedParagraph = footerData.paragraph.replace(/\r\n/g, '\n');
+                const paragraphLines = formattedParagraph.split('\n');
+                
+                paragraph.innerHTML = '';
+                paragraphLines.forEach((line, index) => {
+                    if (line.trim()) {
+                        const p = document.createElement('p');
+                        p.textContent = line.trim();
+                        p.className = 'mb-2';
+                        paragraph.appendChild(p);
+                    }
+                });
+            }
+            
+            // Update career image
+            if (footerData.careerImageUrl) {
+                updateCareerImage(footerData.careerImageUrl);
+            }
+            
+            console.log('Careers section updated successfully');
+            
+        } catch (error) {
+            console.error('Error updating careers section:', error);
+        }
+    }
+
+    // Function to update career image with error handling
+    function updateCareerImage(imageUrl) {
+        try {
+            const careerImage = document.querySelector('#career-image');
+            if (careerImage && imageUrl) {
+                // Add loading state
+                careerImage.style.opacity = '0.7';
+                careerImage.style.filter = 'blur(2px)';
+                
+                // Create preload image
+                const preloadImage = new Image();
+                
+                preloadImage.onload = function() {
+                    careerImage.src = imageUrl;
+                    careerImage.style.opacity = '1';
+                    careerImage.style.filter = 'none';
+                    console.log('Career image loaded successfully:', imageUrl);
+                };
+                
+                preloadImage.onerror = function() {
+                    console.warn('Career image failed to load:', imageUrl);
+                    careerImage.style.opacity = '1';
+                    careerImage.style.filter = 'none';
+                };
+                
+                preloadImage.src = imageUrl;
+            }
+        } catch (error) {
+            console.error('Error updating career image:', error);
+        }
+    }
+
+    // Expose refresh function globally for manual refresh
+    window.refreshAboutData = refreshAboutData;
+    
+    // Initialize footer data on page load
+    fetchAboutFooterData();
 });
 </script>
 

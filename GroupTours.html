@@ -341,163 +341,13 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
          <div class="mega-menu destinations-menu">
         <!-- Left Side -->
         <div class="mega-left">
-          <ul>
-            <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
-            <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
-            <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
-            <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
-            <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
-            <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
-            <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
-            <li data-target="polar">POLAR <span class="arrow">&#8250;</span></li>
+          <ul id="continents-dropdown">
+            <li data-continent="loading">Loading continents... <span class="arrow">&#8250;</span></li>
           </ul>
         </div>
         <!-- Right Side -->
-       <div class="mega-right">
-          <div class="content" id="africa">
-            <div class="column">
-              <a href="#">Ascension Island</a>
-              <a href="#">Botswana</a>
-              <a href="#">Ethiopia</a>
-              <a href="#">Kenya</a>
-              <a href="#">Madagascar</a>
-              <a href="s10.html">Mauritius</a>
-              <a href="#">Morocco</a>
-              <a href="#">Namibia</a>
-              <a href="#">ReUnion Island</a>
-            </div>
-            <div class="column">
-              <a href="#">Saint Helena Island</a>
-              <a href="#">Seychelles</a>
-              <a href="#">South Africa</a>
-              <a href="#">TanZania</a>
-              <a href="#">Zanzibar</a>
-              <a href="#">Tristan Da Cunha</a>
-              <a href="#">Zimbabwe</a>
-            </div>
-          </div>
-          <div class="content" id="asia">
-            <div class="column">
-              <a href="#">Armenia</a>
-              <a href="#">Azerbaijan</a>
-              <a href="#">Cambodia</a>
-              <a href="#">Georgia</a>
-              <a href="#">Hong Kong & Macau</a>
-              <a href="s9.html">Indonesia</a>
-              <a href="Destination.html">Japan</a>
-              <a href="#">Kazakhstan</a>
-              <a href="#">Laos</a>
-              <a href="#">Malaysia</a>
-            </div>
-            <div class="column">
-              <a href="#">Maldives</a>
-              <a href="#">Mongolia</a>
-              <a href="#">Philippines</a>
-              <a href="#">Russia</a>
-              <a href="#">Singapore</a>
-              <a href="#">Taiwan</a>
-              <a href="#">South Korea</a>
-              <a href="s6.html">Thailand</a>
-              <a href="#">Uzbekistan</a>
-              <a href="s1.html">Vietnam</a>
-            </div>
-          </div>
-          <div class="content" id="australasia">
-            <div class="column">
-              <a href="#">Argentina</a>
-              <a href="#">Brazil</a>
-              <a href="#">Canada</a>
-              <a href="#">Caribbean</a>
-              <a href="#">Chile</a>
-              <a href="#">Colombia</a>
-            </div>
-            <div class="column">
-              <a href="#">Equador</a>
-              <a href="#">Mexico</a>
-              <a href="#">Peru</a>
-              <a href="#">Uruguay</a>
-              <a href="#">USA</a>
-            </div>
-          </div>
-          <div class="content" id="europe">
-            <div class="column">
-              <a href="#">Austria</a>
-              <a href="#">Belgium</a>
-              <a href="#">Bosnia & Herzegovinia</a>
-              <a href="#">Croatia</a>
-              <a href="#">Cyprus</a>
-              <a href="#">Czechia</a>
-              <a href="#">Denmark</a>
-              <a href="s2.html">Finland</a>
-              <a href="#">France</a>
-              <a href="#">Germany</a>
-              <a href="#">Greece</a>
-              <a href="#">Hungary</a>
-              <a href="#">Iceland</a>
-              <a href="#">Ireland</a>
-            </div>
-            <div class="column">
-              <a href="#">Italy</a>
-              <a href="#">Netherlands</a>
-              <a href="#">Norway</a>
-              <a href="#">Poland</a>
-              <a href="#">Portugal</a>
-              <a href="#">Romania</a>
-              <a href="#">Scotland</a>
-              <a href="#">Slovakia</a>
-              <a href="#">Slovenia</a>
-              <a href="#">Spain</a>
-              <a href="#">Sweden</a>
-              <a href="#">Switzerland</a>
-              <a href="#">United Kingdom</a>
-            </div>
-          </div>
-          <div class="content" id="indian">
-            <div class="column">
-              <a href="#">India</a>
-              <a href="#">Nepal</a>
-              <a href="s8.html">Sri Lanka</a>
-            </div>
-            <div class="column">
-              <a href="s5.html">Bhutan</a>
-              <a href="s7.html">Maldives</a>
-            </div>
-          </div>
-          <div class="content" id="latin">
-            <div class="column">
-              <a href="s3.html">Australia</a>
-              <a href="#">Fiji</a>
-            </div>
-            <div class="column">
-              <a href="#">French Polynesia</a>
-              <a href="s4.html">New Zealand</a>
-            </div>
-          </div>
-          <div class="content" id="middleeast">
-            <div class="column">
-              <a href="#">Bahrain</a>
-              <a href="#">Egypt</a>
-              <a href="#">Jordan</a>
-              <a href="s11.html">Oman</a>
-            </div>
-            <div class="column">
-              <a href="#">Qatar</a>
-              <a href="#">Saudi Arabia</a>
-              <a href="#">Turkey</a>
-              <a href="#">UAE</a>
-            </div>
-          </div>
-          <div class="content" id="polar">
-            <div class="column">
-              <a href="#">Antarctica</a>
-              <a href="#">Arctic</a>
-              <a href="#">Greenland</a>
-            </div>
-            <div class="column">
-              <a href="#">Iceland</a>
-              <a href="#">Norway</a>
-            </div>
-          </div>
+       <div class="mega-right" id="destinations-content">
+          <!-- Dynamic content will be populated here -->
         </div>
       </div>
       </li>
@@ -505,14 +355,8 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-  <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-  <li data-target="adventure"><a href="">JAPAN</a></li>
-  <li data-target="luxury"><a href="">KENYA</a></li>
-  <li data-target="classic"><a href="">NORWAY</a></li>
-  <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-  <li data-target="luxury"><a href="">TANZANIA</a></li>
-  <li data-target="classic"><a href="">ZANZIBAR</a></li>
+          <ul id="grouptours-luxury-dropdown">
+  <li data-target="luxury"><a href="#" data-city-id="">Loading luxury cities...</a></li>
 </ul>
         </div>
         
@@ -664,6 +508,30 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
         <div class="luxury-card-content">
           <div class="luxury-card-title">Aurora Borealis by Private Sleigh</div>
           <div class="luxury-card-desc">Avoid the crowds — chase the Northern Lights with a local expert on your personal snowmobile or reindeer sled</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Dynamic Luxury City Content Section -->
+<section id="luxury-city-content" class="luxury-city-content-section" style="display: none; background: #f8f9fa; padding: 60px 0;">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div id="luxury-content-header" class="text-center mb-5">
+          <h2 id="luxury-city-title" class="luxury-city-title">Luxury Experiences</h2>
+          <p id="luxury-city-subtitle" class="luxury-city-subtitle text-muted">Discover premium travel experiences</p>
+        </div>
+        
+        <div id="luxury-content-container" class="luxury-content-container">
+          <!-- Dynamic content will be loaded here -->
+          <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Loading luxury content...</p>
+          </div>
         </div>
       </div>
     </div>
@@ -869,6 +737,81 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
   }
   .luxury-card-desc {
     font-size: 13px !important;
+  }
+}
+
+/* Luxury City Content Section Styles */
+.luxury-city-content-section {
+  background: #f8f9fa;
+  transition: all 0.3s ease-in-out;
+}
+
+.luxury-city-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-family: 'Miller Display', Georgia, serif;
+}
+
+.luxury-city-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 2rem;
+}
+
+.luxury-content-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 2rem;
+  min-height: 300px;
+}
+
+.luxury-content-item {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.luxury-content-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+}
+
+.luxury-content-item h4 {
+  color: #2c3e50;
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.luxury-content-item p {
+  color: #495057;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.luxury-content-item .price {
+  color: #8a2be2;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .luxury-city-title {
+    font-size: 2rem;
+  }
+  
+  .luxury-content-container {
+    padding: 1rem;
+  }
+  
+  .luxury-content-item {
+    padding: 1rem;
   }
 }
 </style>
@@ -2141,13 +2084,26 @@ document.addEventListener('DOMContentLoaded', function() {
       <!-- Sign In Form -->
       <form id="signInForm" style="display:block;">
         <h3 style="font-size:22px; font-weight:600; margin-bottom:18px;">Sign In to Your Account</h3>
+        
+        <!-- Login Status Messages -->
+        <div id="loginMessages" style="margin-bottom: 12px; display: none;">
+          <div id="loginSuccessMessage" style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; border: 1px solid #c3e6cb; display: none;">
+            <i class="fa fa-check-circle" style="margin-right: 8px;"></i>
+            <span></span>
+          </div>
+          <div id="loginErrorMessage" style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; border: 1px solid #f5c6cb; display: none;">
+            <i class="fa fa-exclamation-circle" style="margin-right: 8px;"></i>
+            <span></span>
+          </div>
+        </div>
+        
         <div style="margin-bottom:14px;">
           <label style="font-size:14px;">Email or Mobile Number*</label>
-          <input type="text" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+          <input type="text" id="loginEmailOrMobile" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
         </div>
         <div style="margin-bottom:14px;">
           <label style="font-size:14px;">Password*</label>
-          <input type="password" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+          <input type="password" id="loginPassword" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
         </div>
         <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:17px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign In</button>
         <div style="text-align:center; margin-top:18px; font-size:14px;">
@@ -2157,54 +2113,76 @@ document.addEventListener('DOMContentLoaded', function() {
       <!-- Create Account Form -->
       <form id="createForm" style="display:none;">
         <h3 style="font-size:22px; font-weight:600; margin-bottom:10px;">Create an Account</h3>
-        <p style="margin-bottom: 10px; font-size: 14px;" >Enter the below details to start setting up your ENGEL CLUB account. If you already have an account, please <span style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span> to continue.</p>
+        <p style="margin-bottom: 10px; font-size: 14px;" >Enter the below details to start setting up your ENGEL CLUB account. If you already have an account, please <span id="gotoSignInFromForm" style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span> to continue.</p>
+        
+        <!-- Status Messages -->
+        <div id="signupMessages" style="margin-bottom: 12px; display: none;">
+          <div id="signupSuccessMessage" style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; border: 1px solid #c3e6cb; display: none;">
+            <i class="fa fa-check-circle" style="margin-right: 8px;"></i>
+            <span></span>
+          </div>
+          <div id="signupErrorMessage" style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px; border: 1px solid #f5c6cb; display: none;">
+            <i class="fa fa-exclamation-circle" style="margin-right: 8px;"></i>
+            <span></span>
+          </div>
+        </div>
         <!-- ...your create account fields as before... -->
         <div style="display:flex; gap:12px; margin-bottom:12px;">
           <div style="flex:1;">
             <label style="font-size:14px;">First Name*</label>
-            <input type="text" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
+            <input type="text" id="signupFirstName" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
           </div>
           <div style="flex:1;">
             <label style="font-size:14px;">Last Name*</label>
-            <input type="text" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <input type="text" id="signupLastName" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
           </div>
         </div>
         <div style="display:flex; gap:12px; margin-bottom:12px;">
           <div style="flex:1;">
             <label style="font-size:14px;">Gender</label>
-            <input type="text" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <select id="signupGender" style="width:100%;  border:1px solid #e55d17;  margin-top:4px; padding:8px;">
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+              <option value="prefer-not-to-say">Prefer not to say</option>
+            </select>
           </div>
           <div style="flex:1;">
             <label style="font-size:14px;">Date of Birth</label>
-            <input type="text" placeholder="DD/MM/YYYY" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <input type="date" id="signupDob" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
           </div>
           <div style="flex:1;">
       <label style="font-size:14px;">Mobile Number*</label>
       <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
-        <select style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
+        <select id="signupCountryCode" style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
           <option value="+91">+91</option>
           <option value="+1">+1</option>
           <option value="+44">+44</option>
           <option value="+61">+61</option>
           <option value="+81">+81</option>
+          <option value="+49">+49</option>
+          <option value="+33">+33</option>
+          <option value="+39">+39</option>
+          <option value="+86">+86</option>
           <!-- Add more country codes as needed -->
         </select>
-        <input type="text" required style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
+        <input type="tel" id="signupMobile" required style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
       </div>
     </div>
         </div>
         <div style="margin-bottom:12px;">
           <label style="font-size:14px;">Email*</label>
-          <input type="email" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          <input type="email" id="signupEmail" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
         </div>
         <div style="display:flex; gap:12px; margin-bottom:12px;">
           <div style="flex:1;">
             <label style="font-size:14px;">Password*</label>
-            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <input type="password" id="signupPassword" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
           </div>
           <div style="flex:1;">
             <label style="font-size:14px;">Confirm Password*</label>
-            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <input type="password" id="signupConfirmPassword" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
           </div>
         </div>
         <div style="margin-bottom:12px;">
@@ -2345,6 +2323,490 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  
+  // Continents API Integration for GroupTours.html
+  
+  // Function to fetch continents from API
+  async function fetchContinents() {
+    try {
+      console.log('Fetching continents from API...');
+      const response = await fetch('http://globe.ridealmobility.com/api/continents', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const continents = await response.json();
+      console.log('Continents loaded from API:', continents);
+      return continents;
+    } catch (error) {
+      console.error('Error fetching continents:', error);
+      // Return fallback continents for group tours
+      return [
+        { name: 'AFRICA', _id: '1' },
+        { name: 'ASIA', _id: '2' },
+        { name: 'AMERICAS', _id: '3' },
+        { name: 'EUROPE', _id: '4' },
+        { name: 'INDIAN SUBCONTINENT', _id: '5' },
+        { name: 'OCEANIA', _id: '6' },
+        { name: 'MIDDLE EAST', _id: '7' },
+        { name: 'POLAR', _id: '8' }
+      ];
+    }
+  }
+
+  // Function to fetch destinations for a specific continent
+  async function fetchContinentDestinations(continentName) {
+    try {
+      console.log(`Fetching destinations for continent: ${continentName}`);
+      // Using POST method as shown in the curl command
+      const response = await fetch('http://globe.ridealmobility.com/api/continents', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: continentName
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const destinations = await response.json();
+      console.log(`Destinations for ${continentName}:`, destinations);
+      return destinations;
+    } catch (error) {
+      console.error(`Error fetching destinations for ${continentName}:`, error);
+      return getFallbackDestinations(continentName);
+    }
+  }
+
+  // Function to get fallback destinations for continents
+  function getFallbackDestinations(continentName) {
+    const fallbackData = {
+      'AFRICA': ['Kenya', 'Tanzania', 'South Africa', 'Morocco', 'Botswana', 'Namibia', 'Zimbabwe', 'Seychelles'],
+      'ASIA': ['Japan', 'Thailand', 'Vietnam', 'Indonesia', 'Singapore', 'Malaysia', 'Philippines', 'Cambodia'],
+      'AMERICAS': ['USA', 'Canada', 'Brazil', 'Argentina', 'Peru', 'Chile', 'Mexico', 'Colombia'],
+      'EUROPE': ['Finland', 'Norway', 'Iceland', 'France', 'Italy', 'Switzerland', 'Germany', 'Spain'],
+      'INDIAN SUBCONTINENT': ['India', 'Nepal', 'Sri Lanka', 'Bhutan', 'Maldives'],
+      'OCEANIA': ['Australia', 'New Zealand', 'Fiji', 'French Polynesia'],
+      'MIDDLE EAST': ['UAE', 'Qatar', 'Saudi Arabia', 'Oman', 'Jordan', 'Turkey'],
+      'POLAR': ['Antarctica', 'Arctic', 'Greenland', 'Iceland']
+    };
+    
+    return fallbackData[continentName] || [];
+  }
+
+  // Function to populate destinations dropdown
+  async function populateDestinationsDropdown() {
+    const continentsDropdown = document.getElementById('continents-dropdown');
+    const destinationsContent = document.getElementById('destinations-content');
+    
+    if (!continentsDropdown || !destinationsContent) {
+      console.warn('Destinations dropdown elements not found');
+      return;
+    }
+
+    try {
+      const continents = await fetchContinents();
+      
+      // Clear loading state
+      continentsDropdown.innerHTML = '';
+      
+      // Populate continents
+      continents.forEach((continent, index) => {
+        const li = document.createElement('li');
+        li.setAttribute('data-continent', continent.name || continent);
+        li.innerHTML = `${continent.name || continent} <span class="arrow">&#8250;</span>`;
+        
+        // Add hover handlers
+        li.addEventListener('mouseenter', async function() {
+          const continentName = this.getAttribute('data-continent');
+          await displayContinentDestinations(continentName);
+        });
+        
+        continentsDropdown.appendChild(li);
+      });
+      
+      console.log('Continents dropdown populated successfully');
+      
+      // Load first continent by default
+      if (continents.length > 0) {
+        const firstContinent = continents[0].name || continents[0];
+        await displayContinentDestinations(firstContinent);
+      }
+      
+    } catch (error) {
+      console.error('Error populating destinations dropdown:', error);
+      // Show error state
+      continentsDropdown.innerHTML = '<li>Error loading continents</li>';
+    }
+  }
+
+  // Function to display destinations for a continent
+  async function displayContinentDestinations(continentName) {
+    const destinationsContent = document.getElementById('destinations-content');
+    
+    if (!destinationsContent) return;
+    
+    try {
+      // Show loading state
+      destinationsContent.innerHTML = '<div class="loading-state">Loading destinations...</div>';
+      
+      const destinations = await fetchContinentDestinations(continentName);
+      
+      if (!destinations || destinations.length === 0) {
+        destinationsContent.innerHTML = '<div class="no-destinations">No destinations available</div>';
+        return;
+      }
+      
+      // Create content structure
+      let contentHTML = `<div class="content active" id="${continentName.toLowerCase()}">`;
+      
+      // Split destinations into columns (roughly half each)
+      const midPoint = Math.ceil(destinations.length / 2);
+      const column1 = destinations.slice(0, midPoint);
+      const column2 = destinations.slice(midPoint);
+      
+      contentHTML += '<div class="column">';
+      column1.forEach(destination => {
+        const destName = destination.name || destination;
+        const destUrl = getDestinationUrl(destName);
+        contentHTML += `<a href="${destUrl}">${destName}</a>`;
+      });
+      contentHTML += '</div>';
+      
+      contentHTML += '<div class="column">';
+      column2.forEach(destination => {
+        const destName = destination.name || destination;
+        const destUrl = getDestinationUrl(destName);
+        contentHTML += `<a href="${destUrl}">${destName}</a>`;
+      });
+      contentHTML += '</div>';
+      
+      contentHTML += '</div>';
+      
+      destinationsContent.innerHTML = contentHTML;
+      
+      console.log(`Displayed destinations for ${continentName}`);
+      
+    } catch (error) {
+      console.error(`Error displaying destinations for ${continentName}:`, error);
+      destinationsContent.innerHTML = '<div class="error-state">Error loading destinations</div>';
+    }
+  }
+
+  // Function to get destination URL (you can customize this based on your routing)
+  function getDestinationUrl(destinationName) {
+    // Convert destination name to URL-friendly format
+    const urlName = destinationName.toLowerCase().replace(/\s+/g, '-');
+    
+    // Check for specific page mappings
+    const pageMap = {
+      'finland': 's2.html',
+      'japan': 'Destination.html',
+      'mauritius': 's10.html',
+      'indonesia': 's9.html',
+      'thailand': 's6.html',
+      'vietnam': 's1.html',
+      'australia': 's3.html',
+      'new zealand': 's4.html',
+      'bhutan': 's5.html',
+      'maldives': 's7.html',
+      'sri lanka': 's8.html',
+      'oman': 's11.html'
+    };
+    
+    return pageMap[urlName] || '#';
+  }
+
+  // Initialize destinations dropdown
+  console.log('Initializing GroupTours continents dropdown...');
+  populateDestinationsDropdown();
+
+  // Luxury Cities API Integration
+  async function fetchLuxuryCities() {
+    try {
+      console.log('Fetching luxury cities from API...');
+      
+      const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const cities = await response.json();
+      console.log('Luxury cities loaded from API:', cities);
+      return cities;
+      
+    } catch (error) {
+      console.error('Error fetching luxury cities:', error);
+      
+      // Fallback data
+      const fallbackCities = [
+        { name: 'Finland' },
+        { name: 'Switzerland' },
+        { name: 'Japan' },
+        { name: 'Norway' },
+        { name: 'Iceland' },
+        { name: 'Dubai' },
+        { name: 'Singapore' }
+      ];
+      
+      console.log('Using fallback luxury cities data');
+      return fallbackCities;
+    }
+  }
+
+  // Function to populate luxury dropdown
+  async function populateLuxuryDropdown() {
+    const luxuryDropdown = document.getElementById('grouptours-luxury-dropdown');
+    
+    if (!luxuryDropdown) {
+      console.warn('Luxury dropdown not found in GroupTours');
+      return;
+    }
+    
+    try {
+      // Show loading state
+      luxuryDropdown.innerHTML = '<li class="loading-luxury">Loading luxury cities...</li>';
+      
+      const cities = await fetchLuxuryCities();
+      
+      if (!cities || cities.length === 0) {
+        luxuryDropdown.innerHTML = '<li class="no-cities">No luxury cities available</li>';
+        return;
+      }
+      
+      // Clear loading state
+      luxuryDropdown.innerHTML = '';
+      
+      // Populate with cities
+      cities.forEach(city => {
+        const li = document.createElement('li');
+        const cityName = city.name || city;
+        
+        li.innerHTML = `<a href="GroupTours.html?city=${encodeURIComponent(cityName)}" 
+                           onclick="handleLuxuryCitySelection('${cityName}')">${cityName}</a>`;
+        
+        luxuryDropdown.appendChild(li);
+      });
+      
+      console.log('Luxury cities dropdown populated successfully');
+      
+    } catch (error) {
+      console.error('Error populating luxury dropdown:', error);
+      // Show error state
+      luxuryDropdown.innerHTML = '<li class="error-luxury">Error loading luxury cities</li>';
+    }
+  }
+
+  // Function to handle luxury city selection
+  function handleLuxuryCitySelection(cityName) {
+    console.log(`Luxury city selected: ${cityName}`);
+    
+    // Store selected city for dynamic content loading
+    sessionStorage.setItem('selectedLuxuryCity', cityName);
+    
+    // You can add more logic here to dynamically load content for the selected city
+    // For example, fetch luxury options for this specific city
+    loadLuxuryCityContent(cityName);
+  }
+
+  // Function to load luxury city content
+  async function loadLuxuryCityContent(cityName) {
+    try {
+      console.log(`Loading luxury content for: ${cityName}`);
+      
+      // Fetch luxury options using the specific API endpoint
+      const response = await fetch('http://globe.ridealmobility.com/api/luxury-options/68c95f758955d15262c1a302', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const luxuryData = await response.json();
+        console.log(`Luxury data for ${cityName}:`, luxuryData);
+        
+        // Here you can update the page content with the luxury data
+        // For example, update package cards, descriptions, etc.
+        updatePageWithLuxuryData(luxuryData, cityName);
+      } else {
+        console.warn(`No specific luxury data available for ${cityName}`);
+      }
+      
+    } catch (error) {
+      console.error(`Error loading luxury content for ${cityName}:`, error);
+    }
+  }
+
+  // Function to update page with luxury data
+  function updatePageWithLuxuryData(luxuryData, cityName) {
+    console.log(`Updating page content for ${cityName} with luxury data:`, luxuryData);
+    
+    // Get the luxury content section elements
+    const contentSection = document.getElementById('luxury-city-content');
+    const titleElement = document.getElementById('luxury-city-title');
+    const subtitleElement = document.getElementById('luxury-city-subtitle');
+    const containerElement = document.getElementById('luxury-content-container');
+    
+    if (!contentSection || !containerElement) {
+      console.error('Luxury content section elements not found');
+      return;
+    }
+    
+    // Show the content section
+    contentSection.style.display = 'block';
+    
+    // Update title and subtitle
+    if (titleElement) {
+      titleElement.textContent = `Luxury Experiences in ${cityName}`;
+    }
+    if (subtitleElement) {
+      subtitleElement.textContent = 'Discover premium travel experiences and luxury accommodations';
+    }
+    
+    // Clear container and add content
+    containerElement.innerHTML = '';
+    
+    if (luxuryData && typeof luxuryData === 'object') {
+      // Handle different possible data structures
+      let contentHTML = '';
+      
+      // Check if luxuryData has an array of options/items
+      if (luxuryData.options && Array.isArray(luxuryData.options)) {
+        contentHTML = luxuryData.options.map(option => createLuxuryItemHTML(option)).join('');
+      } 
+      // Check if luxuryData has a packages array
+      else if (luxuryData.packages && Array.isArray(luxuryData.packages)) {
+        contentHTML = luxuryData.packages.map(pkg => createLuxuryPackageHTML(pkg)).join('');
+      }
+      // Check if luxuryData has experiences array
+      else if (luxuryData.experiences && Array.isArray(luxuryData.experiences)) {
+        contentHTML = luxuryData.experiences.map(exp => createLuxuryExperienceHTML(exp)).join('');
+      }
+      // Handle direct array
+      else if (Array.isArray(luxuryData)) {
+        contentHTML = luxuryData.map(item => createLuxuryItemHTML(item)).join('');
+      }
+      // Handle single object or other structures
+      else {
+        contentHTML = createLuxuryObjectHTML(luxuryData);
+      }
+      
+      if (contentHTML) {
+        containerElement.innerHTML = contentHTML;
+      } else {
+        containerElement.innerHTML = `
+          <div class="text-center py-4">
+            <h4>Luxury Content Available</h4>
+            <p class="text-muted">Luxury experiences for ${cityName} have been loaded successfully.</p>
+            <div class="luxury-content-item">
+              <h4>Premium Experience</h4>
+              <p>Explore exclusive luxury accommodations, fine dining, and unique experiences in ${cityName}.</p>
+              <p class="price">Contact for pricing</p>
+            </div>
+          </div>
+        `;
+      }
+    } else {
+      // Fallback content if no specific data structure
+      containerElement.innerHTML = `
+        <div class="text-center py-4">
+          <h4>Luxury Experiences in ${cityName}</h4>
+          <p class="text-muted">Discover premium travel experiences in this beautiful destination.</p>
+          <div class="luxury-content-item">
+            <h4>Exclusive Luxury Package</h4>
+            <p>Experience the finest accommodations, gourmet dining, and personalized services in ${cityName}.</p>
+            <p class="price">Starting from premium rates</p>
+          </div>
+        </div>
+      `;
+    }
+    
+    // Scroll to the content section
+    contentSection.scrollIntoView({ behavior: 'smooth' });
+  }
+  
+  // Helper functions to create HTML for different data structures
+  function createLuxuryItemHTML(item) {
+    return `
+      <div class="luxury-content-item">
+        <h4>${item.title || item.name || 'Luxury Experience'}</h4>
+        <p>${item.description || item.details || 'Premium luxury experience'}</p>
+        ${item.price ? `<p class="price">${item.price}</p>` : ''}
+        ${item.duration ? `<p><small class="text-muted">Duration: ${item.duration}</small></p>` : ''}
+      </div>
+    `;
+  }
+  
+  function createLuxuryPackageHTML(pkg) {
+    return `
+      <div class="luxury-content-item">
+        <h4>${pkg.packageName || pkg.title || 'Luxury Package'}</h4>
+        <p>${pkg.description || pkg.overview || 'Premium luxury package'}</p>
+        ${pkg.price ? `<p class="price">${pkg.price}</p>` : ''}
+        ${pkg.inclusions ? `<p><small class="text-muted">Includes: ${pkg.inclusions}</small></p>` : ''}
+      </div>
+    `;
+  }
+  
+  function createLuxuryExperienceHTML(exp) {
+    return `
+      <div class="luxury-content-item">
+        <h4>${exp.experienceName || exp.title || 'Luxury Experience'}</h4>
+        <p>${exp.description || exp.details || 'Premium luxury experience'}</p>
+        ${exp.cost ? `<p class="price">${exp.cost}</p>` : ''}
+        ${exp.location ? `<p><small class="text-muted">Location: ${exp.location}</small></p>` : ''}
+      </div>
+    `;
+  }
+  
+  function createLuxuryObjectHTML(obj) {
+    let html = '<div class="luxury-content-item">';
+    html += '<h4>Luxury Options Available</h4>';
+    
+    // Display object properties dynamically
+    Object.keys(obj).forEach(key => {
+      if (typeof obj[key] === 'string' && obj[key].length > 0) {
+        html += `<p><strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${obj[key]}</p>`;
+      }
+    });
+    
+    html += '</div>';
+    return html;
+  }
+
+  // Initialize luxury cities dropdown
+  console.log('Initializing GroupTours luxury cities dropdown...');
+  populateLuxuryDropdown();
+
+  // Check if there's a city parameter in URL and load content accordingly
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedCity = urlParams.get('city');
+  if (selectedCity) {
+    console.log(`URL parameter detected - loading content for: ${selectedCity}`);
+    loadLuxuryCityContent(selectedCity);
+  }
+
   // Finland Luxury Options API Integration
   async function fetchFinlandLuxuryOptions() {
     try {
@@ -2504,11 +2966,482 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('createTab').onclick = function() { showTab('create'); };
   document.getElementById('gotoCreate').onclick = function() { showTab('create'); };
   document.getElementById('gotoSignIn').onclick = function() { showTab('signIn'); };
+  document.getElementById('gotoSignInFromForm').onclick = function() { showTab('signIn'); };
 
   // ENGEL CLUB card sign-up button opens create account
   document.getElementById('engelSignUpBtn').onclick = function() {
     showTab('create');
   };
+
+  // Helper function to show messages
+  function showSignupMessage(message, isError = false) {
+    const messagesContainer = document.getElementById('signupMessages');
+    const successMessage = document.getElementById('signupSuccessMessage');
+    const errorMessage = document.getElementById('signupErrorMessage');
+    
+    // Hide all messages first
+    successMessage.style.display = 'none';
+    errorMessage.style.display = 'none';
+    
+    if (isError) {
+      errorMessage.querySelector('span').textContent = message;
+      errorMessage.style.display = 'block';
+    } else {
+      successMessage.querySelector('span').textContent = message;
+      successMessage.style.display = 'block';
+    }
+    
+    messagesContainer.style.display = 'block';
+    
+    // Auto-hide messages after 5 seconds
+    setTimeout(() => {
+      messagesContainer.style.display = 'none';
+    }, 5000);
+  }
+
+  // Signup API Integration for createForm
+  document.getElementById('createForm').onsubmit = function(e) {
+    e.preventDefault();
+    
+    // Hide any existing messages
+    document.getElementById('signupMessages').style.display = 'none';
+    
+    // Show loading state
+    const submitButton = document.querySelector('#createForm button[type="submit"]');
+    const originalText = submitButton ? submitButton.textContent : '';
+    if (submitButton) {
+      submitButton.textContent = 'Creating Account...';
+      submitButton.disabled = true;
+    }
+    
+    // Collect form data
+    var firstName = document.getElementById('signupFirstName').value.trim();
+    var lastName = document.getElementById('signupLastName').value.trim();
+    var gender = document.getElementById('signupGender').value.trim();
+    var dob = document.getElementById('signupDob').value.trim();
+    var mobile = document.getElementById('signupMobile').value.trim();
+    var countryCode = document.getElementById('signupCountryCode').value;
+    var email = document.getElementById('signupEmail').value.trim();
+    var password = document.getElementById('signupPassword').value;
+    var confirmPassword = document.getElementById('signupConfirmPassword').value;
+    
+    // Client-side validation
+    if (!firstName || !lastName || !email || !password || !mobile) {
+      showSignupMessage('Please fill in all required fields (marked with *)', true);
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      showSignupMessage('Passwords do not match!', true);
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+      return;
+    }
+    
+    if (password.length < 6) {
+      showSignupMessage('Password must be at least 6 characters long', true);
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+      return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showSignupMessage('Please enter a valid email address', true);
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+      return;
+    }
+    
+    // Phone validation
+    const phoneRegex = /^\d{10,}$/;
+    if (!phoneRegex.test(mobile)) {
+      showSignupMessage('Please enter a valid mobile number (minimum 10 digits)', true);
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+      return;
+    }
+    
+    // Prepare payload for API
+    var payload = {
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender || 'not-specified',
+      dob: dob || '',
+      mobile: countryCode + mobile,
+      email: email,
+      password: password
+    };
+    
+    console.log('Sending signup request with payload:', { ...payload, password: '[HIDDEN]' });
+    
+    // API call to signup endpoint
+    fetch('http://globe.ridealmobility.com/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(async response => {
+      console.log('Signup API response status:', response.status);
+      console.log('Signup API response headers:', response.headers);
+      
+      const contentType = response.headers.get('content-type');
+      let responseData;
+      
+      if (contentType && contentType.includes('application/json')) {
+        responseData = await response.json();
+      } else {
+        responseData = { message: await response.text() };
+      }
+      
+      console.log('Signup API response data:', responseData);
+      
+      if (response.ok || response.status === 200 || response.status === 201) {
+        // Success cases
+        if (responseData.success !== false) {
+          showSignupMessage('Account created successfully! You can now sign in with your credentials.');
+          
+          // Clear the form
+          document.getElementById('createForm').reset();
+          
+          // Switch to sign in tab after a short delay
+          setTimeout(() => {
+            showTab('signIn');
+            
+            // Pre-fill email in sign in form
+            const loginEmailField = document.getElementById('loginEmailOrMobile');
+            if (loginEmailField) {
+              loginEmailField.value = email;
+            }
+          }, 2000);
+          
+          console.log('Signup successful - switching to sign in tab');
+          return;
+        }
+      }
+      
+      // Handle error cases
+      let errorMessage = 'Signup failed. Please try again.';
+      
+      if (responseData.message) {
+        errorMessage = responseData.message;
+      } else if (responseData.error) {
+        errorMessage = responseData.error;
+      } else if (responseData.errors && Array.isArray(responseData.errors)) {
+        errorMessage = responseData.errors.join(', ');
+      } else if (typeof responseData === 'string') {
+        errorMessage = responseData;
+      }
+      
+      // Handle specific error cases
+      if (errorMessage.toLowerCase().includes('email') && errorMessage.toLowerCase().includes('exist')) {
+        errorMessage = 'An account with this email already exists. Please use a different email or try signing in.';
+      } else if (errorMessage.toLowerCase().includes('mobile') && errorMessage.toLowerCase().includes('exist')) {
+        errorMessage = 'An account with this mobile number already exists. Please use a different number or try signing in.';
+      }
+      
+      showSignupMessage(errorMessage, true);
+      
+    })
+    .catch(error => {
+      console.error('Signup API error details:', error);
+      
+      let errorMessage = 'Unable to create account. Please try again.';
+      
+      if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+        errorMessage = 'Network Error: Cannot connect to server. Please check your internet connection and try again.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      showSignupMessage(errorMessage, true);
+    })
+    .finally(() => {
+      // Reset button state
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+    });
+  };
+
+  // Helper function to show login messages
+  function showLoginMessage(message, isError = false) {
+    const messagesContainer = document.getElementById('loginMessages');
+    const successMessage = document.getElementById('loginSuccessMessage');
+    const errorMessage = document.getElementById('loginErrorMessage');
+    
+    // Hide all messages first
+    successMessage.style.display = 'none';
+    errorMessage.style.display = 'none';
+    
+    if (isError) {
+      errorMessage.querySelector('span').textContent = message;
+      errorMessage.style.display = 'block';
+    } else {
+      successMessage.querySelector('span').textContent = message;
+      successMessage.style.display = 'block';
+    }
+    
+    messagesContainer.style.display = 'block';
+    
+    // Auto-hide messages after 5 seconds
+    setTimeout(() => {
+      messagesContainer.style.display = 'none';
+    }, 5000);
+  }
+
+  // Function to handle authentication token storage
+  function handleAuthToken(token, userInfo = {}) {
+    // Store token in localStorage for persistence
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    
+    // Store in sessionStorage as well for immediate access
+    sessionStorage.setItem('authToken', token);
+    sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+    
+    console.log('Authentication token stored successfully');
+  }
+
+  // Function to check if user is authenticated
+  function isAuthenticated() {
+    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    return !!token;
+  }
+
+  // Function to get current user info
+  function getCurrentUser() {
+    const userInfo = localStorage.getItem('userInfo') || sessionStorage.getItem('userInfo');
+    return userInfo ? JSON.parse(userInfo) : null;
+  }
+
+  // Function to logout user
+  function logout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userInfo');
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('userInfo');
+    
+    // Refresh the page or redirect to home
+    window.location.reload();
+  }
+
+  // Login API Integration for signInForm
+  document.getElementById('signInForm').onsubmit = function(e) {
+    e.preventDefault();
+    
+    // Hide any existing messages
+    document.getElementById('loginMessages').style.display = 'none';
+    
+    // Show loading state
+    const submitButton = document.querySelector('#signInForm button[type="submit"]');
+    const originalText = submitButton ? submitButton.textContent : '';
+    if (submitButton) {
+      submitButton.textContent = 'Signing In...';
+      submitButton.disabled = true;
+    }
+    
+    // Collect form data
+    var emailOrMobile = document.getElementById('loginEmailOrMobile').value.trim();
+    var password = document.getElementById('loginPassword').value;
+    
+    // Client-side validation
+    if (!emailOrMobile || !password) {
+      showLoginMessage('Please enter both email/mobile and password', true);
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+      return;
+    }
+    
+    // Determine if input is email or mobile
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmail = emailRegex.test(emailOrMobile);
+    const isMobile = /^\+?[\d\s\-\(\)]+$/.test(emailOrMobile);
+    
+    if (!isEmail && !isMobile) {
+      showLoginMessage('Please enter a valid email address or mobile number', true);
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+      return;
+    }
+    
+    // Prepare payload for API
+    var payload = {};
+    
+    if (isEmail) {
+      payload.email = emailOrMobile;
+    } else {
+      // Clean mobile number (remove spaces, dashes, parentheses)
+      const cleanMobile = emailOrMobile.replace(/[\s\-\(\)]/g, '');
+      payload.mobile = cleanMobile;
+    }
+    
+    payload.password = password;
+    
+    console.log('Sending login request with payload:', { ...payload, password: '[HIDDEN]' });
+    
+    // API call to login endpoint
+    fetch('http://globe.ridealmobility.com/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(async response => {
+      console.log('Login API response status:', response.status);
+      console.log('Login API response headers:', response.headers);
+      
+      const contentType = response.headers.get('content-type');
+      let responseData;
+      
+      if (contentType && contentType.includes('application/json')) {
+        responseData = await response.json();
+      } else {
+        responseData = { message: await response.text() };
+      }
+      
+      console.log('Login API response data:', responseData);
+      
+      if (response.ok || response.status === 200) {
+        // Success cases
+        if (responseData.success !== false && (responseData.token || responseData.accessToken || responseData.authToken)) {
+          const token = responseData.token || responseData.accessToken || responseData.authToken;
+          const userInfo = responseData.user || responseData.data || {
+            email: payload.email,
+            mobile: payload.mobile,
+            name: responseData.name || responseData.firstName + ' ' + (responseData.lastName || '')
+          };
+          
+          // Store authentication data
+          handleAuthToken(token, userInfo);
+          
+          showLoginMessage(`Welcome back${userInfo.name ? ', ' + userInfo.name : ''}! You are now signed in.`);
+          
+          // Clear the form
+          document.getElementById('signInForm').reset();
+          
+          // Close the modal after a short delay
+          setTimeout(() => {
+            document.getElementById('authModal').style.display = 'none';
+            
+            // Optional: Redirect to dashboard or update UI for logged-in state
+            updateUIForLoggedInUser(userInfo);
+          }, 2000);
+          
+          console.log('Login successful - user authenticated');
+          return;
+        } else if (response.status === 200 && !responseData.token) {
+          // Handle case where login is successful but no token provided
+          showLoginMessage('Login successful! Welcome back.');
+          setTimeout(() => {
+            document.getElementById('authModal').style.display = 'none';
+          }, 2000);
+          return;
+        }
+      }
+      
+      // Handle error cases
+      let errorMessage = 'Login failed. Please check your credentials and try again.';
+      
+      if (responseData.message) {
+        errorMessage = responseData.message;
+      } else if (responseData.error) {
+        errorMessage = responseData.error;
+      } else if (responseData.errors && Array.isArray(responseData.errors)) {
+        errorMessage = responseData.errors.join(', ');
+      } else if (typeof responseData === 'string') {
+        errorMessage = responseData;
+      }
+      
+      // Handle specific error cases
+      if (errorMessage.toLowerCase().includes('invalid') || errorMessage.toLowerCase().includes('incorrect')) {
+        errorMessage = 'Invalid email/mobile or password. Please check your credentials and try again.';
+      } else if (errorMessage.toLowerCase().includes('not found') || errorMessage.toLowerCase().includes('does not exist')) {
+        errorMessage = 'Account not found. Please check your email/mobile or create a new account.';
+      } else if (errorMessage.toLowerCase().includes('blocked') || errorMessage.toLowerCase().includes('suspended')) {
+        errorMessage = 'Your account has been temporarily blocked. Please contact support.';
+      }
+      
+      showLoginMessage(errorMessage, true);
+      
+    })
+    .catch(error => {
+      console.error('Login API error details:', error);
+      
+      let errorMessage = 'Unable to sign in. Please try again.';
+      
+      if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+        errorMessage = 'Network Error: Cannot connect to server. Please check your internet connection and try again.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      showLoginMessage(errorMessage, true);
+    })
+    .finally(() => {
+      // Reset button state
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
+    });
+  };
+
+  // Function to update UI for logged-in user
+  function updateUIForLoggedInUser(userInfo) {
+    // Update sign-in button to show user name or "My Account"
+    const signInButtons = document.querySelectorAll('.signin');
+    signInButtons.forEach(button => {
+      if (userInfo.name) {
+        button.textContent = `Hi, ${userInfo.name.split(' ')[0]}`;
+      } else {
+        button.textContent = 'My Account';
+      }
+      
+      // Add logout functionality
+      button.onclick = function(e) {
+        e.preventDefault();
+        const confirmLogout = confirm('Are you sure you want to sign out?');
+        if (confirmLogout) {
+          logout();
+        }
+      };
+    });
+    
+    console.log('UI updated for logged-in user:', userInfo);
+  }
+
+  // Check authentication status on page load
+  if (isAuthenticated()) {
+    const userInfo = getCurrentUser();
+    if (userInfo) {
+      updateUIForLoggedInUser(userInfo);
+      console.log('User is already authenticated:', userInfo);
+    }
+  }
 
   // Show/hide ENGEL CLUB card based on tab
   function showTab(tab) {

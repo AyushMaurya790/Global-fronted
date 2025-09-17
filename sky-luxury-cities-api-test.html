@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Luxury Cities API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+        .luxury-dropdown {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .luxury-dropdown li {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            margin: 8px 0;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .luxury-dropdown li:hover {
+            transform: translateY(-2px);
+        }
+        .luxury-dropdown a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        .success { 
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #155724; 
+        }
+        .error { 
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #721c24; 
+        }
+        .loading { 
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            color: #0c5460; 
+        }
+        .sky-context {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        .sky-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .sky-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h2, h3 {
+            color: #444;
+        }
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✈️ Sky - Luxury Cities API Integration Test</h1>
+        
+        <div class="sky-context">
+            <h3>🌟 Sky Premium Aviation Services</h3>
+            <p>Luxury flight destinations for private jets and premium aviation experiences</p>
+            <div class="sky-features">
+                <div class="sky-feature">
+                    <span class="emoji">🛩️</span>
+                    <strong>Private Jets</strong>
+                </div>
+                <div class="sky-feature">
+                    <span class="emoji">🌍</span>
+                    <strong>Global Routes</strong>
+                </div>
+                <div class="sky-feature">
+                    <span class="emoji">⭐</span>
+                    <strong>VIP Experience</strong>
+                </div>
+            </div>
+        </div>
+        
+        <div id="status" class="status loading">Loading luxury aviation destinations...</div>
+        
+        <h2>Navbar Luxury Dropdown Preview:</h2>
+        <ul id="sky-luxury-dropdown" class="luxury-dropdown">
+            <li><a href="#">Loading...</a></li>
+        </ul>
+        
+        <h3>API Response:</h3>
+        <pre id="api-response" style="background: #f8f9fa; padding: 15px; border-radius: 8px; overflow-x: auto;"></pre>
+        
+        <h3>Integration Details:</h3>
+        <ul style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px;">
+            <li><strong>API Endpoint:</strong> http://globe.ridealmobility.com/api/luxury-cities</li>
+            <li><strong>Target Element:</strong> #sky-luxury-dropdown</li>
+            <li><strong>Data Structure:</strong> Uses 'name' property from API response</li>
+            <li><strong>Fallback:</strong> Predefined cities if API fails</li>
+            <li><strong>Context:</strong> Premium aviation and private jet destinations</li>
+        </ul>
+        
+        <h3>🛫 Aviation Use Cases:</h3>
+        <ul style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px;">
+            <li><strong>Private Jet Charter:</strong> Direct flights to luxury destinations</li>
+            <li><strong>Corporate Aviation:</strong> Business travel to premium locations</li>
+            <li><strong>VIP Transport:</strong> Exclusive airport services and luxury lounges</li>
+            <li><strong>Helicopter Services:</strong> Scenic flights and transfers</li>
+        </ul>
+    </div>
+
+    <script>
+        // Luxury Cities API Integration (Same as in sky.html)
+        async function fetchLuxuryOptions() {
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const luxuryOptions = await response.json();
+                console.log('Luxury cities loaded from API:', luxuryOptions);
+                return luxuryOptions;
+            } catch (error) {
+                console.error('Error fetching luxury cities:', error);
+                // Return fallback data to maintain functionality
+                return [
+                    { name: 'FINLAND', _id: '68c95f758955d15262c1a302' },
+                    { name: 'JAPAN', _id: '68c95f7e8955d15262c1a304' },
+                    { name: 'KENYA', _id: '68c95f8c8955d15262c1a306' },
+                    { name: 'NORWAY', _id: '68c95f9d8955d15262c1a309' },
+                    { name: 'SAUDI ARABIA', _id: '68c95fad8955d15262c1a30b' }
+                ];
+            }
+        }
+
+        // Initialize sky luxury dropdown with API data
+        async function initializeSkyLuxuryDropdown() {
+            const statusElement = document.getElementById('status');
+            const luxuryDropdown = document.getElementById('sky-luxury-dropdown');
+            const apiResponseElement = document.getElementById('api-response');
+            
+            try {
+                const luxuryOptions = await fetchLuxuryOptions();
+                
+                // Display API response
+                apiResponseElement.textContent = JSON.stringify(luxuryOptions, null, 2);
+                
+                if (luxuryDropdown && luxuryOptions) {
+                    // Clear existing content
+                    luxuryDropdown.innerHTML = '';
+                    
+                    // Populate with API data
+                    luxuryOptions.forEach((option, index) => {
+                        const li = document.createElement('li');
+                        li.setAttribute('data-target', 'luxury');
+                        
+                        const a = document.createElement('a');
+                        a.href = option.url || `luxury-${option._id}.html` || '#';
+                        a.textContent = option.name || `Luxury City ${index + 1}`;
+                        
+                        li.appendChild(a);
+                        luxuryDropdown.appendChild(li);
+                    });
+                    
+                    statusElement.className = 'status success';
+                    statusElement.textContent = `✈️ Successfully loaded ${luxuryOptions.length} luxury aviation destinations`;
+                    console.log('Sky luxury dropdown populated with luxury cities API data');
+                } else {
+                    throw new Error('Luxury dropdown element not found or no data received');
+                }
+            } catch (error) {
+                statusElement.className = 'status error';
+                statusElement.textContent = `Error: ${error.message}`;
+                console.error('Error initializing sky luxury dropdown:', error);
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeSkyLuxuryDropdown);
+    </script>
+</body>
+</html>

@@ -3305,69 +3305,56 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 900);
 });
 
-// Luxury Options API Integration
+// Luxury Cities API Integration
 document.addEventListener('DOMContentLoaded', function() {
-    // Available cities for luxury options
-    const availableCities = ['Finland', 'Japan'];
     
-    // Function to fetch luxury options for a specific city
-    async function fetchLuxuryOptionsForCity(cityName) {
+    // Function to fetch luxury cities from API
+    async function fetchLuxuryCities() {
         try {
-            const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityName}`);
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
             if (!response.ok) {
-                throw new Error(`Failed to fetch luxury options for ${cityName}`);
+                throw new Error('Failed to fetch luxury cities');
             }
             const data = await response.json();
-            return Array.isArray(data) ? data[0] : data;
+            console.log('Luxury cities loaded from API:', data);
+            return Array.isArray(data) ? data : [];
         } catch (error) {
-            console.error(`Error fetching luxury options for ${cityName}:`, error);
-            return null;
-        }
-    }
-    
-    // Function to fetch all luxury options
-    async function fetchAllLuxuryOptions() {
-        try {
-            const luxuryOptions = [];
-            
-            // Fetch luxury options for each city
-            for (const city of availableCities) {
-                const cityData = await fetchLuxuryOptionsForCity(city);
-                if (cityData) {
-                    luxuryOptions.push(cityData);
-                }
-            }
-            
-            console.log('Luxury options loaded from API:', luxuryOptions);
-            return luxuryOptions;
-        } catch (error) {
-            console.error('Error fetching luxury options:', error);
-            return [];
+            console.error('Error fetching luxury cities:', error);
+            // Return fallback data to maintain functionality
+            return [
+                { _id: '1', name: 'FINLAND' },
+                { _id: '2', name: 'JAPAN' },
+                { _id: '3', name: 'KENYA' },
+                { _id: '4', name: 'NORWAY' },
+                { _id: '5', name: 'SAUDI ARABIA' }
+            ];
         }
     }
 
     // Initialize luxury dropdown with API data
     async function initializeLuxuryDropdown() {
-        const luxuryOptions = await fetchAllLuxuryOptions();
+        const luxuryCities = await fetchLuxuryCities();
         const luxuryMenu = document.getElementById('luxury-dropdown-menu');
         
         if (luxuryMenu) {
             // Clear existing content
             luxuryMenu.innerHTML = '';
             
-            if (luxuryOptions && luxuryOptions.length > 0) {
+            if (luxuryCities && luxuryCities.length > 0) {
                 // Populate with API data
-                luxuryOptions.forEach((option, index) => {
+                luxuryCities.forEach((city, index) => {
                     const li = document.createElement('li');
                     li.setAttribute('data-target', 'luxury');
                     
                     const a = document.createElement('a');
-                    a.href = 'Luxury.html'; // Link to your luxury page
-                    a.textContent = option.city || option.name || `Luxury Option ${index + 1}`;
+                    // Create URL-friendly city name for links
+                    const citySlug = city.name.toLowerCase().replace(/\s+/g, '-');
+                    a.href = `luxury-${citySlug}.html`;
+                    a.textContent = city.name || `Luxury City ${index + 1}`;
                     
                     // Add click event to handle selection
                     a.addEventListener('click', function(e) {
-                        console.log('Selected luxury destination:', option.city);
+                        console.log('Selected luxury city:', city.name, 'ID:', city._id);
                         // You can add additional functionality here
                     });
                     
@@ -3375,7 +3362,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     luxuryMenu.appendChild(li);
                 });
                 
-                console.log('Luxury dropdown populated with', luxuryOptions.length, 'destinations');
+                console.log('Luxury dropdown populated with', luxuryCities.length, 'cities');
             } else {
                 // Show message when no data is available
                 const li = document.createElement('li');
@@ -3395,6 +3382,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeLuxuryDropdown();
+
+    // Optional: Refresh luxury cities every 10 minutes
+    setInterval(initializeLuxuryDropdown, 600000);
 });
 </script>
 

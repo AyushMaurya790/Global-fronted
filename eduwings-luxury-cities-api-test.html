@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eduwings Luxury Cities API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .luxury-dropdown {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .luxury-dropdown li {
+            background-color: #f8f9fa;
+            margin: 5px 0;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .luxury-dropdown a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+        .luxury-dropdown a:hover {
+            color: #007bff;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .loading { background-color: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Eduwings - Luxury Cities API Integration Test</h1>
+        <div id="status" class="status loading">Loading luxury cities...</div>
+        
+        <h2>Navbar Luxury Dropdown Preview:</h2>
+        <ul id="eduwings-luxury-dropdown" class="luxury-dropdown">
+            <li><a href="#">Loading...</a></li>
+        </ul>
+        
+        <h3>API Response:</h3>
+        <pre id="api-response"></pre>
+        
+        <h3>Integration Details:</h3>
+        <ul>
+            <li><strong>API Endpoint:</strong> http://globe.ridealmobility.com/api/luxury-cities</li>
+            <li><strong>Target Element:</strong> #eduwings-luxury-dropdown</li>
+            <li><strong>Data Structure:</strong> Uses 'name' property from API response</li>
+            <li><strong>Fallback:</strong> Predefined cities if API fails</li>
+            <li><strong>Context:</strong> Study abroad / Education page</li>
+        </ul>
+    </div>
+
+    <script>
+        // Luxury Cities API Integration (Same as in Eduwings.html)
+        async function fetchLuxuryCities() {
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const luxuryCities = await response.json();
+                console.log('Luxury cities loaded from API:', luxuryCities);
+                return luxuryCities;
+            } catch (error) {
+                console.error('Error fetching luxury cities:', error);
+                // Return fallback data to maintain functionality
+                return [
+                    { name: 'FINLAND', _id: '68c95f758955d15262c1a302' },
+                    { name: 'JAPAN', _id: '68c95f7e8955d15262c1a304' },
+                    { name: 'KENYA', _id: '68c95f8c8955d15262c1a306' },
+                    { name: 'NORWAY', _id: '68c95f9d8955d15262c1a309' },
+                    { name: 'SAUDI ARABIA', _id: '68c95fad8955d15262c1a30b' }
+                ];
+            }
+        }
+
+        // Initialize Eduwings luxury dropdown with API data
+        async function initializeEduwingsLuxuryDropdown() {
+            const statusElement = document.getElementById('status');
+            const luxuryDropdown = document.getElementById('eduwings-luxury-dropdown');
+            const apiResponseElement = document.getElementById('api-response');
+            
+            try {
+                const luxuryCities = await fetchLuxuryCities();
+                
+                // Display API response
+                apiResponseElement.textContent = JSON.stringify(luxuryCities, null, 2);
+                
+                if (luxuryDropdown && luxuryCities) {
+                    // Clear existing content
+                    luxuryDropdown.innerHTML = '';
+                    
+                    // Populate with API data
+                    luxuryCities.forEach((city, index) => {
+                        const li = document.createElement('li');
+                        li.setAttribute('data-target', 'luxury');
+                        
+                        const a = document.createElement('a');
+                        a.href = city.url || `luxury-${city._id}.html` || '#';
+                        a.textContent = city.name || `Luxury City ${index + 1}`;
+                        
+                        li.appendChild(a);
+                        luxuryDropdown.appendChild(li);
+                    });
+                    
+                    statusElement.className = 'status success';
+                    statusElement.textContent = `Successfully loaded ${luxuryCities.length} luxury cities for Eduwings navbar`;
+                    console.log('Eduwings luxury dropdown populated with luxury cities API data');
+                } else {
+                    throw new Error('Luxury dropdown element not found or no data received');
+                }
+            } catch (error) {
+                statusElement.className = 'status error';
+                statusElement.textContent = `Error: ${error.message}`;
+                console.error('Error initializing Eduwings luxury dropdown:', error);
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeEduwingsLuxuryDropdown);
+    </script>
+</body>
+</html>

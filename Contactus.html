@@ -22,6 +22,98 @@
  <style>
    .hero-section {
      background: url('../images/contactUsBanner.avif') no-repeat center center/cover;
+     position: relative;
+     overflow: hidden;
+   }
+
+   .hero-video {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     z-index: -1;
+     opacity: 0;
+     transition: opacity 0.5s ease;
+   }
+
+   .hero-video.loaded {
+     opacity: 1;
+   }
+
+   /* Contact info animation */
+   .contactus-icon-row {
+     transition: all 0.3s ease;
+   }
+
+   .contactus-icon-row:hover {
+     transform: translateX(5px);
+   }
+
+   .contactus-icon {
+     transition: color 0.3s ease;
+   }
+
+   .contactus-icon-row:hover .contactus-icon {
+     color: #fa7a2f;
+   }
+
+   /* Continents list animation styles */
+   #continents-list li {
+     transition: all 0.3s ease;
+     cursor: pointer;
+   }
+
+   #continents-list li:hover {
+     background-color: rgba(255, 255, 255, 0.1);
+     transform: translateX(5px);
+   }
+
+   #continents-list li .arrow {
+     transition: transform 0.3s ease;
+   }
+
+   #continents-list li:hover .arrow {
+     transform: translateX(5px);
+   }
+
+   /* Luxury cities list animation styles */
+   #luxury-cities-list li {
+     transition: all 0.3s ease;
+     cursor: pointer;
+     margin: 8px 0;
+   }
+
+   #luxury-cities-list li:hover {
+     background-color: rgba(255, 255, 255, 0.1);
+     transform: translateX(8px);
+     border-radius: 4px;
+   }
+
+   #luxury-cities-list li a {
+     display: block;
+     padding: 8px 12px;
+     color: inherit;
+     text-decoration: none;
+     transition: color 0.3s ease;
+   }
+
+   #luxury-cities-list li:hover a {
+     color: #fa7a2f;
+     font-weight: 500;
+   }
+
+   #luxury-cities-list li[data-target="classic"]:hover {
+     background-color: rgba(52, 152, 219, 0.1);
+   }
+
+   #luxury-cities-list li[data-target="adventure"]:hover {
+     background-color: rgba(231, 76, 60, 0.1);
+   }
+
+   #luxury-cities-list li[data-target="luxury"]:hover {
+     background-color: rgba(241, 196, 15, 0.1);
    }
  </style>
  <!-- CSS for Services Section -->
@@ -38,7 +130,8 @@
          <div class="mega-menu destinations-menu">
         <!-- Left Side -->
         <div class="mega-left">
-          <ul>
+          <ul id="continents-list">
+            <!-- Continents will be populated from API -->
             <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
             <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
             <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
@@ -202,15 +295,16 @@
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-  <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-  <li data-target="adventure"><a href="">JAPAN</a></li>
-  <li data-target="luxury"><a href="">KENYA</a></li>
-  <li data-target="classic"><a href="">NORWAY</a></li>
-  <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-  <li data-target="luxury"><a href="">TANZANIA</a></li>
-  <li data-target="classic"><a href="">ZANZIBAR</a></li>
-</ul>
+          <ul id="luxury-cities-list">
+            <!-- Luxury cities will be populated from API -->
+            <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
+            <li data-target="adventure"><a href="">JAPAN</a></li>
+            <li data-target="luxury"><a href="">KENYA</a></li>
+            <li data-target="classic"><a href="">NORWAY</a></li>
+            <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
+            <li data-target="luxury"><a href="">TANZANIA</a></li>
+            <li data-target="classic"><a href="">ZANZIBAR</a></li>
+          </ul>
         </div>
         
       </div>
@@ -297,9 +391,12 @@
 
 <!-- Hero Section -->
 <section class="hero-section">
-    <div class="hero-overlay"></div>
+    <video id="contact-hero-video" class="hero-video" autoplay muted loop style="display: none;">
+        <source id="contact-video-source" src="" type="video/mp4">
+    </video>
+    <div class="hero-overlay" id="contact-hero-overlay"></div>
     <div class="hero-content hero-banner-text" style="max-width: 650px; margin-bottom: 60px;">
-        <h1>
+        <h1 id="contact-main-heading">
            <span class="hero-bold">Contact</span> <span class="hero-script silver-South-family">Us</span>
         </h1>
     </div>
@@ -310,7 +407,7 @@
   <div class="contactus-wrapper">
     <!-- Left Side -->
     <div class="contactus-left">
-      <h2 class="contactus-tagline">
+      <h2 class="contactus-tagline" id="contact-subtitle">
         DREAM.<br>
         EXPLORE.<br>
         DISCOVER.
@@ -318,15 +415,15 @@
       <div class="contactus-icon-list">
         <div class="contactus-icon-row">
           <span class="contactus-icon"><i class="fas fa-map-marker-alt"></i></span>
-          <span>Address</span>
+          <span id="contact-address">Address</span>
         </div>
         <div class="contactus-icon-row">
           <span class="contactus-icon"><i class="fas fa-phone"></i></span>
-          <span>99104-05255</span>
+          <span id="contact-number">99104-05255</span>
         </div>
         <div class="contactus-icon-row">
           <span class="contactus-icon"><i class="fas fa-envelope"></i></span>
-          <span>info@globengel.com</span>
+          <span id="contact-email">info@globengel.com</span>
         </div>
       </div>
       <div class="contactus-bg-logo">
@@ -1030,5 +1127,506 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+<!-- Contact API Integration -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch contact data from API
+    async function fetchContactData() {
+        try {
+            console.log('Fetching contact data from API...');
+            
+            // Add timeout to fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            const response = await fetch('http://globe.ridealmobility.com/api/contact', {
+                signal: controller.signal,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Contact API Response received:', data);
+            
+            // Handle array response - get first item
+            const contactData = Array.isArray(data) ? data[0] : data;
+            
+            if (contactData) {
+                console.log('Processing contact data:', contactData);
+                
+                // Construct full URLs for media files
+                contactData.backgroundVideoUrl = contactData.backgroundVideo 
+                    ? `http://globe.ridealmobility.com/${contactData.backgroundVideo}`
+                    : null;
+                
+                // Update sections with API data
+                updateContactHero(contactData);
+                updateContactInfo(contactData);
+                
+                console.log('Contact page updated successfully with API data');
+                return contactData;
+            } else {
+                console.warn('No contact data received from API');
+                return null;
+            }
+            
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.error('Contact API request timed out after 10 seconds');
+            } else {
+                console.error('Error fetching contact data:', error);
+            }
+            return null;
+        }
+    }
+
+    // Function to update hero section
+    function updateContactHero(contactData) {
+        try {
+            // Update main heading
+            const mainHeading = document.querySelector('#contact-main-heading');
+            if (mainHeading && contactData.mainHeading) {
+                // Extract "Contact" and "Us" from the heading
+                const headingParts = contactData.mainHeading.split(' ');
+                if (headingParts.length >= 2) {
+                    mainHeading.innerHTML = `
+                        <span class="hero-bold">${headingParts[0]}</span> 
+                        <span class="hero-script silver-South-family">${headingParts.slice(1).join(' ')}</span>
+                    `;
+                } else {
+                    mainHeading.textContent = contactData.mainHeading;
+                }
+            }
+            
+            // Update background video if available
+            if (contactData.backgroundVideoUrl) {
+                updateContactBackgroundVideo(contactData.backgroundVideoUrl);
+            }
+            
+            console.log('Contact hero section updated successfully');
+            
+        } catch (error) {
+            console.error('Error updating contact hero section:', error);
+        }
+    }
+
+    // Function to update contact information
+    function updateContactInfo(contactData) {
+        try {
+            // Update subtitle (tagline)
+            if (contactData.subtitle) {
+                const subtitle = document.querySelector('#contact-subtitle');
+                if (subtitle) {
+                    // Format subtitle with line breaks
+                    const formattedSubtitle = contactData.subtitle
+                        .replace(/\./g, '.<br>')
+                        .replace(/DISCOVER\.<br>$/, 'DISCOVER.'); // Remove trailing <br>
+                    subtitle.innerHTML = formattedSubtitle;
+                }
+            }
+            
+            // Update address
+            if (contactData.address) {
+                const addressElement = document.querySelector('#contact-address');
+                if (addressElement) {
+                    addressElement.textContent = contactData.address;
+                }
+            }
+            
+            // Update phone number
+            if (contactData.number) {
+                const numberElement = document.querySelector('#contact-number');
+                if (numberElement) {
+                    numberElement.textContent = contactData.number;
+                }
+            }
+            
+            // Update email
+            if (contactData.email) {
+                const emailElement = document.querySelector('#contact-email');
+                if (emailElement) {
+                    emailElement.textContent = contactData.email;
+                }
+            }
+            
+            console.log('Contact information updated successfully');
+            
+        } catch (error) {
+            console.error('Error updating contact information:', error);
+        }
+    }
+
+    // Function to update background video
+    function updateContactBackgroundVideo(videoUrl) {
+        try {
+            const videoElement = document.getElementById('contact-hero-video');
+            const videoSource = document.getElementById('contact-video-source');
+            const overlay = document.getElementById('contact-hero-overlay');
+            
+            if (videoElement && videoSource && videoUrl) {
+                console.log('Loading contact background video:', videoUrl);
+                
+                // Set video source
+                videoSource.src = videoUrl;
+                
+                // Load and play video
+                videoElement.load();
+                
+                // Handle video load success
+                videoElement.onloadeddata = function() {
+                    console.log('Contact background video loaded successfully');
+                    videoElement.style.display = 'block';
+                    overlay.style.display = 'block';
+                    
+                    // Add smooth fade-in
+                    setTimeout(() => {
+                        videoElement.classList.add('loaded');
+                    }, 100);
+                    
+                    // Play video
+                    videoElement.play().catch(e => {
+                        console.log('Video autoplay prevented by browser policy');
+                    });
+                };
+                
+                // Handle video load error
+                videoElement.onerror = function() {
+                    console.warn('Failed to load contact background video, keeping static background');
+                    videoElement.style.display = 'none';
+                    overlay.style.display = 'block';
+                    
+                    // Apply fallback gradient background
+                    const heroSection = document.querySelector('.hero-section');
+                    if (heroSection) {
+                        heroSection.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                        heroSection.style.backgroundSize = 'cover';
+                    }
+                };
+            }
+            
+        } catch (error) {
+            console.error('Error updating contact background video:', error);
+        }
+    }
+
+    // Fetch continents data from API
+    async function fetchContinentsData() {
+        try {
+            console.log('Fetching continents data from API...');
+            
+            // Add subtle loading indicator
+            const continentsList = document.querySelector('#continents-list');
+            if (continentsList) {
+                continentsList.style.opacity = '0.7';
+            }
+            
+            // Add timeout to fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            const response = await fetch('http://globe.ridealmobility.com/api/continents', {
+                signal: controller.signal,
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Continents API Response received:', data);
+            
+            if (Array.isArray(data) && data.length > 0) {
+                console.log('Processing continents data:', data);
+                
+                // Update continents menu with API data
+                updateContinentsMenu(data);
+                
+                // Restore full opacity after update
+                const continentsList = document.querySelector('#continents-list');
+                if (continentsList) {
+                    continentsList.style.opacity = '1';
+                }
+                
+                console.log('Continents menu updated successfully with API data');
+                return data;
+            } else {
+                console.warn('No continents data received from API');
+                return null;
+            }
+            
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.error('Continents API request timed out after 10 seconds');
+            } else {
+                console.error('Error fetching continents data:', error);
+            }
+            
+            // Keep existing static menu if API fails
+            console.log('Using fallback static continents menu');
+            
+            // Restore opacity if loading failed
+            const continentsList = document.querySelector('#continents-list');
+            if (continentsList) {
+                continentsList.style.opacity = '1';
+            }
+            
+            return null;
+        }
+    }
+
+    // Function to update continents menu
+    function updateContinentsMenu(continentsData) {
+        try {
+            const continentsList = document.querySelector('#continents-list');
+            if (!continentsList) {
+                console.warn('Continents list element not found');
+                return;
+            }
+
+            // Only clear existing items if we have valid API data
+            if (continentsData && continentsData.length > 0) {
+                continentsList.innerHTML = '';
+            } else {
+                console.log('No valid continents data, keeping existing menu');
+                return;
+            }
+            
+            // Create mapping for data-target values
+            const targetMapping = {
+                'EUPORE': 'europe',
+                'EUROPE': 'europe', 
+                'AFRICA': 'africa',
+                'ASIA': 'asia',
+                'AMERICA': 'australasia',
+                'AMERICAS': 'australasia',
+                'INDIAN SUBCONTINENT': 'indian',
+                'OCEANIA': 'latin',
+                'MIDDLE EAST': 'middleeast',
+                'POLAR': 'polar'
+            };
+            
+            // Add continents from API with fade-in animation
+            continentsData.forEach((continent, index) => {
+                setTimeout(() => {
+                    const li = document.createElement('li');
+                    
+                    // Get appropriate data-target value
+                    const targetValue = targetMapping[continent.name] || 
+                                      continent.name.toLowerCase().replace(/\s+/g, '');
+                    
+                    // Clean up continent name (fix EUPORE to EUROPE)
+                    const displayName = continent.name === 'EUPORE' ? 'EUROPE' : continent.name;
+                    
+                    li.setAttribute('data-target', targetValue);
+                    li.innerHTML = `${displayName} <span class="arrow">&#8250;</span>`;
+                    
+                    // Add animation classes
+                    li.style.opacity = '0';
+                    li.style.transform = 'translateX(-20px)';
+                    li.style.transition = 'all 0.3s ease';
+                    
+                    continentsList.appendChild(li);
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                        li.style.opacity = '1';
+                        li.style.transform = 'translateX(0)';
+                    }, 50);
+                    
+                }, index * 100); // Stagger animation
+            });
+            
+            console.log('Continents menu updated with', continentsData.length, 'continents');
+            
+        } catch (error) {
+            console.error('Error updating continents menu:', error);
+        }
+    }
+
+    // Initialize contact data on page load
+    fetchContactData();
+    
+    // Fetch luxury cities data from API
+    async function fetchLuxuryCitiesData() {
+        try {
+            console.log('Fetching luxury cities data from API...');
+            
+            // Add subtle loading indicator
+            const luxuryCitiesList = document.querySelector('#luxury-cities-list');
+            if (luxuryCitiesList) {
+                luxuryCitiesList.style.opacity = '0.7';
+                luxuryCitiesList.style.filter = 'blur(1px)';
+            }
+            
+            // Add timeout to fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities', {
+                signal: controller.signal,
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Luxury Cities API Response received:', data);
+            
+            if (Array.isArray(data) && data.length > 0) {
+                console.log('Processing luxury cities data:', data);
+                
+                // Update luxury cities menu with API data
+                updateLuxuryCitiesMenu(data);
+                
+                // Restore full opacity after update
+                if (luxuryCitiesList) {
+                    luxuryCitiesList.style.opacity = '1';
+                    luxuryCitiesList.style.filter = 'none';
+                }
+                
+                console.log('Luxury cities menu updated successfully with API data');
+                return data;
+            } else {
+                console.warn('No luxury cities data received from API');
+                // Restore opacity if no data
+                if (luxuryCitiesList) {
+                    luxuryCitiesList.style.opacity = '1';
+                    luxuryCitiesList.style.filter = 'none';
+                }
+                return null;
+            }
+            
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.error('Luxury Cities API request timed out after 10 seconds');
+            } else {
+                console.error('Error fetching luxury cities data:', error);
+            }
+            
+            // Keep existing static menu if API fails
+            console.log('Using fallback static luxury cities menu');
+            
+            // Restore opacity if loading failed
+            const luxuryCitiesList = document.querySelector('#luxury-cities-list');
+            if (luxuryCitiesList) {
+                luxuryCitiesList.style.opacity = '1';
+                luxuryCitiesList.style.filter = 'none';
+            }
+            
+            return null;
+        }
+    }
+
+    // Function to update luxury cities menu
+    function updateLuxuryCitiesMenu(luxuryCitiesData) {
+        try {
+            const luxuryCitiesList = document.querySelector('#luxury-cities-list');
+            if (!luxuryCitiesList) {
+                console.warn('Luxury cities list element not found');
+                return;
+            }
+
+            // Only clear existing items if we have valid API data
+            if (luxuryCitiesData && luxuryCitiesData.length > 0) {
+                luxuryCitiesList.innerHTML = '';
+            } else {
+                console.log('No valid luxury cities data, keeping existing menu');
+                return;
+            }
+            
+            // Create mapping for data-target values (rotating through styles)
+            const targetTypes = ['classic', 'adventure', 'luxury'];
+            
+            // Add luxury cities from API with fade-in animation
+            luxuryCitiesData.forEach((city, index) => {
+                setTimeout(() => {
+                    const li = document.createElement('li');
+                    
+                    // Rotate through target types for visual variety
+                    const targetValue = targetTypes[index % targetTypes.length];
+                    li.setAttribute('data-target', targetValue);
+                    
+                    // Create link element
+                    const link = document.createElement('a');
+                    link.href = '#'; // Default href
+                    link.textContent = city.name;
+                    link.style.textDecoration = 'none';
+                    
+                    // Add click handler for future functionality
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log('Clicked on luxury destination:', city.name);
+                        // Future: Navigate to specific luxury city page or show details
+                    });
+                    
+                    li.appendChild(link);
+                    
+                    // Add animation classes
+                    li.style.opacity = '0';
+                    li.style.transform = 'translateY(-10px)';
+                    li.style.transition = 'all 0.4s ease';
+                    
+                    luxuryCitiesList.appendChild(li);
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                        li.style.opacity = '1';
+                        li.style.transform = 'translateY(0)';
+                    }, 50);
+                    
+                }, index * 150); // Stagger animation
+            });
+            
+            console.log('Luxury cities menu updated with', luxuryCitiesData.length, 'cities');
+            
+        } catch (error) {
+            console.error('Error updating luxury cities menu:', error);
+        }
+    }
+
+    // Initialize contact data on page load
+    fetchContactData();
+    
+    // Initialize continents data on page load
+    fetchContinentsData();
+    
+    // Initialize luxury cities data on page load
+    fetchLuxuryCitiesData();
+    
+    // Refresh contact data every 10 minutes
+    setInterval(fetchContactData, 10 * 60 * 1000);
+    
+    // Refresh continents data every hour
+    setInterval(fetchContinentsData, 60 * 60 * 1000);
+    
+    // Refresh luxury cities data every hour
+    setInterval(fetchLuxuryCitiesData, 60 * 60 * 1000);
+});
+</script>
+
 `n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n</body>
 </html>

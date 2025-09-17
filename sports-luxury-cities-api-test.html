@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Luxury Cities API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 50%, #32cd32 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            backdrop-filter: blur(15px);
+        }
+        .luxury-dropdown {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .luxury-dropdown li {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+            margin: 10px 0;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .luxury-dropdown li::before {
+            content: '🏆';
+            position: absolute;
+            left: -20px;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+        }
+        .luxury-dropdown li:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+        }
+        .luxury-dropdown li:hover::before {
+            left: 5px;
+        }
+        .luxury-dropdown a {
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin-left: 30px;
+        }
+        .status {
+            padding: 18px;
+            border-radius: 12px;
+            margin: 18px 0;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        .success { 
+            background: linear-gradient(135deg, #98fb98 0%, #90ee90 100%);
+            color: #006400; 
+            border-left: 5px solid #32cd32;
+        }
+        .error { 
+            background: linear-gradient(135deg, #ffb3b3 0%, #ff9999 100%);
+            color: #8b0000; 
+            border-left: 5px solid #ff0000;
+        }
+        .loading { 
+            background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%);
+            color: #ff6f00; 
+            border-left: 5px solid #ff9800;
+        }
+        .sports-context {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .sports-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .sports-feature {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.2em;
+        }
+        h2, h3 {
+            color: #444;
+        }
+        .emoji {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        .sports-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        .stat-label {
+            color: #666;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏅 Sports - Luxury Cities API Integration Test</h1>
+        
+        <div class="sports-context">
+            <h3>🌟 Elite Sports Tourism Destinations</h3>
+            <p>Premium luxury experiences for the world's most prestigious sporting events</p>
+            <div class="sports-features">
+                <div class="sports-feature">
+                    <span class="emoji">🏆</span>
+                    <strong>Championship Events</strong>
+                </div>
+                <div class="sports-feature">
+                    <span class="emoji">🥇</span>
+                    <strong>Olympic Venues</strong>
+                </div>
+                <div class="sports-feature">
+                    <span class="emoji">🏟️</span>
+                    <strong>Iconic Stadiums</strong>
+                </div>
+                <div class="sports-feature">
+                    <span class="emoji">⛳</span>
+                    <strong>Golf Resorts</strong>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sports-stats">
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Sports Events</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">25+</div>
+                <div class="stat-label">Countries</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Venues</div>
+            </div>
+        </div>
+        
+        <div id="status" class="status loading">🏃‍♂️ Loading luxury sports destinations...</div>
+        
+        <h2>Navbar Luxury Dropdown Preview:</h2>
+        <ul id="sports-luxury-dropdown" class="luxury-dropdown">
+            <li><a href="#">Loading...</a></li>
+        </ul>
+        
+        <h3>API Response:</h3>
+        <pre id="api-response" style="background: #f8f9fa; padding: 20px; border-radius: 10px; overflow-x: auto; border-left: 4px solid #ff6b6b;"></pre>
+        
+        <h3>Integration Details:</h3>
+        <ul style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; border-left: 4px solid #ffa500;">
+            <li><strong>API Endpoint:</strong> http://globe.ridealmobility.com/api/luxury-cities</li>
+            <li><strong>Target Element:</strong> #sports-luxury-dropdown</li>
+            <li><strong>Data Structure:</strong> Uses 'name' property from API response</li>
+            <li><strong>Fallback:</strong> Predefined luxury sports destinations if API fails</li>
+            <li><strong>Context:</strong> Elite sports tourism and luxury sporting events</li>
+        </ul>
+        
+        <h3>🏈 Sports Tourism Features:</h3>
+        <ul style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; border-left: 4px solid #32cd32;">
+            <li><strong>Major League Events:</strong> Premium access to NFL, NBA, MLB, NHL games</li>
+            <li><strong>International Competitions:</strong> World Cup, Olympics, Championships</li>
+            <li><strong>Golf Championships:</strong> Masters, PGA Tour, luxury golf resorts</li>
+            <li><strong>Motor Sports:</strong> Formula 1, NASCAR, luxury racing experiences</li>
+            <li><strong>Tennis Tournaments:</strong> Wimbledon, US Open, luxury court access</li>
+            <li><strong>Extreme Sports:</strong> Adventure tourism and luxury sports packages</li>
+        </ul>
+    </div>
+
+    <script>
+        // Luxury Cities API Integration (Same as in sports.html)
+        async function fetchLuxuryOptions() {
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const luxuryOptions = await response.json();
+                console.log('Luxury cities loaded from API:', luxuryOptions);
+                return luxuryOptions;
+            } catch (error) {
+                console.error('Error fetching luxury cities:', error);
+                // Return fallback data to maintain functionality
+                return [
+                    { name: 'SAUDI ARABIA', _id: '68c95fad8955d15262c1a30b' },
+                    { name: 'NORWAY', _id: '68c95f9d8955d15262c1a309' },
+                    { name: 'KENYA', _id: '68c95f8c8955d15262c1a306' },
+                    { name: 'JAPAN', _id: '68c95f7e8955d15262c1a304' },
+                    { name: 'FINLAND', _id: '68c95f758955d15262c1a302' }
+                ];
+            }
+        }
+
+        // Initialize sports luxury dropdown with API data
+        async function initializeSportsLuxuryDropdown() {
+            const statusElement = document.getElementById('status');
+            const luxuryDropdown = document.getElementById('sports-luxury-dropdown');
+            const apiResponseElement = document.getElementById('api-response');
+            
+            try {
+                const luxuryOptions = await fetchLuxuryOptions();
+                
+                // Display API response
+                apiResponseElement.textContent = JSON.stringify(luxuryOptions, null, 2);
+                
+                if (luxuryDropdown && luxuryOptions) {
+                    // Clear existing content
+                    luxuryDropdown.innerHTML = '';
+                    
+                    // Populate with API data
+                    luxuryOptions.forEach((option, index) => {
+                        const li = document.createElement('li');
+                        li.setAttribute('data-target', 'luxury');
+                        
+                        const a = document.createElement('a');
+                        a.href = option.url || `luxury-${option._id}.html` || '#';
+                        a.textContent = option.name || `Luxury City ${index + 1}`;
+                        
+                        li.appendChild(a);
+                        luxuryDropdown.appendChild(li);
+                    });
+                    
+                    statusElement.className = 'status success';
+                    statusElement.innerHTML = `🏆 Successfully loaded ${luxuryOptions.length} luxury sports destinations`;
+                    console.log('Sports luxury dropdown populated with luxury cities API data');
+                } else {
+                    throw new Error('Luxury dropdown element not found or no data received');
+                }
+            } catch (error) {
+                statusElement.className = 'status error';
+                statusElement.innerHTML = `❌ Error: ${error.message}`;
+                console.error('Error initializing sports luxury dropdown:', error);
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeSportsLuxuryDropdown);
+    </script>
+</body>
+</html>
