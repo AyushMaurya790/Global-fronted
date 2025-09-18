@@ -1954,26 +1954,142 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to fetch continents from API
     async function fetchContinents() {
         try {
-            const response = await fetch('http://globe.ridealmobility.com/api/continents');
+            const response = await fetch('http://globe.ridealmobility.com/api/continents', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
             if (!response.ok) {
-                throw new Error('Failed to fetch continents');
+                throw new Error(`HTTP ${response.status}: Failed to fetch continents`);
             }
             const continents = await response.json();
             console.log('Continents loaded from API:', continents);
-            return continents;
+            return Array.isArray(continents) ? continents : (continents.data || []);
         } catch (error) {
             console.error('Error fetching continents:', error);
             // Return fallback data to maintain UI functionality
             return [
-                { name: 'AFRICA' },
-                { name: 'ASIA' },
-                { name: 'AMERICAS' },
-                { name: 'EUROPE' },
-                { name: 'INDIAN SUBCONTINENT' },
-                { name: 'OCEANIA' },
-                { name: 'MIDDLE EAST' },
-                { name: 'POLAR' }
+                { id: 1, name: 'AFRICA' },
+                { id: 2, name: 'ASIA' },
+                { id: 3, name: 'AMERICAS' },
+                { id: 4, name: 'EUROPE' },
+                { id: 5, name: 'INDIAN SUBCONTINENT' },
+                { id: 6, name: 'OCEANIA' },
+                { id: 7, name: 'MIDDLE EAST' },
+                { id: 8, name: 'POLAR' }
             ];
+        }
+    }
+
+    // Function to fetch countries for a specific continent
+    async function fetchCountries(continentId) {
+        try {
+            const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch countries for continent ${continentId}`);
+            }
+            const countries = await response.json();
+            console.log(`Countries loaded for continent ${continentId}:`, countries);
+            return Array.isArray(countries) ? countries : (countries.data || []);
+        } catch (error) {
+            console.error(`Error fetching countries for continent ${continentId}:`, error);
+            return [];
+        }
+    }
+
+    // Function to handle country clicks
+    function handleCountryClick(countryName, countryData) {
+        console.log(`Country clicked: ${countryName}`, countryData);
+        
+        // Normalize country name for comparison
+        const normalizedCountryName = countryName.toLowerCase().trim();
+        
+        // Check if it's New Zealand and redirect to s4.html
+        if (normalizedCountryName === 'new zealand' || 
+            normalizedCountryName === 'newzealand' || 
+            normalizedCountryName === 'zealand') {
+            console.log('Redirecting to New Zealand page (s4.html) from Business');
+            window.location.href = 's4.html';
+            return;
+        }
+        
+        // For other countries, you can add more specific handlers here
+        // For now, just log the action
+        console.log(`No specific page found for ${countryName}. Implement country-specific logic here.`);
+        
+        // Optional: Show a message to user
+        alert(`${countryName} business travel coming soon! Currently, detailed pages are available for New Zealand.`);
+    }
+
+    // Function to populate countries for a specific continent
+    async function populateCountries(continentId, targetId) {
+        console.log(`Debug - Fetching countries for continent ID: ${continentId}, target: ${targetId}`);
+        const countries = await fetchCountries(continentId);
+        const contentDiv = document.getElementById(targetId);
+        
+        console.log(`Debug - Received countries:`, countries, `Content div found:`, !!contentDiv);
+        
+        if (contentDiv) {
+            if (countries && countries.length > 0) {
+                // Clear existing content
+                contentDiv.innerHTML = '';
+                
+                // Create columns for countries
+                const column1 = document.createElement('div');
+                column1.className = 'column';
+                const column2 = document.createElement('div');
+                column2.className = 'column';
+                
+                // Distribute countries across two columns
+                countries.forEach((country, index) => {
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    // Handle different possible country object structures
+                    const countryName = country.name || country.countryName || country.country || country;
+                    link.textContent = countryName;
+                    
+                    // Add click handler for specific countries
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        handleCountryClick(countryName, country);
+                    });
+                    
+                    // Add hover effect
+                    link.style.cursor = 'pointer';
+                    link.addEventListener('mouseenter', function() {
+                        this.style.color = '#8a2be2';
+                    });
+                    link.addEventListener('mouseleave', function() {
+                        this.style.color = '';
+                    });
+                    
+                    if (index % 2 === 0) {
+                        column1.appendChild(link);
+                    } else {
+                        column2.appendChild(link);
+                    }
+                });
+                
+                contentDiv.appendChild(column1);
+                contentDiv.appendChild(column2);
+                
+                console.log(`Countries populated for ${targetId}:`, countries);
+            } else {
+                console.log(`No countries found for continent ID: ${continentId}`);
+                // Keep existing content if no countries from API
+            }
+        } else {
+            console.error(`Content div not found for target: ${targetId}`);
         }
     }
 
@@ -2002,21 +2118,51 @@ document.addEventListener('DOMContentLoaded', function() {
             const existingItems = megaLeftUl.querySelectorAll('li');
             
             // Update existing items or add new ones based on API data
-            continents.forEach((continent, index) => {
+            for (let i = 0; i < continents.length; i++) {
+                const continent = continents[i];
                 const targetId = getTargetId(continent.name);
                 
-                if (existingItems[index]) {
+                console.log(`Debug - Processing continent:`, continent, `Target ID: ${targetId}`);
+                
+                if (existingItems[i]) {
                     // Update existing item
-                    existingItems[index].setAttribute('data-target', targetId);
-                    existingItems[index].innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                    existingItems[i].setAttribute('data-target', targetId);
+                    existingItems[i].innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                    
+                    // Add click event listener to fetch countries
+                    existingItems[i].addEventListener('click', function() {
+                        const continentId = continent.id || continent.continentId || continent._id || (i + 1);
+                        console.log(`Continent clicked: ${continent.name}, ID: ${continentId}`);
+                        populateCountries(continentId, targetId);
+                    });
+                    
+                    // Add hover event listener for better UX
+                    existingItems[i].addEventListener('mouseenter', function() {
+                        const continentId = continent.id || continent.continentId || continent._id || (i + 1);
+                        populateCountries(continentId, targetId);
+                    });
                 } else {
                     // Add new item if more continents than existing
                     const li = document.createElement('li');
                     li.setAttribute('data-target', targetId);
                     li.innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+                    
+                    // Add click event listener to fetch countries
+                    li.addEventListener('click', function() {
+                        const continentId = continent.id || continent.continentId || continent._id || (i + 1);
+                        console.log(`Continent clicked: ${continent.name}, ID: ${continentId}`);
+                        populateCountries(continentId, targetId);
+                    });
+                    
+                    // Add hover event listener for better UX
+                    li.addEventListener('mouseenter', function() {
+                        const continentId = continent.id || continent.continentId || continent._id || (i + 1);
+                        populateCountries(continentId, targetId);
+                    });
+                    
                     megaLeftUl.appendChild(li);
                 }
-            });
+            }
             
             // Remove extra items if there are fewer continents in API
             for (let i = continents.length; i < existingItems.length; i++) {
@@ -2033,60 +2179,172 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the dropdown
     initializeDestinationsDropdown();
+
+    // Debug: Test direct API calls for Business
+    setTimeout(async () => {
+        console.log('=== DIRECT API TESTING FOR BUSINESS ===');
+        
+        // Test continents API
+        try {
+            const continentsResponse = await fetch('http://globe.ridealmobility.com/api/continents');
+            const continentsData = await continentsResponse.json();
+            console.log('Direct continents API test (Business):', continentsData);
+        } catch (error) {
+            console.error('Direct continents API failed (Business):', error);
+        }
+        
+        // Test countries API with different IDs
+        const testIds = [1, 2, 3, 4, 5, 'africa', 'asia', 'europe'];
+        for (const testId of testIds) {
+            try {
+                const countriesResponse = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${testId}`);
+                if (countriesResponse.ok) {
+                    const countriesData = await countriesResponse.json();
+                    console.log(`Countries for ID ${testId} (Business):`, countriesData);
+                } else {
+                    console.log(`Countries API failed for ID ${testId} (Business): HTTP ${countriesResponse.status}`);
+                }
+            } catch (error) {
+                console.error(`Countries API error for ID ${testId} (Business):`, error.message);
+            }
+        }
+    }, 2000); // Wait 2 seconds to allow page to fully load
     
-    // Luxury Cities API Integration
-    async function fetchLuxuryOptions() {
+    console.log('Continents and Countries API integration initialized successfully for Business');
+    
+    // Luxury Cities API Integration - Updated for GroupTours.html Navigation
+    async function fetchLuxuryCities() {
         try {
             const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
             if (!response.ok) {
                 throw new Error('Failed to fetch luxury cities');
             }
-            const luxuryOptions = await response.json();
-            console.log('Luxury cities loaded from API:', luxuryOptions);
-            return luxuryOptions;
+            const data = await response.json();
+            console.log('Luxury cities loaded from API:', data);
+            return Array.isArray(data) ? data : [];
         } catch (error) {
             console.error('Error fetching luxury cities:', error);
             // Return fallback data to maintain functionality
             return [
-                { name: 'FINLAND', _id: '68c95f758955d15262c1a302' },
-                { name: 'JAPAN', _id: '68c95f7e8955d15262c1a304' },
-                { name: 'KENYA', _id: '68c95f8c8955d15262c1a306' },
-                { name: 'NORWAY', _id: '68c95f9d8955d15262c1a309' },
-                { name: 'SAUDI ARABIA', _id: '68c95fad8955d15262c1a30b' }
+                { _id: '68c95f758955d15262c1a302', name: 'FINLAND' },
+                { _id: '68c95f7e8955d15262c1a304', name: 'JAPAN' },
+                { _id: '68c95f8c8955d15262c1a306', name: 'KENYA' },
+                { _id: '68c95f9d8955d15262c1a309', name: 'NORWAY' },
+                { _id: '68c95fad8955d15262c1a30b', name: 'SAUDI ARABIA' }
             ];
         }
     }
 
+    // Function to fetch luxury options for a specific city
+    async function fetchLuxuryOptions(cityId) {
+        try {
+            const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch luxury options for city ${cityId}`);
+            }
+            const data = await response.json();
+            console.log('Luxury options loaded for city:', cityId, data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            return null;
+        }
+    }
+
+    // Function to create dynamic tour page URL with parameters
+    function createTourPageURL(cityId, cityName) {
+        const params = new URLSearchParams({
+            cityId: cityId,
+            cityName: cityName,
+            type: 'luxury-tour'
+        });
+        return `GroupTours.html?${params.toString()}`;
+    }
+
     // Initialize luxury dropdown with API data
     async function initializeBusinessLuxuryDropdown() {
-        const luxuryOptions = await fetchLuxuryOptions();
-        const luxuryDropdown = document.getElementById('business-luxury-dropdown');
+        const luxuryCities = await fetchLuxuryCities();
+        const luxuryMenu = document.getElementById('business-luxury-dropdown');
         
-        if (luxuryDropdown && luxuryOptions) {
+        if (luxuryMenu) {
             // Clear existing content
-            luxuryDropdown.innerHTML = '';
+            luxuryMenu.innerHTML = '';
             
-            // Populate with API data
-            luxuryOptions.forEach((option, index) => {
+            if (luxuryCities && luxuryCities.length > 0) {
+                // Populate with API data
+                luxuryCities.forEach((city, index) => {
+                    const li = document.createElement('li');
+                    li.setAttribute('data-target', 'luxury');
+                    
+                    const a = document.createElement('a');
+                    // Create dynamic tour page URL
+                    a.href = createTourPageURL(city._id, city.name);
+                    a.textContent = city.name || `Luxury City ${index + 1}`;
+                    
+                    // Add click event to handle luxury city selection
+                    a.addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        console.log('Selected luxury city from Business:', city.name, 'ID:', city._id);
+                        
+                        // Show loading state
+                        const originalText = this.textContent;
+                        this.textContent = 'Loading...';
+                        this.style.pointerEvents = 'none';
+                        
+                        try {
+                            // Fetch luxury options for this city
+                            const luxuryOptions = await fetchLuxuryOptions(city._id);
+                            
+                            if (luxuryOptions) {
+                                // Store luxury options in sessionStorage for the tour page
+                                sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+                                sessionStorage.setItem('selectedCityId', city._id);
+                                sessionStorage.setItem('selectedCityName', city.name);
+                                
+                                // Navigate to tour page
+                                window.location.href = this.href;
+                            } else {
+                                // Fallback: navigate to general tour page
+                                console.warn('No luxury options found, navigating to general tour page');
+                                window.location.href = 'GroupTours.html';
+                            }
+                        } catch (error) {
+                            console.error('Error loading luxury city:', error);
+                            // Reset button state
+                            this.textContent = originalText;
+                            this.style.pointerEvents = 'auto';
+                            // Show error message
+                            alert('Sorry, unable to load this luxury destination. Please try again.');
+                        }
+                    });
+                    
+                    li.appendChild(a);
+                    luxuryMenu.appendChild(li);
+                });
+                
+                console.log('Business luxury dropdown populated with', luxuryCities.length, 'cities');
+            } else {
+                // Show message when no data is available
                 const li = document.createElement('li');
-                li.setAttribute('data-target', 'luxury');
-                
                 const a = document.createElement('a');
-                a.href = option.url || `luxury-${option._id}.html` || '';
-                a.textContent = option.name || `Luxury City ${index + 1}`;
-                
+                a.href = '#';
+                a.textContent = 'No luxury destinations available';
+                a.style.color = '#999';
                 li.appendChild(a);
-                luxuryDropdown.appendChild(li);
-            });
-            
-            console.log('Business luxury dropdown populated with luxury cities API data');
+                luxuryMenu.appendChild(li);
+                
+                console.warn('No luxury options available from API');
+            }
         } else {
-            console.warn('Business luxury dropdown not found');
+            console.warn('Business luxury dropdown menu not found');
         }
     }
 
     // Initialize luxury dropdown
     initializeBusinessLuxuryDropdown();
+
+    // Optional: Refresh luxury cities every 10 minutes
+    setInterval(initializeBusinessLuxuryDropdown, 600000);
 });
 
 // Business Hero API Integration

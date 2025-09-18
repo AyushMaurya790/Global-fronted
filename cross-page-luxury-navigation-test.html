@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Page Luxury Navigation Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .test-card { background: white; margin: 20px 0; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .page-card { border-left: 5px solid #007bff; }
+        .btn { padding: 12px 24px; margin: 8px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #0056b3; }
+        .btn-success { background: #28a745; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-danger { background: #dc3545; }
+        .status { margin-top: 10px; padding: 12px; border-radius: 5px; font-weight: bold; }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { padding: 8px 0; border-bottom: 1px solid #eee; }
+        .feature-list li:before { content: "✅ "; color: #28a745; font-weight: bold; }
+        .expected-behavior { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .page-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .page-icon { font-size: 24px; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Cross-Page Luxury Navigation Test Suite</h1>
+        <p class="lead">Comprehensive testing for luxury city navigation across index.html, Voyages.html, and tourpackages.html</p>
+
+        <div class="test-card">
+            <h2>🎯 Test Overview</h2>
+            <p>This test verifies that luxury city navigation works consistently across all pages and properly redirects to GroupTours.html with dynamic content.</p>
+            
+            <div class="expected-behavior">
+                <h4>Expected Behavior:</h4>
+                <ul class="feature-list">
+                    <li>All pages show the same luxury cities in dropdown</li>
+                    <li>Clicking any luxury city redirects to GroupTours.html</li>
+                    <li>GroupTours.html loads with dynamic luxury content</li>
+                    <li>API calls are made with correct city ID</li>
+                    <li>Session storage is populated for caching</li>
+                    <li>Error handling works gracefully</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-grid">
+            <!-- Index.html Test Card -->
+            <div class="test-card page-card">
+                <div class="page-header">
+                    <span class="page-icon">🏠</span>
+                    <h3>Index.html Navigation</h3>
+                </div>
+                <p>Test luxury dropdown on the main homepage</p>
+                <a href="index.html" class="btn btn-success">Open Index.html</a>
+                <div class="expected-behavior">
+                    <strong>Test Steps:</strong>
+                    <ol>
+                        <li>Go to index.html</li>
+                        <li>Find "LUXURY" in top navigation</li>
+                        <li>Hover/click to see dropdown</li>
+                        <li>Click on any luxury city</li>
+                        <li>Should redirect to GroupTours.html with luxury content</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Voyages.html Test Card -->
+            <div class="test-card page-card">
+                <div class="page-header">
+                    <span class="page-icon">🚢</span>
+                    <h3>Voyages.html Navigation</h3>
+                </div>
+                <p>Test luxury dropdown on the voyages page</p>
+                <a href="Voyages.html" class="btn btn-success">Open Voyages.html</a>
+                <div class="expected-behavior">
+                    <strong>Test Steps:</strong>
+                    <ol>
+                        <li>Go to Voyages.html</li>
+                        <li>Find "LUXURY" in navigation menu</li>
+                        <li>Click to see dropdown</li>
+                        <li>Click on any luxury city</li>
+                        <li>Should redirect to GroupTours.html with luxury content</li>
+                    </ol>
+                    <p><strong>Dropdown ID:</strong> <code>voyages-luxury-dropdown</code></p>
+                </div>
+            </div>
+
+            <!-- TourPackages.html Test Card -->
+            <div class="test-card page-card">
+                <div class="page-header">
+                    <span class="page-icon">🎒</span>
+                    <h3>TourPackages.html Navigation</h3>
+                </div>
+                <p>Test luxury dropdown on the tour packages page</p>
+                <a href="tourpakages.html" class="btn btn-success">Open TourPackages.html</a>
+                <div class="expected-behavior">
+                    <strong>Test Steps:</strong>
+                    <ol>
+                        <li>Go to tourpakages.html</li>
+                        <li>Find "LUXURY" in navigation menu</li>
+                        <li>Click to see dropdown</li>
+                        <li>Click on any luxury city</li>
+                        <li>Should redirect to GroupTours.html with luxury content</li>
+                    </ol>
+                    <p><strong>Dropdown ID:</strong> <code>luxury-dropdown-list</code></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h2>🔧 API Integration Test</h2>
+            <p>Test the underlying API functionality that powers all luxury navigation</p>
+            <button class="btn" onclick="testLuxuryCitiesAPI()">Test Luxury Cities API</button>
+            <button class="btn" onclick="testSpecificLuxuryAPI()">Test Specific City API</button>
+            <div id="apiTestResults" class="status" style="display:none;"></div>
+        </div>
+
+        <div class="test-card">
+            <h2>🚀 Direct GroupTours.html Test</h2>
+            <p>Test direct navigation to GroupTours.html with luxury parameters</p>
+            <div style="margin: 15px 0;">
+                <a href="GroupTours.html?cityId=68c95f758955d15262c1a302&cityName=FINLAND&type=luxury-tour" class="btn btn-warning">
+                    Test FINLAND Luxury Tour
+                </a>
+                <a href="GroupTours.html?cityId=68c95f7e8955d15262c1a304&cityName=JAPAN&type=luxury-tour" class="btn btn-warning">
+                    Test JAPAN Luxury Tour
+                </a>
+                <a href="GroupTours.html?cityId=68c95f8c8955d15262c1a306&cityName=KENYA&type=luxury-tour" class="btn btn-warning">
+                    Test KENYA Luxury Tour
+                </a>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h2>📊 Test Results Summary</h2>
+            <div id="testSummary">
+                <p>Complete the tests above and check the browser console for detailed logs.</p>
+                <h4>What to Look For:</h4>
+                <ul class="feature-list">
+                    <li>Console logs showing "Luxury cities loaded from API"</li>
+                    <li>Console logs showing luxury dropdown population</li>
+                    <li>No JavaScript errors in console</li>
+                    <li>Consistent city lists across all pages</li>
+                    <li>Successful redirects to GroupTours.html</li>
+                    <li>Dynamic content loading in GroupTours.html</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h2>🛠️ Debug Tools</h2>
+            <button class="btn" onclick="clearSessionData()">Clear Session Data</button>
+            <button class="btn" onclick="showDebugInfo()">Show Debug Info</button>
+            <button class="btn btn-danger" onclick="showConsoleCommands()">Show Console Commands</button>
+            <div id="debugOutput" style="display:none; margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Test functions
+        async function testLuxuryCitiesAPI() {
+            const resultDiv = document.getElementById('apiTestResults');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'status info';
+            resultDiv.innerHTML = '🔄 Testing Luxury Cities API...';
+            
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const cities = await response.json();
+                resultDiv.className = 'status success';
+                resultDiv.innerHTML = `
+                    ✅ Luxury Cities API Success! Found ${cities.length} cities:
+                    <br>${cities.map(city => `${city.name} (${city._id})`).join(', ')}
+                `;
+            } catch (error) {
+                resultDiv.className = 'status error';
+                resultDiv.innerHTML = `❌ API Error: ${error.message}`;
+            }
+        }
+
+        async function testSpecificLuxuryAPI() {
+            const resultDiv = document.getElementById('apiTestResults');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'status info';
+            resultDiv.innerHTML = '🔄 Testing Specific Luxury Options API...';
+            
+            try {
+                const testId = '68c95f758955d15262c1a302';
+                const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${testId}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const options = await response.json();
+                resultDiv.className = 'status success';
+                resultDiv.innerHTML = `
+                    ✅ Luxury Options API Success!
+                    <br>Signature Experiences: ${options.signatureExperiences?.length || 0}
+                    <br>Luxury Resorts: ${options.luxuryResorts?.length || 0}
+                `;
+            } catch (error) {
+                resultDiv.className = 'status error';
+                resultDiv.innerHTML = `❌ Luxury Options API Error: ${error.message}`;
+            }
+        }
+
+        function clearSessionData() {
+            sessionStorage.removeItem('selectedCityLuxuryOptions');
+            sessionStorage.removeItem('selectedCityId');
+            sessionStorage.removeItem('selectedCityName');
+            alert('Session data cleared!');
+        }
+
+        function showDebugInfo() {
+            const debugDiv = document.getElementById('debugOutput');
+            debugDiv.style.display = 'block';
+            
+            const sessionData = {
+                selectedCityId: sessionStorage.getItem('selectedCityId'),
+                selectedCityName: sessionStorage.getItem('selectedCityName'),
+                selectedCityLuxuryOptions: sessionStorage.getItem('selectedCityLuxuryOptions') ? 'Available' : 'Not available'
+            };
+            
+            debugDiv.innerHTML = `
+                <h4>Current Session Data:</h4>
+                <pre>${JSON.stringify(sessionData, null, 2)}</pre>
+                <h4>Current URL:</h4>
+                <p>${window.location.href}</p>
+                <h4>User Agent:</h4>
+                <p>${navigator.userAgent}</p>
+            `;
+        }
+
+        function showConsoleCommands() {
+            const debugDiv = document.getElementById('debugOutput');
+            debugDiv.style.display = 'block';
+            debugDiv.innerHTML = `
+                <h4>Useful Console Commands for Testing:</h4>
+                <div style="background: #f1f1f1; padding: 15px; border-radius: 5px; font-family: monospace;">
+                    <p><strong>Check if luxury dropdown exists:</strong></p>
+                    <code>document.getElementById('luxury-dropdown-menu') || document.getElementById('voyages-luxury-dropdown') || document.getElementById('luxury-dropdown-list')</code>
+                    
+                    <p><strong>Check session storage:</strong></p>
+                    <code>console.log(sessionStorage.getItem('selectedCityId'))</code>
+                    
+                    <p><strong>Test API manually:</strong></p>
+                    <code>fetch('http://globe.ridealmobility.com/api/luxury-cities').then(r => r.json()).then(console.log)</code>
+                    
+                    <p><strong>Check for JavaScript errors:</strong></p>
+                    <code>window.addEventListener('error', (e) => console.error('JS Error:', e))</code>
+                </div>
+            `;
+        }
+
+        // Auto-run API test on page load
+        window.addEventListener('load', function() {
+            console.log('🚀 Cross-page luxury navigation test suite loaded');
+            setTimeout(testLuxuryCitiesAPI, 1000);
+        });
+    </script>
+</body>
+</html>

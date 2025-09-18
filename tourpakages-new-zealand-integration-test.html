@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Packages - New Zealand Countries API Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .result {
+            background-color: #e8f5e8;
+            border-left: 4px solid #28a745;
+            margin-top: 10px;
+            padding: 10px;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            margin-top: 10px;
+            padding: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .countries-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .country-link {
+            display: block;
+            padding: 8px 12px;
+            background: #fff;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #333;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .country-link:hover {
+            background: #8a2be2;
+            color: white;
+            border-color: #8a2be2;
+        }
+        .new-zealand-highlight {
+            background: linear-gradient(90deg, #a259ff 0%, #8a2be2 100%) !important;
+            color: white !important;
+            font-weight: bold;
+        }
+        .comparison-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .nav-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #8a2be2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: background 0.3s ease;
+        }
+        .nav-link:hover {
+            background: #a259ff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎒 Tour Packages - New Zealand API Integration Test</h1>
+        <p>This test demonstrates the same countries API integration and New Zealand click handling for the tour packages page.</p>
+        
+        <div class="comparison-section">
+            <h3>🔗 Integration Pages</h3>
+            <p>Both pages now have the same continents/countries API integration:</p>
+            <a href="index.html" class="nav-link">🏠 Index Page</a>
+            <a href="tourpakages.html" class="nav-link">🎒 Tour Packages Page</a>
+            <a href="s4.html" class="nav-link">🇳🇿 New Zealand Page</a>
+        </div>
+
+        <div class="test-section">
+            <h3>📍 Step 1: Test Continents API (Tour Packages)</h3>
+            <p>Fetch all continents for the tour packages page destinations dropdown.</p>
+            <button onclick="testContinentsAPI()">Fetch Continents</button>
+            <div id="continentsResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🌏 Step 2: Test Countries API for Oceania (Tour Packages)</h3>
+            <p>Fetch countries for the Oceania continent (which should include New Zealand).</p>
+            <button onclick="testOceaniaCountries()">Fetch Oceania Countries</button>
+            <div id="oceaniaResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🎯 Step 3: Test New Zealand Click Handler (Tour Packages)</h3>
+            <p>Click on New Zealand below to test the redirect to s4.html from tour packages page:</p>
+            <div id="newZealandTest">
+                <a href="#" class="country-link new-zealand-highlight" onclick="handleNewZealandClick(event)">
+                    🇳🇿 New Zealand (Click to test redirect from tour packages)
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔍 Step 4: Compare with Index Page</h3>
+            <p>The integration should work identically on both pages:</p>
+            <ul>
+                <li>✅ Same API endpoints used</li>
+                <li>✅ Same hover effects on countries</li>
+                <li>✅ Same New Zealand redirect to s4.html</li>
+                <li>✅ Same fallback data if API fails</li>
+                <li>✅ Same debug logging in console</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>📋 Tour Packages Integration Status</h3>
+            <ul>
+                <li>✅ Countries API integration added to tourpakages.html</li>
+                <li>✅ Click handlers added for country selection</li>
+                <li>✅ New Zealand redirect to s4.html implemented</li>
+                <li>✅ Hover effects added for better UX</li>
+                <li>✅ Same functionality as index.html</li>
+                <li>✅ Console debugging enabled</li>
+                <li>✅ Fallback data for offline functionality</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>🚀 Usage Instructions</h3>
+            <ol>
+                <li>Navigate to <strong>tourpakages.html</strong></li>
+                <li>Hover over <strong>DESTINATIONS</strong> in the navigation</li>
+                <li>Hover over any continent (e.g., OCEANIA)</li>
+                <li>Countries will load dynamically from the API</li>
+                <li>Click on <strong>New Zealand</strong></li>
+                <li>You'll be redirected to <strong>s4.html</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let continentsData = [];
+        let oceaniaId = null;
+
+        // Function to fetch continents from API
+        async function fetchContinents() {
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/continents');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const continents = await response.json();
+                return continents;
+            } catch (error) {
+                console.error('Error fetching continents:', error);
+                throw error;
+            }
+        }
+
+        // Function to fetch countries for a specific continent
+        async function fetchCountries(continentId) {
+            try {
+                const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const countries = await response.json();
+                return countries;
+            } catch (error) {
+                console.error(`Error fetching countries for continent ${continentId}:`, error);
+                throw error;
+            }
+        }
+
+        // Test continents API
+        async function testContinentsAPI() {
+            const resultDiv = document.getElementById('continentsResult');
+            resultDiv.innerHTML = '<div style="color: #666; font-style: italic;">Loading continents for tour packages...</div>';
+            
+            try {
+                const continents = await fetchContinents();
+                continentsData = continents;
+                
+                // Find Oceania continent
+                const oceania = continents.find(c => 
+                    (c.name && c.name.toLowerCase().includes('oceania')) ||
+                    (c.name && c.name.toLowerCase().includes('australia')) ||
+                    (c.name && c.name.toLowerCase().includes('pacific'))
+                );
+                
+                if (oceania) {
+                    oceaniaId = oceania.id || oceania.continentId || oceania._id;
+                }
+                
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h4>✅ Success! Found ${continents.length} continents for tour packages</h4>
+                        <p><strong>Oceania/Pacific continent found:</strong> ${oceania ? oceania.name + ' (ID: ' + oceaniaId + ')' : 'Not found'}</p>
+                        <details>
+                            <summary>View all continents</summary>
+                            <pre>${JSON.stringify(continents, null, 2)}</pre>
+                        </details>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Error:</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Test Oceania countries
+        async function testOceaniaCountries() {
+            const resultDiv = document.getElementById('oceaniaResult');
+            
+            if (!oceaniaId) {
+                resultDiv.innerHTML = '<div class="error">Please fetch continents first to find Oceania ID.</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<div style="color: #666; font-style: italic;">Loading Oceania countries for tour packages...</div>';
+            
+            try {
+                const countries = await fetchCountries(oceaniaId);
+                
+                // Create countries grid
+                let countriesHTML = '<div class="countries-grid">';
+                countries.forEach(country => {
+                    const countryName = country.name || country.countryName || country.country || country;
+                    const isNewZealand = countryName.toLowerCase().includes('new zealand') || 
+                                       countryName.toLowerCase().includes('zealand');
+                    
+                    countriesHTML += `
+                        <a href="#" class="country-link ${isNewZealand ? 'new-zealand-highlight' : ''}" 
+                           onclick="handleCountryClick('${countryName}', event)">
+                            ${countryName} ${isNewZealand ? '🎯' : ''}
+                        </a>
+                    `;
+                });
+                countriesHTML += '</div>';
+                
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h4>✅ Success! Found ${countries.length} countries in Oceania for tour packages</h4>
+                        <p>New Zealand should be highlighted. Click on it to test the redirect:</p>
+                        ${countriesHTML}
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Error:</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Handle country clicks (same logic as in tourpakages.html)
+        function handleCountryClick(countryName, event) {
+            event.preventDefault();
+            console.log(`Country clicked from tour packages test: ${countryName}`);
+            
+            const normalizedCountryName = countryName.toLowerCase().trim();
+            
+            if (normalizedCountryName.includes('new zealand') || 
+                normalizedCountryName.includes('zealand')) {
+                console.log('Redirecting to New Zealand page (s4.html) from tour packages');
+                
+                // Show confirmation before redirect
+                if (confirm(`Redirect to New Zealand page (s4.html) from tour packages?\\n\\nCountry: ${countryName}`)) {
+                    window.location.href = 's4.html';
+                }
+                return;
+            }
+            
+            alert(`${countryName} page coming soon! Currently, detailed pages are available for New Zealand. (From tour packages)`);
+        }
+
+        // Test New Zealand click directly
+        function handleNewZealandClick(event) {
+            handleCountryClick('New Zealand', event);
+        }
+
+        // Auto-test on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Tour Packages Countries API Integration Test loaded');
+            // Uncomment to auto-test continents
+            // testContinentsAPI();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Options API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .luxury-item { border: 1px solid #ccc; margin: 10px; padding: 10px; display: inline-block; width: 300px; }
+        .luxury-image { width: 100%; height: 150px; object-fit: cover; }
+        .error { color: red; }
+        .success { color: green; }
+        .city-button { 
+            background: #e55d17; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            margin: 5px; 
+            cursor: pointer; 
+            border-radius: 5px;
+        }
+        .city-button:hover { background: #d04e14; }
+    </style>
+</head>
+<body>
+    <h1>Luxury Options API Test</h1>
+    
+    <div class="test-section">
+        <h2>Available Luxury Cities</h2>
+        <div id="luxuryCities">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Selected City Details</h2>
+        <div id="selectedCityDetails">Select a city above to see luxury options</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Navigation</h2>
+        <p>Click a city button above, then use this link to test the tour page:</p>
+        <a id="testTourLink" href="tourpakages.html" target="_blank" style="display:none;">Open Tour Page for Selected City</a>
+    </div>
+
+    <script>
+        console.log('Starting Luxury Options API test...');
+        
+        let selectedCityId = null;
+        let selectedCityName = null;
+        
+        // Load luxury cities first
+        fetch('http://globe.ridealmobility.com/api/luxury-cities')
+            .then(response => {
+                console.log('Luxury Cities API Response status:', response.status);
+                return response.json();
+            })
+            .then(cities => {
+                console.log('Luxury cities received:', cities);
+                displayLuxuryCities(cities);
+            })
+            .catch(error => {
+                console.error('Error fetching luxury cities:', error);
+                document.getElementById('luxuryCities').innerHTML = `<span class="error">Error: ${error.message}</span>`;
+            });
+        
+        function displayLuxuryCities(cities) {
+            const container = document.getElementById('luxuryCities');
+            
+            if (cities && cities.length > 0) {
+                container.innerHTML = '<h3>Click on a city to see its luxury options:</h3>';
+                
+                cities.forEach(city => {
+                    const button = document.createElement('button');
+                    button.className = 'city-button';
+                    button.textContent = city.name;
+                    button.onclick = () => loadLuxuryOptions(city._id, city.name);
+                    container.appendChild(button);
+                });
+            } else {
+                container.innerHTML = '<span class="error">No luxury cities found</span>';
+            }
+        }
+        
+        function loadLuxuryOptions(cityId, cityName) {
+            selectedCityId = cityId;
+            selectedCityName = cityName;
+            
+            console.log('Loading luxury options for:', cityName, cityId);
+            
+            const detailsContainer = document.getElementById('selectedCityDetails');
+            detailsContainer.innerHTML = `<h3>Loading luxury options for ${cityName}...</h3>`;
+            
+            fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`)
+                .then(response => {
+                    console.log('Luxury Options API Response status:', response.status);
+                    return response.json();
+                })
+                .then(luxuryOptions => {
+                    console.log('Luxury options received:', luxuryOptions);
+                    displayLuxuryOptions(luxuryOptions, cityName);
+                    updateTestLink(cityId, cityName);
+                })
+                .catch(error => {
+                    console.error('Error fetching luxury options:', error);
+                    detailsContainer.innerHTML = `<span class="error">Error loading ${cityName}: ${error.message}</span>`;
+                });
+        }
+        
+        function displayLuxuryOptions(luxuryOptions, cityName) {
+            const container = document.getElementById('selectedCityDetails');
+            
+            let html = `<h3>${cityName} Luxury Options</h3>`;
+            
+            // Display basic info
+            html += `
+                <div style="background: #f5f5f5; padding: 15px; margin: 10px 0;">
+                    <h4>Basic Information</h4>
+                    <p><strong>Heading:</strong> ${luxuryOptions.heading || 'N/A'}</p>
+                    <p><strong>Subheading:</strong> ${luxuryOptions.subheading || 'N/A'}</p>
+                </div>
+            `;
+            
+            // Display dashboard image/video
+            if (luxuryOptions.dashboardImage) {
+                const mediaUrl = `http://globe.ridealmobility.com${luxuryOptions.dashboardImage}`;
+                html += `
+                    <div style="background: #f5f5f5; padding: 15px; margin: 10px 0;">
+                        <h4>Dashboard Media</h4>
+                        ${luxuryOptions.dashboardImage.includes('.mp4') ? 
+                            `<video controls style="width: 300px; height: 200px;"><source src="${mediaUrl}" type="video/mp4"></video>` :
+                            `<img src="${mediaUrl}" style="width: 300px; height: 200px; object-fit: cover;" onerror="this.style.display='none';">`
+                        }
+                    </div>
+                `;
+            }
+            
+            // Display signature experiences
+            if (luxuryOptions.signatureExperiences && luxuryOptions.signatureExperiences.length > 0) {
+                html += `
+                    <div style="background: #f5f5f5; padding: 15px; margin: 10px 0;">
+                        <h4>Signature Experiences (${luxuryOptions.signatureExperiences.length})</h4>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            ${luxuryOptions.signatureExperiences.map(exp => `
+                                <div class="luxury-item">
+                                    <img src="http://globe.ridealmobility.com${exp.url}" alt="${exp.heading}" class="luxury-image" 
+                                         onerror="this.src='./images/banner.webp';">
+                                    <h5>${exp.heading}</h5>
+                                    <p>${exp.subheading}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Display luxury resorts
+            if (luxuryOptions.luxuryResorts && luxuryOptions.luxuryResorts.length > 0) {
+                html += `
+                    <div style="background: #f5f5f5; padding: 15px; margin: 10px 0;">
+                        <h4>Luxury Resorts (${luxuryOptions.luxuryResorts.length})</h4>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            ${luxuryOptions.luxuryResorts.map(resort => `
+                                <div class="luxury-item">
+                                    <img src="http://globe.ridealmobility.com${resort.url}" alt="${resort.heading}" class="luxury-image" 
+                                         onerror="this.src='./images/banner.webp';">
+                                    <h5>${resort.heading}</h5>
+                                    <p>${resort.subheading}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function updateTestLink(cityId, cityName) {
+            const testLink = document.getElementById('testTourLink');
+            const params = new URLSearchParams({
+                cityId: cityId,
+                cityName: cityName,
+                type: 'luxury-tour'
+            });
+            testLink.href = `tourpakages.html?${params.toString()}`;
+            testLink.style.display = 'inline';
+            testLink.textContent = `Open ${cityName} Luxury Tour Page`;
+        }
+    </script>
+</body>
+</html>

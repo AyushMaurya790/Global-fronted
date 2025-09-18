@@ -472,14 +472,9 @@
                     <a class="nav-link" href="#">LUXURY</a>
                     <div class="mega-menu itinerary-menu">
                         <div class="mega-left">
-                            <ul>
-                                <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-                                <li data-target="adventure"><a href="">JAPAN</a></li>
-                                <li data-target="luxury"><a href="">KENYA</a></li>
-                                <li data-target="classic"><a href="">NORWAY</a></li>
-                                <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-                                <li data-target="luxury"><a href="">TANZANIA</a></li>
-                                <li data-target="classic"><a href="">ZANZIBAR</a></li>
+                            <ul id="indtour-luxury-dropdown">
+                                <!-- Luxury options will be populated dynamically -->
+                                <li data-target="luxury"><a href="">Loading...</a></li>
                             </ul>
                         </div>
 
@@ -2031,57 +2026,140 @@
             console.log(`Destinations hover functionality initialized for ${continentItems.length} continents`);
         }
 
-        // Function to fetch luxury cities data
-        async function fetchLuxuryCitiesData() {
+        // Luxury Cities API Integration for Indtour.html - Updated for GroupTours.html Navigation
+        // Function to fetch luxury cities from API
+        async function fetchLuxuryCities() {
             try {
-                console.log('Fetching luxury cities data...');
-                
-                const response = await fetch('http://globe.ridealmobility.com/api/luxury-options', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                });
-
+                const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error('Failed to fetch luxury cities');
                 }
-
                 const data = await response.json();
-                console.log('Luxury cities data received:', data);
+                console.log('Luxury cities loaded from API:', data);
+                return Array.isArray(data) ? data : [];
+            } catch (error) {
+                console.error('Error fetching luxury cities:', error);
+                // Return fallback data to maintain functionality
+                return [
+                    { _id: '68c95f758955d15262c1a302', name: 'FINLAND' },
+                    { _id: '68c95f7e8955d15262c1a304', name: 'JAPAN' },
+                    { _id: '68c95f8c8955d15262c1a306', name: 'KENYA' },
+                    { _id: '68c95f9d8955d15262c1a309', name: 'NORWAY' },
+                    { _id: '68c95fad8955d15262c1a30b', name: 'SAUDI ARABIA' }
+                ];
+            }
+        }
+
+        // Function to fetch luxury options for a specific city
+        async function fetchLuxuryOptions(cityId) {
+            try {
+                const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch luxury options for city ${cityId}`);
+                }
+                const data = await response.json();
+                console.log('Luxury options loaded for city:', cityId, data);
                 return data;
             } catch (error) {
-                console.error('Error fetching luxury cities data:', error);
+                console.error('Error fetching luxury options:', error);
                 return null;
             }
         }
 
-        // Function to fetch specific luxury options data for a city
-        async function fetchLuxuryOptionsData(cityName) {
-            try {
-                console.log(`Fetching luxury options data for ${cityName}...`);
+        // Function to create dynamic tour page URL with parameters
+        function createTourPageURL(cityId, cityName) {
+            const params = new URLSearchParams({
+                cityId: cityId,
+                cityName: cityName,
+                type: 'luxury-tour'
+            });
+            return `GroupTours.html?${params.toString()}`;
+        }
+
+        // Initialize Indtour luxury dropdown with API data - Updated for GroupTours.html Navigation
+        async function initializeIndtourLuxuryDropdown() {
+            const luxuryCities = await fetchLuxuryCities();
+            const luxuryMenu = document.getElementById('indtour-luxury-dropdown');
+            
+            if (luxuryMenu) {
+                // Clear existing content
+                luxuryMenu.innerHTML = '';
                 
-                const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityName}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (luxuryCities && luxuryCities.length > 0) {
+                    // Populate with API data
+                    luxuryCities.forEach((city, index) => {
+                        const li = document.createElement('li');
+                        li.setAttribute('data-target', 'luxury');
+                        
+                        const a = document.createElement('a');
+                        // Create dynamic tour page URL
+                        a.href = createTourPageURL(city._id, city.name);
+                        a.textContent = city.name || `Luxury City ${index + 1}`;
+                        
+                        // Add click event to handle luxury city selection
+                        a.addEventListener('click', async function(e) {
+                            e.preventDefault();
+                            console.log('Selected luxury city from Indtour:', city.name, 'ID:', city._id);
+                            
+                            // Show loading state
+                            const originalText = this.textContent;
+                            this.textContent = 'Loading...';
+                            this.style.pointerEvents = 'none';
+                            
+                            try {
+                                // Fetch luxury options for this city
+                                const luxuryOptions = await fetchLuxuryOptions(city._id);
+                                
+                                if (luxuryOptions) {
+                                    // Store luxury options in sessionStorage for the tour page
+                                    sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+                                    sessionStorage.setItem('selectedCityId', city._id);
+                                    sessionStorage.setItem('selectedCityName', city.name);
+                                    
+                                    // Navigate to tour page
+                                    window.location.href = this.href;
+                                } else {
+                                    // Fallback: navigate to general tour page
+                                    console.warn('No luxury options found, navigating to general tour page');
+                                    window.location.href = 'GroupTours.html';
+                                }
+                            } catch (error) {
+                                console.error('Error loading luxury city:', error);
+                                // Reset button state
+                                this.textContent = originalText;
+                                this.style.pointerEvents = 'auto';
+                                // Show error message
+                                alert('Sorry, unable to load this luxury destination. Please try again.');
+                            }
+                        });
+                        
+                        li.appendChild(a);
+                        luxuryMenu.appendChild(li);
+                    });
+                    
+                    console.log('Indtour luxury dropdown populated with', luxuryCities.length, 'cities');
+                } else {
+                    // Show message when no data is available
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '#';
+                    a.textContent = 'No luxury destinations available';
+                    a.style.color = '#999';
+                    li.appendChild(a);
+                    luxuryMenu.appendChild(li);
+                    
+                    console.warn('No luxury options available from API');
                 }
-
-                const data = await response.json();
-                console.log(`Luxury options data for ${cityName}:`, data);
-                return data;
-            } catch (error) {
-                console.error(`Error fetching luxury options data for ${cityName}:`, error);
-                return null;
+            } else {
+                console.warn('Indtour luxury dropdown menu not found');
             }
         }
+
+        // Initialize luxury dropdown
+        initializeIndtourLuxuryDropdown();
+
+        // Optional: Refresh luxury cities every 10 minutes
+        setInterval(initializeIndtourLuxuryDropdown, 600000);
 
         // Function to update luxury menu with cities from API
         function updateLuxuryMenuWithCities(luxuryCitiesData) {
@@ -2435,12 +2513,10 @@
             }
         }
 
-        // Initialize luxury options when DOM is loaded
+        // Indtour luxury dropdown initialization - DOM ready
         document.addEventListener('DOMContentLoaded', function() {
-            initializeLuxuryOptionsData();
-            
-            // Auto-refresh luxury data every 30 minutes
-            setInterval(initializeLuxuryOptionsData, 30 * 60 * 1000);
+            console.log('Initializing Indtour luxury navigation...');
+            // Luxury dropdown is already initialized above
         });
     </script>
 

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Inspiration API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #8a2be2;
+        }
+        .api-response {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .btn {
+            background: linear-gradient(90deg, #a259ff 0%, #8a2be2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #8a2be2 0%, #a259ff 100%);
+        }
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Trip Inspiration API Integration Test</h1>
+        
+        <div class="test-section">
+            <h3>API Endpoint Test</h3>
+            <p><strong>Endpoint:</strong> <code>http://globe.ridealmobility.com/api/inspiration/city/68c95f758955d15262c1a302</code></p>
+            <button class="btn" onclick="testAPI()">🚀 Test API Call</button>
+            <button class="btn" onclick="clearResults()">🧹 Clear Results</button>
+            
+            <div id="status"></div>
+            <div id="response"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>Integration Status</h3>
+            <ul>
+                <li>✅ <strong>API Fetch Function:</strong> fetchTripInspirationAPI()</li>
+                <li>✅ <strong>Card Update Function:</strong> updateTripInspirationCards()</li>
+                <li>✅ <strong>Initialization Function:</strong> initializeTripInspiration()</li>
+                <li>✅ <strong>Loading States:</strong> CSS animations and loading indicators</li>
+                <li>✅ <strong>Error Handling:</strong> Try-catch blocks and fallback content</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>How to Test in GroupTours.html</h3>
+            <ol>
+                <li>Open <code>GroupTours.html</code> in your browser</li>
+                <li>Open browser Developer Tools (F12)</li>
+                <li>Go to Console tab</li>
+                <li>Run: <code>testTripInspirationAPI()</code></li>
+                <li>Watch the Trip Inspiration section update with API data</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h3>API Response Structure</h3>
+            <p>The API returns an array with the following structure:</p>
+            <pre style="background: #f8f9fa; padding: 10px; border-radius: 4px;">
+[{
+  "_id": "68caa9f0378df6d431aa4f95",
+  "city": {
+    "_id": "68c95f758955d15262c1a302",
+    "name": "FINLAND"
+  },
+  "heading": "Trip Inspiration",
+  "cards": [{
+    "image": "uploads/1758112239590.jpg",
+    "title": "Spectacular Krabi & Phuket Getaway ...",
+    "subtitle": "2N Krabi • 3N Phuket",
+    "details": ["5N/6D"],
+    "price": "1000",
+    "emi": "200",
+    "totalPrice": "1500",
+    "duration": "10",
+    "highlight": "Round Trip Flights Airport Transfers Selected Meals"
+  }],
+  "createdAt": "2025-09-17T12:30:40.546Z",
+  "updatedAt": "2025-09-17T12:30:40.546Z"
+}]</pre>
+        </div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const statusDiv = document.getElementById('status');
+            const responseDiv = document.getElementById('response');
+            
+            statusDiv.innerHTML = '<div class="status loading">🔄 Testing API connection...</div>';
+            responseDiv.innerHTML = '';
+            
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/inspiration/city/68c95f758955d15262c1a302');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                statusDiv.innerHTML = '<div class="status success">✅ API call successful!</div>';
+                responseDiv.innerHTML = `
+                    <h4>API Response:</h4>
+                    <div class="api-response">${JSON.stringify(data, null, 2)}</div>
+                `;
+                
+                console.log('API Response:', data);
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ API call failed: ${error.message}</div>`;
+                responseDiv.innerHTML = `
+                    <h4>Error Details:</h4>
+                    <div class="api-response">${error.stack || error.message}</div>
+                `;
+                console.error('API Error:', error);
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('status').innerHTML = '';
+            document.getElementById('response').innerHTML = '';
+        }
+        
+        // Auto-test on page load
+        console.log('Trip Inspiration API Test Page Loaded');
+        console.log('Click "Test API Call" button to test the integration');
+    </script>
+</body>
+</html>

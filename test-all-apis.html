@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globe Angel API Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #8a2be2;
+            border-bottom: 2px solid #8a2be2;
+            padding-bottom: 10px;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #8a2be2;
+        }
+        .api-response {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+        .btn {
+            background: linear-gradient(90deg, #a259ff 0%, #8a2be2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #8a2be2 0%, #a259ff 100%);
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .endpoint {
+            background: #e9ecef;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .integration-status {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .status-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .status-card h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .status-list {
+            list-style: none;
+            padding: 0;
+        }
+        .status-list li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        .status-list li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        @media (max-width: 768px) {
+            .test-grid, .integration-status {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Globe Angel API Integration Test Dashboard</h1>
+        
+        <div class="integration-status">
+            <div class="status-card">
+                <h4>🎯 Trip Inspiration API</h4>
+                <ul class="status-list">
+                    <li>fetchTripInspirationAPI() function</li>
+                    <li>updateTripInspirationCards() function</li>
+                    <li>createTripInspirationCardHTML() function</li>
+                    <li>initializeTripInspiration() function</li>
+                    <li>Loading states and animations</li>
+                    <li>Auto-initialization on page load</li>
+                </ul>
+            </div>
+            
+            <div class="status-card">
+                <h4>🌤️ Best Time to Visit API</h4>
+                <ul class="status-list">
+                    <li>fetchBestTimeAPI() function</li>
+                    <li>updateBestTimeSection() function</li>
+                    <li>createBestTimeRowHTML() function</li>
+                    <li>initializeBestTime() function</li>
+                    <li>Image and icon handling</li>
+                    <li>Auto-initialization on page load</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-grid">
+            <div class="test-section">
+                <h3>🎯 Trip Inspiration API Test</h3>
+                <div class="endpoint">http://globe.ridealmobility.com/api/inspiration/city/68c95f758955d15262c1a302</div>
+                <button class="btn" onclick="testTripInspirationAPI()">🚀 Test Trip Inspiration API</button>
+                <button class="btn btn-secondary" onclick="clearResults('tripInspiration')">🧹 Clear</button>
+                
+                <div id="tripInspirationStatus"></div>
+                <div id="tripInspirationResponse"></div>
+            </div>
+            
+            <div class="test-section">
+                <h3>🌤️ Best Time to Visit API Test</h3>
+                <div class="endpoint">http://globe.ridealmobility.com/api/besttime/city/68c95f758955d15262c1a302</div>
+                <button class="btn" onclick="testBestTimeAPI()">🚀 Test Best Time API</button>
+                <button class="btn btn-secondary" onclick="clearResults('bestTime')">🧹 Clear</button>
+                
+                <div id="bestTimeStatus"></div>
+                <div id="bestTimeResponse"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔗 Integration Testing</h3>
+            <p><strong>How to test in GroupTours.html:</strong></p>
+            <ol>
+                <li>Open <code>GroupTours.html</code> in your browser</li>
+                <li>Open Developer Tools (F12) → Console tab</li>
+                <li>Run these commands to test individual APIs:</li>
+                <ul>
+                    <li><code>testTripInspirationAPI()</code> - Test Trip Inspiration</li>
+                    <li><code>testBestTimeAPI()</code> - Test Best Time to Visit</li>
+                    <li><code>manualTripInspirationInit()</code> - Manual Trip Inspiration init</li>
+                    <li><code>manualBestTimeInit()</code> - Manual Best Time init</li>
+                </ul>
+                <li>Watch the sections update with API data automatically</li>
+            </ol>
+            
+            <div style="background: #e7f3ff; padding: 15px; border-radius: 6px; margin: 15px 0;">
+                <strong>💡 Pro Tip:</strong> Both APIs auto-initialize when the page loads. Check the console for detailed logs with emojis:
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>🌟 Trip Inspiration logs</li>
+                    <li>🌤️ Best Time to Visit logs</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function testTripInspirationAPI() {
+            const statusDiv = document.getElementById('tripInspirationStatus');
+            const responseDiv = document.getElementById('tripInspirationResponse');
+            
+            statusDiv.innerHTML = '<div class="status loading">🔄 Testing Trip Inspiration API...</div>';
+            responseDiv.innerHTML = '';
+            
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/inspiration/city/68c95f758955d15262c1a302');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                statusDiv.innerHTML = '<div class="status success">✅ Trip Inspiration API call successful!</div>';
+                responseDiv.innerHTML = `
+                    <h4>API Response:</h4>
+                    <div class="api-response">${JSON.stringify(data, null, 2)}</div>
+                    <h4>Data Analysis:</h4>
+                    <ul>
+                        <li><strong>Response Type:</strong> ${Array.isArray(data) ? 'Array' : typeof data}</li>
+                        <li><strong>Items Count:</strong> ${Array.isArray(data) ? data.length : 'N/A'}</li>
+                        <li><strong>Has Heading:</strong> ${data[0]?.heading ? '✅ ' + data[0].heading : '❌'}</li>
+                        <li><strong>Cards Count:</strong> ${data[0]?.cards?.length || 0}</li>
+                        <li><strong>City:</strong> ${data[0]?.city?.name || 'Unknown'}</li>
+                    </ul>
+                `;
+                
+                console.log('Trip Inspiration API Response:', data);
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ Trip Inspiration API call failed: ${error.message}</div>`;
+                responseDiv.innerHTML = `
+                    <h4>Error Details:</h4>
+                    <div class="api-response">${error.stack || error.message}</div>
+                `;
+                console.error('Trip Inspiration API Error:', error);
+            }
+        }
+        
+        async function testBestTimeAPI() {
+            const statusDiv = document.getElementById('bestTimeStatus');
+            const responseDiv = document.getElementById('bestTimeResponse');
+            
+            statusDiv.innerHTML = '<div class="status loading">🔄 Testing Best Time API...</div>';
+            responseDiv.innerHTML = '';
+            
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/besttime/city/68c95f758955d15262c1a302');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                statusDiv.innerHTML = '<div class="status success">✅ Best Time API call successful!</div>';
+                responseDiv.innerHTML = `
+                    <h4>API Response:</h4>
+                    <div class="api-response">${JSON.stringify(data, null, 2)}</div>
+                    <h4>Data Analysis:</h4>
+                    <ul>
+                        <li><strong>Response Type:</strong> ${Array.isArray(data) ? 'Array' : typeof data}</li>
+                        <li><strong>Items Count:</strong> ${Array.isArray(data) ? data.length : 'N/A'}</li>
+                        <li><strong>Has Heading:</strong> ${data[0]?.heading ? '✅ ' + data[0].heading : '❌'}</li>
+                        <li><strong>Seasons Count:</strong> ${data[0]?.seasons?.length || 0}</li>
+                        <li><strong>City:</strong> ${data[0]?.city?.name || 'Unknown'}</li>
+                        <li><strong>Has Image:</strong> ${data[0]?.image ? '✅' : '❌'}</li>
+                    </ul>
+                `;
+                
+                console.log('Best Time API Response:', data);
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ Best Time API call failed: ${error.message}</div>`;
+                responseDiv.innerHTML = `
+                    <h4>Error Details:</h4>
+                    <div class="api-response">${error.stack || error.message}</div>
+                `;
+                console.error('Best Time API Error:', error);
+            }
+        }
+        
+        function clearResults(type) {
+            if (type === 'tripInspiration') {
+                document.getElementById('tripInspirationStatus').innerHTML = '';
+                document.getElementById('tripInspirationResponse').innerHTML = '';
+            } else if (type === 'bestTime') {
+                document.getElementById('bestTimeStatus').innerHTML = '';
+                document.getElementById('bestTimeResponse').innerHTML = '';
+            }
+        }
+        
+        // Auto-test on page load
+        console.log('🌟 Globe Angel API Test Dashboard Loaded');
+        console.log('📝 Available functions:');
+        console.log('   - testTripInspirationAPI()');
+        console.log('   - testBestTimeAPI()');
+        console.log('   - clearResults("tripInspiration" | "bestTime")');
+    </script>
+</body>
+</html>

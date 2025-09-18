@@ -2227,58 +2227,139 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDestinationsDropdown();
 
     // Luxury Cities API Integration
-    async function fetchLuxuryOptions() {
+    // Function to fetch luxury cities from API
+    async function fetchLuxuryCities() {
         try {
             const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
             if (!response.ok) {
                 throw new Error('Failed to fetch luxury cities');
             }
-            const luxuryOptions = await response.json();
-            console.log('Luxury cities loaded from API:', luxuryOptions);
-            return luxuryOptions;
+            const data = await response.json();
+            console.log('Luxury cities loaded from API:', data);
+            return Array.isArray(data) ? data : [];
         } catch (error) {
             console.error('Error fetching luxury cities:', error);
             // Return fallback data to maintain functionality
             return [
-                { name: 'FINLAND', _id: '68c95f758955d15262c1a302' },
-                { name: 'JAPAN', _id: '68c95f7e8955d15262c1a304' },
-                { name: 'KENYA', _id: '68c95f8c8955d15262c1a306' },
-                { name: 'NORWAY', _id: '68c95f9d8955d15262c1a309' },
-                { name: 'SAUDI ARABIA', _id: '68c95fad8955d15262c1a30b' }
+                { _id: '68c95f758955d15262c1a302', name: 'FINLAND' },
+                { _id: '68c95f7e8955d15262c1a304', name: 'JAPAN' },
+                { _id: '68c95f8c8955d15262c1a306', name: 'KENYA' },
+                { _id: '68c95f9d8955d15262c1a309', name: 'NORWAY' },
+                { _id: '68c95fad8955d15262c1a30b', name: 'SAUDI ARABIA' }
             ];
         }
     }
 
-    // Initialize luxury dropdown with API data
+    // Function to fetch luxury options for a specific city
+    async function fetchLuxuryOptions(cityId) {
+        try {
+            const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch luxury options for city ${cityId}`);
+            }
+            const data = await response.json();
+            console.log('Luxury options loaded for city:', cityId, data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            return null;
+        }
+    }
+
+    // Function to create dynamic tour page URL with parameters
+    function createTourPageURL(cityId, cityName) {
+        const params = new URLSearchParams({
+            cityId: cityId,
+            cityName: cityName,
+            type: 'luxury-tour'
+        });
+        return `GroupTours.html?${params.toString()}`;
+    }
+
+    // Initialize Sky luxury dropdown with API data - Updated for GroupTours.html Navigation
     async function initializeSkyLuxuryDropdown() {
-        const luxuryOptions = await fetchLuxuryOptions();
-        const luxuryDropdown = document.getElementById('sky-luxury-dropdown');
+        const luxuryCities = await fetchLuxuryCities();
+        const luxuryMenu = document.getElementById('sky-luxury-dropdown');
         
-        if (luxuryDropdown && luxuryOptions) {
+        if (luxuryMenu) {
             // Clear existing content
-            luxuryDropdown.innerHTML = '';
+            luxuryMenu.innerHTML = '';
             
-            // Populate with API data
-            luxuryOptions.forEach((option, index) => {
+            if (luxuryCities && luxuryCities.length > 0) {
+                // Populate with API data
+                luxuryCities.forEach((city, index) => {
+                    const li = document.createElement('li');
+                    li.setAttribute('data-target', 'luxury');
+                    
+                    const a = document.createElement('a');
+                    // Create dynamic tour page URL
+                    a.href = createTourPageURL(city._id, city.name);
+                    a.textContent = city.name || `Luxury City ${index + 1}`;
+                    
+                    // Add click event to handle luxury city selection
+                    a.addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        console.log('Selected luxury city from Sky:', city.name, 'ID:', city._id);
+                        
+                        // Show loading state
+                        const originalText = this.textContent;
+                        this.textContent = 'Loading...';
+                        this.style.pointerEvents = 'none';
+                        
+                        try {
+                            // Fetch luxury options for this city
+                            const luxuryOptions = await fetchLuxuryOptions(city._id);
+                            
+                            if (luxuryOptions) {
+                                // Store luxury options in sessionStorage for the tour page
+                                sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+                                sessionStorage.setItem('selectedCityId', city._id);
+                                sessionStorage.setItem('selectedCityName', city.name);
+                                
+                                // Navigate to tour page
+                                window.location.href = this.href;
+                            } else {
+                                // Fallback: navigate to general tour page
+                                console.warn('No luxury options found, navigating to general tour page');
+                                window.location.href = 'GroupTours.html';
+                            }
+                        } catch (error) {
+                            console.error('Error loading luxury city:', error);
+                            // Reset button state
+                            this.textContent = originalText;
+                            this.style.pointerEvents = 'auto';
+                            // Show error message
+                            alert('Sorry, unable to load this luxury destination. Please try again.');
+                        }
+                    });
+                    
+                    li.appendChild(a);
+                    luxuryMenu.appendChild(li);
+                });
+                
+                console.log('Sky luxury dropdown populated with', luxuryCities.length, 'cities');
+            } else {
+                // Show message when no data is available
                 const li = document.createElement('li');
-                li.setAttribute('data-target', 'luxury');
-                
                 const a = document.createElement('a');
-                a.href = option.url || `luxury-${option._id}.html` || '';
-                a.textContent = option.name || `Luxury City ${index + 1}`;
-                
+                a.href = '#';
+                a.textContent = 'No luxury destinations available';
+                a.style.color = '#999';
                 li.appendChild(a);
-                luxuryDropdown.appendChild(li);
-            });
-            
-            console.log('Sky luxury dropdown populated with luxury cities API data');
+                luxuryMenu.appendChild(li);
+                
+                console.warn('No luxury options available from API');
+            }
         } else {
-            console.warn('Sky luxury dropdown not found');
+            console.warn('Sky luxury dropdown menu not found');
         }
     }
 
     // Initialize luxury dropdown
     initializeSkyLuxuryDropdown();
+
+    // Optional: Refresh luxury cities every 10 minutes
+    setInterval(initializeSkyLuxuryDropdown, 600000);
 });
 
 // Logo API Integration for Sky Page (Private Charters)
@@ -2995,6 +3076,323 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateWhoWeFlyWithAPIData, 15 * 60 * 1000);
     
     console.log('Private Fly API integration initialized successfully');
+});
+
+// Continents and Countries API Integration for Sky Navigation
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Function to fetch continents data from API
+    async function fetchContinents() {
+        try {
+            console.log('Sky: Fetching continents data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/continents');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const continentsData = await response.json();
+            console.log('Sky: Continents data loaded from API:', continentsData);
+            console.log('Sky: Total continents found:', continentsData.length);
+            return continentsData;
+        } catch (error) {
+            console.error('Sky: Error fetching continents data:', error);
+            // Return empty array when API fails
+            return [];
+        }
+    }
+
+    // Function to fetch countries data for a specific continent
+    async function fetchCountries(continentId) {
+        try {
+            console.log(`Sky: Fetching countries for continent ID: ${continentId}`);
+            const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const countriesData = await response.json();
+            console.log(`Sky: Countries data loaded for continent ${continentId}:`, countriesData);
+            console.log(`Sky: Total countries found: ${countriesData.length}`);
+            return countriesData;
+        } catch (error) {
+            console.error(`Sky: Error fetching countries for continent ${continentId}:`, error);
+            return [];
+        }
+    }
+
+    // Function to handle country click events (specifically New Zealand)
+    function handleCountryClick(country) {
+        console.log('Sky: Country clicked:', country);
+        
+        if (country.name && country.name.toLowerCase().includes('new zealand')) {
+            console.log('Sky: New Zealand detected, redirecting to s4.html...');
+            alert('Welcome to New Zealand Sky Adventures! Experience breathtaking aerial tours and luxury aviation services across New Zealand\'s stunning landscapes.');
+            window.location.href = 's4.html';
+        } else {
+            console.log(`Sky: ${country.name} clicked - no specific action defined`);
+            alert(`${country.name} sky adventures coming soon! We're expanding our premium aviation services to new destinations worldwide.`);
+        }
+    }
+
+    // Function to populate countries in the right side menu
+    async function populateCountries(continentId, targetElementId) {
+        console.log(`Sky: Populating countries for continent ${continentId} in element ${targetElementId}`);
+        
+        const targetElement = document.getElementById(targetElementId);
+        if (!targetElement) {
+            console.warn(`Sky: Target element ${targetElementId} not found`);
+            return;
+        }
+
+        // Show loading state
+        targetElement.innerHTML = `
+            <div class="column">
+                <div style="padding: 20px; text-align: center; color: #666;">
+                    <i class="fas fa-spinner fa-spin me-2"></i>
+                    Loading aviation destinations...
+                </div>
+            </div>
+        `;
+
+        try {
+            const countries = await fetchCountries(continentId);
+            
+            if (!countries || countries.length === 0) {
+                targetElement.innerHTML = `
+                    <div class="column">
+                        <div style="padding: 20px; text-align: center; color: #666; font-style: italic;">
+                            No aviation destinations available for this continent yet.
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Split countries into two columns
+            const midPoint = Math.ceil(countries.length / 2);
+            const firstColumn = countries.slice(0, midPoint);
+            const secondColumn = countries.slice(midPoint);
+
+            const column1HTML = firstColumn.map(country => 
+                `<a href="#" class="country-link" data-country='${JSON.stringify(country)}'>${country.name}</a>`
+            ).join('');
+
+            const column2HTML = secondColumn.map(country => 
+                `<a href="#" class="country-link" data-country='${JSON.stringify(country)}'>${country.name}</a>`
+            ).join('');
+
+            targetElement.innerHTML = `
+                <div class="column">
+                    ${column1HTML}
+                </div>
+                <div class="column">
+                    ${column2HTML}
+                </div>
+            `;
+
+            // Add click event listeners to country links
+            const countryLinks = targetElement.querySelectorAll('.country-link');
+            countryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    try {
+                        const countryData = JSON.parse(this.dataset.country);
+                        handleCountryClick(countryData);
+                    } catch (error) {
+                        console.error('Sky: Error parsing country data:', error);
+                    }
+                });
+            });
+
+            console.log(`Sky: Successfully populated ${countries.length} countries in ${targetElementId}`);
+
+        } catch (error) {
+            console.error(`Sky: Error populating countries for continent ${continentId}:`, error);
+            targetElement.innerHTML = `
+                <div class="column">
+                    <div style="padding: 20px; text-align: center; color: #dc3545;">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Error loading aviation destinations
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // Function to normalize continent names for data-target attributes
+    function normalizeContinentName(name) {
+        return name.toLowerCase()
+            .replace(/\s+/g, '')
+            .replace(/[^a-z0-9]/g, '')
+            .substring(0, 15); // Limit length for data-target
+    }
+
+    // Function to render continents in navigation
+    function renderContinentsNavigation(continentsData) {
+        const megaLeftContainer = document.querySelector('.destinations-menu .mega-left ul');
+        
+        if (!megaLeftContainer) {
+            console.warn('Sky: Destinations menu container not found');
+            return;
+        }
+
+        if (!continentsData || !Array.isArray(continentsData) || continentsData.length === 0) {
+            console.warn('Sky: No continents data available from API, keeping static content');
+            return;
+        }
+
+        // Clear existing static content
+        megaLeftContainer.innerHTML = '';
+
+        // Create continent menu items from API data
+        continentsData.forEach((continent, index) => {
+            const continentName = continent.name || `Continent ${index + 1}`;
+            const dataTarget = normalizeContinentName(continentName);
+            
+            const li = document.createElement('li');
+            li.setAttribute('data-target', dataTarget);
+            li.setAttribute('data-continent-id', continent._id || continent.id); // Store continent ID for API calls
+            li.innerHTML = `${continentName} <span class="arrow">&#8250;</span>`;
+            
+            megaLeftContainer.appendChild(li);
+        });
+
+        // Update right side content containers to match new data-targets
+        const megaRightContainer = document.querySelector('.destinations-menu .mega-right');
+        if (megaRightContainer) {
+            // Clear existing content containers
+            megaRightContainer.innerHTML = '';
+            
+            // Create new content containers for each continent
+            continentsData.forEach((continent, index) => {
+                const continentName = continent.name || `Continent ${index + 1}`;
+                const dataTarget = normalizeContinentName(continentName);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'content';
+                contentDiv.id = dataTarget;
+                
+                contentDiv.innerHTML = `
+                    <div class="column">
+                        <p style="color: #666; font-style: italic; padding: 20px;">
+                            Aviation destinations for ${continentName} will be loaded here.
+                        </p>
+                    </div>
+                    <div class="column">
+                        <p style="color: #666; font-style: italic; padding: 20px;">
+                            Sky adventures and destinations coming soon...
+                        </p>
+                    </div>
+                `;
+                
+                megaRightContainer.appendChild(contentDiv);
+            });
+        }
+
+        // Reinitialize navigation interactions
+        initializeNavigationInteractions();
+
+        console.log('Sky: Continents navigation rendered successfully');
+        console.log('Sky: Total continents displayed:', continentsData.length);
+    }
+
+    // Function to initialize navigation interactions
+    function initializeNavigationInteractions() {
+        const menuItems = document.querySelectorAll('.destinations-menu .mega-left li');
+        const contentSections = document.querySelectorAll('.destinations-menu .mega-right .content');
+        
+        // Remove existing event listeners and add new ones
+        menuItems.forEach(item => {
+            // Clone node to remove existing event listeners
+            const newItem = item.cloneNode(true);
+            item.parentNode.replaceChild(newItem, item);
+        });
+        
+        // Add new event listeners
+        const newMenuItems = document.querySelectorAll('.destinations-menu .mega-left li');
+        newMenuItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                const target = this.getAttribute('data-target');
+                const continentId = this.getAttribute('data-continent-id');
+                
+                console.log(`Sky: Hovering over continent: ${target}, ID: ${continentId}`);
+                
+                // Hide all content sections
+                contentSections.forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // Show target content section
+                const targetContent = document.getElementById(target);
+                if (targetContent) {
+                    targetContent.style.display = 'block';
+                    
+                    // Load countries for this continent if we have the continent ID
+                    if (continentId) {
+                        populateCountries(continentId, target);
+                    }
+                }
+                
+                // Update active state
+                newMenuItems.forEach(menuItem => {
+                    menuItem.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+        
+        // Show first item by default
+        if (newMenuItems.length > 0) {
+            newMenuItems[0].classList.add('active');
+            const firstTarget = newMenuItems[0].getAttribute('data-target');
+            const firstContinentId = newMenuItems[0].getAttribute('data-continent-id');
+            const firstContent = document.getElementById(firstTarget);
+            if (firstContent) {
+                firstContent.style.display = 'block';
+                
+                // Load countries for the first continent
+                if (firstContinentId) {
+                    populateCountries(firstContinentId, firstTarget);
+                }
+            }
+        }
+
+        console.log('Sky: Navigation interactions initialized with country loading support');
+    }
+
+    // Function to initialize continents navigation
+    async function initializeContinentsNavigation() {
+        console.log('Sky: Initializing continents navigation...');
+        
+        // Show loading state
+        const megaLeftContainer = document.querySelector('.destinations-menu .mega-left ul');
+        if (megaLeftContainer) {
+            const loadingItem = document.createElement('li');
+            loadingItem.innerHTML = `<i class="fas fa-spinner fa-spin me-2"></i>Loading Sky Destinations...`;
+            loadingItem.style.color = '#666';
+            loadingItem.style.fontStyle = 'italic';
+            megaLeftContainer.appendChild(loadingItem);
+        }
+
+        // Fetch and render continents data
+        try {
+            const continentsData = await fetchContinents();
+            renderContinentsNavigation(continentsData);
+        } catch (error) {
+            console.error('Sky: Failed to initialize continents navigation:', error);
+            
+            // Keep static content on error
+            console.log('Sky: Keeping static navigation content due to API error');
+        }
+    }
+
+    // Initialize continents navigation
+    initializeContinentsNavigation();
+
+    // Optional: Refresh continents data every 60 minutes
+    setInterval(initializeContinentsNavigation, 3600000);
 });
 </script>
 

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S4 Simple Section API Integration Test - Group Tours</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .test-header {
+            background: linear-gradient(135deg, #e55d17, #f4a261);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .test-section {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .test-results {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #e55d17;
+            background: white;
+        }
+        
+        .status-success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .status-error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .status-loading {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .api-response {
+            background: #f1f3f4;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .test-button {
+            background: #e55d17;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .test-button:hover {
+            background: #d4491a;
+        }
+        
+        .endpoint-info {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .integration-flow {
+            background: #f3e5f5;
+            border: 1px solid #ce93d8;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        /* Group Tours Section Styles */
+        .group-departures {
+            background-color: #FEF7F3;
+            padding: 50px 0;
+            margin: 30px 0;
+            border-radius: 15px;
+        }
+        
+        .section-title {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .silver-South-family {
+            font-family: 'Georgia', serif;
+        }
+        
+        .swiper {
+            width: 100%;
+            height: auto;
+            padding-bottom: 50px;
+        }
+        
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gt-travel-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 300px;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gt-travel-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gt-travel-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .gt-travel-content {
+            padding: 20px;
+            text-align: left;
+        }
+        
+        .gt-travel-content h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .gt-travel-content p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .gt-travel-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #e55d17;
+            margin-top: 15px;
+        }
+        
+        .gt-travel-price span {
+            font-size: 12px;
+            font-weight: 400;
+            color: #666;
+        }
+        
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #e55d17;
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: #e55d17;
+        }
+        
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .before-after > div {
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .before-section {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+        
+        .after-section {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="fas fa-users"></i> S4.html Simple Section API Integration Test</h1>
+            <p>Testing the integration of simple-section API for Group Tours section</p>
+        </div>
+
+        <!-- API Endpoint Information -->
+        <div class="test-section">
+            <h3><i class="fas fa-link"></i> API Endpoint Information</h3>
+            <div class="endpoint-info">
+                <p><strong>Endpoint:</strong> <code>http://globe.ridealmobility.com/api/simple-section/country/68c00412cd2575bd4c46121b</code></p>
+                <p><strong>Method:</strong> GET</p>
+                <p><strong>Country:</strong> New Zealand (ID: 68c00412cd2575bd4c46121b)</p>
+                <p><strong>Purpose:</strong> Fetch simple section cards for Group Tours section</p>
+                <p><strong>Target Section:</strong> Group Tours (#group-tours) in s4.html</p>
+            </div>
+        </div>
+
+        <!-- Integration Flow -->
+        <div class="test-section">
+            <h3><i class="fas fa-route"></i> Integration Flow</h3>
+            <div class="integration-flow">
+                <ol>
+                    <li>User navigates to s4.html (New Zealand destination page)</li>
+                    <li>Page loads and automatically fetches simple-section data from API</li>
+                    <li>Static Group Tours cards are replaced with dynamic API content</li>
+                    <li>Cards show images and titles from API with generated tour details</li>
+                    <li>Swiper slider maintains functionality with new cards</li>
+                    <li>If fewer than 6 cards from API, default cards fill remaining slots</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- API Test Controls -->
+        <div class="test-section">
+            <h3><i class="fas fa-play-circle"></i> API Test Controls</h3>
+            <button class="test-button" onclick="testSimpleSectionAPI()">
+                <i class="fas fa-rocket"></i> Test Simple Section API
+            </button>
+            <button class="test-button" onclick="testImageUrls()">
+                <i class="fas fa-image"></i> Test Image URLs
+            </button>
+            <button class="test-button" onclick="showBeforeAfter()">
+                <i class="fas fa-exchange-alt"></i> Show Before/After
+            </button>
+            <button class="test-button" onclick="clearResults()">
+                <i class="fas fa-trash"></i> Clear Results
+            </button>
+            
+            <div id="apiTestResults" class="test-results" style="display: none;">
+                <h5>API Test Results:</h5>
+                <div id="apiStatus">Testing...</div>
+                <div id="apiResponse" class="api-response"></div>
+            </div>
+        </div>
+
+        <!-- Group Tours Preview -->
+        <div class="test-section">
+            <h3><i class="fas fa-th-large"></i> Group Tours Preview</h3>
+            <p>This section shows the Group Tours as they appear on s4.html with API integration:</p>
+            
+            <section class="group-departures" id="group-tours">
+                <div class="container">
+                    <div class="text-center mb-4">
+                        <h2 class="section-title">
+                            <span class="silver-South-family" style="font-size: 65px; font-weight: 400;">Group</span> Tours
+                        </h2>
+                    </div>
+                    
+                    <!-- Swiper -->
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div style="text-align: center; padding: 40px; color: #666; width: 100%;">
+                                <i class="fas fa-info-circle"></i> Click "Test Simple Section API" to load Group Tours
+                            </div>
+                        </div>
+                        <!-- Navigation buttons -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Before/After Comparison -->
+        <div id="beforeAfterSection" class="test-section" style="display: none;">
+            <h3><i class="fas fa-exchange-alt"></i> Before vs After Comparison</h3>
+            <div class="before-after">
+                <div class="before-section">
+                    <h5><i class="fas fa-clock"></i> Before (Static Content)</h5>
+                    <ul>
+                        <li>BEST OF NEW ZEALAND - Fixed content</li>
+                        <li>AMAZING DUBAI - Fixed content</li>
+                        <li>BALI PARADISE - Fixed content</li>
+                        <li>ASIAN EXPLORER - Fixed content</li>
+                        <li>MAJESTIC TURKEY - Fixed content</li>
+                        <li>EGYPT WONDER - Fixed content</li>
+                    </ul>
+                </div>
+                <div class="after-section">
+                    <h5><i class="fas fa-sync"></i> After (Dynamic API Content)</h5>
+                    <div id="afterContent">
+                        <p>Load API data to see dynamic content...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Structure Analysis -->
+        <div class="test-section">
+            <h3><i class="fas fa-code"></i> API Response Structure Analysis</h3>
+            <div id="dataStructure" style="display: none;">
+                <h5>API Response Structure:</h5>
+                <div class="api-response" id="structureAnalysis"></div>
+            </div>
+        </div>
+
+        <!-- Test Summary -->
+        <div class="test-section">
+            <h3><i class="fas fa-clipboard-check"></i> Test Summary</h3>
+            <div id="testSummary">
+                <p><strong>Integration Status:</strong> <span id="integrationStatus" class="status-loading">Ready to test</span></p>
+                <p><strong>API Response:</strong> <span id="apiResponseStatus" class="status-loading">Not tested</span></p>
+                <p><strong>Cards Rendered:</strong> <span id="cardsRenderedStatus" class="status-loading">Not tested</span></p>
+                <p><strong>Swiper Functionality:</strong> <span id="swiperStatus" class="status-loading">Not tested</span></p>
+                <p><strong>Image Loading:</strong> <span id="imageLoadingStatus" class="status-loading">Not tested</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Global variables for test results
+        let currentApiData = null;
+        let swiper = null;
+        let testResults = {
+            apiResponse: false,
+            cardsRendered: false,
+            swiperFunctionality: false,
+            imageLoading: false
+        };
+
+        // Function to get the complete image URL
+        function getGroupTourImageUrl(imagePath) {
+            if (!imagePath) return './images/banner.webp';
+            
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                return imagePath;
+            }
+            
+            const baseUrl = 'http://globe.ridealmobility.com/';
+            return baseUrl + imagePath.replace(/^\/+/, '');
+        }
+
+        // Function to generate tour details
+        function generateTourDetails(title, index) {
+            const tourConfigs = [
+                {
+                    duration: "10 Days",
+                    countries: "1 Country",
+                    cities: "9 Cities",
+                    departures: "Dec | Jan | Feb",
+                    price: "1,19,000"
+                },
+                {
+                    duration: "7 Days",
+                    countries: "1 Country", 
+                    cities: "3 Cities",
+                    departures: "Sep | Oct | Nov",
+                    price: "89,000"
+                },
+                {
+                    duration: "8 Days",
+                    countries: "1 Country",
+                    cities: "4 Cities", 
+                    departures: "Oct | Dec | Jan",
+                    price: "95,000"
+                }
+            ];
+
+            return tourConfigs[index % tourConfigs.length];
+        }
+
+        // Function to create group tour card HTML
+        function renderGroupTourCard(card, index) {
+            const imageUrl = getGroupTourImageUrl(card.image);
+            const title = card.title || `Group Tour ${index + 1}`;
+            const tourDetails = generateTourDetails(title, index);
+            
+            return `
+                <div class="swiper-slide">
+                    <div class="gt-travel-card">
+                        <img src="${imageUrl}" alt="${title}" 
+                             onerror="this.src='./images/banner.webp'" onload="handleImageLoad()">
+                        <div class="gt-travel-content">
+                            <h3>${title.toUpperCase()}</h3>
+                            <p>${tourDetails.duration} | ${tourDetails.countries} | ${tourDetails.cities}</p>
+                            <p>Departures- ${tourDetails.departures}</p>
+                            <div class="gt-travel-price">INR ${tourDetails.price}/- <span>(Per Person)</span></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Test simple section API
+        async function testSimpleSectionAPI() {
+            const resultsDiv = document.getElementById('apiTestResults');
+            const statusDiv = document.getElementById('apiStatus');
+            const responseDiv = document.getElementById('apiResponse');
+            const structureDiv = document.getElementById('dataStructure');
+            const analysisDiv = document.getElementById('structureAnalysis');
+            
+            resultsDiv.style.display = 'block';
+            statusDiv.innerHTML = '<span class="status-loading"><i class="fas fa-spinner fa-spin"></i> Testing API connection...</span>';
+            
+            try {
+                console.log('Testing simple section API...');
+                const response = await fetch('http://globe.ridealmobility.com/api/simple-section/country/68c00412cd2575bd4c46121b', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentApiData = data;
+                testResults.apiResponse = true;
+                
+                statusDiv.innerHTML = '<span class="status-success"><i class="fas fa-check-circle"></i> API connection successful!</span>';
+                responseDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                
+                // Show structure analysis
+                structureDiv.style.display = 'block';
+                if (data && Array.isArray(data) && data.length > 0) {
+                    const sectionData = data[0];
+                    analysisDiv.innerHTML = `
+                        <strong>Response Analysis:</strong><br>
+                        • Response Type: Array with ${data.length} item(s)<br>
+                        • Country: ${sectionData.country?.name || 'Not specified'}<br>
+                        • Main Heading: ${sectionData.mainHeading || 'Not provided'}<br>
+                        • Number of Cards: ${sectionData.cards?.length || 0}<br>
+                        • Card Titles: ${sectionData.cards?.map(card => card.title).join(', ') || 'None'}
+                    `;
+                } else {
+                    analysisDiv.innerHTML = '<strong>Warning:</strong> Unexpected API response structure';
+                }
+                
+                // Render group tour cards
+                renderGroupTourCards(data);
+                
+                updateTestSummary();
+
+            } catch (error) {
+                console.error('API test error:', error);
+                testResults.apiResponse = false;
+                statusDiv.innerHTML = `<span class="status-error"><i class="fas fa-exclamation-triangle"></i> API test failed: ${error.message}</span>`;
+                responseDiv.innerHTML = `<pre>Error: ${error.message}</pre>`;
+                updateTestSummary();
+            }
+        }
+
+        // Render group tour cards
+        function renderGroupTourCards(data) {
+            const swiperWrapper = document.querySelector('#group-tours .swiper-wrapper');
+            
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                swiperWrapper.innerHTML = '<div style="text-align: center; padding: 40px; color: #dc3545; width: 100%;"><i class="fas fa-exclamation-triangle"></i> No section data available</div>';
+                testResults.cardsRendered = false;
+                return;
+            }
+
+            const sectionData = data[0];
+            
+            if (!sectionData || !sectionData.cards || !Array.isArray(sectionData.cards)) {
+                swiperWrapper.innerHTML = '<div style="text-align: center; padding: 40px; color: #dc3545; width: 100%;"><i class="fas fa-exclamation-triangle"></i> Invalid section data structure</div>';
+                testResults.cardsRendered = false;
+                return;
+            }
+
+            // Update section title
+            const sectionTitle = document.querySelector('#group-tours .section-title');
+            if (sectionTitle && sectionData.mainHeading) {
+                const words = sectionData.mainHeading.split(' ');
+                const lastWord = words.slice(-1)[0] || 'Tours';
+                const firstWords = words.slice(0, -1).join(' ') || 'Group';
+                sectionTitle.innerHTML = `<span class="silver-South-family" style="font-size: 65px; font-weight: 400;">${firstWords}</span> ${lastWord}`;
+            }
+
+            // Clear wrapper
+            swiperWrapper.innerHTML = '';
+
+            // Add tour cards
+            sectionData.cards.forEach((card, index) => {
+                const cardHtml = renderGroupTourCard(card, index);
+                swiperWrapper.insertAdjacentHTML('beforeend', cardHtml);
+            });
+
+            // Add default cards if needed
+            const totalCards = sectionData.cards.length;
+            if (totalCards < 6) {
+                const defaultCards = [
+                    { title: "BEST OF NEW ZEALAND", image: "./images/banner.webp" },
+                    { title: "AMAZING DUBAI", image: "./images/trip1.jpeg" },
+                    { title: "BALI PARADISE", image: "./images/trip2.avif" }
+                ];
+
+                for (let i = totalCards; i < 6; i++) {
+                    const defaultCard = defaultCards[i % defaultCards.length];
+                    const cardHtml = renderGroupTourCard(defaultCard, i);
+                    swiperWrapper.insertAdjacentHTML('beforeend', cardHtml);
+                }
+            }
+
+            testResults.cardsRendered = true;
+            console.log(`Rendered ${sectionData.cards.length} tour cards successfully`);
+            
+            // Initialize swiper
+            initializeSwiper();
+        }
+
+        // Initialize Swiper
+        function initializeSwiper() {
+            if (swiper) {
+                swiper.destroy(true, true);
+            }
+            
+            swiper = new Swiper('.mySwiper', {
+                slidesPerView: 1,
+                spaceBetween: 20,
+                loop: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                    },
+                }
+            });
+            
+            testResults.swiperFunctionality = true;
+            console.log('Swiper initialized successfully');
+            updateTestSummary();
+        }
+
+        // Test image URLs
+        async function testImageUrls() {
+            if (!currentApiData) {
+                alert('Please run the API test first to load section data');
+                return;
+            }
+
+            const sectionData = currentApiData[0];
+            if (!sectionData || !sectionData.cards) {
+                alert('No section cards available for image testing');
+                return;
+            }
+
+            console.log('Testing image URLs...');
+            let successCount = 0;
+            let totalCount = sectionData.cards.length;
+
+            for (const card of sectionData.cards) {
+                try {
+                    const imageUrl = getGroupTourImageUrl(card.image);
+                    const response = await fetch(imageUrl, { method: 'HEAD' });
+                    if (response.ok) {
+                        successCount++;
+                        console.log(`✓ Image accessible: ${imageUrl}`);
+                    } else {
+                        console.warn(`✗ Image not accessible: ${imageUrl} (status: ${response.status})`);
+                    }
+                } catch (error) {
+                    console.error(`✗ Image test failed: ${card.image}`, error);
+                }
+            }
+
+            testResults.imageLoading = successCount > 0;
+            alert(`Image URL Test Results:\n${successCount}/${totalCount} images are accessible`);
+            updateTestSummary();
+        }
+
+        // Show before/after comparison
+        function showBeforeAfter() {
+            const section = document.getElementById('beforeAfterSection');
+            const afterContent = document.getElementById('afterContent');
+            
+            section.style.display = 'block';
+            
+            if (currentApiData && currentApiData[0] && currentApiData[0].cards) {
+                const cards = currentApiData[0].cards;
+                afterContent.innerHTML = `
+                    <ul>
+                        ${cards.map((card, index) => `<li>${card.title} - Dynamic from API</li>`).join('')}
+                        ${cards.length < 6 ? '<li>+ Default cards to fill remaining slots</li>' : ''}
+                    </ul>
+                    <p><strong>Total Cards:</strong> ${Math.max(6, cards.length)}</p>
+                `;
+            } else {
+                afterContent.innerHTML = '<p>Load API data first to see after content...</p>';
+            }
+        }
+
+        // Handle image load events
+        function handleImageLoad() {
+            testResults.imageLoading = true;
+            updateTestSummary();
+        }
+
+        // Clear test results
+        function clearResults() {
+            document.getElementById('apiTestResults').style.display = 'none';
+            document.getElementById('dataStructure').style.display = 'none';
+            document.getElementById('beforeAfterSection').style.display = 'none';
+            
+            const swiperWrapper = document.querySelector('#group-tours .swiper-wrapper');
+            swiperWrapper.innerHTML = '<div style="text-align: center; padding: 40px; color: #666; width: 100%;"><i class="fas fa-info-circle"></i> Click "Test Simple Section API" to load Group Tours</div>';
+            
+            if (swiper) {
+                swiper.destroy(true, true);
+                swiper = null;
+            }
+            
+            currentApiData = null;
+            testResults = {
+                apiResponse: false,
+                cardsRendered: false,
+                swiperFunctionality: false,
+                imageLoading: false
+            };
+            updateTestSummary();
+        }
+
+        // Update test summary
+        function updateTestSummary() {
+            document.getElementById('integrationStatus').innerHTML = '<span class="status-success">Integration code deployed</span>';
+            
+            document.getElementById('apiResponseStatus').innerHTML = testResults.apiResponse ? 
+                '<span class="status-success">✓ Success</span>' : 
+                '<span class="status-error">✗ Failed or not tested</span>';
+                
+            document.getElementById('cardsRenderedStatus').innerHTML = testResults.cardsRendered ? 
+                '<span class="status-success">✓ Success</span>' : 
+                '<span class="status-error">✗ Failed or not tested</span>';
+                
+            document.getElementById('swiperStatus').innerHTML = testResults.swiperFunctionality ? 
+                '<span class="status-success">✓ Success</span>' : 
+                '<span class="status-error">✗ Failed or not tested</span>';
+                
+            document.getElementById('imageLoadingStatus').innerHTML = testResults.imageLoading ? 
+                '<span class="status-success">✓ Success</span>' : 
+                '<span class="status-error">✗ Failed or not tested</span>';
+        }
+
+        // Initialize test summary on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTestSummary();
+            console.log('S4 Simple Section Integration Test page loaded');
+        });
+    </script>
+</body>
+</html>

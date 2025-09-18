@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Packages API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .package-card { border: 1px solid #ccc; margin: 10px; padding: 10px; display: inline-block; width: 300px; }
+        .package-image { width: 100%; height: 150px; object-fit: cover; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Group Packages API Test</h1>
+    
+    <div class="test-section">
+        <h2>API Status</h2>
+        <div id="apiStatus">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Hero Data</h2>
+        <div id="heroData">Loading...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Regions and Packages</h2>
+        <div id="packagesData">Loading...</div>
+    </div>
+
+    <script>
+        console.log('Starting Group Packages API test...');
+        
+        // Test the API
+        fetch('http://globe.ridealmobility.com/api/group-packages')
+            .then(response => {
+                console.log('API Response status:', response.status);
+                document.getElementById('apiStatus').innerHTML = `<span class="success">API Status: ${response.status} - OK</span>`;
+                return response.json();
+            })
+            .then(data => {
+                console.log('API Data received:', data);
+                
+                if (data && data.length > 0) {
+                    const packageData = data[0];
+                    
+                    // Display hero data
+                    const heroHTML = `
+                        <h3>Hero Information</h3>
+                        <p><strong>Title:</strong> ${packageData.hero?.title || 'N/A'}</p>
+                        <p><strong>Subtitle:</strong> ${packageData.hero?.subtitle || 'N/A'}</p>
+                        <p><strong>Description:</strong> ${packageData.hero?.description || 'N/A'}</p>
+                        <p><strong>Background Images:</strong> ${packageData.hero?.backgroundImages?.length || 0} images</p>
+                        ${packageData.hero?.backgroundImages ? packageData.hero.backgroundImages.map(img => 
+                            `<img src="http://globe.ridealmobility.com/${img.replace(/\\/g, '/')}" 
+                                  style="width: 150px; height: 100px; margin: 5px; object-fit: cover;" 
+                                  onerror="this.style.display='none';">`
+                        ).join('') : ''}
+                    `;
+                    document.getElementById('heroData').innerHTML = heroHTML;
+                    
+                    // Display regions and packages
+                    let packagesHTML = `<h3>Regions (${packageData.regions?.length || 0})</h3>`;
+                    
+                    if (packageData.regions) {
+                        packageData.regions.forEach(region => {
+                            packagesHTML += `
+                                <div style="margin: 20px 0; padding: 15px; background: #f5f5f5;">
+                                    <h4>${region.region} (${region.packages?.length || 0} packages)</h4>
+                                    <div style="display: flex; flex-wrap: wrap;">
+                                        ${region.packages ? region.packages.map(pkg => {
+                                            const imageUrl = pkg.image ? 
+                                                `http://globe.ridealmobility.com/${pkg.image.replace(/\\/g, '/')}` : 
+                                                './images/banner.webp';
+                                            const departures = Array.isArray(pkg.departures) ? 
+                                                pkg.departures.join(' | ') : pkg.departures || 'Coming Soon';
+                                            
+                                            return `
+                                                <div class="package-card">
+                                                    <img src="${imageUrl}" alt="${pkg.title}" class="package-image" 
+                                                         onerror="this.src='./images/banner.webp';">
+                                                    <h5>${pkg.title}</h5>
+                                                    <p>${pkg.days}</p>
+                                                    <p>Departures: ${departures}</p>
+                                                    <p><strong>₹${pkg.price ? pkg.price.toLocaleString('en-IN') : 'Price on Request'}</strong></p>
+                                                </div>
+                                            `;
+                                        }).join('') : '<p>No packages found</p>'}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    document.getElementById('packagesData').innerHTML = packagesHTML;
+                    
+                } else {
+                    document.getElementById('heroData').innerHTML = '<span class="error">No hero data found</span>';
+                    document.getElementById('packagesData').innerHTML = '<span class="error">No packages data found</span>';
+                }
+            })
+            .catch(error => {
+                console.error('API Error:', error);
+                document.getElementById('apiStatus').innerHTML = `<span class="error">API Error: ${error.message}</span>`;
+                document.getElementById('heroData').innerHTML = `<span class="error">Failed to load: ${error.message}</span>`;
+                document.getElementById('packagesData').innerHTML = `<span class="error">Failed to load: ${error.message}</span>`;
+            });
+    </script>
+</body>
+</html>

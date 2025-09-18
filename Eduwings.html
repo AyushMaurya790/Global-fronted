@@ -2361,63 +2361,143 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Luxury Cities API Integration for Eduwings
+// Luxury Cities API Integration for Eduwings - Updated for GroupTours.html Navigation
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Initializing Eduwings Luxury Cities API integration...');
 
-    // Luxury Cities API Integration
+    // Function to fetch luxury cities from API
     async function fetchLuxuryCities() {
         try {
             const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
             if (!response.ok) {
                 throw new Error('Failed to fetch luxury cities');
             }
-            const luxuryCities = await response.json();
-            console.log('Luxury cities loaded from API:', luxuryCities);
-            return luxuryCities;
+            const data = await response.json();
+            console.log('Luxury cities loaded from API:', data);
+            return Array.isArray(data) ? data : [];
         } catch (error) {
             console.error('Error fetching luxury cities:', error);
             // Return fallback data to maintain functionality
             return [
-                { name: 'FINLAND', _id: '68c95f758955d15262c1a302' },
-                { name: 'JAPAN', _id: '68c95f7e8955d15262c1a304' },
-                { name: 'KENYA', _id: '68c95f8c8955d15262c1a306' },
-                { name: 'NORWAY', _id: '68c95f9d8955d15262c1a309' },
-                { name: 'SAUDI ARABIA', _id: '68c95fad8955d15262c1a30b' }
+                { _id: '68c95f758955d15262c1a302', name: 'FINLAND' },
+                { _id: '68c95f7e8955d15262c1a304', name: 'JAPAN' },
+                { _id: '68c95f8c8955d15262c1a306', name: 'KENYA' },
+                { _id: '68c95f9d8955d15262c1a309', name: 'NORWAY' },
+                { _id: '68c95fad8955d15262c1a30b', name: 'SAUDI ARABIA' }
             ];
         }
+    }
+
+    // Function to fetch luxury options for a specific city
+    async function fetchLuxuryOptions(cityId) {
+        try {
+            const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch luxury options for city ${cityId}`);
+            }
+            const data = await response.json();
+            console.log('Luxury options loaded for city:', cityId, data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            return null;
+        }
+    }
+
+    // Function to create dynamic tour page URL with parameters
+    function createTourPageURL(cityId, cityName) {
+        const params = new URLSearchParams({
+            cityId: cityId,
+            cityName: cityName,
+            type: 'luxury-tour'
+        });
+        return `GroupTours.html?${params.toString()}`;
     }
 
     // Initialize Eduwings luxury dropdown with API data
     async function initializeEduwingsLuxuryDropdown() {
         const luxuryCities = await fetchLuxuryCities();
-        const luxuryDropdown = document.getElementById('eduwings-luxury-dropdown');
+        const luxuryMenu = document.getElementById('eduwings-luxury-dropdown');
         
-        if (luxuryDropdown && luxuryCities) {
+        if (luxuryMenu) {
             // Clear existing content
-            luxuryDropdown.innerHTML = '';
+            luxuryMenu.innerHTML = '';
             
-            // Populate with API data
-            luxuryCities.forEach((city, index) => {
+            if (luxuryCities && luxuryCities.length > 0) {
+                // Populate with API data
+                luxuryCities.forEach((city, index) => {
+                    const li = document.createElement('li');
+                    li.setAttribute('data-target', 'luxury');
+                    
+                    const a = document.createElement('a');
+                    // Create dynamic tour page URL
+                    a.href = createTourPageURL(city._id, city.name);
+                    a.textContent = city.name || `Luxury City ${index + 1}`;
+                    
+                    // Add click event to handle luxury city selection
+                    a.addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        console.log('Selected luxury city from Eduwings:', city.name, 'ID:', city._id);
+                        
+                        // Show loading state
+                        const originalText = this.textContent;
+                        this.textContent = 'Loading...';
+                        this.style.pointerEvents = 'none';
+                        
+                        try {
+                            // Fetch luxury options for this city
+                            const luxuryOptions = await fetchLuxuryOptions(city._id);
+                            
+                            if (luxuryOptions) {
+                                // Store luxury options in sessionStorage for the tour page
+                                sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+                                sessionStorage.setItem('selectedCityId', city._id);
+                                sessionStorage.setItem('selectedCityName', city.name);
+                                
+                                // Navigate to tour page
+                                window.location.href = this.href;
+                            } else {
+                                // Fallback: navigate to general tour page
+                                console.warn('No luxury options found, navigating to general tour page');
+                                window.location.href = 'GroupTours.html';
+                            }
+                        } catch (error) {
+                            console.error('Error loading luxury city:', error);
+                            // Reset button state
+                            this.textContent = originalText;
+                            this.style.pointerEvents = 'auto';
+                            // Show error message
+                            alert('Sorry, unable to load this luxury destination. Please try again.');
+                        }
+                    });
+                    
+                    li.appendChild(a);
+                    luxuryMenu.appendChild(li);
+                });
+                
+                console.log('Eduwings luxury dropdown populated with', luxuryCities.length, 'cities');
+            } else {
+                // Show message when no data is available
                 const li = document.createElement('li');
-                li.setAttribute('data-target', 'luxury');
-                
                 const a = document.createElement('a');
-                a.href = city.url || `luxury-${city._id}.html` || '';
-                a.textContent = city.name || `Luxury City ${index + 1}`;
-                
+                a.href = '#';
+                a.textContent = 'No luxury destinations available';
+                a.style.color = '#999';
                 li.appendChild(a);
-                luxuryDropdown.appendChild(li);
-            });
-            
-            console.log('Eduwings luxury dropdown populated with luxury cities API data');
+                luxuryMenu.appendChild(li);
+                
+                console.warn('No luxury options available from API');
+            }
         } else {
-            console.warn('Eduwings luxury dropdown not found');
+            console.warn('Eduwings luxury dropdown menu not found');
         }
     }
 
     // Initialize luxury dropdown
     initializeEduwingsLuxuryDropdown();
+
+    // Optional: Refresh luxury cities every 10 minutes
+    setInterval(initializeEduwingsLuxuryDropdown, 600000);
 });
 
 // Removed study abroad hero API integration
@@ -3485,13 +3565,13 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(initializeHero, 1800000);
 });
 
-// Continents API Integration for Navigation
+// Continents and Countries API Integration for Navigation
 document.addEventListener('DOMContentLoaded', function() {
     
     // Function to fetch continents data from API
     async function fetchContinents() {
         try {
-            console.log('Fetching continents data from API...');
+            console.log('Eduwings: Fetching continents data from API...');
             const response = await fetch('http://globe.ridealmobility.com/api/continents');
             
             if (!response.ok) {
@@ -3499,12 +3579,132 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             const continentsData = await response.json();
-            console.log('Continents data loaded from API:', continentsData);
+            console.log('Eduwings: Continents data loaded from API:', continentsData);
+            console.log('Eduwings: Total continents found:', continentsData.length);
             return continentsData;
         } catch (error) {
-            console.error('Error fetching continents data:', error);
+            console.error('Eduwings: Error fetching continents data:', error);
             // Return empty array when API fails
             return [];
+        }
+    }
+
+    // Function to fetch countries data for a specific continent
+    async function fetchCountries(continentId) {
+        try {
+            console.log(`Eduwings: Fetching countries for continent ID: ${continentId}`);
+            const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const countriesData = await response.json();
+            console.log(`Eduwings: Countries data loaded for continent ${continentId}:`, countriesData);
+            console.log(`Eduwings: Total countries found: ${countriesData.length}`);
+            return countriesData;
+        } catch (error) {
+            console.error(`Eduwings: Error fetching countries for continent ${continentId}:`, error);
+            return [];
+        }
+    }
+
+    // Function to handle country click events (specifically New Zealand)
+    function handleCountryClick(country) {
+        console.log('Eduwings: Country clicked:', country);
+        
+        if (country.name && country.name.toLowerCase().includes('new zealand')) {
+            console.log('Eduwings: New Zealand detected, redirecting to s4.html...');
+            alert('Welcome to New Zealand Education Portal! Explore world-class universities and academic programs in New Zealand.');
+            window.location.href = 's4.html';
+        } else {
+            console.log(`Eduwings: ${country.name} clicked - no specific action defined`);
+            alert(`${country.name} education programs coming soon! We're expanding our educational partnerships globally.`);
+        }
+    }
+
+    // Function to populate countries in the right side menu
+    async function populateCountries(continentId, targetElementId) {
+        console.log(`Eduwings: Populating countries for continent ${continentId} in element ${targetElementId}`);
+        
+        const targetElement = document.getElementById(targetElementId);
+        if (!targetElement) {
+            console.warn(`Eduwings: Target element ${targetElementId} not found`);
+            return;
+        }
+
+        // Show loading state
+        targetElement.innerHTML = `
+            <div class="column">
+                <div style="padding: 20px; text-align: center; color: #666;">
+                    <i class="fas fa-spinner fa-spin me-2"></i>
+                    Loading education destinations...
+                </div>
+            </div>
+        `;
+
+        try {
+            const countries = await fetchCountries(continentId);
+            
+            if (!countries || countries.length === 0) {
+                targetElement.innerHTML = `
+                    <div class="column">
+                        <div style="padding: 20px; text-align: center; color: #666; font-style: italic;">
+                            No education destinations available for this continent yet.
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Split countries into two columns
+            const midPoint = Math.ceil(countries.length / 2);
+            const firstColumn = countries.slice(0, midPoint);
+            const secondColumn = countries.slice(midPoint);
+
+            const column1HTML = firstColumn.map(country => 
+                `<a href="#" class="country-link" data-country='${JSON.stringify(country)}'>${country.name}</a>`
+            ).join('');
+
+            const column2HTML = secondColumn.map(country => 
+                `<a href="#" class="country-link" data-country='${JSON.stringify(country)}'>${country.name}</a>`
+            ).join('');
+
+            targetElement.innerHTML = `
+                <div class="column">
+                    ${column1HTML}
+                </div>
+                <div class="column">
+                    ${column2HTML}
+                </div>
+            `;
+
+            // Add click event listeners to country links
+            const countryLinks = targetElement.querySelectorAll('.country-link');
+            countryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    try {
+                        const countryData = JSON.parse(this.dataset.country);
+                        handleCountryClick(countryData);
+                    } catch (error) {
+                        console.error('Eduwings: Error parsing country data:', error);
+                    }
+                });
+            });
+
+            console.log(`Eduwings: Successfully populated ${countries.length} countries in ${targetElementId}`);
+
+        } catch (error) {
+            console.error(`Eduwings: Error populating countries for continent ${continentId}:`, error);
+            targetElement.innerHTML = `
+                <div class="column">
+                    <div style="padding: 20px; text-align: center; color: #dc3545;">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Error loading education destinations
+                    </div>
+                </div>
+            `;
         }
     }
 
@@ -3521,12 +3721,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const megaLeftContainer = document.querySelector('.destinations-menu .mega-left ul');
         
         if (!megaLeftContainer) {
-            console.warn('Destinations menu container not found');
+            console.warn('Eduwings: Destinations menu container not found');
             return;
         }
 
         if (!continentsData || !Array.isArray(continentsData) || continentsData.length === 0) {
-            console.warn('No continents data available from API, keeping static content');
+            console.warn('Eduwings: No continents data available from API, keeping static content');
             return;
         }
 
@@ -3540,6 +3740,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const li = document.createElement('li');
             li.setAttribute('data-target', dataTarget);
+            li.setAttribute('data-continent-id', continent._id || continent.id); // Store continent ID for API calls
             li.innerHTML = `${continentName} <span class="arrow">&#8250;</span>`;
             
             megaLeftContainer.appendChild(li);
@@ -3563,12 +3764,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 contentDiv.innerHTML = `
                     <div class="column">
                         <p style="color: #666; font-style: italic; padding: 20px;">
-                            Destinations for ${continentName} will be loaded here.
+                            Education destinations for ${continentName} will be loaded here.
                         </p>
                     </div>
                     <div class="column">
                         <p style="color: #666; font-style: italic; padding: 20px;">
-                            Countries and regions coming soon...
+                            Universities and institutions coming soon...
                         </p>
                     </div>
                 `;
@@ -3580,8 +3781,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reinitialize navigation interactions
         initializeNavigationInteractions();
 
-        console.log('Continents navigation rendered successfully');
-        console.log('Total continents displayed:', continentsData.length);
+        console.log('Eduwings: Continents navigation rendered successfully');
+        console.log('Eduwings: Total continents displayed:', continentsData.length);
     }
 
     // Function to initialize navigation interactions
@@ -3601,6 +3802,9 @@ document.addEventListener('DOMContentLoaded', function() {
         newMenuItems.forEach(item => {
             item.addEventListener('mouseenter', function() {
                 const target = this.getAttribute('data-target');
+                const continentId = this.getAttribute('data-continent-id');
+                
+                console.log(`Eduwings: Hovering over continent: ${target}, ID: ${continentId}`);
                 
                 // Hide all content sections
                 contentSections.forEach(content => {
@@ -3611,6 +3815,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetContent = document.getElementById(target);
                 if (targetContent) {
                     targetContent.style.display = 'block';
+                    
+                    // Load countries for this continent if we have the continent ID
+                    if (continentId) {
+                        populateCountries(continentId, target);
+                    }
                 }
                 
                 // Update active state
@@ -3625,11 +3834,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (newMenuItems.length > 0) {
             newMenuItems[0].classList.add('active');
             const firstTarget = newMenuItems[0].getAttribute('data-target');
+            const firstContinentId = newMenuItems[0].getAttribute('data-continent-id');
             const firstContent = document.getElementById(firstTarget);
             if (firstContent) {
                 firstContent.style.display = 'block';
+                
+                // Load countries for the first continent
+                if (firstContinentId) {
+                    populateCountries(firstContinentId, firstTarget);
+                }
             }
         }
+
+        console.log('Eduwings: Navigation interactions initialized with country loading support');
     }
 
     // Function to initialize continents navigation

@@ -2377,6 +2377,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     const countryName = country.name || country.countryName || country.country || country;
                     link.textContent = countryName;
                     
+                    // Add click handler for specific countries
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        handleCountryClick(countryName, country);
+                    });
+                    
+                    // Add hover effect
+                    link.style.cursor = 'pointer';
+                    link.addEventListener('mouseenter', function() {
+                        this.style.color = '#8a2be2';
+                    });
+                    link.addEventListener('mouseleave', function() {
+                        this.style.color = '';
+                    });
+                    
                     if (index % 2 === 0) {
                         column1.appendChild(link);
                     } else {
@@ -2395,6 +2410,30 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.error(`Content div not found for target: ${targetId}`);
         }
+    }
+
+    // Function to handle country clicks
+    function handleCountryClick(countryName, countryData) {
+        console.log(`Country clicked: ${countryName}`, countryData);
+        
+        // Normalize country name for comparison
+        const normalizedCountryName = countryName.toLowerCase().trim();
+        
+        // Check if it's New Zealand and redirect to s4.html
+        if (normalizedCountryName === 'new zealand' || 
+            normalizedCountryName === 'newzealand' || 
+            normalizedCountryName === 'zealand') {
+            console.log('Redirecting to New Zealand page (s4.html)');
+            window.location.href = 's4.html';
+            return;
+        }
+        
+        // For other countries, you can add more specific handlers here
+        // For now, just log the action
+        console.log(`No specific page found for ${countryName}. Implement country-specific logic here.`);
+        
+        // Optional: Show a message to user
+        alert(`${countryName} page coming soon! Currently, detailed pages are available for New Zealand.`);
     }
 
     // Initialize destinations dropdown with API data
@@ -3322,13 +3361,39 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching luxury cities:', error);
             // Return fallback data to maintain functionality
             return [
-                { _id: '1', name: 'FINLAND' },
-                { _id: '2', name: 'JAPAN' },
-                { _id: '3', name: 'KENYA' },
-                { _id: '4', name: 'NORWAY' },
-                { _id: '5', name: 'SAUDI ARABIA' }
+                { _id: '68c95f758955d15262c1a302', name: 'FINLAND' },
+                { _id: '68c95f7e8955d15262c1a304', name: 'JAPAN' },
+                { _id: '68c95f8c8955d15262c1a306', name: 'KENYA' },
+                { _id: '68c95f9d8955d15262c1a309', name: 'NORWAY' },
+                { _id: '68c95fad8955d15262c1a30b', name: 'SAUDI ARABIA' }
             ];
         }
+    }
+
+    // Function to fetch luxury options for a specific city
+    async function fetchLuxuryOptions(cityId) {
+        try {
+            const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch luxury options for city ${cityId}`);
+            }
+            const data = await response.json();
+            console.log('Luxury options loaded for city:', cityId, data);
+            return data;
+        } catch (error) {
+            console.error('Error fetching luxury options:', error);
+            return null;
+        }
+    }
+
+    // Function to create dynamic tour page URL with parameters
+    function createTourPageURL(cityId, cityName) {
+        const params = new URLSearchParams({
+            cityId: cityId,
+            cityName: cityName,
+            type: 'luxury-tour'
+        });
+        return `GroupTours.html?${params.toString()}`;
     }
 
     // Initialize luxury dropdown with API data
@@ -3347,15 +3412,45 @@ document.addEventListener('DOMContentLoaded', function() {
                     li.setAttribute('data-target', 'luxury');
                     
                     const a = document.createElement('a');
-                    // Create URL-friendly city name for links
-                    const citySlug = city.name.toLowerCase().replace(/\s+/g, '-');
-                    a.href = `luxury-${citySlug}.html`;
+                    // Create dynamic tour page URL
+                    a.href = createTourPageURL(city._id, city.name);
                     a.textContent = city.name || `Luxury City ${index + 1}`;
                     
-                    // Add click event to handle selection
-                    a.addEventListener('click', function(e) {
+                    // Add click event to handle luxury city selection
+                    a.addEventListener('click', async function(e) {
+                        e.preventDefault();
                         console.log('Selected luxury city:', city.name, 'ID:', city._id);
-                        // You can add additional functionality here
+                        
+                        // Show loading state
+                        const originalText = this.textContent;
+                        this.textContent = 'Loading...';
+                        this.style.pointerEvents = 'none';
+                        
+                        try {
+                            // Fetch luxury options for this city
+                            const luxuryOptions = await fetchLuxuryOptions(city._id);
+                            
+                            if (luxuryOptions) {
+                                // Store luxury options in sessionStorage for the tour page
+                                sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+                                sessionStorage.setItem('selectedCityId', city._id);
+                                sessionStorage.setItem('selectedCityName', city.name);
+                                
+                                // Navigate to tour page
+                                window.location.href = this.href;
+                            } else {
+                                // Fallback: navigate to general tour page
+                                console.warn('No luxury options found, navigating to general tour page');
+                                window.location.href = 'GroupTours.html';
+                            }
+                        } catch (error) {
+                            console.error('Error loading luxury city:', error);
+                            // Reset button state
+                            this.textContent = originalText;
+                            this.style.pointerEvents = 'auto';
+                            // Show error message
+                            alert('Sorry, unable to load this luxury destination. Please try again.');
+                        }
                     });
                     
                     li.appendChild(a);

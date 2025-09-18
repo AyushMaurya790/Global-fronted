@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero API Test</title>
+    <style>
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+        .hero-content {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            z-index: 10;
+            width: 100%;
+            color: white;
+            padding: 20px;
+        }
+        .hero-title {
+            font-size: 60px;
+            font-weight: 400;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero-subtitle {
+            font-size: 75px;
+            font-weight: 100;
+            font-style: normal;
+            color: white;
+        }
+        .hero-content p {
+            font-size: 20px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="hero-bg" style="background: linear-gradient(45deg, #1e3c72, #2a5298); width:100%; height:100vh;"></div>
+        
+        <div class="hero-content">
+            <h5 class="hero-title">
+                Loading...
+                <span class="hero-subtitle"> ... </span>
+            </h5>
+            <p>Loading hero content from API...</p>
+        </div>
+    </section>
+
+    <script>
+        console.log('Starting hero API test...');
+        
+        // Test the API first
+        fetch('http://globe.ridealmobility.com/api/hero')
+            .then(response => {
+                console.log('API Response status:', response.status);
+                console.log('API Response headers:', response.headers);
+                return response.json();
+            })
+            .then(data => {
+                console.log('API Data received:', data);
+                
+                if (data.heroes && data.heroes.length > 0) {
+                    const hero = data.heroes[0];
+                    console.log('Hero data:', hero);
+                    
+                    // Update content
+                    const heroTitle = document.querySelector('.hero-title');
+                    const heroDescription = document.querySelector('.hero-content p');
+                    
+                    if (heroTitle) {
+                        heroTitle.innerHTML = `${hero.mainHeading || 'Default Title'} <span class="hero-subtitle">${hero.styleHeading || 'Voyage'}</span>`;
+                        console.log('Title updated');
+                    }
+                    
+                    if (heroDescription) {
+                        heroDescription.textContent = hero.subheading || 'Default description';
+                        console.log('Description updated');
+                    }
+                    
+                    // Update video if available
+                    if (hero.videoFile) {
+                        console.log('Video file found:', hero.videoFile);
+                        const videoPath = hero.videoFile.replace(/\\/g, '/');
+                        const videoUrl = `http://globe.ridealmobility.com/${videoPath}`;
+                        console.log('Video URL:', videoUrl);
+                        
+                        const heroBg = document.querySelector('.hero-bg');
+                        const videoElement = document.createElement('video');
+                        videoElement.autoplay = true;
+                        videoElement.muted = true;
+                        videoElement.loop = true;
+                        videoElement.playsInline = true;
+                        videoElement.style.cssText = 'width:100%; height:100vh; object-fit:cover;';
+                        
+                        const source = document.createElement('source');
+                        source.src = videoUrl;
+                        source.type = 'video/mp4';
+                        videoElement.appendChild(source);
+                        
+                        videoElement.onloadstart = () => console.log('Video loading...');
+                        videoElement.oncanplay = () => console.log('Video ready to play');
+                        videoElement.onplay = () => console.log('Video playing');
+                        videoElement.onerror = (e) => console.error('Video error:', e);
+                        
+                        heroBg.appendChild(videoElement);
+                    }
+                } else {
+                    console.log('No heroes found in API response');
+                }
+            })
+            .catch(error => {
+                console.error('API Error:', error);
+                document.querySelector('.hero-content p').textContent = 'Failed to load hero content: ' + error.message;
+            });
+    </script>
+</body>
+</html>

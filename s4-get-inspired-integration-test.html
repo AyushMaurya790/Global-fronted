@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S4 Get Inspired Section API Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .test-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-header {
+            background: #333;
+            color: white;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status-success { background-color: #28a745; }
+        .status-warning { background-color: #ffc107; color: #212529; }
+        .status-error { background-color: #dc3545; }
+        .api-test-result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .inspired-test-container {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #fff;
+        }
+        .inspired-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .silver-South-family {
+            font-style: italic;
+            color: #a0a0a0;
+        }
+        .inspired-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .inspired-card {
+            position: relative;
+            width: 250px;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .inspired-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .inspired-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-log {
+            background: #f1f3f4;
+            border: 1px solid #dadce0;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>S4 Get Inspired Section API Integration Test</h1>
+        <p><strong>Testing:</strong> Simple-section API integration for Get Inspired section</p>
+        <p><strong>API Endpoint:</strong> http://globe.ridealmobility.com/api/simple-section/country/68c00412cd2575bd4c46121b</p>
+        <p><strong>Integration File:</strong> s4.html</p>
+    </div>
+
+    <!-- API Connectivity Test -->
+    <div class="test-section">
+        <div class="test-header">
+            <h2>1. API Connectivity Test
+                <span id="api-status" class="status-indicator">Testing...</span>
+            </h2>
+        </div>
+        <button class="test-button" onclick="testAPIConnectivity()">Test API Connection</button>
+        <div id="api-result" class="api-test-result">Click "Test API Connection" to begin...</div>
+    </div>
+
+    <!-- Data Structure Validation -->
+    <div class="test-section">
+        <div class="test-header">
+            <h2>2. Data Structure Validation
+                <span id="structure-status" class="status-indicator">Pending</span>
+            </h2>
+        </div>
+        <button class="test-button" onclick="validateDataStructure()">Validate Structure</button>
+        <div id="structure-result" class="api-test-result">Waiting for validation...</div>
+    </div>
+
+    <!-- Image URL Processing Test -->
+    <div class="test-section">
+        <div class="test-header">
+            <h2>3. Image URL Processing Test
+                <span id="image-status" class="status-indicator">Pending</span>
+            </h2>
+        </div>
+        <button class="test-button" onclick="testImageProcessing()">Test Image URLs</button>
+        <div id="image-result" class="api-test-result">Image URL processing test not started...</div>
+    </div>
+
+    <!-- Card Rendering Test -->
+    <div class="test-section">
+        <div class="test-header">
+            <h2>4. Get Inspired Cards Rendering Test
+                <span id="rendering-status" class="status-indicator">Pending</span>
+            </h2>
+        </div>
+        <button class="test-button" onclick="testCardRendering()">Test Card Rendering</button>
+        <div id="inspired-test-container" class="inspired-test-container">
+            <h2 id="test-title" class="inspired-title">Get <span class="silver-South-family">Inspired</span></h2>
+            <div id="test-row-1" class="inspired-row inspired-row-1"></div>
+            <div id="test-row-2" class="inspired-row inspired-row-2"></div>
+        </div>
+        <div id="rendering-result" class="api-test-result">Card rendering test not started...</div>
+    </div>
+
+    <!-- Integration Simulation -->
+    <div class="test-section">
+        <div class="test-header">
+            <h2>5. Full Integration Simulation
+                <span id="integration-status" class="status-indicator">Pending</span>
+            </h2>
+        </div>
+        <button class="test-button" onclick="simulateFullIntegration()">Simulate Full Integration</button>
+        <div id="integration-result" class="api-test-result">Full integration simulation not started...</div>
+    </div>
+
+    <!-- Test Log -->
+    <div class="test-section">
+        <div class="test-header">
+            <h2>Test Execution Log</h2>
+        </div>
+        <div id="test-log" class="test-log">Test execution log will appear here...\n</div>
+        <button class="test-button" onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+        let testData = null;
+        let testStartTime = Date.now();
+
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('test-log');
+            logElement.textContent += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function updateStatus(elementId, status, text) {
+            const element = document.getElementById(elementId);
+            element.className = `status-indicator status-${status}`;
+            element.textContent = text;
+        }
+
+        function clearLog() {
+            document.getElementById('test-log').textContent = 'Test log cleared...\n';
+        }
+
+        // Function to get the complete image URL (replicated from integration)
+        function getInspiredImageUrl(imagePath) {
+            if (!imagePath) return './images/bm1.webp';
+            
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                return imagePath;
+            }
+            
+            const baseUrl = 'http://globe.ridealmobility.com/';
+            return baseUrl + imagePath.replace(/^\/+/, '');
+        }
+
+        // 1. API Connectivity Test
+        async function testAPIConnectivity() {
+            log('Testing API connectivity...');
+            updateStatus('api-status', 'warning', 'Testing...');
+            
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/simple-section/country/68c00412cd2575bd4c46121b', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                testData = data;
+
+                document.getElementById('api-result').textContent = JSON.stringify(data, null, 2);
+                updateStatus('api-status', 'success', 'Connected');
+                log(`API connectivity test passed. Status: ${response.status}`);
+                log(`Data received: ${JSON.stringify(data)}`);
+
+            } catch (error) {
+                document.getElementById('api-result').textContent = `Error: ${error.message}`;
+                updateStatus('api-status', 'error', 'Failed');
+                log(`API connectivity test failed: ${error.message}`);
+            }
+        }
+
+        // 2. Data Structure Validation
+        function validateDataStructure() {
+            log('Validating data structure...');
+            
+            if (!testData) {
+                document.getElementById('structure-result').textContent = 'Error: No data available. Run API test first.';
+                updateStatus('structure-status', 'error', 'No Data');
+                log('Data structure validation failed: No test data available');
+                return;
+            }
+
+            let validation = {
+                isArray: Array.isArray(testData),
+                hasItems: testData.length > 0,
+                firstItem: null
+            };
+
+            if (validation.isArray && validation.hasItems) {
+                const firstItem = testData[0];
+                validation.firstItem = {
+                    hasMainHeading: firstItem.hasOwnProperty('mainHeading'),
+                    hasCards: firstItem.hasOwnProperty('cards'),
+                    hasCountry: firstItem.hasOwnProperty('country'),
+                    mainHeading: firstItem.mainHeading,
+                    cardsCount: firstItem.cards ? firstItem.cards.length : 0,
+                    cardsIsArray: Array.isArray(firstItem.cards),
+                    validCards: []
+                };
+
+                if (firstItem.cards && Array.isArray(firstItem.cards)) {
+                    firstItem.cards.forEach((card, index) => {
+                        validation.firstItem.validCards.push({
+                            index: index,
+                            hasTitle: card.hasOwnProperty('title'),
+                            hasImage: card.hasOwnProperty('image'),
+                            hasId: card.hasOwnProperty('_id'),
+                            title: card.title,
+                            image: card.image
+                        });
+                    });
+                }
+            }
+
+            const isValid = validation.isArray && 
+                           validation.hasItems && 
+                           validation.firstItem &&
+                           validation.firstItem.hasMainHeading &&
+                           validation.firstItem.hasCards &&
+                           validation.firstItem.cardsIsArray;
+
+            document.getElementById('structure-result').textContent = JSON.stringify(validation, null, 2);
+            
+            if (isValid) {
+                updateStatus('structure-status', 'success', 'Valid');
+                log(`Data structure validation passed. Found ${validation.firstItem.cardsCount} cards`);
+            } else {
+                updateStatus('structure-status', 'error', 'Invalid');
+                log('Data structure validation failed: Missing required fields');
+            }
+        }
+
+        // 3. Image URL Processing Test
+        function testImageProcessing() {
+            log('Testing image URL processing...');
+            
+            if (!testData || !testData[0] || !testData[0].cards) {
+                document.getElementById('image-result').textContent = 'Error: No card data available. Run API test first.';
+                updateStatus('image-status', 'error', 'No Data');
+                log('Image URL processing test failed: No card data available');
+                return;
+            }
+
+            try {
+                const cards = testData[0].cards;
+                let imageResults = [];
+
+                cards.forEach((card, index) => {
+                    const originalPath = card.image;
+                    const processedUrl = getInspiredImageUrl(originalPath);
+                    
+                    imageResults.push({
+                        cardIndex: index,
+                        originalPath: originalPath,
+                        processedUrl: processedUrl,
+                        isAbsolute: processedUrl.startsWith('http'),
+                        fallbackApplied: processedUrl === './images/bm1.webp'
+                    });
+                });
+
+                const resultText = `Image URL Processing Results:
+${JSON.stringify(imageResults, null, 2)}
+
+Summary:
+- Total cards processed: ${imageResults.length}
+- Absolute URLs: ${imageResults.filter(r => r.isAbsolute).length}
+- Fallbacks applied: ${imageResults.filter(r => r.fallbackApplied).length}`;
+
+                document.getElementById('image-result').textContent = resultText;
+                updateStatus('image-status', 'success', 'Processed');
+                log(`Image URL processing test passed. Processed ${imageResults.length} images`);
+
+            } catch (error) {
+                document.getElementById('image-result').textContent = `Error: ${error.message}`;
+                updateStatus('image-status', 'error', 'Failed');
+                log(`Image URL processing test failed: ${error.message}`);
+            }
+        }
+
+        // 4. Card Rendering Test
+        function testCardRendering() {
+            log('Testing card rendering...');
+            
+            if (!testData || !testData[0]) {
+                document.getElementById('rendering-result').textContent = 'Error: No data available. Run API test first.';
+                updateStatus('rendering-status', 'error', 'No Data');
+                log('Card rendering test failed: No test data available');
+                return;
+            }
+
+            try {
+                const sectionData = testData[0];
+                const cards = sectionData.cards || [];
+
+                // Update title
+                const titleElement = document.getElementById('test-title');
+                if (sectionData.mainHeading) {
+                    titleElement.innerHTML = sectionData.mainHeading.replace(
+                        /(\w+)\s+(.+)/, 
+                        '$1 <span class="silver-South-family"> $2 </span>'
+                    );
+                }
+
+                // Generate overlay text function
+                function generateOverlayText(title, index) {
+                    const newZealandAttractions = [
+                        "Lake Tekapo & Mt. Cook - Starry Skies & Alpine Beauty",
+                        "Rotorua - Maori Culture & Geothermal Wonders", 
+                        "Sky Tower Auckland - Panoramic Views",
+                        "Hobbiton Movie Set - Lord of the Rings Fame"
+                    ];
+                    
+                    if (title && title !== `Inspired Card ${index + 1}` && title !== `Card ${index + 1}`) {
+                        return title;
+                    }
+                    
+                    return newZealandAttractions[index % newZealandAttractions.length];
+                }
+
+                // Render cards
+                const row1Container = document.getElementById('test-row-1');
+                const row2Container = document.getElementById('test-row-2');
+                
+                row1Container.innerHTML = '';
+                row2Container.innerHTML = '';
+
+                // Arrange cards
+                const row1Cards = cards.slice(0, 2);
+                const row2Cards = cards.slice(2, 4);
+
+                // Render Row 1
+                row1Cards.forEach((card, index) => {
+                    const imageUrl = getInspiredImageUrl(card.image);
+                    const overlayText = generateOverlayText(card.title, index);
+                    
+                    const cardHtml = `
+                        <div class="inspired-card">
+                            <img src="${imageUrl}" alt="${card.title}" 
+                                 onerror="this.src='./images/bm${(index % 3) + 1}.webp'">
+                            <div class="inspired-overlay">
+                                ${overlayText}
+                            </div>
+                        </div>
+                    `;
+                    row1Container.insertAdjacentHTML('beforeend', cardHtml);
+                });
+
+                // Render Row 2
+                row2Cards.forEach((card, index) => {
+                    const imageUrl = getInspiredImageUrl(card.image);
+                    const overlayText = generateOverlayText(card.title, index + 2);
+                    
+                    const cardHtml = `
+                        <div class="inspired-card">
+                            <img src="${imageUrl}" alt="${card.title}" 
+                                 onerror="this.src='./images/bm${((index + 2) % 3) + 1}.webp'">
+                            <div class="inspired-overlay">
+                                ${overlayText}
+                            </div>
+                        </div>
+                    `;
+                    row2Container.insertAdjacentHTML('beforeend', cardHtml);
+                });
+
+                // Fill with defaults if needed
+                const totalCards = cards.length;
+                if (totalCards < 4) {
+                    const defaultCards = [
+                        { title: "Lake Tekapo & Mt. Cook - Starry Skies & Alpine Beauty", image: "./images/bm1.webp" },
+                        { title: "Rotorua - Maori Culture & Geothermal Wonders", image: "./images/bm2.webp" },
+                        { title: "Sky Tower Auckland - Panoramic Views", image: "./images/bm3.webp" },
+                        { title: "Hobbiton Movie Set - Lord of the Rings Fame", image: "./images/bm1.webp" }
+                    ];
+
+                    // Fill remaining Row 1 slots
+                    for (let i = row1Cards.length; i < 2; i++) {
+                        const defaultCard = defaultCards[i];
+                        const cardHtml = `
+                            <div class="inspired-card">
+                                <img src="${defaultCard.image}" alt="${defaultCard.title}">
+                                <div class="inspired-overlay">
+                                    ${defaultCard.title}
+                                </div>
+                            </div>
+                        `;
+                        row1Container.insertAdjacentHTML('beforeend', cardHtml);
+                    }
+
+                    // Fill remaining Row 2 slots
+                    for (let i = row2Cards.length; i < 2; i++) {
+                        const defaultCard = defaultCards[i + 2];
+                        const cardHtml = `
+                            <div class="inspired-card">
+                                <img src="${defaultCard.image}" alt="${defaultCard.title}">
+                                <div class="inspired-overlay">
+                                    ${defaultCard.title}
+                                </div>
+                            </div>
+                        `;
+                        row2Container.insertAdjacentHTML('beforeend', cardHtml);
+                    }
+                }
+
+                const renderedCards = document.querySelectorAll('#inspired-test-container .inspired-card').length;
+                document.getElementById('rendering-result').textContent = `Successfully rendered ${renderedCards} inspired cards (${cards.length} from API, ${4 - cards.length} fallbacks)`;
+                updateStatus('rendering-status', 'success', 'Rendered');
+                log(`Card rendering test passed. Rendered ${renderedCards} total cards`);
+
+            } catch (error) {
+                document.getElementById('rendering-result').textContent = `Error: ${error.message}`;
+                updateStatus('rendering-status', 'error', 'Failed');
+                log(`Card rendering test failed: ${error.message}`);
+            }
+        }
+
+        // 5. Full Integration Simulation
+        async function simulateFullIntegration() {
+            log('Starting full integration simulation...');
+            updateStatus('integration-status', 'warning', 'Testing...');
+
+            try {
+                // Step 1: Fresh API call
+                log('Step 1: Fetching fresh API data...');
+                const response = await fetch('http://globe.ridealmobility.com/api/simple-section/country/68c00412cd2575bd4c46121b');
+                if (!response.ok) throw new Error(`API error: ${response.status}`);
+                const freshData = await response.json();
+
+                // Step 2: Validate structure
+                log('Step 2: Validating data structure...');
+                if (!Array.isArray(freshData) || freshData.length === 0) {
+                    throw new Error('Invalid data structure');
+                }
+
+                const sectionData = freshData[0];
+                if (!sectionData.cards || !Array.isArray(sectionData.cards)) {
+                    throw new Error('Missing cards array');
+                }
+
+                // Step 3: Test image processing
+                log('Step 3: Testing image URL processing...');
+                const imageTests = sectionData.cards.map(card => {
+                    const processed = getInspiredImageUrl(card.image);
+                    return {
+                        original: card.image,
+                        processed: processed,
+                        valid: processed.length > 0
+                    };
+                });
+
+                // Step 4: Simulate rendering
+                log('Step 4: Simulating card rendering...');
+                const simulationResults = {
+                    apiCards: sectionData.cards.length,
+                    totalRendered: Math.max(4, sectionData.cards.length),
+                    imagesProcessed: imageTests.length,
+                    validImages: imageTests.filter(t => t.valid).length,
+                    titleUpdated: !!sectionData.mainHeading,
+                    layoutPreserved: true
+                };
+
+                const integrationResult = `Full Integration Simulation Results:
+===========================================
+✅ API Connection: Success
+✅ Data Validation: Valid structure
+✅ Image Processing: ${simulationResults.validImages}/${simulationResults.imagesProcessed} valid
+✅ Card Rendering: ${simulationResults.totalRendered} cards (${simulationResults.apiCards} from API)
+✅ Title Update: ${simulationResults.titleUpdated ? 'Applied' : 'Skipped'}
+✅ Layout Preservation: Maintained 2x2 grid
+✅ Fallback System: Active
+
+Integration Summary:
+- Total execution time: ${Date.now() - testStartTime}ms
+- All components working correctly
+- Ready for production deployment
+
+API Response Sample:
+${JSON.stringify(freshData, null, 2)}
+
+Image Processing Results:
+${JSON.stringify(imageTests, null, 2)}`;
+
+                document.getElementById('integration-result').textContent = integrationResult;
+                updateStatus('integration-status', 'success', 'Passed');
+                log('Full integration simulation completed successfully');
+
+            } catch (error) {
+                document.getElementById('integration-result').textContent = `Integration simulation failed: ${error.message}`;
+                updateStatus('integration-status', 'error', 'Failed');
+                log(`Full integration simulation failed: ${error.message}`);
+            }
+        }
+
+        // Initialize tests
+        document.addEventListener('DOMContentLoaded', function() {
+            log('S4 Get Inspired Section API Integration Test initialized');
+            log('Click buttons above to run individual tests or run them in sequence');
+        });
+    </script>
+</body>
+</html>

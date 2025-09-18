@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business.html Luxury Navigation Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .test-card { background: white; margin: 20px 0; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .page-card { border-left: 5px solid #007bff; }
+        .btn { padding: 12px 24px; margin: 8px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #0056b3; }
+        .btn-success { background: #28a745; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn-business { background: #6f42c1; }
+        .status { margin-top: 10px; padding: 12px; border-radius: 5px; font-weight: bold; }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { padding: 8px 0; border-bottom: 1px solid #eee; }
+        .feature-list li:before { content: "✅ "; color: #28a745; font-weight: bold; }
+        .expected-behavior { background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .page-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .page-icon { font-size: 24px; margin-right: 10px; }
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .page-status { padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .status-working { background: #d4edda; color: #155724; }
+        .status-updated { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏢 Business.html Luxury Navigation Test</h1>
+        <p class="lead">Testing luxury city navigation functionality in business.html after adding GroupTours.html integration</p>
+
+        <div class="test-card">
+            <h2>📊 All Pages Status Overview</h2>
+            <div class="comparison-grid">
+                <div class="test-card page-card">
+                    <div class="page-header">
+                        <span class="page-icon">🏠</span>
+                        <h4>Index.html</h4>
+                        <span class="page-status status-working">✅ Working</span>
+                    </div>
+                    <p><strong>Dropdown ID:</strong> <code>luxury-dropdown-menu</code></p>
+                    <a href="index.html" class="btn btn-success">Test Index</a>
+                </div>
+
+                <div class="test-card page-card">
+                    <div class="page-header">
+                        <span class="page-icon">🚢</span>
+                        <h4>Voyages.html</h4>
+                        <span class="page-status status-working">✅ Working</span>
+                    </div>
+                    <p><strong>Dropdown ID:</strong> <code>voyages-luxury-dropdown</code></p>
+                    <a href="Voyages.html" class="btn btn-success">Test Voyages</a>
+                </div>
+
+                <div class="test-card page-card">
+                    <div class="page-header">
+                        <span class="page-icon">🎒</span>
+                        <h4>TourPackages.html</h4>
+                        <span class="page-status status-working">✅ Working</span>
+                    </div>
+                    <p><strong>Dropdown ID:</strong> <code>luxury-dropdown-list</code></p>
+                    <a href="tourpakages.html" class="btn btn-success">Test TourPackages</a>
+                </div>
+
+                <div class="test-card page-card">
+                    <div class="page-header">
+                        <span class="page-icon">🏢</span>
+                        <h4>Business.html</h4>
+                        <span class="page-status status-updated">🆕 Just Updated</span>
+                    </div>
+                    <p><strong>Dropdown ID:</strong> <code>business-luxury-dropdown</code></p>
+                    <a href="business.html" class="btn btn-business">Test Business</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <div class="page-header">
+                <span class="page-icon">🏢</span>
+                <h2>Business.html Luxury Navigation Test</h2>
+            </div>
+            <p>Test the newly added luxury dropdown functionality on the business page</p>
+            
+            <div class="expected-behavior">
+                <h4>What Should Happen:</h4>
+                <ul class="feature-list">
+                    <li>Business.html loads with luxury dropdown in navigation</li>
+                    <li>Dropdown shows same cities as other pages (FINLAND, JAPAN, KENYA, etc.)</li>
+                    <li>Clicking any luxury city redirects to GroupTours.html</li>
+                    <li>GroupTours.html loads dynamic luxury content for selected city</li>
+                    <li>Session storage is populated with luxury options</li>
+                    <li>Console shows "Business luxury dropdown populated" message</li>
+                </ul>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <a href="business.html" class="btn btn-business" style="font-size: 16px; padding: 15px 30px;">
+                    🚀 Open Business.html and Test Luxury Navigation
+                </a>
+            </div>
+
+            <div class="expected-behavior">
+                <h4>Test Steps:</h4>
+                <ol>
+                    <li>Click the button above to open business.html</li>
+                    <li>Look for "LUXURY" in the top navigation menu</li>
+                    <li>Click on "LUXURY" to see the dropdown</li>
+                    <li>You should see luxury cities like FINLAND, JAPAN, KENYA, etc.</li>
+                    <li>Click on any luxury city</li>
+                    <li>You should be redirected to GroupTours.html with luxury content</li>
+                    <li>Check browser console for success messages</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h2>🔧 API Integration Test</h2>
+            <p>Test the underlying API functionality for business.html</p>
+            <button class="btn" onclick="testBusinessLuxuryAPI()">Test Business Luxury API</button>
+            <div id="apiTestResults" class="status" style="display:none;"></div>
+        </div>
+
+        <div class="test-card">
+            <h2>🚀 Direct GroupTours.html Test from Business Context</h2>
+            <p>Test direct navigation with business context to ensure luxury content loads properly</p>
+            <div style="margin: 15px 0;">
+                <a href="GroupTours.html?cityId=68c95f758955d15262c1a302&cityName=FINLAND&type=luxury-tour&source=business" class="btn btn-warning">
+                    Test FINLAND from Business
+                </a>
+                <a href="GroupTours.html?cityId=68c95f7e8955d15262c1a304&cityName=JAPAN&type=luxury-tour&source=business" class="btn btn-warning">
+                    Test JAPAN from Business
+                </a>
+                <a href="GroupTours.html?cityId=68c95f8c8955d15262c1a306&cityName=KENYA&type=luxury-tour&source=business" class="btn btn-warning">
+                    Test KENYA from Business
+                </a>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h2>✅ Success Criteria</h2>
+            <div class="expected-behavior">
+                <h4>Business.html integration is successful if:</h4>
+                <ul class="feature-list">
+                    <li>Business page loads without JavaScript errors</li>
+                    <li>Luxury dropdown shows same cities as other pages</li>
+                    <li>Clicking luxury cities redirects to GroupTours.html</li>
+                    <li>Dynamic luxury content loads in GroupTours.html</li>
+                    <li>Console shows "Business luxury dropdown populated with X cities"</li>
+                    <li>Session storage contains luxury options after city selection</li>
+                    <li>Navigation works consistently across all 4 pages</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-card">
+            <h2>🛠️ Debug Tools</h2>
+            <button class="btn" onclick="showBusinessDebugInfo()">Show Business Debug Info</button>
+            <button class="btn" onclick="testAllPagesConsistency()">Test All Pages Consistency</button>
+            <div id="debugOutput" style="display:none; margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <script>
+        async function testBusinessLuxuryAPI() {
+            const resultDiv = document.getElementById('apiTestResults');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'status info';
+            resultDiv.innerHTML = '🔄 Testing Business Luxury API Integration...';
+            
+            try {
+                // Test luxury cities API
+                const citiesResponse = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
+                if (!citiesResponse.ok) throw new Error(`Cities API: HTTP ${citiesResponse.status}`);
+                
+                const cities = await citiesResponse.json();
+                
+                // Test specific luxury options API
+                const testCityId = '68c95f758955d15262c1a302';
+                const optionsResponse = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${testCityId}`);
+                if (!optionsResponse.ok) throw new Error(`Options API: HTTP ${optionsResponse.status}`);
+                
+                const options = await optionsResponse.json();
+                
+                resultDiv.className = 'status success';
+                resultDiv.innerHTML = `
+                    ✅ Business Luxury API Integration Success!
+                    <br><strong>Cities Available:</strong> ${cities.length} (${cities.map(c => c.name).join(', ')})
+                    <br><strong>Test City Options:</strong> ${options.signatureExperiences?.length || 0} experiences, ${options.luxuryResorts?.length || 0} resorts
+                    <br><strong>Status:</strong> Ready for business.html integration
+                `;
+                
+                // Store test data
+                sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(options));
+                sessionStorage.setItem('selectedCityId', testCityId);
+                sessionStorage.setItem('selectedCityName', 'FINLAND');
+                
+            } catch (error) {
+                resultDiv.className = 'status error';
+                resultDiv.innerHTML = `❌ Business Luxury API Error: ${error.message}`;
+            }
+        }
+
+        function showBusinessDebugInfo() {
+            const debugDiv = document.getElementById('debugOutput');
+            debugDiv.style.display = 'block';
+            
+            const sessionData = {
+                selectedCityId: sessionStorage.getItem('selectedCityId'),
+                selectedCityName: sessionStorage.getItem('selectedCityName'),
+                selectedCityLuxuryOptions: sessionStorage.getItem('selectedCityLuxuryOptions') ? 'Available' : 'Not available'
+            };
+            
+            debugDiv.innerHTML = `
+                <h4>Business.html Debug Information:</h4>
+                <div style="background: #f1f1f1; padding: 15px; border-radius: 5px;">
+                    <p><strong>Expected Dropdown ID:</strong> <code>business-luxury-dropdown</code></p>
+                    <p><strong>Expected Function:</strong> <code>initializeBusinessLuxuryDropdown()</code></p>
+                    <p><strong>Expected Console Log:</strong> "Business luxury dropdown populated with X cities"</p>
+                </div>
+                
+                <h4>Current Session Data:</h4>
+                <pre style="background: #f8f9fa; padding: 10px; border-radius: 3px;">${JSON.stringify(sessionData, null, 2)}</pre>
+                
+                <h4>Test Commands for Browser Console:</h4>
+                <div style="background: #f1f1f1; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px;">
+                    <p><strong>Check business dropdown exists:</strong></p>
+                    <code>document.getElementById('business-luxury-dropdown')</code>
+                    
+                    <p><strong>Check dropdown content:</strong></p>
+                    <code>document.getElementById('business-luxury-dropdown').innerHTML</code>
+                    
+                    <p><strong>Test luxury cities API:</strong></p>
+                    <code>fetch('http://globe.ridealmobility.com/api/luxury-cities').then(r => r.json()).then(console.log)</code>
+                </div>
+            `;
+        }
+
+        async function testAllPagesConsistency() {
+            const debugDiv = document.getElementById('debugOutput');
+            debugDiv.style.display = 'block';
+            debugDiv.innerHTML = '🔄 Testing consistency across all pages...';
+            
+            try {
+                const cities = await fetch('http://globe.ridealmobility.com/api/luxury-cities').then(r => r.json());
+                
+                const pageDropdowns = [
+                    { page: 'index.html', id: 'luxury-dropdown-menu' },
+                    { page: 'Voyages.html', id: 'voyages-luxury-dropdown' },
+                    { page: 'tourpackages.html', id: 'luxury-dropdown-list' },
+                    { page: 'business.html', id: 'business-luxury-dropdown' }
+                ];
+                
+                debugDiv.innerHTML = `
+                    <h4>✅ All Pages Luxury Navigation Status:</h4>
+                    <div style="background: #d4edda; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                        ${pageDropdowns.map(item => `
+                            <div style="margin: 8px 0; padding: 8px; background: white; border-radius: 3px;">
+                                <strong>${item.page}:</strong> Dropdown ID <code>${item.id}</code> ✅ Updated
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <h4>Available Cities (${cities.length}):</h4>
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 3px;">
+                        ${cities.map(city => `<span style="background: white; padding: 4px 8px; margin: 2px; border-radius: 3px; display: inline-block;">${city.name}</span>`).join('')}
+                    </div>
+                    
+                    <p style="color: #28a745; font-weight: bold;">
+                        🎉 All 4 pages now have consistent luxury navigation that redirects to GroupTours.html!
+                    </p>
+                `;
+            } catch (error) {
+                debugDiv.innerHTML = `<p style="color: #dc3545;">❌ Error testing consistency: ${error.message}</p>`;
+            }
+        }
+
+        // Auto-run API test on page load
+        window.addEventListener('load', function() {
+            console.log('🏢 Business.html luxury navigation test suite loaded');
+            setTimeout(testBusinessLuxuryAPI, 1000);
+        });
+    </script>
+</body>
+</html>

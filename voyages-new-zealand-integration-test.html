@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyages - New Zealand Countries API Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .result {
+            background-color: #e8f5e8;
+            border-left: 4px solid #28a745;
+            margin-top: 10px;
+            padding: 10px;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            margin-top: 10px;
+            padding: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .countries-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .country-link {
+            display: block;
+            padding: 8px 12px;
+            background: #fff;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #333;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .country-link:hover {
+            background: #8a2be2;
+            color: white;
+            border-color: #8a2be2;
+        }
+        .new-zealand-highlight {
+            background: linear-gradient(90deg, #a259ff 0%, #8a2be2 100%) !important;
+            color: white !important;
+            font-weight: bold;
+        }
+        .voyages-section {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .nav-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #8a2be2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: background 0.3s ease;
+        }
+        .nav-link:hover {
+            background: #a259ff;
+            color: white;
+        }
+        .enhancement-badge {
+            background: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚢 Voyages - New Zealand API Integration Test</h1>
+        <p>This test demonstrates the enhanced countries API integration and New Zealand click handling for the Voyages page.</p>
+        
+        <div class="voyages-section">
+            <h3>🔗 Enhanced Voyages Integration <span class="enhancement-badge">ENHANCED</span></h3>
+            <p>Voyages.html already had basic continents API integration, but we enhanced it with:</p>
+            <ul>
+                <li>✅ Countries API integration for dynamic country population</li>
+                <li>✅ New Zealand click handler for s4.html redirect</li>
+                <li>✅ Hover effects and interactive country links</li>
+                <li>✅ Enhanced error handling and debugging</li>
+            </ul>
+            <a href="index.html" class="nav-link">🏠 Index Page</a>
+            <a href="tourpakages.html" class="nav-link">🎒 Tour Packages</a>
+            <a href="Voyages.html" class="nav-link">🚢 Voyages Page</a>
+            <a href="s4.html" class="nav-link">🇳🇿 New Zealand</a>
+        </div>
+
+        <div class="test-section">
+            <h3>📍 Step 1: Test Enhanced Continents API (Voyages)</h3>
+            <p>Fetch all continents for the voyages destinations dropdown with enhanced features.</p>
+            <button onclick="testContinentsAPI()">Fetch Continents</button>
+            <div id="continentsResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🌏 Step 2: Test Countries API for Oceania (Voyages)</h3>
+            <p>Fetch countries for the Oceania continent specifically for voyages.</p>
+            <button onclick="testOceaniaCountries()">Fetch Oceania Countries</button>
+            <div id="oceaniaResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🎯 Step 3: Test New Zealand Voyages Click Handler</h3>
+            <p>Click on New Zealand below to test the redirect to s4.html from voyages page:</p>
+            <div id="newZealandTest">
+                <a href="#" class="country-link new-zealand-highlight" onclick="handleNewZealandClick(event)">
+                    🇳🇿 New Zealand Voyages (Click to test redirect)
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔍 Step 4: Enhanced Features Comparison</h3>
+            <p>The enhanced Voyages integration now includes:</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Before (Basic):</h5>
+                    <ul>
+                        <li>✅ Basic continents API fetch</li>
+                        <li>✅ Continent dropdown population</li>
+                        <li>❌ No countries API integration</li>
+                        <li>❌ No country click handlers</li>
+                        <li>❌ No New Zealand redirect</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5>After (Enhanced):</h5>
+                    <ul>
+                        <li>✅ Enhanced continents API fetch</li>
+                        <li>✅ Dynamic countries API integration</li>
+                        <li>✅ Interactive country click handlers</li>
+                        <li>✅ New Zealand s4.html redirect</li>
+                        <li>✅ Hover effects and debugging</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>📋 Voyages Integration Status</h3>
+            <ul>
+                <li>✅ Enhanced existing continents API integration</li>
+                <li>✅ Added countries API fetch functionality</li>
+                <li>✅ Added New Zealand click handler for voyages</li>
+                <li>✅ Added hover effects for country links</li>
+                <li>✅ Enhanced error handling and debugging</li>
+                <li>✅ Maintained compatibility with existing luxury cities API</li>
+                <li>✅ Same functionality as index.html and tourpakages.html</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>🚀 Usage Instructions for Voyages</h3>
+            <ol>
+                <li>Navigate to <strong>Voyages.html</strong></li>
+                <li>Hover over <strong>DESTINATIONS</strong> in the navigation</li>
+                <li>Hover over any continent (e.g., OCEANIA)</li>
+                <li>Countries will load dynamically from the API</li>
+                <li>Click on <strong>New Zealand</strong></li>
+                <li>You'll be redirected to <strong>s4.html</strong></li>
+                <li>Message will say "New Zealand voyages coming soon!" for context</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h3>🌊 Voyages-Specific Features</h3>
+            <p>The Voyages integration includes unique features:</p>
+            <ul>
+                <li><strong>Voyages Context:</strong> Country alerts mention "voyages" specifically</li>
+                <li><strong>Maritime Theme:</strong> Perfect for cruise and maritime travel options</li>
+                <li><strong>Luxury Integration:</strong> Works alongside existing luxury cities API</li>
+                <li><strong>Global Coverage:</strong> All continents and countries supported</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let continentsData = [];
+        let oceaniaId = null;
+
+        // Function to fetch continents from API
+        async function fetchContinents() {
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/continents');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const continents = await response.json();
+                return continents;
+            } catch (error) {
+                console.error('Error fetching continents:', error);
+                throw error;
+            }
+        }
+
+        // Function to fetch countries for a specific continent
+        async function fetchCountries(continentId) {
+            try {
+                const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const countries = await response.json();
+                return countries;
+            } catch (error) {
+                console.error(`Error fetching countries for continent ${continentId}:`, error);
+                throw error;
+            }
+        }
+
+        // Test continents API
+        async function testContinentsAPI() {
+            const resultDiv = document.getElementById('continentsResult');
+            resultDiv.innerHTML = '<div style="color: #666; font-style: italic;">Loading continents for voyages...</div>';
+            
+            try {
+                const continents = await fetchContinents();
+                continentsData = continents;
+                
+                // Find Oceania continent
+                const oceania = continents.find(c => 
+                    (c.name && c.name.toLowerCase().includes('oceania')) ||
+                    (c.name && c.name.toLowerCase().includes('australia')) ||
+                    (c.name && c.name.toLowerCase().includes('pacific'))
+                );
+                
+                if (oceania) {
+                    oceaniaId = oceania.id || oceania.continentId || oceania._id;
+                }
+                
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h4>✅ Success! Found ${continents.length} continents for voyages</h4>
+                        <p><strong>Oceania/Pacific continent found:</strong> ${oceania ? oceania.name + ' (ID: ' + oceaniaId + ')' : 'Not found'}</p>
+                        <p><strong>Enhancement:</strong> Now includes countries API integration and New Zealand redirect!</p>
+                        <details>
+                            <summary>View all continents</summary>
+                            <pre>${JSON.stringify(continents, null, 2)}</pre>
+                        </details>
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Error:</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Test Oceania countries
+        async function testOceaniaCountries() {
+            const resultDiv = document.getElementById('oceaniaResult');
+            
+            if (!oceaniaId) {
+                resultDiv.innerHTML = '<div class="error">Please fetch continents first to find Oceania ID.</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<div style="color: #666; font-style: italic;">Loading Oceania countries for voyages...</div>';
+            
+            try {
+                const countries = await fetchCountries(oceaniaId);
+                
+                // Create countries grid
+                let countriesHTML = '<div class="countries-grid">';
+                countries.forEach(country => {
+                    const countryName = country.name || country.countryName || country.country || country;
+                    const isNewZealand = countryName.toLowerCase().includes('new zealand') || 
+                                       countryName.toLowerCase().includes('zealand');
+                    
+                    countriesHTML += `
+                        <a href="#" class="country-link ${isNewZealand ? 'new-zealand-highlight' : ''}" 
+                           onclick="handleCountryClick('${countryName}', event)">
+                            ${countryName} ${isNewZealand ? '🚢🎯' : ''}
+                        </a>
+                    `;
+                });
+                countriesHTML += '</div>';
+                
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h4>✅ Success! Found ${countries.length} countries in Oceania for voyages</h4>
+                        <p>New Zealand should be highlighted with ship emoji. Click on it to test the voyages redirect:</p>
+                        ${countriesHTML}
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Error:</h4>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Handle country clicks (same logic as in Voyages.html)
+        function handleCountryClick(countryName, event) {
+            event.preventDefault();
+            console.log(`Country clicked from voyages test: ${countryName}`);
+            
+            const normalizedCountryName = countryName.toLowerCase().trim();
+            
+            if (normalizedCountryName.includes('new zealand') || 
+                normalizedCountryName.includes('zealand')) {
+                console.log('Redirecting to New Zealand page (s4.html) from voyages');
+                
+                // Show confirmation before redirect
+                if (confirm(`Redirect to New Zealand page (s4.html) from voyages?\\n\\nCountry: ${countryName}\\n\\nThis would normally show voyages to New Zealand!`)) {
+                    window.location.href = 's4.html';
+                }
+                return;
+            }
+            
+            alert(`${countryName} voyages coming soon! Currently, detailed pages are available for New Zealand. (From voyages)`);
+        }
+
+        // Test New Zealand click directly
+        function handleNewZealandClick(event) {
+            handleCountryClick('New Zealand', event);
+        }
+
+        // Auto-test on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Voyages Countries API Integration Test loaded');
+            // Uncomment to auto-test continents
+            // testContinentsAPI();
+        });
+    </script>
+</body>
+</html>

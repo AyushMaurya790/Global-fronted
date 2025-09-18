@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroupTours Luxury Navigation Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .btn { padding: 10px 20px; margin: 5px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+        .btn:hover { background: #0056b3; }
+        .result { margin-top: 10px; padding: 10px; background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>GroupTours.html Luxury Navigation Test</h1>
+    
+    <div class="test-section">
+        <h3>Test Luxury City Navigation</h3>
+        <p>Click these links to test if luxury cities properly navigate to GroupTours.html:</p>
+        
+        <a href="GroupTours.html?cityId=1&cityName=Dubai&type=luxury-tour" class="btn">Dubai Luxury Tours</a>
+        <a href="GroupTours.html?cityId=2&cityName=Switzerland&type=luxury-tour" class="btn">Switzerland Luxury Tours</a>
+        <a href="GroupTours.html?cityId=3&cityName=Turkey&type=luxury-tour" class="btn">Turkey Luxury Tours</a>
+        
+        <div class="result">
+            <strong>Expected Result:</strong> GroupTours.html should load with dynamic luxury content for the selected city
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test API Response</h3>
+        <button class="btn" onclick="testLuxuryAPI()">Test Luxury Options API</button>
+        <div id="apiResult" class="result" style="display:none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test Luxury Dropdown from Index</h3>
+        <p><a href="index.html" class="btn">Go to Index.html</a> and test the luxury dropdown navigation</p>
+        <div class="result">
+            <strong>Expected Result:</strong> Luxury dropdown should show cities, clicking should navigate to GroupTours.html
+        </div>
+    </div>
+    
+    <script>
+        async function testLuxuryAPI() {
+            const resultDiv = document.getElementById('apiResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>Testing API...</p>';
+            
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/luxury-options/1');
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <h4>API Response Success!</h4>
+                    <p><strong>Dashboard Image:</strong> ${data.dashboardImage}</p>
+                    <p><strong>Subheading:</strong> ${data.subheading}</p>
+                    <p><strong>Signature Experiences:</strong> ${data.signatureExperiences ? data.signatureExperiences.length : 0} items</p>
+                    <p><strong>Luxury Resorts:</strong> ${data.luxuryResorts ? data.luxuryResorts.length : 0} items</p>
+                    <pre style="background:#f1f1f1; padding:10px; font-size:12px; max-height:200px; overflow:auto;">${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color:red;"><strong>API Error:</strong> ${error.message}</p>`;
+            }
+        }
+        
+        // Test sessionStorage functionality
+        console.log('Testing sessionStorage...');
+        sessionStorage.setItem('selectedCityId', '1');
+        sessionStorage.setItem('selectedCityName', 'Dubai');
+        console.log('SessionStorage test complete');
+    </script>
+</body>
+</html>
