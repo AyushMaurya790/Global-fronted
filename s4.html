@@ -305,7 +305,8 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
          <div class="mega-menu destinations-menu">
         <!-- Left Side -->
         <div class="mega-left">
-          <ul>
+          <ul id="continents-list">
+            <!-- Dynamic content will be populated by API -->
             <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
             <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
             <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
@@ -561,10 +562,9 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
 <div class="overlay"></div>
 
 <!-- Hero Section -->
-<section class="hero">
+<section class="hero" id="heroSection">
     <div class="hero-overlay"></div>
     <div class="hero-content" style="margin-top: 200px;">
-        
         <p class="experience silver-South-family">Discover <span>New Zealand</span></p>
         <p>Land of Stunning Landscapes and Thrilling Experiences</p>
     </div>
@@ -583,7 +583,8 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
             <strong>Currency</strong>
             <span class="info-value">New Zealand Dollar</span>
         </div>
-        <div class="bar-sep"></div>        <div class="info-col">
+        <div class="bar-sep"></div>        
+        <div class="info-col">
             <strong>Time zone</strong>
             <span class="info-value">+6.5 Hours from IST</span>
         </div>
@@ -592,7 +593,8 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
             <strong>Visa</strong>
             <span class="info-value">Required</span>
         </div>
-    </div>    <img src="./images/japan-map-removebg-preview.png" alt="Japan Map" class="map-outline">
+    </div>    
+    <img src="./images/japan-map-removebg-preview.png" alt="Country Map" class="map-outline">
 </section>
 
 <!-- Secondary Menu Section -->
@@ -602,7 +604,6 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
             <ul class="secondary-nav">
               <li><a href="#overview">OVERVIEW</a></li>
               <li><a href="#curated-journeys">CURATED JOURNEYS</a></li>
-              <li><a href="#group-tours">GROUP TOURS</a></li>
               <li><a href="#get-inspired">GET INSPIRED</a></li>
               <li><a href="#travel-tips">TRAVEL TIPS</a></li>
               <li><a href="#faqs">FAQS</a></li>
@@ -677,26 +678,6 @@ With direct connections via Australia or Southeast Asia and a reputation for bei
     <div class="cj-container">
         <!-- API content will be loaded here -->
     </div>
-</section>
-
-<!-- Grouup Departures -->
-<section class="group-departures" id="group-tours" style="background-color: #FEF7F3;">
-  <div class="container">
-    <div class="text-center mb-4">
-      <h2 class="section-title"><span class="silver-South-family" style="font-size: 65px; font-weight: 400;"> Group </span> Tours</h2>
-      <!-- <p class="section-subtitle">Explore curated group itineraries with seamless planning, trusted guides, and value-packed pricing.</p> -->
-    </div>
-      <!-- Swiper -->
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <!-- API content will be loaded here -->
-      </div>
-      <!-- Manual navigation buttons (make sure they are inside swiper container) -->
-      <div class="swiper-button-prev" style="z-index:10;"></div>
-      <div class="swiper-button-next" style="z-index:10;"></div>
-      <div class="swiper-pagination"></div>
-    </div>
-  </div>
 </section>
 
 <!-- Get Inspired -->
@@ -1045,10 +1026,240 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-// Center map on Japan
+// Map Card API Integration for S4 Page - Fetches location data from mapcard API
+// API Endpoint: http://globe.ridealmobility.com/api/mapcard/country/68c00412cd2575bd4c46121b
+
+// Map Card API Integration
+async function fetchMapCardData() {
+    try {
+        console.log('Fetching map card data from API...');
+        const response = await fetch('http://globe.ridealmobility.com/api/mapcard/country/68c00412cd2575bd4c46121b', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Map Card API response:', data);
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching map card data:', error);
+        return null;
+    }
+}
+
+// Continents API Integration for Destination Navbar
+// API Endpoint: http://globe.ridealmobility.com/api/continents
+async function fetchContinentsData() {
+    try {
+        console.log('Fetching continents data from API...');
+        const response = await fetch('http://globe.ridealmobility.com/api/continents', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Continents API response:', data);
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching continents data:', error);
+        // Return fallback data in case of API failure
+        return [
+            { name: 'AFRICA', target: 'africa' },
+            { name: 'ASIA', target: 'asia' },
+            { name: 'AMERICAS', target: 'australasia' },
+            { name: 'EUROPE', target: 'europe' },
+            { name: 'INDIAN SUBCONTINENT', target: 'indian' },
+            { name: 'OCEANIA', target: 'latin' },
+            { name: 'MIDDLE EAST', target: 'middleeast' },
+            { name: 'POLAR', target: 'polar' }
+        ];
+    }
+}
+
+// Function to populate destination navbar with continents data
+function populateDestinationNavbar(continentsData) {
+    const continentsList = document.getElementById('continents-list');
+    
+    if (!continentsList) {
+        console.warn('Continents list element not found');
+        return;
+    }
+
+    // Clear existing content
+    continentsList.innerHTML = '';
+
+    // Handle different API response structures
+    let continents = [];
+    if (Array.isArray(continentsData)) {
+        continents = continentsData;
+    } else if (continentsData.data && Array.isArray(continentsData.data)) {
+        continents = continentsData.data;
+    } else if (continentsData.continents && Array.isArray(continentsData.continents)) {
+        continents = continentsData.continents;
+    } else {
+        console.warn('Invalid continents data structure:', continentsData);
+        return;
+    }
+
+    // Populate navbar with continents
+    continents.forEach(continent => {
+        const listItem = document.createElement('li');
+        
+        // Handle different field name possibilities from API
+        const continentName = continent.name || continent.title || continent.continent || 'Unknown';
+        const continentTarget = continent.target || continent.id || continent.slug || 
+                               continentName.toLowerCase().replace(/\s+/g, '');
+
+        listItem.setAttribute('data-target', continentTarget);
+        listItem.innerHTML = `${continentName.toUpperCase()} <span class="arrow">&#8250;</span>`;
+        
+        continentsList.appendChild(listItem);
+    });
+
+    console.log(`Populated destination navbar with ${continents.length} continents`);
+}
+
+// Function to initialize destination navbar with API data
+async function initializeDestinationNavbar() {
+    try {
+        const continentsData = await fetchContinentsData();
+        if (continentsData) {
+            populateDestinationNavbar(continentsData);
+        }
+    } catch (error) {
+        console.error('Error initializing destination navbar:', error);
+    }
+}
+
+// Function to create popup content from API data
+function createPopupContent(cardData) {
+    // Handle different image URL formats
+    let imageUrl = cardData.image || cardData.imageUrl;
+    
+    // If image is from uploads folder, construct full URL
+    if (imageUrl && imageUrl.startsWith('uploads/')) {
+        imageUrl = `http://globe.ridealmobility.com/${imageUrl}`;
+    }
+    
+    // Use city field as primary title, fallback to other title fields
+    const title = cardData.city || cardData.title || cardData.name || 'Location';
+    const description = cardData.description || cardData.content || 'No description available';
+    
+    return `
+        <div class="popup-card">
+            <img src="${imageUrl}" alt="${title}" style="display: ${imageUrl ? 'block' : 'none'};">
+            <h4 style="margin: 8px 0 4px 0; font-size: 14px; font-weight: 600; color: #333;">${title}</h4>
+            <p>${description}</p>
+        </div>
+    `;
+}
+
+// Function to add markers from API data
+function addMarkersFromAPI(mapCardData) {
+    if (!mapCardData) {
+        console.warn('No map card data available from API');
+        return;
+    }
+
+    let markers = [];
+    
+    // Handle different API response structures
+    if (Array.isArray(mapCardData)) {
+        markers = mapCardData;
+    } else if (mapCardData.data && Array.isArray(mapCardData.data)) {
+        markers = mapCardData.data;
+    } else if (mapCardData.cards && Array.isArray(mapCardData.cards)) {
+        markers = mapCardData.cards;
+    } else if (mapCardData.locations && Array.isArray(mapCardData.locations)) {
+        markers = mapCardData.locations;
+    } else if (mapCardData.markers && Array.isArray(mapCardData.markers)) {
+        markers = mapCardData.markers;
+    } else if (typeof mapCardData === 'object' && (mapCardData.latitude || mapCardData.lat) && (mapCardData.longitude || mapCardData.lng)) {
+        // Single location object
+        markers = [mapCardData];
+    }
+
+    if (markers.length === 0) {
+        console.warn('No valid markers found in API response');
+        return;
+    }
+
+    console.log(`Adding ${markers.length} markers from API data`);
+
+    markers.forEach((markerData, index) => {
+        // Handle latitude field (exact field name from API response)
+        const lat = parseFloat(markerData.latitude || markerData.lat || markerData.y);
+        // Handle longitude field (exact field name from API response) 
+        const lng = parseFloat(markerData.longitude || markerData.lng || markerData.lon || markerData.x);
+
+        if (isNaN(lat) || isNaN(lng)) {
+            console.warn(`Invalid coordinates for marker ${index} (${markerData.city || 'Unknown'}):`, markerData);
+            return;
+        }
+
+        // For New Zealand coordinates, expand bounds check
+        // Original Japan bounds: lat: 20.4253 to 45.5515, lng: 122.9346 to 153.9867
+        // New Zealand bounds: lat: -47 to -34, lng: 166 to 179
+        const isInJapan = (lat >= 20.4253 && lat <= 45.5515 && lng >= 122.9346 && lng <= 153.9867);
+        const isInNewZealand = (lat >= -47 && lat <= -34 && lng >= 166 && lng <= 179);
+        
+        if (!isInJapan && !isInNewZealand) {
+            console.warn(`Coordinates outside valid bounds for marker ${index} (${markerData.city || 'Unknown'}):`, lat, lng);
+            // Still add the marker but with a warning
+        }
+
+        const popupContent = createPopupContent(markerData);
+        const marker = L.marker([lat, lng]).addTo(map).bindPopup(popupContent);
+
+        console.log(`Added marker for ${markerData.city || 'Location'} at [${lat}, ${lng}]`);
+
+        // Open first marker popup by default
+        if (index === 0) {
+            marker.openPopup();
+            // Adjust map view to show the first marker if it's not in Japan
+            if (!isInJapan) {
+                map.setView([lat, lng], 8);
+            }
+        }
+    });
+}
+
+// Function to add default marker as fallback
+function addDefaultMarker() {
+    console.log('Adding default marker for Dogo Onsen');
+    var defaultPopupContent = `
+        <div class="popup-card">
+            <img src="./images/bm1.webp" alt="Dogo Onsen">
+            <h4 style="margin: 8px 0 4px 0; font-size: 14px; font-weight: 600; color: #333;">Dogo Onsen</h4>
+            <p>Soak in an onsen (hot spring) – Historic Dogo Onsen in Matsuyama is a top place to plunge</p>
+        </div>
+    `;
+
+    L.marker([33.8416, 132.7654]).addTo(map)
+        .bindPopup(defaultPopupContent)
+        .openPopup();
+}
+
+// Initialize map
 var map = L.map('things-map', {
-    minZoom: 4,
-    maxZoom: 10
+    minZoom: 2,
+    maxZoom: 15
 }).setView([36.2048, 138.2529], 5);
 
 // Use CartoDB Positron (light, English, clean look)
@@ -1056,28 +1267,28 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap contributors & CartoDB'
 }).addTo(map);
 
-// Limit map to Japan's bounding box
-var japanBounds = [
-    [20.4253, 122.9346], // Southwest corner
-    [45.5515, 153.9867]  // Northeast corner
+// Set flexible bounds to accommodate different regions
+var worldBounds = [
+    [-60, -180], // Southwest corner
+    [70, 180]    // Northeast corner
 ];
-map.setMaxBounds(japanBounds);
-map.on('drag', function() {
-    map.panInsideBounds(japanBounds, { animate: false });
-});
+map.setMaxBounds(worldBounds);
 
-// Popup card content
-var popupContent = `
-<div class="popup-card">
-    <img src="./images/bm1.webp" alt="Dogo Onsen">
-    <p>Soak in an onsen (hot spring) – Historic Dogo Onsen in Matsuyama is a top place to plunge</p>
-</div>
-`;
+// Initialize map with API data
+async function initializeMapWithAPI() {
+    try {
+        const mapCardData = await fetchMapCardData();
+        addMarkersFromAPI(mapCardData);
+    } catch (error) {
+        console.error('Error initializing map with API data:', error);
+    }
+}
 
-// Add marker for Dogo Onsen
-L.marker([33.8416, 132.7654]).addTo(map)
-    .bindPopup(popupContent)
-    .openPopup();
+// Initialize the map with API data
+initializeMapWithAPI();
+
+// Initialize destination navbar with continents API data
+initializeDestinationNavbar();
 </script>
 <style>
 /* Map container style for same look */
@@ -1097,12 +1308,15 @@ L.marker([33.8416, 132.7654]).addTo(map)
     box-shadow: 0 2px 12px rgba(0,0,0,0.10) !important;
     background: #fff !important;
     border: 1px solid #eee !important;
+    min-width: 240px !important;
+    max-width: 300px !important;
 }
 .leaflet-popup-content {
     margin: 8px 8px 8px 8px !important;
     font-family: 'Montserrat', Arial, sans-serif;
     color: #444;
     font-size: 14px;
+    line-height: 1.4;
 }
 .popup-card img {
     width: 100%;
@@ -1110,11 +1324,37 @@ L.marker([33.8416, 132.7654]).addTo(map)
     margin-bottom: 8px;
     max-width: 220px;
     display: block;
+    max-height: 150px;
+    object-fit: cover;
+}
+.popup-card h4 {
+    margin: 8px 0 4px 0 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    line-height: 1.3 !important;
 }
 .popup-card p {
-    margin: 0;
-    font-size: 13px;
-    color: #333;
+    margin: 0 !important;
+    font-size: 13px !important;
+    color: #333 !important;
+    line-height: 1.4 !important;
+}
+
+/* Loading indicator for API data */
+.map-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 14px;
+    color: #666;
+    z-index: 1000;
 }
 </style>
 
@@ -1385,7 +1625,118 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
-`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n<!-- Countries API Integration for S4 Page -->
+`n<!-- Luxury Options API Integration -->`n<script src=`./js/luxury-options-integration.js`></script>`n<!-- Luxury Cities API Integration for Navbar -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Luxury Cities API integration for navbar...');
+
+    // Function to fetch luxury cities data from API
+    async function fetchLuxuryCities() {
+        try {
+            console.log('Fetching luxury cities data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Luxury Cities API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching luxury cities data:', error);
+            return null;
+        }
+    }
+
+    // Function to update luxury navbar with API data
+    function updateLuxuryNavbar(luxuryCities) {
+        if (!luxuryCities) {
+            console.warn('No luxury cities data available from API');
+            return;
+        }
+
+        console.log('Updating luxury navbar with API data...');
+
+        // Get the luxury navbar menu
+        const luxuryMenu = document.querySelector('.itinerary-menu .mega-left ul');
+        if (!luxuryMenu) {
+            console.error('Luxury navbar menu not found');
+            return;
+        }
+
+        // Handle different API response structures
+        let cities = [];
+        
+        if (Array.isArray(luxuryCities)) {
+            cities = luxuryCities;
+        } else if (luxuryCities.data && Array.isArray(luxuryCities.data)) {
+            cities = luxuryCities.data;
+        } else if (luxuryCities.cities && Array.isArray(luxuryCities.cities)) {
+            cities = luxuryCities.cities;
+        } else if (luxuryCities.locations && Array.isArray(luxuryCities.locations)) {
+            cities = luxuryCities.locations;
+        }
+
+        if (cities.length === 0) {
+            console.warn('No cities found in luxury API response');
+            return;
+        }
+
+        // Clear existing content
+        luxuryMenu.innerHTML = '';
+
+        // Add cities from API
+        cities.forEach((city, index) => {
+            const listItem = document.createElement('li');
+            listItem.setAttribute('data-target', city.target || 'luxury');
+            
+            const link = document.createElement('a');
+            link.href = city.link || city.url || '#';
+            link.textContent = (city.name || city.cityName || city.title || `City ${index + 1}`).toUpperCase();
+            
+            listItem.appendChild(link);
+            luxuryMenu.appendChild(listItem);
+            
+            console.log(`Added luxury city: ${link.textContent}`);
+        });
+
+        console.log(`Luxury navbar updated with ${cities.length} cities from API`);
+    }
+
+    // Function to initialize luxury cities for navbar
+    async function initializeLuxuryCities() {
+        try {
+            console.log('🏨 Starting luxury cities navbar initialization...');
+            const luxuryCities = await fetchLuxuryCities();
+            
+            if (luxuryCities) {
+                console.log('✅ Successfully fetched luxury cities');
+                updateLuxuryNavbar(luxuryCities);
+            } else {
+                console.warn('❌ Failed to fetch luxury cities, keeping existing navbar');
+            }
+        } catch (error) {
+            console.error('💥 Error initializing luxury cities navbar:', error);
+        }
+    }
+
+    // Initialize luxury cities navbar
+    initializeLuxuryCities();
+
+    // Optional: Refresh luxury cities data every 60 minutes
+    setInterval(initializeLuxuryCities, 3600000);
+    
+    console.log('Luxury Cities API integration for navbar initialized successfully');
+});
+</script>`n<!-- Countries API Integration for S4 Page -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Initializing Countries API integration for S4 page...');
@@ -1722,10 +2073,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Function to get view image URL with fallback
+    // Function to get view image URL
     function getViewImageUrl(imagePath, fallbackIndex = 1) {
         if (!imagePath) {
-            return `./images/ov${fallbackIndex}.jpeg`; // fallback to existing images
+            return null; // no fallback images
         }
 
         // Handle different image path formats
@@ -1767,7 +2118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 featureBox.innerHTML = `
                     <img src="${imageUrl}" alt="${feature.title || `Feature ${index + 1}`}" 
-                         onerror="this.src='./images/ov${index + 1}.jpeg'">
+                         style="display: ${imageUrl ? 'block' : 'none'};">
                     <h4>${feature.title || `Feature ${index + 1}`}</h4>
                     <p>${feature.description || 'No description available.'}</p>
                 `;
@@ -2019,11 +2370,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update FAQ section with API data
     async function updateFAQWithAPIData(questionsData) {
         if (!questionsData || !questionsData.questions || !Array.isArray(questionsData.questions)) {
-            console.warn('No questions data provided, keeping default FAQs');
+            console.warn('No valid FAQ data provided');
             return;
         }
 
-        console.log('Updating FAQ section with API data...');
+        console.log('Updating FAQ section with API data only...');
 
         const faqList = document.querySelector('.faq-list');
         if (!faqList) {
@@ -2035,65 +2386,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clear existing FAQ items
             faqList.innerHTML = '';
 
-            // Add questions from API
+            // Add questions from API only - no fallback content
             questionsData.questions.forEach((questionData) => {
                 const faqHtml = renderFAQItem(questionData);
                 faqList.insertAdjacentHTML('beforeend', faqHtml);
             });
-
-            // If we have fewer than 10 questions, add some default questions to maintain content richness
-            const defaultQuestions = [
-                {
-                    question: "Is New Zealand good for families or honeymooners?",
-                    answer: "Absolutely! It's perfect for both family vacations and romantic getaways with its mix of nature, adventure, and tranquility."
-                },
-                {
-                    question: "What are must-do experiences in New Zealand?",
-                    answer: "Cruising through Milford Sound, visiting Hobbiton, soaking in Rotorua's thermal spas, and trying an adventure sport in Queenstown."
-                },
-                {
-                    question: "How long should a New Zealand trip be?",
-                    answer: "A 10 to 12-day trip allows you to cover both North and South Islands comfortably."
-                },
-                {
-                    question: "Can we combine New Zealand with Australia?",
-                    answer: "Yes, many travellers opt for Australia + New Zealand combo tours. GLOBENGEL offers curated twin-country itineraries."
-                },
-                {
-                    question: "Do Indian travellers get self-drive options easily?",
-                    answer: "Yes, with a valid Indian driving license (in English), you can rent a car or campervan. An IDP is recommended."
-                },
-                {
-                    question: "Is travel insurance compulsory?",
-                    answer: "While not mandatory, it is strongly advised, especially to cover unforeseen delays, weather changes, or medical needs."
-                },
-                {
-                    question: "What kind of adventure activities are available?",
-                    answer: "From bungee jumping, skydiving, and zip-lining to scenic helicopter rides and glacier treks - New Zealand is an adventure lover's paradise."
-                },
-                {
-                    question: "Can we find vegetarian food easily?",
-                    answer: "Yes - especially in cities and tourist towns. GLOBENGEL also helps you pre-select restaurants with Indian or vegetarian options."
-                },
-                {
-                    question: "Are there direct flights from India?",
-                    answer: "Currently, there are no direct flights. Most routes connect via Australia, Singapore, or Malaysia."
-                },
-                {
-                    question: "Is New Zealand safe for solo travellers?",
-                    answer: "Extremely. It's one of the safest and most tourist-friendly countries in the world."
-                }
-            ];
-
-            const totalQuestions = questionsData.questions.length;
-            if (totalQuestions < 10) {
-                // Add remaining default questions
-                for (let i = totalQuestions; i < 10; i++) {
-                    const defaultQuestion = defaultQuestions[i - totalQuestions] || defaultQuestions[0];
-                    const faqHtml = renderFAQItem(defaultQuestion);
-                    faqList.insertAdjacentHTML('beforeend', faqHtml);
-                }
-            }
 
             // Reinitialize FAQ toggle functionality for new elements
             initializeFAQToggle();
@@ -2109,10 +2406,30 @@ document.addEventListener('DOMContentLoaded', function() {
     async function initializeQuestionsData() {
         try {
             const questionsData = await fetchQuestionsData();
-            await updateFAQWithAPIData(questionsData);
+            if (questionsData && questionsData.questions && questionsData.questions.length > 0) {
+                await updateFAQWithAPIData(questionsData);
+            } else {
+                console.warn('No FAQ data available from API');
+                // Clear any existing content and show loading message
+                const faqList = document.querySelector('.faq-list');
+                if (faqList) {
+                    faqList.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No FAQs available</div>';
+                }
+            }
         } catch (error) {
             console.error('Error initializing questions data:', error);
+            // Clear any existing content on error
+            const faqList = document.querySelector('.faq-list');
+            if (faqList) {
+                faqList.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Failed to load FAQs</div>';
+            }
         }
+    }
+
+    // Clear any existing static content immediately
+    const initialFaqList = document.querySelector('.faq-list');
+    if (initialFaqList) {
+        initialFaqList.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Loading FAQs...</div>';
     }
 
     // Initialize questions data
@@ -2132,7 +2449,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to get the complete image URL
     function getTravelTipsImageUrl(imagePath) {
-        if (!imagePath) return './images/travels-removebg-preview.png'; // fallback image
+        if (!imagePath) return null; // no fallback image
         
         // If it's already a complete URL, use it as is
         if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
@@ -2196,11 +2513,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update Travel Tips section with API data
     async function updateTravelTipsWithAPIData(travelTipsData) {
         if (!travelTipsData || !travelTipsData.tips || !Array.isArray(travelTipsData.tips)) {
-            console.warn('No travel tips data provided, keeping default tips');
+            console.warn('No valid travel tips data provided');
             return;
         }
 
-        console.log('Updating Travel Tips section with API data...');
+        console.log('Updating Travel Tips section with API data only...');
 
         const travelTipsSection = document.querySelector('#travel-tips');
         if (!travelTipsSection) {
@@ -2232,48 +2549,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Clear existing tips
                 tipsList.innerHTML = '';
 
-                // Add tips from API
+                // Add tips from API only - no fallback content
                 travelTipsData.tips.forEach((tip, index) => {
                     const tipHtml = renderTravelTip(tip, index);
                     tipsList.insertAdjacentHTML('beforeend', tipHtml);
                 });
-
-                // If we have fewer than 7 tips, add some default tips to maintain the visual balance
-                const defaultTips = [
-                    {
-                        title: "Best time to visit",
-                        description: "November to March is ideal with warm summer weather, blooming landscapes, and optimal conditions for sightseeing and road trips."
-                    },
-                    {
-                        title: "Currency",
-                        description: "New Zealand Dollar (NZD). Forex cards and Indian international credit/debit cards are accepted in most places."
-                    },
-                    {
-                        title: "Language",
-                        description: "English is the official language and spoken everywhere."
-                    },
-                    {
-                        title: "Food options",
-                        description: "Indian food is widely available in cities like Auckland, Queenstown, and Rotorua, Plenty of vegetarian and even Jain options with some pre-planning."
-                    },
-                    {
-                        title: "Connectivity",
-                        description: "Seamless connectivity on the go-Spark, Vodafone, and 2degrees provide excellent coverage for travelers across North and South Islands."
-                    },
-                    {
-                        title: "Transport",
-                        description: "Scenic self-drives are very popular, but inter-city flights, buses, and guided coach tours are also well-structured."
-                    }
-                ];
-
-                const totalTips = travelTipsData.tips.length;
-                if (totalTips < 7) {
-                    // Add remaining default tips
-                    for (let i = totalTips; i < 7; i++) {
-                        const defaultTip = defaultTips[i - totalTips] || defaultTips[0];
-                        const tipHtml = renderTravelTip(defaultTip, i);
-                        tipsList.insertAdjacentHTML('beforeend', tipHtml);
-                    }
+            } else {
+                // If no API data, clear the list to show only dynamic content
+                const tipsList = travelTipsSection.querySelector('ul');
+                if (tipsList) {
+                    tipsList.innerHTML = '<li style="text-align: center; padding: 20px; color: #666;">Loading travel tips...</li>';
                 }
             }
 
@@ -2288,10 +2573,30 @@ document.addEventListener('DOMContentLoaded', function() {
     async function initializeTravelTipsData() {
         try {
             const travelTipsData = await fetchTravelTipsData();
-            await updateTravelTipsWithAPIData(travelTipsData);
+            if (travelTipsData && travelTipsData.tips && travelTipsData.tips.length > 0) {
+                await updateTravelTipsWithAPIData(travelTipsData);
+            } else {
+                console.warn('No travel tips data available from API');
+                // Clear any existing content and show loading message
+                const tipsList = document.querySelector('#travel-tips ul');
+                if (tipsList) {
+                    tipsList.innerHTML = '<li style="text-align: center; padding: 20px; color: #666;">No travel tips available</li>';
+                }
+            }
         } catch (error) {
             console.error('Error initializing travel tips data:', error);
+            // Clear any existing content on error
+            const tipsList = document.querySelector('#travel-tips ul');
+            if (tipsList) {
+                tipsList.innerHTML = '<li style="text-align: center; padding: 20px; color: #666;">Failed to load travel tips</li>';
+            }
         }
+    }
+
+    // Clear any existing static content immediately
+    const initialTipsList = document.querySelector('#travel-tips ul');
+    if (initialTipsList) {
+        initialTipsList.innerHTML = '<li style="text-align: center; padding: 20px; color: #666;">Loading travel tips...</li>';
     }
 
     // Initialize travel tips data
@@ -2304,225 +2609,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- Simple Section API Integration for Group Tours -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing Simple Section API integration for Group Tours in s4.html...');
-
-    // Function to get the complete image URL
-    function getGroupTourImageUrl(imagePath) {
-        if (!imagePath) return './images/banner.webp'; // fallback image
-        
-        // If it's already a complete URL, use it as is
-        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-            return imagePath;
-        }
-        
-        // If it's a relative path, construct the full URL
-        const baseUrl = 'http://globe.ridealmobility.com/';
-        return baseUrl + imagePath.replace(/^\/+/, '');
-    }
-
-    // Function to fetch simple section data from API
-    async function fetchSimpleSectionData() {
-        try {
-            console.log('Fetching simple section data from API...');
-            const response = await fetch('http://globe.ridealmobility.com/api/simple-section/country/68c00412cd2575bd4c46121b', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Simple Section API response:', data);
-            return data;
-
-        } catch (error) {
-            console.error('Error fetching simple section data:', error);
-            return null;
-        }
-    }
-
-    // Function to create group tour card HTML
-    function renderGroupTourCard(card, index) {
-        const imageUrl = getGroupTourImageUrl(card.image);
-        const title = card.title || `Group Tour ${index + 1}`;
-        
-        // Generate some default tour details based on the card title or use placeholders
-        const tourDetails = generateTourDetails(title, index);
-        
-        return `
-            <div class="swiper-slide">
-                <div class="gt-travel-card">
-                    <img src="${imageUrl}" alt="${title}" 
-                         onerror="this.src='./images/banner.webp'">
-                    <div class="gt-travel-content">
-                        <h3>${title.toUpperCase()}</h3>
-                        <p>${tourDetails.duration} | ${tourDetails.countries} | ${tourDetails.cities}</p>
-                        <p>Departures- ${tourDetails.departures}</p>
-                        <div class="gt-travel-price">INR ${tourDetails.price}/- <span>(Per Person)</span></div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    // Function to generate tour details based on title or use defaults
-    function generateTourDetails(title, index) {
-        // Default tour configurations
-        const tourConfigs = [
-            {
-                duration: "10 Days",
-                countries: "1 Country",
-                cities: "9 Cities",
-                departures: "Dec | Jan | Feb",
-                price: "1,19,000"
-            },
-            {
-                duration: "7 Days",
-                countries: "1 Country", 
-                cities: "3 Cities",
-                departures: "Sep | Oct | Nov",
-                price: "89,000"
-            },
-            {
-                duration: "8 Days",
-                countries: "1 Country",
-                cities: "4 Cities", 
-                departures: "Oct | Dec | Jan",
-                price: "95,000"
-            },
-            {
-                duration: "12 Days",
-                countries: "3 Countries",
-                cities: "6 Cities",
-                departures: "Sep | Oct | Nov", 
-                price: "1,45,000"
-            },
-            {
-                duration: "10 Days",
-                countries: "1 Country",
-                cities: "5 Cities",
-                departures: "Sep | Oct | Nov",
-                price: "1,05,000"
-            },
-            {
-                duration: "9 Days",
-                countries: "1 Country",
-                cities: "4 Cities",
-                departures: "Oct | Nov | Dec",
-                price: "1,25,000"
-            }
-        ];
-
-        // Return the configuration for this index, or cycle through if more cards than configs
-        return tourConfigs[index % tourConfigs.length];
-    }
-
-    // Function to update Group Tours section with API data
-    async function updateGroupToursWithAPIData(sectionData) {
-        if (!sectionData || !Array.isArray(sectionData) || sectionData.length === 0) {
-            console.warn('No simple section data provided, keeping default Group Tours');
-            return;
-        }
-
-        console.log('Updating Group Tours section with API data...');
-
-        const swiperWrapper = document.querySelector('#group-tours .swiper-wrapper');
-        if (!swiperWrapper) {
-            console.error('Group Tours swiper wrapper not found');
-            return;
-        }
-
-        try {
-            // Get the data from the first item in the response array
-            const simpleSectionData = sectionData[0];
-            
-            if (!simpleSectionData || !simpleSectionData.cards || !Array.isArray(simpleSectionData.cards)) {
-                console.warn('Invalid simple section data structure, keeping default Group Tours');
-                return;
-            }
-
-            // Update the section title if available
-            const sectionTitle = document.querySelector('#group-tours .section-title');
-            if (sectionTitle && simpleSectionData.mainHeading) {
-                sectionTitle.innerHTML = `<span class="silver-South-family" style="font-size: 65px; font-weight: 400;">${simpleSectionData.mainHeading.split(' ').slice(0, -1).join(' ')}</span> ${simpleSectionData.mainHeading.split(' ').slice(-1)[0] || 'Tours'}`;
-            }
-
-            // Clear existing slides
-            swiperWrapper.innerHTML = '';
-
-            // Add tour cards from API
-            simpleSectionData.cards.forEach((card, index) => {
-                const cardHtml = renderGroupTourCard(card, index);
-                swiperWrapper.insertAdjacentHTML('beforeend', cardHtml);
-            });
-
-            // If we have less than 6 cards, add some default cards to maintain the slider effect
-            const totalCards = simpleSectionData.cards.length;
-            if (totalCards < 6) {
-                const defaultCards = [
-                    { title: "BEST OF NEW ZEALAND", image: "./images/banner.webp" },
-                    { title: "AMAZING DUBAI", image: "./images/trip1.jpeg" },
-                    { title: "BALI PARADISE", image: "./images/trip2.avif" },
-                    { title: "ASIAN EXPLORER", image: "./images/banner.webp" },
-                    { title: "MAJESTIC TURKEY", image: "./images/trip1.jpeg" },
-                    { title: "EGYPT WONDER", image: "./images/trip2.avif" }
-                ];
-
-                // Add remaining default cards
-                for (let i = totalCards; i < 6; i++) {
-                    const defaultCard = defaultCards[i % defaultCards.length];
-                    const cardHtml = renderGroupTourCard(defaultCard, i);
-                    swiperWrapper.insertAdjacentHTML('beforeend', cardHtml);
-                }
-            }
-
-            // Reinitialize Swiper if it exists
-            if (typeof Swiper !== 'undefined') {
-                // Wait a bit for DOM updates
-                setTimeout(() => {
-                    const existingSwiper = document.querySelector('#group-tours .swiper')?._swiper;
-                    if (existingSwiper) {
-                        existingSwiper.update();
-                        existingSwiper.slideTo(0);
-                    }
-                }, 100);
-            }
-
-            console.log(`Group Tours updated successfully with ${simpleSectionData.cards.length} cards from API`);
-
-        } catch (error) {
-            console.error('Error updating Group Tours:', error);
-        }
-    }
-
-    // Function to initialize simple section data
-    async function initializeSimpleSectionData() {
-        try {
-            const sectionData = await fetchSimpleSectionData();
-            await updateGroupToursWithAPIData(sectionData);
-        } catch (error) {
-            console.error('Error initializing simple section data:', error);
-        }
-    }
-
-    // Initialize simple section data
-    initializeSimpleSectionData();
-
-    // Optional: Refresh section data every 15 minutes
-    setInterval(initializeSimpleSectionData, 900000);
-    
-    console.log('Simple Section API integration for Group Tours initialized successfully');
-});
-</script>
-
 <!-- Get Inspired Section API Integration -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -2530,7 +2616,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to get the complete image URL
     function getInspiredImageUrl(imagePath) {
-        if (!imagePath) return './images/bm1.webp'; // fallback image
+        if (!imagePath) return null; // no fallback image
         
         // If it's already a complete URL, use it as is
         if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
@@ -2542,11 +2628,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return baseUrl + imagePath.replace(/^\/+/, '');
     }
 
-    // Function to fetch simple section data from API
+    // Function to fetch itinerary tour data from API
     async function fetchGetInspiredData() {
         try {
-            console.log('Fetching Get Inspired data from API...');
-            const response = await fetch('http://globe.ridealmobility.com/api/simple-section/country/68c00412cd2575bd4c46121b', {
+            console.log('Fetching Get Inspired itinerary tours from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/itenary-tour/country/68c00412cd2575bd4c46121b', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -2559,100 +2645,94 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const data = await response.json();
-            console.log('Get Inspired API response:', data);
+            console.log('Get Inspired itinerary tours API response:', data);
             return data;
 
         } catch (error) {
-            console.error('Error fetching Get Inspired data:', error);
+            console.error('Error fetching Get Inspired itinerary tours:', error);
             return null;
         }
     }
 
-    // Function to create inspired card HTML
+    // Function to create itinerary tour card HTML
     function renderInspiredCard(card, index) {
         const imageUrl = getInspiredImageUrl(card.image);
-        const title = card.title || `Inspired Card ${index + 1}`;
+        const title = card.title || `Tour ${index + 1}`;
+        const days = card.days || '0';
+        const countries = card.countries || '0';
+        const cities = card.cities || '0';
+        const price = card.price || '0';
+        const departures = card.departures ? card.departures.join(' | ') : 'Not specified';
         
-        // Generate some appealing overlay text based on New Zealand attractions
-        const overlayText = generateOverlayText(title, index);
+        // Get itinerary tour ID and card ID for luxury page navigation
+        const itineraryTourId = card.itineraryTourId || card._id || card.id || '';
+        const cardId = card._id || card.id || index;
+        
+        console.log('Rendering card:', { index, title, itineraryTourId, cardId, card });
         
         return `
-            <div class="inspired-card">
-                <img src="${imageUrl}" alt="${title}" 
-                     onerror="this.src='./images/bm${(index % 3) + 1}.webp'">
-                <div class="inspired-overlay">
-                    ${overlayText}
+            <div class="inspired-card" 
+                 style="position: relative; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.1); transition: transform 0.3s; cursor: pointer;" 
+                 data-tour-id="${itineraryTourId}" 
+                 data-card-id="${cardId}">
+                <img src="${imageUrl}" alt="${title}" style="width: 100%; height: 200px; object-fit: cover; display: ${imageUrl ? 'block' : 'none'};" onerror="this.style.display='none';">
+                <div style="padding: 20px;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 10px; color: #333;">${title}</h3>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 8px;">${days} Days | ${countries} Country | ${cities} Cities</p>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 12px;">Departures- ${departures}</p>
+                    <p style="font-size: 16px; font-weight: 600; color: #d4582a;">INR ${parseInt(price).toLocaleString()}/-<span style="font-size: 12px; font-weight: 400; color: #999;"> (Per Person)</span></p>
                 </div>
             </div>
         `;
     }
 
-    // Function to generate attractive overlay text for New Zealand attractions
-    function generateOverlayText(title, index) {
-        const newZealandAttractions = [
-            "Lake Tekapo & Mt. Cook - Starry Skies & Alpine Beauty",
-            "Rotorua - Maori Culture & Geothermal Wonders", 
-            "Sky Tower Auckland - Panoramic Views",
-            "Hobbiton Movie Set - Lord of the Rings Fame",
-            "Milford Sound - Fiords & Pristine Wilderness",
-            "Queenstown - Adventure Capital of the World",
-            "Bay of Islands - Dolphins & Pristine Beaches",
-            "Franz Josef Glacier - Ice Walking Adventures"
-        ];
-        
-        // If title has meaningful content, use it, otherwise use predefined attractions
-        if (title && title !== `Inspired Card ${index + 1}` && title !== `Card ${index + 1}`) {
-            return title;
-        }
-        
-        return newZealandAttractions[index % newZealandAttractions.length];
-    }
-
-    // Function to arrange cards in the grid layout (2 rows, 2 cards each)
-    function arrangeInspiredCards(cards) {
-        const row1Cards = cards.slice(0, 2);
-        const row2Cards = cards.slice(2, 4);
-        
-        return { row1Cards, row2Cards };
-    }
-
     // Function to update Get Inspired section with API data
-    async function updateGetInspiredWithAPIData(inspiredData) {
-        if (!inspiredData || !Array.isArray(inspiredData) || inspiredData.length === 0) {
-            console.warn('No Get Inspired data provided, keeping default content');
+    async function updateGetInspiredWithAPIData(inspiredDataArray) {
+        // API returns array, get first object
+        if (!inspiredDataArray || !Array.isArray(inspiredDataArray) || inspiredDataArray.length === 0) {
+            console.warn('No valid Get Inspired itinerary data provided from API');
             return;
         }
 
-        console.log('Updating Get Inspired section with API data...');
+        const inspiredData = inspiredDataArray[0]; // Get first object from array
+        
+        if (!inspiredData || !inspiredData.cards || !Array.isArray(inspiredData.cards)) {
+            console.warn('No valid cards data in API response');
+            return;
+        }
 
-        const sectionData = inspiredData[0]; // API returns array with one object
-        const cards = sectionData.cards || [];
+        console.log('Updating Get Inspired section with itinerary tour API data...');
+
+        const cards = inspiredData.cards || [];
 
         try {
             // Update section title if provided
-            const titleElement = document.querySelector('.inspired-title');
-            if (titleElement && sectionData.mainHeading) {
-                titleElement.innerHTML = sectionData.mainHeading.replace(
-                    /(\w+)\s+(.+)/, 
-                    '$1 <span class="silver-South-family"> $2 </span>'
-                );
+            const titleElement = document.querySelector('#get-inspired h2.inspired-title');
+            if (titleElement && inspiredData.mainHeading) {
+                const words = inspiredData.mainHeading.split(' ');
+                if (words.length >= 2) {
+                    titleElement.innerHTML = `${words[0]} <span class="silver-South-family"> ${words.slice(1).join(' ')} </span>`;
+                } else {
+                    titleElement.innerHTML = `<span class="silver-South-family">${inspiredData.mainHeading}</span>`;
+                }
             }
 
-            // Get row containers
+            // Get the row containers
             const row1Container = document.querySelector('.inspired-row-1');
             const row2Container = document.querySelector('.inspired-row-2');
 
             if (!row1Container || !row2Container) {
-                console.error('Inspired row containers not found');
+                console.error('Get Inspired row containers not found');
                 return;
             }
-
-            // Arrange cards into rows
-            const { row1Cards, row2Cards } = arrangeInspiredCards(cards);
 
             // Clear existing content
             row1Container.innerHTML = '';
             row2Container.innerHTML = '';
+
+            // Split cards between two rows (max 3 cards per row to match screenshot)
+            const row1Cards = cards.slice(0, 3);
+            const row2Cards = cards.slice(3, 6);
 
             // Render Row 1 cards
             if (row1Cards.length > 0) {
@@ -2660,70 +2740,130 @@ document.addEventListener('DOMContentLoaded', function() {
                     const cardHtml = renderInspiredCard(card, index);
                     row1Container.insertAdjacentHTML('beforeend', cardHtml);
                 });
+                
+                // Add event listeners to Row 1 cards
+                addCardEventListeners(row1Container, row1Cards);
+            } else {
+                row1Container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No tours available</div>';
             }
 
-            // Render Row 2 cards  
+            // Render Row 2 cards (if any)
             if (row2Cards.length > 0) {
                 row2Cards.forEach((card, index) => {
-                    const cardHtml = renderInspiredCard(card, index + 2);
+                    const cardHtml = renderInspiredCard(card, index + 3);
                     row2Container.insertAdjacentHTML('beforeend', cardHtml);
                 });
+                
+                // Add event listeners to Row 2 cards
+                addCardEventListeners(row2Container, row2Cards, 3);
             }
 
-            // If we have fewer than 4 cards, fill remaining with default content
-            const totalCards = cards.length;
-            if (totalCards < 4) {
-                const defaultCards = [
-                    { title: "Lake Tekapo & Mt. Cook - Starry Skies & Alpine Beauty", image: "./images/bm1.webp" },
-                    { title: "Rotorua - Maori Culture & Geothermal Wonders", image: "./images/bm2.webp" },
-                    { title: "Sky Tower Auckland - Panoramic Views", image: "./images/bm3.webp" },
-                    { title: "Hobbiton Movie Set - Lord of the Rings Fame", image: "./images/bm1.webp" }
-                ];
-
-                // Fill remaining slots in Row 1
-                for (let i = row1Cards.length; i < 2; i++) {
-                    const defaultCard = defaultCards[i];
-                    const cardHtml = `
-                        <div class="inspired-card">
-                            <img src="${defaultCard.image}" alt="${defaultCard.title}">
-                            <div class="inspired-overlay">
-                                ${defaultCard.title}
-                            </div>
-                        </div>
-                    `;
-                    row1Container.insertAdjacentHTML('beforeend', cardHtml);
-                }
-
-                // Fill remaining slots in Row 2
-                for (let i = row2Cards.length; i < 2; i++) {
-                    const defaultCard = defaultCards[i + 2];
-                    const cardHtml = `
-                        <div class="inspired-card">
-                            <img src="${defaultCard.image}" alt="${defaultCard.title}">
-                            <div class="inspired-overlay">
-                                ${defaultCard.title}
-                            </div>
-                        </div>
-                    `;
-                    row2Container.insertAdjacentHTML('beforeend', cardHtml);
-                }
-            }
-
-            console.log(`Get Inspired section updated successfully with ${cards.length} cards from API`);
+            console.log(`Get Inspired section updated successfully with ${cards.length} itinerary tours from API`);
 
         } catch (error) {
             console.error('Error updating Get Inspired section:', error);
         }
     }
 
+    // Function to add event listeners to cards
+    function addCardEventListeners(container, cards, startIndex = 0) {
+        const cardElements = container.querySelectorAll('.inspired-card');
+        
+        cardElements.forEach((cardElement, index) => {
+            const card = cards[index];
+            if (card) {
+                const itineraryTourId = card.itineraryTourId || card._id || card.id || '';
+                const cardId = card._id || card.id || (startIndex + index);
+                
+                // Remove any existing click listeners
+                cardElement.removeEventListener('click', cardElement.clickHandler);
+                
+                // Add new click listener
+                cardElement.clickHandler = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleCardClick(itineraryTourId, cardId);
+                };
+                
+                cardElement.addEventListener('click', cardElement.clickHandler);
+                
+                // Add hover effects
+                cardElement.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                
+                cardElement.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                console.log('Added event listener to card:', { index, itineraryTourId, cardId });
+            }
+        });
+    }
+
+    // Function to handle card click and navigate to luxury.html with parameters
+    function handleCardClick(itineraryTourId, cardId) {
+        console.log('Card clicked:', { itineraryTourId, cardId });
+        
+        // Create URL with parameters for luxury.html
+        const luxuryUrl = `luxury.html?itinerary_tour_id=${encodeURIComponent(itineraryTourId)}&card_id=${encodeURIComponent(cardId)}`;
+        console.log('Navigating to:', luxuryUrl);
+        
+        // Navigate to luxury.html
+        window.location.href = luxuryUrl;
+    }
+
     // Function to initialize Get Inspired data
     async function initializeGetInspiredData() {
         try {
-            const inspiredData = await fetchGetInspiredData();
-            await updateGetInspiredWithAPIData(inspiredData);
+            const inspiredDataArray = await fetchGetInspiredData();
+            if (inspiredDataArray && Array.isArray(inspiredDataArray) && inspiredDataArray.length > 0) {
+                const inspiredData = inspiredDataArray[0];
+                if (inspiredData && inspiredData.cards && inspiredData.cards.length > 0) {
+                    await updateGetInspiredWithAPIData(inspiredDataArray);
+                } else {
+                    console.warn('No cards found in API response');
+                    const row1Container = document.querySelector('.inspired-row-1');
+                    const row2Container = document.querySelector('.inspired-row-2');
+                    if (row1Container) {
+                        row1Container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No tours available</div>';
+                    }
+                    if (row2Container) {
+                        row2Container.innerHTML = '';
+                    }
+                }
+            } else {
+                console.warn('No Get Inspired itinerary data available from API');
+                const row1Container = document.querySelector('.inspired-row-1');
+                const row2Container = document.querySelector('.inspired-row-2');
+                if (row1Container) {
+                    row1Container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No tours available</div>';
+                }
+                if (row2Container) {
+                    row2Container.innerHTML = '';
+                }
+            }
         } catch (error) {
             console.error('Error initializing Get Inspired data:', error);
+            const row1Container = document.querySelector('.inspired-row-1');
+            const row2Container = document.querySelector('.inspired-row-2');
+            if (row1Container) {
+                row1Container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Failed to load tours</div>';
+            }
+            if (row2Container) {
+                row2Container.innerHTML = '';
+            }
         }
+    }
+
+    // Clear any existing static content immediately
+    const initialRow1 = document.querySelector('.inspired-row-1');
+    const initialRow2 = document.querySelector('.inspired-row-2');
+    if (initialRow1) {
+        initialRow1.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Loading tours...</div>';
+    }
+    if (initialRow2) {
+        initialRow2.innerHTML = '';
     }
 
     // Initialize Get Inspired data
@@ -2743,7 +2883,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to get the complete image URL
     function getJourneyImageUrl(imagePath) {
-        if (!imagePath) return './images/bm1.webp'; // fallback image
+        if (!imagePath) return null; // no fallback image
         
         // If it's already a complete URL, use it as is
         if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
@@ -2817,7 +2957,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return `
             <div class="cj-card">
                 <img src="${imageUrl}" alt="${journey.title || 'Journey Package'}" 
-                     onerror="this.src='./images/bm1.webp'">
+                     style="display: ${imageUrl ? 'block' : 'none'};">
                 <div class="cj-card-content">
                     <div class="cj-card-header">
                         <h3>${journey.title || 'Special Journey Package'}</h3>
@@ -2889,13 +3029,209 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Initialize curated journeys
+    // Country Hero Section API Integration
+    async function fetchCountryData(countryId = '68c00412cd2575bd4c46121b') {
+        try {
+            console.log('🌍 Fetching country data from API...');
+            const response = await fetch(`http://globe.ridealmobility.com/api/countries/${countryId}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: Failed to fetch country data`);
+            }
+            
+            const countryData = await response.json();
+            console.log('✅ Country data loaded from API:', countryData);
+            
+            return countryData;
+        } catch (error) {
+            console.error('❌ Error fetching country data:', error);
+            return null;
+        }
+    }
+
+    // Function to update hero section with API data
+    function updateHeroSection(countryData) {
+        if (!countryData) return;
+        
+        console.log('🎯 Updating hero section...');
+        
+        // Update video background if available
+        if (countryData.video) {
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                const videoUrl = countryData.video.startsWith('http') 
+                    ? countryData.video 
+                    : `http://globe.ridealmobility.com/${countryData.video}`;
+                
+                console.log('🎬 Setting hero background video to:', videoUrl);
+                
+                // Remove any existing video elements
+                const existingVideo = heroSection.querySelector('video');
+                if (existingVideo) {
+                    existingVideo.remove();
+                }
+                
+                // Create video background
+                const videoElement = document.createElement('video');
+                videoElement.autoplay = true;
+                videoElement.muted = true;
+                videoElement.loop = true;
+                videoElement.playsInline = true;
+                videoElement.style.cssText = 'position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0;';
+                
+                const source = document.createElement('source');
+                source.src = videoUrl;
+                source.type = 'video/mp4';
+                videoElement.appendChild(source);
+                
+                heroSection.style.position = 'relative';
+                heroSection.insertBefore(videoElement, heroSection.firstChild);
+                
+                // Ensure hero content is above video
+                const heroContent = heroSection.querySelector('.hero-content');
+                if (heroContent) {
+                    heroContent.style.position = 'relative';
+                    heroContent.style.zIndex = '10';
+                }
+                
+                console.log('🎬 Video background applied successfully');
+            }
+        }
+        
+        // Update hero content text
+        const experienceElement = document.querySelector('.hero-content .experience');
+        const titleElement = document.querySelector('.hero-content p:not(.experience)');
+        
+        if (countryData.heading && experienceElement) {
+            // Check if heading already contains country name to avoid duplication
+            if (countryData.heading.includes(countryData.name)) {
+                // If heading already contains country name, use heading as is
+                experienceElement.innerHTML = `${countryData.heading}`;
+            } else {
+                // If heading doesn't contain country name, add it in span
+                experienceElement.innerHTML = `${countryData.heading} <span>${countryData.name}</span>`;
+            }
+            console.log('📝 Hero heading updated to:', countryData.heading);
+        }
+        
+        if (countryData.title && titleElement) {
+            titleElement.textContent = countryData.title;
+            console.log('📝 Hero title updated to:', countryData.title);
+        }
+        
+        // Update info bar with API data
+        updateInfoBar(countryData);
+        
+        console.log('✅ Hero section updated successfully');
+    }
+
+    // Function to update info bar with API data
+    function updateInfoBar(countryData) {
+        console.log('📊 Updating info bar...');
+        
+        const infoValues = document.querySelectorAll('.info-value');
+        
+        if (infoValues.length >= 5) {
+            // Best time to visit - static for now as not in API
+            // infoValues[0].textContent = 'December to February'; // Keep static
+            
+            // Capital
+            if (countryData.capital) {
+                infoValues[1].textContent = countryData.capital;
+                console.log('🏛️ Capital updated to:', countryData.capital);
+            }
+            
+            // Currency
+            if (countryData.currency) {
+                infoValues[2].textContent = countryData.currency;
+                console.log('💰 Currency updated to:', countryData.currency);
+            }
+            
+            // Timezone
+            if (countryData.timezone) {
+                infoValues[3].textContent = countryData.timezone;
+                console.log('🕐 Timezone updated to:', countryData.timezone);
+            }
+            
+            // Visa
+            if (countryData.visa) {
+                infoValues[4].textContent = countryData.visa;
+                console.log('📋 Visa updated to:', countryData.visa);
+            }
+        }
+        
+        console.log('✅ Info bar updated successfully');
+    }
+
+    // Test function for country API integration
+    window.testCountryAPI = async function(countryId = '68c00412cd2575bd4c46121b') {
+        console.log('🧪 Testing country API integration...');
+        try {
+            const countryData = await fetchCountryData(countryId);
+            if (countryData) {
+                console.log('✅ API call successful - Data received:', countryData);
+                updateHeroSection(countryData);
+                console.log('🎯 Country API integration test completed successfully!');
+            } else {
+                console.error('❌ Country API integration test failed - no data returned');
+            }
+        } catch (error) {
+            console.error('❌ Country API integration test failed:', error);
+        }
+    };
+
+    // Initialize country data on page load
+    async function initializeCountryData() {
+        console.log('🚀 Initializing country data from API...');
+        
+        const countryData = await fetchCountryData();
+        
+        if (countryData) {
+            updateHeroSection(countryData);
+            console.log('✅ Country data initialization completed');
+        } else {
+            console.warn('⚠️ Failed to initialize country data, using default content');
+        }
+    }
+
+    // Initialize country data and curated journeys
+    initializeCountryData();
     initializeCuratedJourneys();
 
-    // Optional: Refresh curated data every 10 minutes
-    setInterval(initializeCuratedJourneys, 600000);
+    // Optional: Refresh data every 10 minutes
+    setInterval(() => {
+        initializeCountryData();
+        initializeCuratedJourneys();
+    }, 600000);
     
     console.log('Curated Journeys API integration initialized successfully');
+
+    // Global event delegation for card clicks (backup method)
+    document.addEventListener('click', function(e) {
+        const cardElement = e.target.closest('.inspired-card');
+        if (cardElement) {
+            console.log('Global click detected on card');
+            const tourId = cardElement.getAttribute('data-tour-id');
+            const cardId = cardElement.getAttribute('data-card-id');
+            
+            if (tourId || cardId) {
+                console.log('Found tour/card IDs, handling click');
+                handleCardClick(tourId, cardId);
+            }
+        }
+    });
+
+    // Make handleCardClick globally available
+    window.handleCardClick = handleCardClick;
+
+    console.log('All card click handlers initialized');
 });
 </script>
 

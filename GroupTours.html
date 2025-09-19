@@ -490,26 +490,9 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
           <div class="luxury-card-desc">Sleep under a starry Arctic sky in your own thermal glass dome ? ideal for honeymooners and dreamers alike</div>
         </div>
       </div>
-      <div class="luxury-card luxury-card-sm luxury-card-sm-2" style="background-image:url('./images/Japan.jpg'); width:232px; height: 198px; left:521px; top: 336px;">
-        <div class="luxury-card-content">
-          <div class="luxury-card-title">Chartered Adventures</div>
-          <div class="luxury-card-desc">Enjoy helicopter rides, fly-fishing in crystal-clear lakes, or ski tours in untouched wilderness ? all privately guided</div>
-        </div>
-      </div>
-      <!-- Bottom Left Large Card -->
-      <div class="luxury-card luxury-card-lg luxury-card-lg-2" style="background-image:url('./images/luxury-destination.jpg'); width:260px; height:271px; left: 0; top: 263px;">
-        <div class="luxury-card-content">
-          <div class="luxury-card-title">Fine Dining at the Edge of the Arctic Circle</div>
-          <div class="luxury-card-desc">Dine on fresh king crab, cloudberries, and reindeer in curated tasting menus, surrounded by candlelight and snowy silence</div>
-        </div>
-      </div>
-      <!-- Bottom Right Large Card -->
-      <div class="luxury-card luxury-card-lg luxury-card-lg-3" style="background-image:url('./images/Australia.jpg'); width: 250px; height: 197px; left: 266px; top:336px;">
-        <div class="luxury-card-content">
-          <div class="luxury-card-title">Aurora Borealis by Private Sleigh</div>
-          <div class="luxury-card-desc">Avoid the crowds ? chase the Northern Lights with a local expert on your personal snowmobile or reindeer sled</div>
-        </div>
-      </div>
+
+
+
     </div>
   </div>
 </section>
@@ -836,26 +819,8 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
           <div class="resort-card-desc">Private Villas with Concierge</div>
         </div>
       </div>
-      <div class="resort-card resort-card-sm resort-card-sm-2" style="background-image:url('./images/Japan.jpg'); width:268px; height:220px; left:460px; top: 85px;">
-        <div class="resort-card-content">
-          <div class="resort-card-title">Hotel Haven, Helsinki</div>
-          <div class="resort-card-desc">Urban Luxe by the Harbour</div>
-        </div>
-      </div>
       <!-- Bottom Left Large Card -->
-      <div class="resort-card resort-card-lg resort-card-lg-2" style="background-image:url('./images/luxury-destination.jpg'); width:260px; height:192px; left:5; top: 263px;">
-        <div class="resort-card-content">
-          <div class="resort-card-title">Kakslauttanen Arctic Resort</div>
-          <div class="resort-card-desc">Glass Igloos & Chalets</div>
-        </div>
-      </div>
       <!-- Bottom Right Large Card -->
-      <div class="resort-card resort-card-lg resort-card-lg-3" style="background-image:url('./images/Australia.jpg'); width: 332px; height: 193px; left:272px; top:314px;">
-        <div class="resort-card-content">
-          <div class="resort-card-title">Javri Lodge</div>
-          <div class="resort-card-desc">Adults-Only Boutique Lodge with Spa</div>
-        </div>
-      </div>
     </div>
     <!-- Right: Title -->
     <div class="handpicked-resorts-title">
@@ -1721,11 +1686,6 @@ if (!window.whyTravelLoaded) {
     });
   });
 </script>
-
-<!-- Dynamic Luxury Content Container -->
-<div id="dynamicLuxuryContainer" style="display: none;">
-  <!-- This will be populated with luxury content when accessed via luxury city navigation -->
-</div>
 
   <style>
      .privileged-card {
@@ -2644,7 +2604,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateLuxuryHero(luxuryOptions, cityName);
         
         // Show and populate the dynamic luxury container
-        showLuxuryContent(luxuryOptions, cityName);
+        // showLuxuryContent(luxuryOptions, cityName); // Commented out to avoid duplicate content
         
         // Hide the default privileged section since we're showing luxury content
         const privilegedSection = document.querySelector('.privileged-section');
@@ -2661,6 +2621,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const imagePath = luxuryOptions.dashboardImage.replace(/\\/g, '/');
                 
                 if (imagePath.includes('.mp4') || imagePath.includes('.webm')) {
+                    // Remove any existing video elements
+                    const existingVideo = heroSection.querySelector('video');
+                    if (existingVideo) {
+                        existingVideo.remove();
+                    }
+                    
                     // Create video background
                     const videoElement = document.createElement('video');
                     videoElement.autoplay = true;
@@ -2676,29 +2642,35 @@ document.addEventListener('DOMContentLoaded', function () {
                     
                     heroSection.style.position = 'relative';
                     heroSection.insertBefore(videoElement, heroSection.firstChild);
+                    
+                    // Ensure hero content is above video
+                    const heroContent = heroSection.querySelector('.hero-content');
+                    if (heroContent) {
+                        heroContent.style.position = 'relative';
+                        heroContent.style.zIndex = '10';
+                    }
                 } else {
                     // Update background image
                     const backgroundUrl = `http://globe.ridealmobility.com${imagePath}`;
                     heroSection.style.backgroundImage = `url('${backgroundUrl}')`;
                 }
                 
-                console.log('Hero background updated for luxury tour');
+                console.log('🎬 Hero background updated for luxury tour');
             }
         }
         
-        // Update hero content
-        const heroContent = document.querySelector('.hero-content');
-        if (heroContent) {
-            heroContent.innerHTML = `
-                <h1>Luxury ${cityName} Experience</h1>
-                <p class="subheading">${luxuryOptions.subheading || 'Discover premium luxury experiences and accommodations'}</p>
-                <p class="experience">Signature <span>Experiences</span></p>
-                <p>Indulge in exclusive luxury experiences and world-class accommodations in ${cityName}</p>
-                <div style="margin-top: 30px;">
-                    <button class="btn btn-primary" onclick="document.getElementById('dynamicLuxuryContainer').scrollIntoView()">Explore Luxury Options</button>
-                    <button class="btn btn-outline" onclick="window.location.href='Contactus.html'">Contact Us</button>
-                </div>
-            `;
+        // Update hero content - only heading and subheading
+        const heroTitle = document.querySelector('.hero-content h1 .hero-script');
+        const heroSubtext = document.querySelector('.hero-content .hero-subtext');
+        
+        if (luxuryOptions.heading && heroTitle) {
+            heroTitle.textContent = luxuryOptions.heading;
+            console.log('📝 Hero title updated to:', luxuryOptions.heading);
+        }
+        
+        if (luxuryOptions.subheading && heroSubtext) {
+            heroSubtext.textContent = luxuryOptions.subheading;
+            console.log('📝 Hero subtext updated to:', luxuryOptions.subheading);
         }
     }
     
@@ -3470,52 +3442,83 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateHeroSection(luxuryData) {
     if (!luxuryData) return;
     
-    console.log('?? Updating hero section...');
+    console.log('🎯 Updating hero section...');
     const heroTitle = document.querySelector('.hero-content h1 .hero-script');
     const heroSubtext = document.querySelector('.hero-subtext');
+    const heroElement = document.querySelector('.hero');
     
-    console.log('?? Found hero elements:', {
+    console.log('🔍 Found hero elements:', {
       heroTitle: !!heroTitle,
-      heroSubtext: !!heroSubtext
+      heroSubtext: !!heroSubtext,
+      heroElement: !!heroElement
     });
     
-    // Handle your API response structure
-    if (luxuryData.heading && luxuryData.subheading) {
-      if (heroTitle) {
-        // Use city name from API response
-        if (luxuryData.city && luxuryData.city.name) {
-          console.log('?? Setting hero title to city name:', luxuryData.city.name);
-          heroTitle.textContent = luxuryData.city.name;
-        } else {
-          console.log('?? Setting hero title to heading:', luxuryData.heading);
-          heroTitle.textContent = luxuryData.heading;
-        }
-      } else {
-        console.warn('? Hero title element not found');
-      }
+    // Update hero title with API heading
+    if (luxuryData.heading && heroTitle) {
+      console.log('📝 Setting hero title to:', luxuryData.heading);
+      heroTitle.textContent = luxuryData.heading;
+    } else {
+      console.warn('⚠️ Hero title element not found or no heading in API');
+    }
+    
+    // Update hero subtext with API subheading
+    if (luxuryData.subheading && heroSubtext) {
+      console.log('📝 Setting hero subtext to:', luxuryData.subheading);
+      heroSubtext.textContent = luxuryData.subheading;
+    } else {
+      console.warn('⚠️ Hero subtext element not found or no subheading in API');
+    }
+    
+    // Handle dashboard video/image background
+    if (luxuryData.dashboardImage && heroElement) {
+      const mediaUrl = luxuryData.dashboardImage.startsWith('http') 
+        ? luxuryData.dashboardImage 
+        : `http://globe.ridealmobility.com${luxuryData.dashboardImage}`;
       
-      if (heroSubtext) {
-        console.log('?? Setting hero subtext:', luxuryData.subheading);
-        heroSubtext.textContent = luxuryData.subheading;
+      console.log('🎬 Setting hero background media to:', mediaUrl);
+      
+      // Check if it's a video file
+      if (mediaUrl.includes('.mp4') || mediaUrl.includes('.webm') || mediaUrl.includes('.mov')) {
+        // Remove any existing video elements
+        const existingVideo = heroElement.querySelector('video');
+        if (existingVideo) {
+          existingVideo.remove();
+        }
+        
+        // Create video background
+        const videoElement = document.createElement('video');
+        videoElement.autoplay = true;
+        videoElement.muted = true;
+        videoElement.loop = true;
+        videoElement.playsInline = true;
+        videoElement.style.cssText = 'position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:1;';
+        
+        const source = document.createElement('source');
+        source.src = mediaUrl;
+        source.type = 'video/mp4';
+        videoElement.appendChild(source);
+        
+        // Ensure hero content is above video
+        const heroContent = heroElement.querySelector('.hero-content');
+        if (heroContent) {
+          heroContent.style.position = 'relative';
+          heroContent.style.zIndex = '10';
+        }
+        
+        heroElement.style.position = 'relative';
+        heroElement.insertBefore(videoElement, heroElement.firstChild);
+        
+        console.log('🎬 Video background applied successfully');
       } else {
-        console.warn('? Hero subtext element not found');
+        // Handle as image background
+        heroElement.style.backgroundImage = `url('${mediaUrl}')`;
+        console.log('🖼️ Image background applied successfully');
       }
+    } else {
+      console.warn('⚠️ Hero background element not found or no dashboard image in API');
     }
     
-    // Handle dashboard image/video
-    if (luxuryData.dashboardImage) {
-      const heroElement = document.querySelector('.hero');
-      console.log('??? Found hero background element:', !!heroElement);
-      if (heroElement) {
-        const imageUrl = luxuryData.dashboardImage.startsWith('http') ? luxuryData.dashboardImage : `http://globe.ridealmobility.com${luxuryData.dashboardImage}`;
-        console.log('??? Setting hero background to:', imageUrl);
-        heroElement.style.backgroundImage = `url('${imageUrl}')`;
-      } else {
-        console.warn('? Hero background element not found');
-      }
-    }
-    
-    console.log('? Hero section updated with API data');
+    console.log('✅ Hero section updated with API data');
   }
 
   // Test function for API integration (can be called from console)
@@ -3528,15 +3531,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Test updating each section
         updateHeroSection(apiData);
-        console.log('? Hero section updated');
+        console.log('✅ Hero section updated');
         
-        updateLuxuryExperiences(apiData);
-        console.log('? Luxury experiences updated');
+        // updateLuxuryExperiences(apiData); // Commented out to avoid duplicate content
+        // console.log('✅ Luxury experiences updated');
         
-        updateLuxuryResorts(apiData);
-        console.log('? Luxury resorts updated');
+        // updateLuxuryResorts(apiData); // Commented out to avoid duplicate content
+        // console.log('✅ Luxury resorts updated');
         
-        console.log('?? API integration test completed successfully!');
+        console.log('🎯 API integration test completed successfully!');
       } else {
         console.error('? API integration test failed - no data returned');
       }
@@ -3547,15 +3550,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initialize luxury options
   async function initializeLuxuryOptions() {
-    console.log('?? Initializing luxury options from API...');
+    console.log('🚀 Initializing luxury options from API...');
     
     const luxuryData = await fetchLuxuryOptions();
     
     if (luxuryData) {
-      // Update different sections based on API response structure
+      // Update only hero section - no duplicate content sections
       updateHeroSection(luxuryData);
-      updateLuxuryExperiences(luxuryData);
-      updateLuxuryResorts(luxuryData);
+      // updateLuxuryExperiences(luxuryData); // Commented out to avoid duplicate content
+      // updateLuxuryResorts(luxuryData); // Commented out to avoid duplicate content
       
       console.log('? Luxury options integration completed successfully');
     } else {

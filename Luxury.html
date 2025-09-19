@@ -4679,6 +4679,175 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updatePartnerLogosWithAPIData, 10 * 60 * 1000);
     
     console.log('Home Logo API integration initialized successfully for Luxury page');
+
+    // ========== Card Landing API Integration ==========
+    
+    // Function to get URL parameters
+    function getURLParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    // Function to fetch card landing data from API
+    async function fetchCardLandingData(itineraryTourId, cardId) {
+        try {
+            console.log('Fetching card landing data from API...');
+            console.log('Itinerary Tour ID:', itineraryTourId);
+            console.log('Card ID:', cardId);
+            
+            const apiUrl = `http://globe.ridealmobility.com/api/card-landing/tour/${itineraryTourId}/card/${cardId}`;
+            console.log('API URL:', apiUrl);
+            
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Card landing API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching card landing data:', error);
+            return null;
+        }
+    }
+
+    // Function to display card landing data
+    function displayCardLandingData(data) {
+        if (!data) {
+            console.warn('No card landing data to display');
+            return;
+        }
+
+        // Create a container for card landing data if it doesn't exist
+        let cardLandingContainer = document.getElementById('cardLandingContainer');
+        if (!cardLandingContainer) {
+            cardLandingContainer = document.createElement('div');
+            cardLandingContainer.id = 'cardLandingContainer';
+            cardLandingContainer.style.cssText = `
+                margin: 20px 0;
+                padding: 20px;
+                background: #f8f9fa;
+                border-radius: 12px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            `;
+            
+            // Insert after hero section
+            const heroSection = document.querySelector('.hero-section, .hero');
+            if (heroSection && heroSection.nextElementSibling) {
+                heroSection.parentNode.insertBefore(cardLandingContainer, heroSection.nextElementSibling);
+            } else {
+                // Fallback: insert at the beginning of main content
+                const mainContent = document.querySelector('main, .container, body > div');
+                if (mainContent) {
+                    mainContent.insertBefore(cardLandingContainer, mainContent.firstChild);
+                }
+            }
+        }
+
+        // Build HTML content for card landing data
+        let htmlContent = `
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: #2c3e50; font-size: 24px; font-weight: 600; margin-bottom: 10px;">
+                    Selected Tour Details
+                </h2>
+                <p style="color: #666; font-size: 14px;">Information from selected card</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        `;
+
+        // Add tour information if available
+        if (data.title || data.name) {
+            htmlContent += `
+                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
+                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Tour Title</h4>
+                    <p style="color: #666; margin: 0; font-size: 14px;">${data.title || data.name}</p>
+                </div>
+            `;
+        }
+
+        if (data.description) {
+            htmlContent += `
+                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
+                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Description</h4>
+                    <p style="color: #666; margin: 0; font-size: 14px;">${data.description}</p>
+                </div>
+            `;
+        }
+
+        if (data.price || data.cost) {
+            htmlContent += `
+                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
+                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Price</h4>
+                    <p style="color: #d4582a; margin: 0; font-size: 18px; font-weight: 600;">INR ${parseInt(data.price || data.cost || 0).toLocaleString()}/-</p>
+                </div>
+            `;
+        }
+
+        if (data.duration || data.days) {
+            htmlContent += `
+                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
+                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Duration</h4>
+                    <p style="color: #666; margin: 0; font-size: 14px;">${data.duration || data.days + ' Days'}</p>
+                </div>
+            `;
+        }
+
+        if (data.locations || data.cities || data.countries) {
+            const locations = data.locations || (data.cities ? `${data.cities} Cities` : '') || (data.countries ? `${data.countries} Countries` : '');
+            htmlContent += `
+                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
+                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Locations</h4>
+                    <p style="color: #666; margin: 0; font-size: 14px;">${locations}</p>
+                </div>
+            `;
+        }
+
+        htmlContent += '</div>';
+
+        // Add any additional data as JSON for debugging (in development)
+        if (Object.keys(data).length > 0) {
+            htmlContent += `
+                <details style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
+                    <summary style="cursor: pointer; font-weight: 600; color: #2c3e50;">Raw API Response (Debug)</summary>
+                    <pre style="background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; margin: 10px 0 0 0;">${JSON.stringify(data, null, 2)}</pre>
+                </details>
+            `;
+        }
+
+        cardLandingContainer.innerHTML = htmlContent;
+        console.log('Card landing data displayed successfully');
+    }
+
+    // Initialize card landing functionality
+    async function initializeCardLanding() {
+        // Get URL parameters
+        const itineraryTourId = getURLParameter('itinerary_tour_id');
+        const cardId = getURLParameter('card_id');
+
+        console.log('URL Parameters:', { itineraryTourId, cardId });
+
+        if (itineraryTourId && cardId) {
+            console.log('Found URL parameters, fetching card landing data...');
+            const cardLandingData = await fetchCardLandingData(itineraryTourId, cardId);
+            displayCardLandingData(cardLandingData);
+        } else {
+            console.log('No URL parameters found for card landing');
+        }
+    }
+
+    // Initialize card landing when page loads
+    initializeCardLanding();
+
+    console.log('Card Landing API integration initialized successfully for Luxury page');
 });
 </script>
 </body>
