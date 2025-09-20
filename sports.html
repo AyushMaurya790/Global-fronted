@@ -1314,132 +1314,17 @@ document.addEventListener('DOMContentLoaded', function() {
   </style>
 
 <section class="my-sports-slider" style="padding-top: 60px; background-color: #fff6f3;">
-       <!-- Section Header -->
-  <h2 class="why-heading head_font_family text-center" style="font-weight: 400; color: #333;">
+       <!-- Section Header - Updated by API -->
+  <h2 id="sports-main-heading" class="why-heading head_font_family text-center" style="font-weight: 400; color: #333;">
                Your Passport to the World's Biggest <span class="silver-South-family"
                     style="font-size: 65px; font-weight: 400; font-style: normal;">Games</span>
             </h2>
-       <p class="why-subheading" style="font-size: 20px; color: #555; text-align: center; font-family: 'Miller Display', Georgia, serif;">
+       <p id="sports-sub-heading" class="why-subheading" style="font-size: 20px; color: #555; text-align: center; font-family: 'Miller Display', Georgia, serif;">
               Choose your sporting moment - from cricket stadiums to racing tracks, football arenas to tennis courts.
             </p>
    <div class="swiper-fl">
-    <div class="swiper-wrapper">
-      <!-- Static Sports Cards -->
-      <!-- Card 1 -->
-      <div class="swiper-slide">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img class="card-img" src="./images/sportcardimg1.jpg" alt="Asia Cup 2026">
-              <div class="card-content">
-                <div class="card-title">Asia Cup 2026</div>
-                <div class="card-location"><i class="fa fa-map-marker-alt"></i> United Arab Emirates</div>
-                <div class="card-date"><i class="fa fa-calendar-alt"></i> Sep 09, 26 - Sep 28, 26</div>
-              </div>
-            </div>
-            <div class="flip-card-back">
-              <div class="back-title">Asia Cup 2026</div>
-              <div class="back-details">
-                <b>Location:</b> United Arab Emirates<br>
-                <b>Dates:</b> Sep 09, 26 - Sep 28, 26
-              </div>
-              <button class="register-btn" onclick="window.location.href='asiacup.html'" >Register Interest</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 2 -->
-      <div class="swiper-slide">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img class="card-img" src="./images/sportcardimg2.webp" alt="India Tour of Australia 2025">
-              <div class="card-content">
-                <div class="card-title">India Tour of Australia 2026</div>
-                <div class="card-location"><i class="fa fa-map-marker-alt"></i> Australia</div>
-                <div class="card-date"><i class="fa fa-calendar-alt"></i> Oct 19, 26 - Nov 08, 26</div>
-              </div>
-            </div>
-            <div class="flip-card-back">
-              <div class="back-title">India Tour of Australia 2026</div>
-              <div class="back-details">
-                <b>Location:</b> Australia<br>
-                <b>Dates:</b> Oct 19, 26 - Nov 08, 26
-              </div>
-              <button class="register-btn" onclick="window.location.href='indtour.html'">Register Interest</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 3 -->
-      <div class="swiper-slide">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img class="card-img" src="./images/sportcardfifaimg.avif" alt="FIFA World Cup 2026">
-              <div class="card-content">
-                <div class="card-title">FIFA World Cup 2026</div>
-                <div class="card-location"><i class="fa fa-map-marker-alt"></i> Mexico, Canada, USA</div>
-                <div class="card-date"><i class="fa fa-calendar-alt"></i> Jun 11, 26 - Jul 19, 26</div>
-              </div>
-            </div>
-            <div class="flip-card-back">
-              <div class="back-title">FIFA World Cup 2026</div>
-              <div class="back-details">
-                <b>Location:</b> Mexico, Canada, USA<br>
-                <b>Dates:</b> Jun 11, 26 - Jul 19, 26
-              </div>
-              <button class="register-btn" onclick="window.location.href='fifa.html'">Register Interest</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 4 -->
-      <div class="swiper-slide">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img class="card-img" src="./images/sportcardf1img.avif" alt="F1 Race 2026">
-              <div class="card-content">
-                <div class="card-title">F1 Race 2025</div>
-                <div class="card-location"><i class="fa fa-map-marker-alt"></i> Italy</div>
-                <div class="card-date"><i class="fa fa-calendar-alt"></i> Sep 10, 25 - Sep 15, 25</div>
-              </div>
-            </div>
-            <div class="flip-card-back">
-              <div class="back-title">F1 Race 2025</div>
-              <div class="back-details">
-                <b>Location:</b> Italy<br>
-                <b>Dates:</b> Sep 10, 25 - Sep 15, 25
-              </div>
-              <button class="register-btn" onclick="window.location.href='f1.html'" >Register Interest</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Card 5 -->
-      <div class="swiper-slide">
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img class="card-img" src="./images/sportcartmotogpimg.jpg" alt="MotoGP 2025">
-              <div class="card-content">
-                <div class="card-title">MotoGP 2025</div>
-                <div class="card-location"><i class="fa fa-map-marker-alt"></i> Japan</div>
-                <div class="card-date"><i class="fa fa-calendar-alt"></i> Sep 26, 25 - May 28, 25</div>
-              </div>
-            </div>
-            <div class="flip-card-back">
-              <div class="back-title">MotoGP 2025</div>
-              <div class="back-details">
-                <b>Location:</b> Japan<br>
-                <b>Dates:</b> Sep 26, 25 - May 28, 25
-              </div>
-              <button class="register-btn" onclick="window.location.href='motpgp.html'" >Register Interest</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="swiper-wrapper" id="sports-cards-container">
+      <!-- Cards will be populated by API -->
     </div>
     <!-- Pagination -->
     <div class="swiper-pagination"></div>
@@ -1448,50 +1333,156 @@ document.addEventListener('DOMContentLoaded', function() {
 
  <script>
 document.addEventListener('DOMContentLoaded', function() {
-  window.sportsSwiper = new Swiper('.swiper-fl', {
-    slidesPerView: 3,
-    spaceBetween: 32,
-    loop: true,
-    centeredSlides: true,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    autoplay: {
-      delay: 2500,
-      disableOnInteraction: false,
-    },
-    breakpoints: {
-      0: { slidesPerView: 1 },
-      600: { slidesPerView: 2 },
-      900: { slidesPerView: 3 }
+
+  // API Integration for Sports Cards
+  async function fetchSportsData() {
+    try {
+      const response = await fetch('http://globe.ridealmobility.com/api/sport/card');
+      const data = await response.json();
+      return Array.isArray(data) && data.length > 0 ? data[0] : null;
+    } catch (error) {
+      console.error('API Error:', error);
+      return null;
     }
-  });
+  }
 
-  // Pause autoplay on mouse enter, resume on mouse leave
-  const swiperEl = document.querySelector('.swiper-fl');
-  swiperEl.addEventListener('mouseenter', function() {
-    window.sportsSwiper.autoplay.stop();
-  });
-  swiperEl.addEventListener('mouseleave', function() {
-    window.sportsSwiper.autoplay.start();
-  });
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: '2-digit' });
+  }
 
-  // Flip on hover for desktop, click for mobile
-  document.querySelectorAll('.flip-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-      if(window.innerWidth >= 900) card.classList.add('flipped');
+  function getPageUrl(pageType) {
+    const pageMap = {
+      'cricketTournament': 'asiacup.html',
+      'footballTournament': 'fifa.html',
+      'motoGPTournament': 'motpgp.html',
+      'f1Schedule': 'f1.html'
+    };
+    return pageMap[pageType] || '#';
+  }
+
+  function getFallbackImage(title) {
+    if (title.toLowerCase().includes('asia cup')) return './images/sportcardimg1.jpg';
+    if (title.toLowerCase().includes('fifa')) return './images/sportcardfifaimg.avif';
+    if (title.toLowerCase().includes('f1')) return './images/sportcardf1img.avif';
+    if (title.toLowerCase().includes('motogp')) return './images/sportcartmotogpimg.jpg';
+    if (title.toLowerCase().includes('australia')) return './images/sportcardimg2.webp';
+    return './images/sportcardimg1.jpg';
+  }
+
+  function updateHeaders(mainHeading, subHeading) {
+    if (mainHeading) {
+      const words = mainHeading.split(' ');
+      const lastWord = words.pop();
+      const firstPart = words.join(' ');
+      document.getElementById('sports-main-heading').innerHTML = 
+        `${firstPart} <span class="silver-South-family" style="font-size: 65px; font-weight: 400; font-style: normal;">${lastWord}</span>`;
+    }
+    if (subHeading) {
+      document.getElementById('sports-sub-heading').textContent = subHeading;
+    }
+  }
+
+  function generateCards(cards) {
+    const container = document.getElementById('sports-cards-container');
+    if (!cards || !container) return;
+
+    container.innerHTML = '';
+    
+    cards.forEach(card => {
+      const startDate = formatDate(card.startDate);
+      const endDate = formatDate(card.endDate);
+      const imageUrl = card.image ? `http://globe.ridealmobility.com/${card.image}` : getFallbackImage(card.title);
+      const pageUrl = getPageUrl(card.pageType);
+
+      const cardHTML = `
+        <div class="swiper-slide">
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img class="card-img" src="${imageUrl}" alt="${card.title}" onerror="this.src='${getFallbackImage(card.title)}'">
+                <div class="card-content">
+                  <div class="card-title">${card.title}</div>
+                  <div class="card-location"><i class="fa fa-map-marker-alt"></i> ${card.location}</div>
+                  <div class="card-date"><i class="fa fa-calendar-alt"></i> ${startDate} - ${endDate}</div>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div class="back-title">${card.title}</div>
+                <div class="back-details">
+                  <b>Location:</b> ${card.location}<br>
+                  <b>Dates:</b> ${startDate} - ${endDate}
+                </div>
+                <button class="register-btn" onclick="window.location.href='${pageUrl}'">Register Interest</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      container.innerHTML += cardHTML;
     });
-    card.addEventListener('mouseleave', function() {
-      if(window.innerWidth >= 900) card.classList.remove('flipped');
-    });
-    card.addEventListener('click', function(e) {
-      if(window.innerWidth < 900) {
-        if(e.target.classList.contains('register-btn')) return;
-        card.classList.toggle('flipped');
+  }
+
+  function initSwiper() {
+    if (window.sportsSwiper) {
+      window.sportsSwiper.destroy(true, true);
+    }
+
+    window.sportsSwiper = new Swiper('.swiper-fl', {
+      slidesPerView: 3,
+      spaceBetween: 32,
+      loop: true,
+      centeredSlides: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        0: { slidesPerView: 1 },
+        600: { slidesPerView: 2 },
+        900: { slidesPerView: 3 }
       }
     });
-  });
+
+    const swiperEl = document.querySelector('.swiper-fl');
+    swiperEl.addEventListener('mouseenter', function() {
+      window.sportsSwiper.autoplay.stop();
+    });
+    swiperEl.addEventListener('mouseleave', function() {
+      window.sportsSwiper.autoplay.start();
+    });
+
+    document.querySelectorAll('.flip-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        if(window.innerWidth >= 900) card.classList.add('flipped');
+      });
+      card.addEventListener('mouseleave', function() {
+        if(window.innerWidth >= 900) card.classList.remove('flipped');
+      });
+      card.addEventListener('click', function(e) {
+        if(window.innerWidth < 900) {
+          if(e.target.classList.contains('register-btn')) return;
+          card.classList.toggle('flipped');
+        }
+      });
+    });
+  }
+
+  // Initialize
+  async function init() {
+    const data = await fetchSportsData();
+    if (data) {
+      updateHeaders(data.mainHeading, data.subHeading);
+      generateCards(data.cards);
+    }
+    initSwiper();
+  }
+
+  init();
 });
 </script>
 

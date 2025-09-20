@@ -3712,125 +3712,195 @@ document.getElementById('bookingForm').onsubmit = function(e) {
   alert('Your booking request has been submitted!');
   document.getElementById('bookingModal').style.display = 'none';
 };
-</script>
-</body>
-<!-- Signup Form Section -->
-<!-- Login Form Section -->
-<section id="login-section" style="max-width:400px;margin:40px auto 24px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-  <h3 style="color:#007bff;text-align:center;margin-bottom:18px;">Login</h3>
-  <form id="loginForm">
-    <div class="mb-3">
-      <label for="loginFirstName" class="form-label">First Name</label>
-      <input type="text" class="form-control" id="loginFirstName" name="firstName" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginLastName" class="form-label">Last Name</label>
-      <input type="text" class="form-control" id="loginLastName" name="lastName" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginGender" class="form-label">Gender</label>
-      <select class="form-control" id="loginGender" name="gender" required>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="loginDob" class="form-label">Date of Birth</label>
-      <input type="date" class="form-control" id="loginDob" name="dob" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginMobile" class="form-label">Mobile</label>
-      <input type="text" class="form-control" id="loginMobile" name="mobile" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginEmail" class="form-label">Email</label>
-      <input type="email" class="form-control" id="loginEmail" name="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginPassword" class="form-label">Password</label>
-      <input type="password" class="form-control" id="loginPassword" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Login</button>
-    <div id="loginMessage" style="margin-top:16px;text-align:center;"></div>
-  </form>
-</section>
-<section id="signup-section" style="max-width:400px;margin:40px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-  <h3 style="color:#e55d17;text-align:center;margin-bottom:18px;">Sign Up</h3>
-  <form id="signupForm">
-    <div class="mb-3">
-      <label for="firstName" class="form-label">First Name</label>
-      <input type="text" class="form-control" id="firstName" name="firstName" required>
-    </div>
-    <div class="mb-3">
-      <label for="lastName" class="form-label">Last Name</label>
-      <input type="text" class="form-control" id="lastName" name="lastName" required>
-    </div>
-    <div class="mb-3">
-      <label for="gender" class="form-label">Gender</label>
-      <select class="form-control" id="gender" name="gender" required>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="dob" class="form-label">Date of Birth</label>
-      <input type="date" class="form-control" id="dob" name="dob" required>
-    </div>
-    <div class="mb-3">
-      <label for="mobile" class="form-label">Mobile</label>
-      <input type="text" class="form-control" id="mobile" name="mobile" required>
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control" id="email" name="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary w-100" style="background:#e55d17;border:none;">Sign Up</button>
-    <div id="signupMessage" style="margin-top:16px;text-align:center;"></div>
-  </form>
-</section>
 
-<script>
-// Signup API integration
-document.getElementById('signupForm').onsubmit = async function(e) {
-  e.preventDefault();
-  const form = e.target;
-  const data = {
-    firstName: form.firstName.value,
-    lastName: form.lastName.value,
-    gender: form.gender.value,
-    dob: form.dob.value,
-    mobile: form.mobile.value,
-    email: form.email.value,
-    password: form.password.value
-  };
-  const messageDiv = document.getElementById('signupMessage');
-  messageDiv.textContent = 'Signing up...';
+// MotoGP Tournament API Integration
+async function fetchMotoGPTournamentData() {
   try {
-    const response = await fetch('http://globe.ridealmobility.com/api/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    const result = await response.json();
-    if (response.ok) {
-      messageDiv.textContent = 'Signup successful!';
-      messageDiv.style.color = '#28a745';
-      form.reset();
+    console.log('🏍️ Fetching MotoGP tournament data...');
+    const response = await fetch('http://globe.ridealmobility.com/api/sport/motogp-tournament');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('🏍️ MotoGP tournament data:', data);
+    
+    if (data && Array.isArray(data) && data.length > 0) {
+      updateMotoGPSchedule(data);
     } else {
-      messageDiv.textContent = result.message || 'Signup failed.';
-      messageDiv.style.color = '#dc3545';
+      console.warn('No MotoGP tournament data available, keeping static content');
     }
   } catch (error) {
-    messageDiv.textContent = 'Network error. Please try again.';
-    messageDiv.style.color = '#dc3545';
+    console.error('❌ Error fetching MotoGP tournament data:', error);
+    console.log('🔄 Keeping static MotoGP schedule content due to API error');
   }
-};
+}
+
+function updateMotoGPSchedule(apiData) {
+  console.log('🏍️ Updating MotoGP schedule with API data...');
+  const scheduleGrid = document.querySelector('.f1-schedule-grid');
+  
+  if (!scheduleGrid) {
+    console.error('MotoGP schedule grid not found');
+    return;
+  }
+
+  // Clear existing static content
+  scheduleGrid.innerHTML = '';
+  
+  // Process API data and create race cards
+  apiData.forEach((tournament, tournamentIndex) => {
+    console.log('🏆 Processing MotoGP tournament:', tournament.title || 'MotoGP Tournament');
+    
+    // Update page title if available
+    if (tournament.title) {
+      const scheduleHeading = document.querySelector('.f1-schedule-heading');
+      if (scheduleHeading) {
+        scheduleHeading.textContent = tournament.title;
+      }
+    }
+    
+    // Process races from tournament
+    if (tournament.races && Array.isArray(tournament.races)) {
+      tournament.races.forEach((race, raceIndex) => {
+        createMotoGPRaceCardFromAPI(race, scheduleGrid);
+      });
+    }
+  });
+  
+  console.log('✅ MotoGP schedule updated with API data');
+}
+
+function createMotoGPRaceCardFromAPI(race, container) {
+  const raceCard = document.createElement('div');
+  raceCard.className = 'f1-race-card';
+  
+  const startDate = race.startDate || race.date || 'TBA';
+  const endDate = race.endDate || race.startDate || 'TBA';
+  const formattedDate = formatMotoGPDateRange(startDate, endDate);
+  
+  raceCard.innerHTML = `
+    <div class="f1-race-header">
+      <span class="f1-race-round">ROUND ${race.round || 'TBA'}</span>
+      <span class="f1-race-date"><i class="fa fa-flag-checkered"></i> ${formattedDate}</span>
+    </div>
+    <div class="f1-race-title">
+      <img src="https://flagcdn.com/32x24/${getCountryCode(race.country || 'th')}.png" 
+           alt="${race.country || 'Location'}" class="f1-race-flag">
+      <span class="f1-race-location">${race.country || 'Location TBA'}</span>
+    </div>
+    <div class="f1-race-desc">${race.grandPrix || race.name || 'MotoGP Race'}</div>
+    <button class="book-now-btn">Enquire</button>
+    <div class="f1-race-results">
+      ${createMotoGPResultsFromAPI(race.results)}
+    </div>
+  `;
+  
+  container.appendChild(raceCard);
+}
+
+function createMotoGPResultsFromAPI(results) {
+  if (!results || !Array.isArray(results) || results.length === 0) {
+    // Default placeholder results
+    return `
+      <div class="f1-result-card first">
+        <div class="f1-result-pos">1 <span>ST</span></div>
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rider 1" class="f1-driver-img">
+        <div class="f1-result-driver">TBA</div>
+        <div class="f1-result-time">--:--:--</div>
+      </div>
+      <div class="f1-result-card second">
+        <div class="f1-result-pos">2 <span>ND</span></div>
+        <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Rider 2" class="f1-driver-img">
+        <div class="f1-result-driver">TBA</div>
+        <div class="f1-result-time">--:--:--</div>
+      </div>
+      <div class="f1-result-card third">
+        <div class="f1-result-pos">3 <span>RD</span></div>
+        <img src="https://randomuser.me/api/portraits/men/34.jpg" alt="Rider 3" class="f1-driver-img">
+        <div class="f1-result-driver">TBA</div>
+        <div class="f1-result-time">--:--:--</div>
+      </div>
+    `;
+  }
+  
+  let resultsHTML = '';
+  const positions = ['first', 'second', 'third'];
+  const ordinals = ['ST', 'ND', 'RD'];
+  
+  for (let i = 0; i < Math.min(3, results.length); i++) {
+    const result = results[i];
+    const position = i + 1;
+    const positionClass = positions[i] || 'fourth';
+    const ordinal = ordinals[i] || 'TH';
+    
+    resultsHTML += `
+      <div class="f1-result-card ${positionClass}">
+        <div class="f1-result-pos">${position} <span>${ordinal}</span></div>
+        <img src="https://randomuser.me/api/portraits/men/${32 + i}.jpg" alt="${result.rider || result.driver || result.name || 'Rider'}" class="f1-driver-img">
+        <div class="f1-result-driver">${result.rider || result.driver || result.name || 'TBA'}</div>
+        <div class="f1-result-time">${result.time || result.lapTime || result.bestTime || '--:--:--'}</div>
+      </div>
+    `;
+  }
+  
+  return resultsHTML;
+}
+
+function formatMotoGPDateRange(startDate, endDate) {
+  if (!startDate || startDate === 'TBA') return 'TBA';
+  
+  try {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    const startDay = start.getDate().toString().padStart(2, '0');
+    const startMonth = start.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    
+    // If same date or no end date, show single date
+    if (!endDate || startDate === endDate || start.toDateString() === end.toDateString()) {
+      return `${startDay} ${startMonth}`;
+    }
+    
+    const endDay = end.getDate().toString().padStart(2, '0');
+    const endMonth = end.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    
+    // If same month, show "10 - 12 MAR"
+    if (start.getMonth() === end.getMonth()) {
+      return `${startDay} - ${endDay} ${startMonth}`;
+    }
+    
+    // Different months, show "28 FEB - 02 MAR"
+    return `${startDay} ${startMonth} - ${endDay} ${endMonth}`;
+  } catch (error) {
+    return startDate;
+  }
+}
+
+function getCountryCode(country) {
+  const countryMap = {
+    'qatar': 'qa', 'spain': 'es', 'thailand': 'th', 'argentina': 'ar', 
+    'usa': 'us', 'united states': 'us', 'france': 'fr', 'italy': 'it', 
+    'germany': 'de', 'netherlands': 'nl', 'czech republic': 'cz', 
+    'czechia': 'cz', 'austria': 'at', 'uk': 'gb', 'britain': 'gb', 
+    'great britain': 'gb', 'malaysia': 'my', 'japan': 'jp', 
+    'australia': 'au', 'portugal': 'pt', 'valencia': 'es',
+    'indonesia': 'id', 'india': 'in', 'americas': 'us', 'san marino': 'sm',
+    'emirates': 'ae', 'uae': 'ae', 'united arab emirates': 'ae'
+  };
+  
+  const lowerCountry = country.toLowerCase();
+  return countryMap[lowerCountry] || 'th';
+}
+
+// Auto-initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function () {
+  // Fetch MotoGP API data after page loads
+  fetchMotoGPTournamentData();
+});
+
 </script>
+</body>
 
 </html>

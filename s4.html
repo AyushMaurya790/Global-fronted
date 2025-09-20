@@ -1373,12 +1373,14 @@ initializeDestinationNavbar();
         <h3 style="font-size:22px; font-weight:600; margin-bottom:18px;">Sign In to Your Account</h3>
         <div style="margin-bottom:14px;">
           <label style="font-size:14px;">Email or Mobile Number*</label>
-          <input type="text" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+          <input type="text" id="loginEmailOrMobile" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
         </div>
         <div style="margin-bottom:14px;">
           <label style="font-size:14px;">Password*</label>
-          <input type="password" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
+          <input type="password" id="loginPassword" required style="width:100%; padding:8px; border:1px solid #e55d17; border-radius:6px; margin-top:4px;">
         </div>
+        <div id="loginError" style="color: red; font-size: 14px; margin-bottom: 10px; display: none;"></div>
+        <div id="loginSuccess" style="color: green; font-size: 14px; margin-bottom: 10px; display: none;"></div>
         <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:17px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign In</button>
         <div style="text-align:center; margin-top:18px; font-size:14px;">
           Don't have an account? <span id="gotoCreate" style="color:#e55d17; cursor:pointer; font-weight:500;">Create Account</span>
@@ -1392,49 +1394,44 @@ initializeDestinationNavbar();
         <div style="display:flex; gap:12px; margin-bottom:12px;">
           <div style="flex:1;">
             <label style="font-size:14px;">First Name*</label>
-            <input type="text" required style="width:100%; border:1px solid #e55d17;  margin-top:4px;">
+            <input type="text" id="signupFirstName" required style="width:100%; border:1px solid #e55d17; padding:8px; border-radius:6px; margin-top:4px;">
           </div>
           <div style="flex:1;">
             <label style="font-size:14px;">Last Name*</label>
-            <input type="text" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <input type="text" id="signupLastName" required style="width:100%; border:1px solid #e55d17; padding:8px; border-radius:6px; margin-top:4px;">
           </div>
         </div>
         <div style="display:flex; gap:12px; margin-bottom:12px;">
           <div style="flex:1;">
-            <label style="font-size:14px;">Gender</label>
-            <input type="text" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <label style="font-size:14px;">Gender*</label>
+            <select id="signupGender" required style="width:100%; border:1px solid #e55d17; padding:8px; border-radius:6px; margin-top:4px;">
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
           </div>
           <div style="flex:1;">
-            <label style="font-size:14px;">Date of Birth</label>
-            <input type="text" placeholder="DD/MM/YYYY" style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <label style="font-size:14px;">Date of Birth*</label>
+            <input type="date" id="signupDob" required style="width:100%; border:1px solid #e55d17; padding:8px; border-radius:6px; margin-top:4px;">
           </div>
-          <div style="flex:1;">
-      <label style="font-size:14px;">Mobile Number*</label>
-      <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
-        <select style="width:70px;  border:1px solid #e55d17; flex-shrink: 0;">
-          <option value="+91">+91</option>
-          <option value="+1">+1</option>
-          <option value="+44">+44</option>
-          <option value="+61">+61</option>
-          <option value="+81">+81</option>
-          <!-- Add more country codes as needed -->
-        </select>
-        <input type="text" required style="flex:1;  border:1px solid #e55d17; min-width: 150px;">
-      </div>
-    </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="font-size:14px;">Mobile Number*</label>
+          <input type="tel" id="signupMobile" required style="width:100%; border:1px solid #e55d17; padding:8px; border-radius:6px; margin-top:4px;">
         </div>
         <div style="margin-bottom:12px;">
           <label style="font-size:14px;">Email*</label>
-          <input type="email" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+          <input type="email" id="signupEmail" required style="width:100%; border:1px solid #e55d17; padding:8px; border-radius:6px; margin-top:4px;">
         </div>
         <div style="display:flex; gap:12px; margin-bottom:12px;">
           <div style="flex:1;">
             <label style="font-size:14px;">Password*</label>
-            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <input type="password" id="signupPassword" required style="width:100%; border:1px solid #e55d17; padding:8px; border-radius:6px; margin-top:4px;">
           </div>
           <div style="flex:1;">
             <label style="font-size:14px;">Confirm Password*</label>
-            <input type="password" required style="width:100%;  border:1px solid #e55d17;  margin-top:4px;">
+            <input type="password" id="confirmPassword" required style="width:100%; border:1px solid #e55d17; padding:8px; border-radius:6px; margin-top:4px;">
           </div>
         </div>
         <div style="margin-bottom:12px;">
@@ -1444,7 +1441,9 @@ initializeDestinationNavbar();
           </label>
           <p style="margin-bottom: 0; font-size: 13px;" >By submitting this form, I agree to Maharaja Club Terms and Conditions and Privacy Notice.</p>
         </div>
-        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:15px; font-weight:600; border:none; padding:5px 0; margin-top:8px;">Sign Up</button>
+        <div id="signupError" style="color: red; font-size: 14px; margin-bottom: 10px; display: none;"></div>
+        <div id="signupSuccess" style="color: green; font-size: 14px; margin-bottom: 10px; display: none;"></div>
+        <button type="submit" style="width:100%; background:#e55d17; color:#fff; font-size:15px; font-weight:600; border:none; border-radius:6px; padding:10px 0; margin-top:8px;">Sign Up</button>
         <div style="text-align:center; margin-top:18px; font-size:14px;">
           Already have an account? <span id="gotoSignIn" style="color:#e55d17; cursor:pointer; font-weight:500;">Sign In</span>
         </div>
@@ -1606,6 +1605,218 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('engelSignUpBtn').onclick = function() {
     showTab('create');
   };
+
+  // Signup API integration
+  async function signup(userData) {
+    try {
+      const response = await fetch('http://globe.ridealmobility.com/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        return { success: true, data };
+      } else {
+        return { success: false, error: data.message || 'Signup failed' };
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      return { success: false, error: 'Network error. Please try again.' };
+    }
+  }
+
+  // Signup form submission handler
+  document.getElementById('createForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const signupError = document.getElementById('signupError');
+    const signupSuccess = document.getElementById('signupSuccess');
+    const submitBtn = this.querySelector('button[type="submit"]');
+    
+    // Hide previous messages
+    signupError.style.display = 'none';
+    signupSuccess.style.display = 'none';
+
+    // Add loading state
+    submitBtn.disabled = true;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Creating Account...';
+
+    // Get form data
+    const formData = {
+      firstName: document.getElementById('signupFirstName').value.trim(),
+      lastName: document.getElementById('signupLastName').value.trim(),
+      gender: document.getElementById('signupGender').value,
+      dob: document.getElementById('signupDob').value,
+      mobile: document.getElementById('signupMobile').value.trim(),
+      email: document.getElementById('signupEmail').value.trim(),
+      password: document.getElementById('signupPassword').value
+    };
+
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Validate required fields
+    if (!formData.firstName || !formData.lastName || !formData.gender || 
+        !formData.dob || !formData.mobile || !formData.email || !formData.password) {
+      signupError.textContent = 'Please fill in all required fields.';
+      signupError.style.display = 'block';
+      
+      // Remove loading state
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      return;
+    }
+
+    // Validate password confirmation
+    if (formData.password !== confirmPassword) {
+      signupError.textContent = 'Passwords do not match.';
+      signupError.style.display = 'block';
+      
+      // Remove loading state
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      return;
+    }
+
+    // Call signup API
+    const result = await signup(formData);
+    
+    // Remove loading state
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+    
+    if (result.success) {
+      signupSuccess.textContent = 'Account created successfully! You can now sign in.';
+      signupSuccess.style.display = 'block';
+      
+      // Clear form
+      document.getElementById('createForm').reset();
+      
+      // Switch to sign in tab after short delay
+      setTimeout(() => {
+        showTab('signIn');
+      }, 2000);
+      
+    } else {
+      signupError.textContent = result.error;
+      signupError.style.display = 'block';
+    }
+  });
+
+  // Login API integration
+  async function login(userData) {
+    try {
+      const response = await fetch('http://globe.ridealmobility.com/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        return { success: true, data };
+      } else {
+        return { success: false, error: data.message || 'Login failed' };
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false, error: 'Network error. Please try again.' };
+    }
+  }
+
+  // Login form submission handler
+  document.getElementById('signInForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const loginError = document.getElementById('loginError');
+    const loginSuccess = document.getElementById('loginSuccess');
+    const submitBtn = this.querySelector('button[type="submit"]');
+    
+    // Hide previous messages
+    loginError.style.display = 'none';
+    loginSuccess.style.display = 'none';
+
+    // Add loading state
+    submitBtn.disabled = true;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Signing In...';
+
+    // Get form data
+    const emailOrMobile = document.getElementById('loginEmailOrMobile').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    // Validate required fields
+    if (!emailOrMobile || !password) {
+      loginError.textContent = 'Please fill in all required fields.';
+      loginError.style.display = 'block';
+      
+      // Remove loading state
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      return;
+    }
+
+    // For now, show a message that this is a simplified login
+    // In a real scenario, you might want to modify the API to accept just email/mobile and password
+    loginError.textContent = 'Please use the Create Account form first to register with all required details, then you can sign in.';
+    loginError.style.display = 'block';
+    
+    // Remove loading state
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+
+    // Alternative: If you want to try login with dummy data for the missing fields
+    /*
+    const formData = {
+      firstName: "User", // You'd need to get this from somewhere or modify API
+      lastName: "Account",
+      gender: "male",
+      dob: "1990-01-01", 
+      mobile: emailOrMobile.includes('@') ? "1234567890" : emailOrMobile,
+      email: emailOrMobile.includes('@') ? emailOrMobile : "user@example.com",
+      password: password
+    };
+
+    // Call login API
+    const result = await login(formData);
+    
+    // Remove loading state
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+    
+    if (result.success) {
+      loginSuccess.textContent = 'Login successful! Welcome back.';
+      loginSuccess.style.display = 'block';
+      
+      // Store user data in localStorage
+      localStorage.setItem('user', JSON.stringify(result.data));
+      localStorage.setItem('isLoggedIn', 'true');
+      
+      // Update navbar to show logged in state
+      const signInElement = document.querySelector('.signin');
+      if (result.data && result.data.firstName) {
+        signInElement.innerHTML = `<img src="./iocon/account.png" style="display:block; font-size:1.5rem; margin:0 auto 2px auto; width: 30px;"></img>Welcome, ${result.data.firstName}`;
+      }
+      
+      // Close modal after short delay
+      setTimeout(() => {
+        document.getElementById('authModal').style.display = 'none';
+      }, 1500);
+      
+    } else {
+      loginError.textContent = result.error;
+      loginError.style.display = 'block';
+    }
+    */
+  });
 
   // Show/hide ENGEL CLUB card based on tab
   function showTab(tab) {
@@ -2655,7 +2866,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Function to create itinerary tour card HTML
-    function renderInspiredCard(card, index) {
+    function renderInspiredCard(card, index, countryId, itineraryTourId) {
         const imageUrl = getInspiredImageUrl(card.image);
         const title = card.title || `Tour ${index + 1}`;
         const days = card.days || '0';
@@ -2664,17 +2875,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const price = card.price || '0';
         const departures = card.departures ? card.departures.join(' | ') : 'Not specified';
         
-        // Get itinerary tour ID and card ID for luxury page navigation
-        const itineraryTourId = card.itineraryTourId || card._id || card.id || '';
+        // Use the passed IDs or fallback to card data
+        const tourId = itineraryTourId || card.itineraryTourId || card._id || card.id || '';
         const cardId = card._id || card.id || index;
+        const countryID = countryId || card.country || '';
         
-        console.log('Rendering card:', { index, title, itineraryTourId, cardId, card });
+        console.log('Rendering card:', { 
+            index, 
+            title, 
+            tourId, 
+            cardId, 
+            countryID,
+            card 
+        });
         
         return `
             <div class="inspired-card" 
                  style="position: relative; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.1); transition: transform 0.3s; cursor: pointer;" 
-                 data-tour-id="${itineraryTourId}" 
-                 data-card-id="${cardId}">
+                 data-tour-id="${tourId}" 
+                 data-card-id="${cardId}"
+                 data-country-id="${countryID}">
                 <img src="${imageUrl}" alt="${title}" style="width: 100%; height: 200px; object-fit: cover; display: ${imageUrl ? 'block' : 'none'};" onerror="this.style.display='none';">
                 <div style="padding: 20px;">
                     <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 10px; color: #333;">${title}</h3>
@@ -2687,7 +2907,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Function to update Get Inspired section with API data
-    async function updateGetInspiredWithAPIData(inspiredDataArray) {
+    async function updateGetInspiredWithAPIData(inspiredDataArray, countryId) {
         // API returns array, get first object
         if (!inspiredDataArray || !Array.isArray(inspiredDataArray) || inspiredDataArray.length === 0) {
             console.warn('No valid Get Inspired itinerary data provided from API');
@@ -2734,15 +2954,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const row1Cards = cards.slice(0, 3);
             const row2Cards = cards.slice(3, 6);
 
+            // Get itinerary tour ID for all cards (should be same for cards from same tour)
+            const itineraryTourId = inspiredData._id || inspiredData.id || '';
+
             // Render Row 1 cards
             if (row1Cards.length > 0) {
                 row1Cards.forEach((card, index) => {
-                    const cardHtml = renderInspiredCard(card, index);
+                    const cardHtml = renderInspiredCard(card, index, countryId, itineraryTourId);
                     row1Container.insertAdjacentHTML('beforeend', cardHtml);
                 });
                 
                 // Add event listeners to Row 1 cards
-                addCardEventListeners(row1Container, row1Cards);
+                addCardEventListeners(row1Container, row1Cards, 0, countryId, itineraryTourId);
             } else {
                 row1Container.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No tours available</div>';
             }
@@ -2750,12 +2973,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Render Row 2 cards (if any)
             if (row2Cards.length > 0) {
                 row2Cards.forEach((card, index) => {
-                    const cardHtml = renderInspiredCard(card, index + 3);
+                    const cardHtml = renderInspiredCard(card, index + 3, countryId, itineraryTourId);
                     row2Container.insertAdjacentHTML('beforeend', cardHtml);
                 });
                 
                 // Add event listeners to Row 2 cards
-                addCardEventListeners(row2Container, row2Cards, 3);
+                addCardEventListeners(row2Container, row2Cards, 3, countryId, itineraryTourId);
             }
 
             console.log(`Get Inspired section updated successfully with ${cards.length} itinerary tours from API`);
@@ -2766,13 +2989,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Function to add event listeners to cards
-    function addCardEventListeners(container, cards, startIndex = 0) {
+    function addCardEventListeners(container, cards, startIndex = 0, countryId, itineraryTourId) {
         const cardElements = container.querySelectorAll('.inspired-card');
         
         cardElements.forEach((cardElement, index) => {
             const card = cards[index];
             if (card) {
-                const itineraryTourId = card.itineraryTourId || card._id || card.id || '';
+                const tourId = itineraryTourId || card.itineraryTourId || card._id || card.id || '';
                 const cardId = card._id || card.id || (startIndex + index);
                 
                 // Remove any existing click listeners
@@ -2782,7 +3005,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cardElement.clickHandler = function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    handleCardClick(itineraryTourId, cardId);
+                    handleCardClick(tourId, cardId, countryId);
                 };
                 
                 cardElement.addEventListener('click', cardElement.clickHandler);
@@ -2796,18 +3019,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.style.transform = 'scale(1)';
                 });
                 
-                console.log('Added event listener to card:', { index, itineraryTourId, cardId });
+                console.log('Added event listener to card:', { index, tourId, cardId, countryId });
             }
         });
     }
 
     // Function to handle card click and navigate to luxury.html with parameters
-    function handleCardClick(itineraryTourId, cardId) {
-        console.log('Card clicked:', { itineraryTourId, cardId });
+    function handleCardClick(itineraryTourId, cardId, countryId) {
+        console.log('Card clicked:', { itineraryTourId, cardId, countryId });
         
-        // Create URL with parameters for luxury.html
-        const luxuryUrl = `luxury.html?itinerary_tour_id=${encodeURIComponent(itineraryTourId)}&card_id=${encodeURIComponent(cardId)}`;
-        console.log('Navigating to:', luxuryUrl);
+        // Create URL with correct parameters for luxury.html (using countryId as per API requirement)
+        const luxuryUrl = `luxury.html?countryId=${encodeURIComponent(countryId)}&card_id=${encodeURIComponent(cardId)}`;
+        console.log('Navigating to luxury page with correct parameters:', luxuryUrl);
         
         // Navigate to luxury.html
         window.location.href = luxuryUrl;
@@ -2816,11 +3039,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to initialize Get Inspired data
     async function initializeGetInspiredData() {
         try {
+            // First get the view data to extract country ID
+            let countryId = '68c00412cd2575bd4c46121b'; // Fallback New Zealand country ID
+            
+            try {
+                const viewData = await fetchViewData();
+                if (viewData && viewData.country && viewData.country._id) {
+                    countryId = viewData.country._id;
+                    console.log('Got country ID from view data:', countryId);
+                } else if (viewData && viewData.country && viewData.country.id) {
+                    countryId = viewData.country.id;
+                    console.log('Got country ID from view data:', countryId);
+                } else {
+                    console.log('Using fallback country ID for New Zealand:', countryId);
+                }
+            } catch (viewError) {
+                console.warn('Could not fetch view data for country ID, using fallback:', viewError);
+            }
+
             const inspiredDataArray = await fetchGetInspiredData();
             if (inspiredDataArray && Array.isArray(inspiredDataArray) && inspiredDataArray.length > 0) {
                 const inspiredData = inspiredDataArray[0];
                 if (inspiredData && inspiredData.cards && inspiredData.cards.length > 0) {
-                    await updateGetInspiredWithAPIData(inspiredDataArray);
+                    await updateGetInspiredWithAPIData(inspiredDataArray, countryId);
                 } else {
                     console.warn('No cards found in API response');
                     const row1Container = document.querySelector('.inspired-row-1');
@@ -2871,6 +3112,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Optional: Refresh Get Inspired data every 15 minutes
     setInterval(initializeGetInspiredData, 900000);
+    
+    // Add global event delegation for card clicks as backup
+    document.addEventListener('click', function(e) {
+        const card = e.target.closest('.inspired-card');
+        if (card) {
+            const tourId = card.getAttribute('data-tour-id');
+            const cardId = card.getAttribute('data-card-id');
+            const countryId = card.getAttribute('data-country-id');
+            
+            if (tourId && cardId && countryId) {
+                console.log('Global card click handler triggered:', { tourId, cardId, countryId });
+                handleCardClick(tourId, cardId, countryId);
+            } else {
+                console.warn('Card missing required data attributes:', { tourId, cardId, countryId });
+            }
+        }
+    });
     
     console.log('Get Inspired section API integration initialized successfully');
 });

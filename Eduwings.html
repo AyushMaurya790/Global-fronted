@@ -1329,7 +1329,6 @@
         <div class="mega-left">
           <ul id="eduwings-luxury-dropdown">
             <!-- Luxury options will be populated dynamically -->
-            <li data-target="luxury"><a href="">Loading...</a></li>
           </ul>
         </div>
         
@@ -2368,22 +2367,63 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to fetch luxury cities from API
     async function fetchLuxuryCities() {
         try {
+            console.log('Fetching luxury cities from API...');
             const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
             if (!response.ok) {
                 throw new Error('Failed to fetch luxury cities');
             }
             const data = await response.json();
-            console.log('Luxury cities loaded from API:', data);
+            console.log('Raw API response:', data);
+            console.log('API response type:', typeof data);
+            console.log('Is array:', Array.isArray(data));
+            
+            if (Array.isArray(data)) {
+                data.forEach((item, index) => {
+                    console.log(`Item ${index}:`, item, 'Name:', item.name);
+                });
+            }
+            
             return Array.isArray(data) ? data : [];
         } catch (error) {
             console.error('Error fetching luxury cities:', error);
-            // Return fallback data to maintain functionality
+            console.log('Using fallback data...');
+            // Return fallback data to maintain functionality - Updated to match current API response
             return [
-                { _id: '68c95f758955d15262c1a302', name: 'FINLAND' },
-                { _id: '68c95f7e8955d15262c1a304', name: 'JAPAN' },
-                { _id: '68c95f8c8955d15262c1a306', name: 'KENYA' },
-                { _id: '68c95f9d8955d15262c1a309', name: 'NORWAY' },
-                { _id: '68c95fad8955d15262c1a30b', name: 'SAUDI ARABIA' }
+                {
+                    "_id": "68c95fad8955d15262c1a30b",
+                    "name": "SAUDI ARABIA",
+                    "createdAt": "2025-09-16T13:01:33.166Z",
+                    "updatedAt": "2025-09-16T13:01:33.166Z",
+                    "__v": 0
+                },
+                {
+                    "_id": "68c95f9d8955d15262c1a309",
+                    "name": "NORWAY",
+                    "createdAt": "2025-09-16T13:01:17.004Z",
+                    "updatedAt": "2025-09-16T13:01:17.004Z",
+                    "__v": 0
+                },
+                {
+                    "_id": "68c95f8c8955d15262c1a306",
+                    "name": "KENYA",
+                    "createdAt": "2025-09-16T13:01:00.477Z",
+                    "updatedAt": "2025-09-16T13:01:00.477Z",
+                    "__v": 0
+                },
+                {
+                    "_id": "68c95f7e8955d15262c1a304",
+                    "name": "JAPAN",
+                    "createdAt": "2025-09-16T13:00:46.793Z",
+                    "updatedAt": "2025-09-16T13:00:46.793Z",
+                    "__v": 0
+                },
+                {
+                    "_id": "68c95f758955d15262c1a302",
+                    "name": "FINLAND",
+                    "createdAt": "2025-09-16T13:00:37.712Z",
+                    "updatedAt": "2025-09-16T13:00:37.712Z",
+                    "__v": 0
+                }
             ];
         }
     }
@@ -2416,7 +2456,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize Eduwings luxury dropdown with API data
     async function initializeEduwingsLuxuryDropdown() {
+        console.log('Starting luxury dropdown initialization...');
         const luxuryCities = await fetchLuxuryCities();
+        console.log('Received luxury cities data:', luxuryCities);
         const luxuryMenu = document.getElementById('eduwings-luxury-dropdown');
         
         if (luxuryMenu) {
@@ -2426,18 +2468,25 @@ document.addEventListener('DOMContentLoaded', function() {
             if (luxuryCities && luxuryCities.length > 0) {
                 // Populate with API data
                 luxuryCities.forEach((city, index) => {
+                    console.log(`Processing city ${index}:`, city);
                     const li = document.createElement('li');
                     li.setAttribute('data-target', 'luxury');
                     
                     const a = document.createElement('a');
+                    // Ensure we properly extract the name from the city object
+                    const cityName = (city && typeof city === 'object' && city.name) ? city.name : `Luxury City ${index + 1}`;
+                    const cityId = (city && typeof city === 'object' && city._id) ? city._id : `city-${index}`;
+                    
+                    console.log(`Setting city name to: ${cityName}`);
+                    
                     // Create dynamic tour page URL
-                    a.href = createTourPageURL(city._id, city.name);
-                    a.textContent = city.name || `Luxury City ${index + 1}`;
+                    a.href = createTourPageURL(cityId, cityName);
+                    a.textContent = cityName;
                     
                     // Add click event to handle luxury city selection
                     a.addEventListener('click', async function(e) {
                         e.preventDefault();
-                        console.log('Selected luxury city from Eduwings:', city.name, 'ID:', city._id);
+                        console.log('Selected luxury city from Eduwings:', cityName, 'ID:', cityId);
                         
                         // Show loading state
                         const originalText = this.textContent;
@@ -2446,13 +2495,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         try {
                             // Fetch luxury options for this city
-                            const luxuryOptions = await fetchLuxuryOptions(city._id);
+                            const luxuryOptions = await fetchLuxuryOptions(cityId);
                             
                             if (luxuryOptions) {
                                 // Store luxury options in sessionStorage for the tour page
                                 sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
-                                sessionStorage.setItem('selectedCityId', city._id);
-                                sessionStorage.setItem('selectedCityName', city.name);
+                                sessionStorage.setItem('selectedCityId', cityId);
+                                sessionStorage.setItem('selectedCityName', cityName);
                                 
                                 // Navigate to tour page
                                 window.location.href = this.href;
@@ -2495,6 +2544,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize luxury dropdown
     initializeEduwingsLuxuryDropdown();
+
+    // Temporary debug function - manual population to test display
+    function debugPopulateDropdown() {
+        console.log('Debug: Manually populating dropdown...');
+        const luxuryMenu = document.getElementById('eduwings-luxury-dropdown');
+        if (luxuryMenu) {
+            luxuryMenu.innerHTML = '';
+            const cities = ['SAUDI ARABIA', 'NORWAY', 'KENYA', 'JAPAN', 'FINLAND'];
+            cities.forEach(cityName => {
+                const li = document.createElement('li');
+                li.setAttribute('data-target', 'luxury');
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = cityName;
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Clicked:', cityName);
+                });
+                li.appendChild(a);
+                luxuryMenu.appendChild(li);
+            });
+            console.log('Debug: Manual population complete');
+        }
+    }
+
+    // Run debug function after a short delay to test display
+    setTimeout(debugPopulateDropdown, 1000);
 
     // Optional: Refresh luxury cities every 10 minutes
     setInterval(initializeEduwingsLuxuryDropdown, 600000);

@@ -2324,9 +2324,165 @@
       };
     })();
 
+    // Football Tournament API Integration
+    async function fetchFootballTournamentData() {
+      try {
+        console.log('⚽ Fetching football tournament data...');
+        const response = await fetch('http://globe.ridealmobility.com/api/sport/football-tournament');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('⚽ Football tournament data:', data);
+        
+        if (data && Array.isArray(data) && data.length > 0) {
+          const formattedData = formatApiDataForFIFA(data);
+          FIFASchedule.updateMatches(formattedData);
+        } else {
+          console.warn('No football tournament data available, keeping static content');
+        }
+      } catch (error) {
+        console.error('❌ Error fetching football tournament data:', error);
+        console.log('🔄 Keeping static FIFA schedule content due to API error');
+      }
+    }
+
+    function formatApiDataForFIFA(apiData) {
+      const formattedData = {
+        group: {},
+        round16: [],
+        quarter: [],
+        semi: [],
+        final: []
+      };
+
+      // Process API data based on actual response structure
+      apiData.forEach((tournament, tournamentIndex) => {
+        console.log('🏆 Processing tournament:', tournament.name);
+        
+        // Process tournament groups and teams
+        if (tournament.groups && Array.isArray(tournament.groups)) {
+          tournament.groups.forEach((group, groupIndex) => {
+            const groupName = group.name || `Group ${String.fromCharCode(65 + groupIndex)}`; // A, B, C...
+            const groupKey = groupName.replace('Group ', ''); // Extract just the letter
+            
+            if (!formattedData.group[groupKey]) {
+              formattedData.group[groupKey] = [];
+            }
+            
+            // Generate sample matches between teams in this group
+            if (group.teams && group.teams.length >= 2) {
+              for (let i = 0; i < group.teams.length; i++) {
+                for (let j = i + 1; j < group.teams.length; j++) {
+                  const team1 = group.teams[i];
+                  const team2 = group.teams[j];
+                  
+                  const match = {
+                    id: `${tournamentIndex}-${groupIndex}-${i}-${j}`,
+                    date: tournament.startDate ? new Date(tournament.startDate).toISOString().split('T')[0] : '2026-06-11',
+                    time: '15:00',
+                    team1: team1.name || team1.code || 'Team A',
+                    team2: team2.name || team2.code || 'Team B',
+                    venue: `Stadium ${groupKey}`,
+                    group: groupKey,
+                    phase: 'group',
+                    score: '',
+                    status: 'upcoming'
+                  };
+                  
+                  formattedData.group[groupKey].push(match);
+                }
+              }
+            }
+          });
+        }
+
+        // Handle existing matches from API if present
+        if (tournament.matches && Array.isArray(tournament.matches) && tournament.matches.length > 0) {
+          tournament.matches.forEach((match, matchIndex) => {
+            const formattedMatch = {
+              id: `${tournamentIndex}-match-${matchIndex}`,
+              date: match.date || match.matchDate || tournament.startDate?.split('T')[0] || '2026-06-11',
+              time: match.time || match.matchTime || '15:00',
+              team1: match.team1 || match.homeTeam || match.teamA || 'Team A',
+              team2: match.team2 || match.awayTeam || match.teamB || 'Team B',
+              venue: match.venue || match.stadium || match.location || 'Stadium TBA',
+              group: match.group || 'A',
+              phase: match.phase || match.round || 'group',
+              score: match.score || match.result || '',
+              status: match.status || 'upcoming'
+            };
+
+            // Organize by phase/stage
+            const phase = formattedMatch.phase.toLowerCase();
+            if (phase.includes('group') || phase === 'group') {
+              const groupKey = formattedMatch.group;
+              if (!formattedData.group[groupKey]) {
+                formattedData.group[groupKey] = [];
+              }
+              formattedData.group[groupKey].push(formattedMatch);
+            } else if (phase.includes('16') || phase.includes('round')) {
+              formattedData.round16.push(formattedMatch);
+            } else if (phase.includes('quarter')) {
+              formattedData.quarter.push(formattedMatch);
+            } else if (phase.includes('semi')) {
+              formattedData.semi.push(formattedMatch);
+            } else if (phase.includes('final')) {
+              formattedData.final.push(formattedMatch);
+            }
+          });
+        }
+        
+        // Generate knockout stage matches based on stages
+        if (tournament.stages && Array.isArray(tournament.stages)) {
+          tournament.stages.forEach((stage, stageIndex) => {
+            const stageLower = stage.toLowerCase();
+            if (stageLower.includes('16') || stageLower.includes('round')) {
+              // Generate sample Round of 16 matches
+              for (let i = 0; i < 8; i++) {
+                formattedData.round16.push({
+                  id: `${tournamentIndex}-r16-${i}`,
+                  date: '2026-06-27',
+                  time: i % 2 === 0 ? '15:00' : '19:00',
+                  team1: 'Winner Group A',
+                  team2: 'Runner-up Group B',
+                  venue: `Stadium R16-${i + 1}`,
+                  phase: 'round16',
+                  score: '',
+                  status: 'upcoming'
+                });
+              }
+            } else if (stageLower.includes('quarter')) {
+              // Generate sample Quarter Final matches
+              for (let i = 0; i < 4; i++) {
+                formattedData.quarter.push({
+                  id: `${tournamentIndex}-qf-${i}`,
+                  date: '2026-07-02',
+                  time: i % 2 === 0 ? '15:00' : '19:00',
+                  team1: `QF Team ${i * 2 + 1}`,
+                  team2: `QF Team ${i * 2 + 2}`,
+                  venue: `Stadium QF-${i + 1}`,
+                  phase: 'quarter',
+                  score: '',
+                  status: 'upcoming'
+                });
+              }
+            }
+          });
+        }
+      });
+
+      console.log('✅ Formatted FIFA World Cup data for schedule:', formattedData);
+      return formattedData;
+    }
+
     // Auto-initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', function () {
       FIFASchedule.init();
+      // Fetch API data after FIFA schedule is initialized
+      fetchFootballTournamentData();
     });
 
     // Also initialize if already loaded
@@ -2805,9 +2961,9 @@
     // Function to fetch luxury cities data
     async function fetchLuxuryCitiesData() {
       try {
-        console.log('Fetching luxury cities data...');
+        console.log('🏙️ Fetching luxury cities data...');
         
-        const response = await fetch('http://globe.ridealmobility.com/api/luxury-options', {
+        const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -2820,7 +2976,7 @@
         }
 
         const data = await response.json();
-        console.log('Luxury cities data received:', data);
+        console.log('🏙️ Luxury cities data received:', data);
         return data;
       } catch (error) {
         console.error('Error fetching luxury cities data:', error);
@@ -2861,7 +3017,7 @@
         return;
       }
 
-      console.log('Updating luxury menu with cities from API...');
+      console.log('🏙️ Updating luxury menu with cities from API...');
 
       // Handle different API response structures for cities list
       let cities = [];
@@ -2872,6 +3028,8 @@
         cities = luxuryCitiesData.data;
       } else if (luxuryCitiesData.cities && Array.isArray(luxuryCitiesData.cities)) {
         cities = luxuryCitiesData.cities;
+      } else if (luxuryCitiesData.results && Array.isArray(luxuryCitiesData.results)) {
+        cities = luxuryCitiesData.results;
       }
 
       if (cities.length === 0) {
@@ -2879,17 +3037,17 @@
         return;
       }
 
-      console.log('Processing luxury cities:', cities);
+      console.log('🏙️ Processing luxury cities:', cities);
 
       // Update luxury menu left side with cities from API
       const luxuryMenuLeft = document.querySelector('.itinerary-menu .mega-left ul');
       if (luxuryMenuLeft && cities.length > 0) {
-        // Clear existing menu items
+        // Clear existing static menu items
         luxuryMenuLeft.innerHTML = '';
         
         // Add cities from API as menu items
         cities.forEach((cityData, index) => {
-          const cityName = cityData.city || cityData.name || cityData;
+          const cityName = cityData.city || cityData.name || cityData.cityName || cityData;
           const cityId = typeof cityName === 'string' ? cityName.toLowerCase().replace(/\s+/g, '') : `city${index}`;
           
           const listItem = document.createElement('li');
@@ -2911,7 +3069,7 @@
           luxuryMenuLeft.appendChild(listItem);
         });
         
-        console.log(`Added ${cities.length} luxury cities to menu`);
+        console.log(`✅ Added ${cities.length} luxury cities to navbar dropdown`);
       }
 
       // Create or update the mega-right section for luxury content
@@ -3215,123 +3373,5 @@
     });
   </script>
 </body>
-<!-- Signup Form Section -->
-<!-- Login Form Section -->
-<section id="login-section" style="max-width:400px;margin:40px auto 24px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-  <h3 style="color:#007bff;text-align:center;margin-bottom:18px;">Login</h3>
-  <form id="loginForm">
-    <div class="mb-3">
-      <label for="loginFirstName" class="form-label">First Name</label>
-      <input type="text" class="form-control" id="loginFirstName" name="firstName" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginLastName" class="form-label">Last Name</label>
-      <input type="text" class="form-control" id="loginLastName" name="lastName" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginGender" class="form-label">Gender</label>
-      <select class="form-control" id="loginGender" name="gender" required>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="loginDob" class="form-label">Date of Birth</label>
-      <input type="date" class="form-control" id="loginDob" name="dob" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginMobile" class="form-label">Mobile</label>
-      <input type="text" class="form-control" id="loginMobile" name="mobile" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginEmail" class="form-label">Email</label>
-      <input type="email" class="form-control" id="loginEmail" name="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="loginPassword" class="form-label">Password</label>
-      <input type="password" class="form-control" id="loginPassword" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary w-100">Login</button>
-    <div id="loginMessage" style="margin-top:16px;text-align:center;"></div>
-  </form>
-</section>
-<section id="signup-section" style="max-width:400px;margin:40px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-  <h3 style="color:#e55d17;text-align:center;margin-bottom:18px;">Sign Up</h3>
-  <form id="signupForm">
-    <div class="mb-3">
-      <label for="firstName" class="form-label">First Name</label>
-      <input type="text" class="form-control" id="firstName" name="firstName" required>
-    </div>
-    <div class="mb-3">
-      <label for="lastName" class="form-label">Last Name</label>
-      <input type="text" class="form-control" id="lastName" name="lastName" required>
-    </div>
-    <div class="mb-3">
-      <label for="gender" class="form-label">Gender</label>
-      <select class="form-control" id="gender" name="gender" required>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="dob" class="form-label">Date of Birth</label>
-      <input type="date" class="form-control" id="dob" name="dob" required>
-    </div>
-    <div class="mb-3">
-      <label for="mobile" class="form-label">Mobile</label>
-      <input type="text" class="form-control" id="mobile" name="mobile" required>
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" class="form-control" id="email" name="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary w-100" style="background:#e55d17;border:none;">Sign Up</button>
-    <div id="signupMessage" style="margin-top:16px;text-align:center;"></div>
-  </form>
-</section>
-
-<script>
-// Signup API integration
-document.getElementById('signupForm').onsubmit = async function(e) {
-  e.preventDefault();
-  const form = e.target;
-  const data = {
-    firstName: form.firstName.value,
-    lastName: form.lastName.value,
-    gender: form.gender.value,
-    dob: form.dob.value,
-    mobile: form.mobile.value,
-    email: form.email.value,
-    password: form.password.value
-  };
-  const messageDiv = document.getElementById('signupMessage');
-  messageDiv.textContent = 'Signing up...';
-  try {
-    const response = await fetch('http://globe.ridealmobility.com/api/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    const result = await response.json();
-    if (response.ok) {
-      messageDiv.textContent = 'Signup successful!';
-      messageDiv.style.color = '#28a745';
-      form.reset();
-    } else {
-      messageDiv.textContent = result.message || 'Signup failed.';
-      messageDiv.style.color = '#dc3545';
-    }
-  } catch (error) {
-    messageDiv.textContent = 'Network error. Please try again.';
-    messageDiv.style.color = '#dc3545';
-  }
-};
-</script>
 
 </html>

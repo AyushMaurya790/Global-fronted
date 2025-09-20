@@ -3757,23 +3757,44 @@ document.querySelectorAll('.tourinfo-tab').forEach((tab, idx) => {
   tab.onclick = function() {
     document.querySelectorAll('.tourinfo-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
-    document.querySelector('.tourinfo-content').innerHTML = idx === 0
-      ? `<ul class="tourinfo-list">
-        <li>Tour price is calculated for minimum 2 adults sharing a room.</li>
-        <li>Child with bed: 6 to 11 years. Child without bed: 2 to 5 years.</li>
-        <li>Infant: below 2 years. Age is calculated as per the date of return to India.</li>
-        <li>Tour cost is based on current airfare, taxes, and exchange rates. Any increase will be charged extra.</li>
-        <li>Hotels, flights, and itinerary are subject to change as per availability.</li>
-        <li>Any increase in taxes or fuel surcharge will be charged extra.</li>
-        <li>Visa fees, insurance, and other charges are not included unless specified.</li>
-        <li>For detailed terms & conditions, please refer to our website.</li>
-      </ul>`
-      : `<ul class="tourinfo-list">
-        <li>Tour cost includes accommodation, meals, sightseeing, and transfers as per itinerary.</li>
-        <li>Airfare and taxes are included unless mentioned otherwise.</li>
-        <li>Personal expenses, tips, and optional tours are not included.</li>
-        <li>For a detailed cost breakdown, please contact our team.</li>
-      </ul>`;
+    
+    const tourInfoContent = document.querySelector('.tourinfo-content');
+    
+    if (idx === 0) {
+      // Tour Information tab
+      const tourInfoList = document.querySelector('.tourinfo-list');
+      if (tourInfoList && tourInfoList.textContent.trim() && !tourInfoList.textContent.includes('Tour price is calculated')) {
+        // Use API data if available
+        tourInfoContent.innerHTML = `<ul class="tourinfo-list">${tourInfoList.innerHTML}</ul>`;
+      } else {
+        // Fallback to default content
+        tourInfoContent.innerHTML = `<ul class="tourinfo-list">
+          <li>Tour price is calculated for minimum 2 adults sharing a room.</li>
+          <li>Child with bed: 6 to 11 years. Child without bed: 2 to 5 years.</li>
+          <li>Infant: below 2 years. Age is calculated as per the date of return to India.</li>
+          <li>Tour cost is based on current airfare, taxes, and exchange rates. Any increase will be charged extra.</li>
+          <li>Hotels, flights, and itinerary are subject to change as per availability.</li>
+          <li>Any increase in taxes or fuel surcharge will be charged extra.</li>
+          <li>Visa fees, insurance, and other charges are not included unless specified.</li>
+          <li>For detailed terms & conditions, please refer to our website.</li>
+        </ul>`;
+      }
+    } else {
+      // Tour Cost tab
+      const tourCostContent = document.getElementById('tour-cost-content');
+      if (tourCostContent && tourCostContent.innerHTML.trim()) {
+        // Use API data if available
+        tourInfoContent.innerHTML = tourCostContent.innerHTML;
+      } else {
+        // Fallback to default content
+        tourInfoContent.innerHTML = `<ul class="tourinfo-list">
+          <li>Tour cost includes accommodation, meals, sightseeing, and transfers as per itinerary.</li>
+          <li>Airfare and taxes are included unless mentioned otherwise.</li>
+          <li>Personal expenses, tips, and optional tours are not included.</li>
+          <li>For a detailed cost breakdown, please contact our team.</li>
+        </ul>`;
+      }
+    }
   }
 });
 
@@ -4688,6 +4709,49 @@ document.addEventListener('DOMContentLoaded', function() {
         return urlParams.get(name);
     }
 
+    // Function to fetch itinerary tour ID from country ID
+    async function fetchItineraryTourId(countryId) {
+        try {
+            console.log('Fetching itinerary tour ID for country:', countryId);
+            
+            const apiUrl = `http://globe.ridealmobility.com/api/itenary-tour/country/${countryId}`;
+            console.log('Itinerary Tour API URL:', apiUrl);
+            
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Itinerary Tour API response:', data);
+            
+            // Extract the itinerary tour ID from the response
+            if (data && data.id) {
+                return data.id;
+            } else if (data && data._id) {
+                return data._id;
+            } else if (data && data.itineraryTourId) {
+                return data.itineraryTourId;
+            } else if (Array.isArray(data) && data.length > 0) {
+                return data[0].id || data[0]._id || data[0].itineraryTourId;
+            } else {
+                console.warn('No itinerary tour ID found in response');
+                return null;
+            }
+
+        } catch (error) {
+            console.error('Error fetching itinerary tour ID:', error);
+            return null;
+        }
+    }
+
     // Function to fetch card landing data from API
     async function fetchCardLandingData(itineraryTourId, cardId) {
         try {
@@ -4720,6 +4784,294 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Function to fetch departure city data from API
+    async function fetchDepartureCityData(itineraryTourId, cardId) {
+        try {
+            console.log('Fetching departure city data from API...');
+            console.log('Itinerary Tour ID:', itineraryTourId);
+            console.log('Card ID:', cardId);
+            
+            const apiUrl = `http://globe.ridealmobility.com/api/departure-cities/tour/${itineraryTourId}/card/${cardId}`;
+            console.log('Departure City API URL:', apiUrl);
+            
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Departure city API response:', data);
+            return data;
+
+        } catch (error) {
+            console.error('Error fetching departure city data:', error);
+            return null;
+        }
+    }
+
+    // Function to display departure city data
+    function displayDepartureCityData(data) {
+        if (!data) {
+            console.warn('No departure city data to display');
+            return;
+        }
+
+        console.log('Updating departure city information in UI:', data);
+
+        // Update departure cities in the UI
+        if (data.departureCities && Array.isArray(data.departureCities)) {
+            updateDepartureCities(data.departureCities);
+        } else if (data.cities && Array.isArray(data.cities)) {
+            updateDepartureCities(data.cities);
+        } else if (data.city || data.departure || data.departureCity) {
+            // Handle single departure city
+            const singleCity = data.city || data.departure || data.departureCity;
+            updateDepartureCities([singleCity]);
+        }
+
+        // Update departure dates if available
+        if (data.departureDates && Array.isArray(data.departureDates)) {
+            updateDepartureDates(data.departureDates);
+        } else if (data.dates && Array.isArray(data.dates)) {
+            updateDepartureDates(data.dates);
+        }
+
+        // Update departure pricing if available
+        if (data.pricing || data.prices) {
+            updateDeparturePricing(data.pricing || data.prices);
+        }
+
+        console.log('Successfully updated departure city information');
+    }
+
+    // Helper function to update departure cities display
+    function updateDepartureCities(departureCities) {
+        try {
+            // Look for departure cities section or create it
+            let departureCitiesSection = document.getElementById('departure-cities-section');
+            
+            if (!departureCitiesSection) {
+                // Create departure cities section if it doesn't exist
+                departureCitiesSection = document.createElement('div');
+                departureCitiesSection.id = 'departure-cities-section';
+                departureCitiesSection.className = 'departure-cities-wrapper';
+                departureCitiesSection.style.cssText = `
+                    margin: 20px 0;
+                    padding: 20px;
+                    background: #f8f9fa;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+                `;
+                
+                // Insert after tour wrapper or main content
+                const tourWrapper = document.querySelector('.tour-wrapper');
+                if (tourWrapper) {
+                    tourWrapper.parentNode.insertBefore(departureCitiesSection, tourWrapper.nextSibling);
+                } else {
+                    const mainContent = document.querySelector('main, .container, body > section');
+                    if (mainContent) {
+                        mainContent.appendChild(departureCitiesSection);
+                    }
+                }
+            }
+
+            // Build HTML content for departure cities
+            let htmlContent = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: #2c3e50; font-size: 22px; font-weight: 600; margin-bottom: 10px;">
+                        Available Departure Cities
+                    </h3>
+                    <p style="color: #666; font-size: 14px;">Choose your preferred departure city</p>
+                </div>
+                <div class="departure-cities-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            `;
+
+            departureCities.forEach((city, index) => {
+                const cityName = typeof city === 'string' ? city : (city.name || city.city || city.title || `City ${index + 1}`);
+                const cityCode = typeof city === 'object' ? (city.code || city.cityCode || '') : '';
+                const isAvailable = typeof city === 'object' ? (city.available !== false) : true;
+                
+                htmlContent += `
+                    <div class="departure-city-card" style="
+                        background: white; 
+                        padding: 15px; 
+                        border-radius: 8px; 
+                        border-left: 4px solid #f16722;
+                        cursor: pointer;
+                        transition: transform 0.2s;
+                        ${!isAvailable ? 'opacity: 0.6;' : ''}
+                    " onclick="selectDepartureCity('${cityName}', '${cityCode}')">
+                        <h5 style="color: #2c3e50; margin: 0 0 5px 0; font-size: 16px; font-weight: 600;">
+                            ${cityName}
+                        </h5>
+                        ${cityCode ? `<p style="color: #666; margin: 0; font-size: 12px;">${cityCode}</p>` : ''}
+                        ${!isAvailable ? `<p style="color: #e74c3c; margin: 5px 0 0 0; font-size: 12px; font-weight: 500;">Currently Unavailable</p>` : ''}
+                    </div>
+                `;
+            });
+
+            htmlContent += '</div>';
+
+            departureCitiesSection.innerHTML = htmlContent;
+            
+            // Add hover effects
+            departureCitiesSection.querySelectorAll('.departure-city-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (this.style.opacity !== '0.6') {
+                        this.style.transform = 'scale(1.02)';
+                    }
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            console.log('Updated departure cities with', departureCities.length, 'cities');
+        } catch (error) {
+            console.error('Error updating departure cities:', error);
+        }
+    }
+
+    // Helper function to update departure dates
+    function updateDepartureDates(departureDates) {
+        try {
+            // Look for existing departure dates section or create it
+            let departureDatesSection = document.getElementById('departure-dates-section');
+            
+            if (!departureDatesSection) {
+                departureDatesSection = document.createElement('div');
+                departureDatesSection.id = 'departure-dates-section';
+                departureDatesSection.style.cssText = `
+                    margin: 15px 0;
+                    padding: 15px;
+                    background: white;
+                    border-radius: 8px;
+                    border-left: 4px solid #27ae60;
+                `;
+                
+                const departureCitiesSection = document.getElementById('departure-cities-section');
+                if (departureCitiesSection) {
+                    departureCitiesSection.appendChild(departureDatesSection);
+                }
+            }
+
+            let htmlContent = `
+                <h4 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 18px;">Available Departure Dates</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            `;
+
+            departureDates.forEach(date => {
+                const dateStr = typeof date === 'string' ? date : (date.date || date.departureDate || 'TBD');
+                const price = typeof date === 'object' ? (date.price || date.cost) : null;
+                
+                htmlContent += `
+                    <div class="departure-date-chip" style="
+                        background: #ecf0f1; 
+                        padding: 8px 12px; 
+                        border-radius: 20px; 
+                        font-size: 14px;
+                        cursor: pointer;
+                        transition: background 0.2s;
+                    " onclick="selectDepartureDate('${dateStr}')">
+                        <span style="color: #2c3e50; font-weight: 500;">${dateStr}</span>
+                        ${price ? `<span style="color: #27ae60; margin-left: 8px;">₹${parseInt(price).toLocaleString()}</span>` : ''}
+                    </div>
+                `;
+            });
+
+            htmlContent += '</div>';
+            departureDatesSection.innerHTML = htmlContent;
+
+            console.log('Updated departure dates with', departureDates.length, 'dates');
+        } catch (error) {
+            console.error('Error updating departure dates:', error);
+        }
+    }
+
+    // Helper function to update departure pricing
+    function updateDeparturePricing(pricing) {
+        try {
+            if (!pricing) return;
+
+            // Add pricing information to the departure section
+            let pricingSection = document.getElementById('departure-pricing-section');
+            
+            if (!pricingSection) {
+                pricingSection = document.createElement('div');
+                pricingSection.id = 'departure-pricing-section';
+                pricingSection.style.cssText = `
+                    margin: 15px 0;
+                    padding: 15px;
+                    background: white;
+                    border-radius: 8px;
+                    border-left: 4px solid #e74c3c;
+                `;
+                
+                const departureCitiesSection = document.getElementById('departure-cities-section');
+                if (departureCitiesSection) {
+                    departureCitiesSection.appendChild(pricingSection);
+                }
+            }
+
+            let htmlContent = `<h4 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 18px;">Pricing Information</h4>`;
+
+            if (Array.isArray(pricing)) {
+                pricing.forEach(priceItem => {
+                    const label = priceItem.label || priceItem.type || 'Price';
+                    const amount = priceItem.amount || priceItem.price || priceItem.cost || 0;
+                    htmlContent += `<p style="margin: 5px 0; color: #666;"><strong>${label}:</strong> ₹${parseInt(amount).toLocaleString()}</p>`;
+                });
+            } else if (typeof pricing === 'object') {
+                Object.keys(pricing).forEach(key => {
+                    htmlContent += `<p style="margin: 5px 0; color: #666;"><strong>${key}:</strong> ₹${parseInt(pricing[key]).toLocaleString()}</p>`;
+                });
+            } else {
+                htmlContent += `<p style="margin: 5px 0; color: #666; font-weight: 600; font-size: 16px;">₹${parseInt(pricing).toLocaleString()}</p>`;
+            }
+
+            pricingSection.innerHTML = htmlContent;
+            console.log('Updated departure pricing information');
+        } catch (error) {
+            console.error('Error updating departure pricing:', error);
+        }
+    }
+
+    // Global functions for city and date selection
+    window.selectDepartureCity = function(cityName, cityCode) {
+        console.log('Selected departure city:', cityName, cityCode);
+        // You can add logic here to handle city selection
+        // For example, update form fields, trigger pricing updates, etc.
+        
+        // Remove previous selections
+        document.querySelectorAll('.departure-city-card').forEach(card => {
+            card.style.borderLeftColor = '#f16722';
+            card.style.background = 'white';
+        });
+        
+        // Highlight selected city
+        event.target.closest('.departure-city-card').style.borderLeftColor = '#27ae60';
+        event.target.closest('.departure-city-card').style.background = '#f0fff4';
+    };
+
+    window.selectDepartureDate = function(dateStr) {
+        console.log('Selected departure date:', dateStr);
+        
+        // Remove previous selections
+        document.querySelectorAll('.departure-date-chip').forEach(chip => {
+            chip.style.background = '#ecf0f1';
+        });
+        
+        // Highlight selected date
+        event.target.style.background = '#d5f4e6';
+    };
+
     // Function to display card landing data
     function displayCardLandingData(data) {
         if (!data) {
@@ -4727,120 +5079,434 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Create a container for card landing data if it doesn't exist
-        let cardLandingContainer = document.getElementById('cardLandingContainer');
-        if (!cardLandingContainer) {
-            cardLandingContainer = document.createElement('div');
-            cardLandingContainer.id = 'cardLandingContainer';
-            cardLandingContainer.style.cssText = `
-                margin: 20px 0;
-                padding: 20px;
-                background: #f8f9fa;
-                border-radius: 12px;
-                box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            `;
-            
-            // Insert after hero section
-            const heroSection = document.querySelector('.hero-section, .hero');
-            if (heroSection && heroSection.nextElementSibling) {
-                heroSection.parentNode.insertBefore(cardLandingContainer, heroSection.nextElementSibling);
-            } else {
-                // Fallback: insert at the beginning of main content
-                const mainContent = document.querySelector('main, .container, body > div');
-                if (mainContent) {
-                    mainContent.insertBefore(cardLandingContainer, mainContent.firstChild);
+        console.log('Updating luxury.html UI with API response data:', data);
+
+        // 1. Update background images in hero swiper
+        if (data.backgroundImages && Array.isArray(data.backgroundImages)) {
+            updateHeroBackgroundImages(data.backgroundImages);
+        }
+
+        // 2. Update main heading and subheading
+        if (data.mainHeading) {
+            updateMainHeading(data.mainHeading);
+        }
+        if (data.subHeading) {
+            updateSubHeading(data.subHeading);
+        }
+
+        // 3. Update tour route description
+        if (data.description) {
+            updateTourRoute(data.description);
+        }
+
+        // 4. Update tour inclusions with icons
+        if (data.icons && Array.isArray(data.icons)) {
+            updateTourInclusions(data.icons);
+        }
+
+        // 5. Update tour information section
+        if (data.tourInformation) {
+            updateTourInformation(data.tourInformation);
+        }
+
+        // 6. Update tour cost
+        if (data.tourCost) {
+            updateTourCost(data.tourCost);
+        }
+
+        // 7. Update payment terms
+        if (data.paymentTerms) {
+            updatePaymentTerms(data.paymentTerms);
+        }
+
+        // 8. Update cancellation policy
+        if (data.cancellationPolicy) {
+            updateCancellationPolicy(data.cancellationPolicy);
+        }
+
+        // 9. Update terms and conditions
+        if (data.termsAndConditions) {
+            updateTermsAndConditions(data.termsAndConditions);
+        }
+
+        console.log('Successfully updated luxury.html UI with API data');
+    }
+
+    // Helper function to get complete image URL
+    function getCompleteImageUrl(imagePath) {
+        if (!imagePath) return null;
+        
+        // If it's already a complete URL, use it as is
+        if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+            return imagePath;
+        }
+        
+        // Otherwise, prepend the base URL
+        return `http://globe.ridealmobility.com/${imagePath}`;
+    }
+
+    // Function to update hero background images
+    function updateHeroBackgroundImages(backgroundImages) {
+        try {
+            const swiperWrapper = document.querySelector('.heroLuxurySwiper .swiper-wrapper');
+            if (!swiperWrapper) {
+                console.warn('Hero swiper wrapper not found');
+                return;
+            }
+
+            // Clear existing slides
+            swiperWrapper.innerHTML = '';
+
+            // Add new slides with API images
+            backgroundImages.forEach((imagePath, index) => {
+                const imageUrl = getCompleteImageUrl(imagePath);
+                if (imageUrl) {
+                    const slideHtml = `
+                        <div class="swiper-slide" style="width:100%; height:100vh;">
+                            <div style="background: url('${imageUrl}') no-repeat center center/cover; width:100%; height:100vh;"></div>
+                        </div>
+                    `;
+                    swiperWrapper.insertAdjacentHTML('beforeend', slideHtml);
+                }
+            });
+
+            // Reinitialize swiper if needed
+            if (window.luxuryHeroSwiper) {
+                window.luxuryHeroSwiper.update();
+            }
+
+            console.log('Updated hero background images with', backgroundImages.length, 'images');
+        } catch (error) {
+            console.error('Error updating hero background images:', error);
+        }
+    }
+
+    // Function to update main heading
+    function updateMainHeading(mainHeading) {
+        try {
+            const titleElement = document.querySelector('.tour-title');
+            if (titleElement) {
+                titleElement.textContent = mainHeading;
+                console.log('Updated main heading to:', mainHeading);
+            }
+        } catch (error) {
+            console.error('Error updating main heading:', error);
+        }
+    }
+
+    // Function to update subheading (tour meta information)
+    function updateSubHeading(subHeading) {
+        try {
+            const metaRow = document.querySelector('.tour-meta-row');
+            if (metaRow && subHeading) {
+                // Parse subheading like "10 Days / 9 Nights  1 Country  10 Cities"
+                const parts = subHeading.split(/\s{2,}|\s+\|\s+/); // Split on multiple spaces or pipe separator
+                
+                let htmlContent = '';
+                parts.forEach(part => {
+                    if (part.includes('Days') || part.includes('Nights')) {
+                        htmlContent += `<span><img src="./iocon/calendar.png" class="icon-inline" alt="" /> ${part}</span>`;
+                    } else if (part.includes('Country') || part.includes('Countries')) {
+                        htmlContent += `<span><img src="./iocon/world.png" class="icon-inline" alt="" /> ${part}</span>`;
+                    } else if (part.includes('Cities') || part.includes('City')) {
+                        htmlContent += `<span><img src="./GLOBENGEL/GLOBENGEL Pinpoint Logo.png" class="icon-inline" alt="" /> ${part}</span>`;
+                    } else if (part.trim()) {
+                        htmlContent += `<span>${part}</span>`;
+                    }
+                });
+
+                if (htmlContent) {
+                    metaRow.innerHTML = htmlContent;
+                    console.log('Updated subheading to:', subHeading);
                 }
             }
+        } catch (error) {
+            console.error('Error updating subheading:', error);
         }
-
-        // Build HTML content for card landing data
-        let htmlContent = `
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="color: #2c3e50; font-size: 24px; font-weight: 600; margin-bottom: 10px;">
-                    Selected Tour Details
-                </h2>
-                <p style="color: #666; font-size: 14px;">Information from selected card</p>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-        `;
-
-        // Add tour information if available
-        if (data.title || data.name) {
-            htmlContent += `
-                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
-                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Tour Title</h4>
-                    <p style="color: #666; margin: 0; font-size: 14px;">${data.title || data.name}</p>
-                </div>
-            `;
-        }
-
-        if (data.description) {
-            htmlContent += `
-                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
-                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Description</h4>
-                    <p style="color: #666; margin: 0; font-size: 14px;">${data.description}</p>
-                </div>
-            `;
-        }
-
-        if (data.price || data.cost) {
-            htmlContent += `
-                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
-                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Price</h4>
-                    <p style="color: #d4582a; margin: 0; font-size: 18px; font-weight: 600;">INR ${parseInt(data.price || data.cost || 0).toLocaleString()}/-</p>
-                </div>
-            `;
-        }
-
-        if (data.duration || data.days) {
-            htmlContent += `
-                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
-                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Duration</h4>
-                    <p style="color: #666; margin: 0; font-size: 14px;">${data.duration || data.days + ' Days'}</p>
-                </div>
-            `;
-        }
-
-        if (data.locations || data.cities || data.countries) {
-            const locations = data.locations || (data.cities ? `${data.cities} Cities` : '') || (data.countries ? `${data.countries} Countries` : '');
-            htmlContent += `
-                <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #f16722;">
-                    <h4 style="color: #2c3e50; margin: 0 0 8px 0; font-size: 16px;">Locations</h4>
-                    <p style="color: #666; margin: 0; font-size: 14px;">${locations}</p>
-                </div>
-            `;
-        }
-
-        htmlContent += '</div>';
-
-        // Add any additional data as JSON for debugging (in development)
-        if (Object.keys(data).length > 0) {
-            htmlContent += `
-                <details style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
-                    <summary style="cursor: pointer; font-weight: 600; color: #2c3e50;">Raw API Response (Debug)</summary>
-                    <pre style="background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; margin: 10px 0 0 0;">${JSON.stringify(data, null, 2)}</pre>
-                </details>
-            `;
-        }
-
-        cardLandingContainer.innerHTML = htmlContent;
-        console.log('Card landing data displayed successfully');
     }
+
+    // Function to update tour route
+    function updateTourRoute(description) {
+        try {
+            const routeElement = document.querySelector('.tour-route');
+            if (routeElement) {
+                // Replace → arrows if they exist in description, otherwise add them between locations
+                let routeText = description;
+                if (!routeText.includes('→')) {
+                    routeText = routeText.replace(/\s*→\s*/g, ' <span class="arrow">→</span> ');
+                    routeText = routeText.replace(/\s*->\s*/g, ' <span class="arrow">→</span> ');
+                    routeText = routeText.replace(/\s*,\s*/g, ' <span class="arrow">→</span> ');
+                }
+                routeElement.innerHTML = routeText;
+                console.log('Updated tour route to:', description);
+            }
+        } catch (error) {
+            console.error('Error updating tour route:', error);
+        }
+    }
+
+    // Function to update tour inclusions
+    function updateTourInclusions(icons) {
+        try {
+            const inclusionsContainer = document.querySelector('.inclusions');
+            if (inclusionsContainer && icons.length > 0) {
+                let htmlContent = '';
+                
+                icons.forEach(iconData => {
+                    const iconUrl = iconData.icon ? getCompleteImageUrl(iconData.icon) : './iocon/hotel.png'; // fallback icon
+                    const title = iconData.title || 'Service';
+                    
+                    htmlContent += `<div><img src="${iconUrl}" alt="${title}"><span>${title}</span></div>`;
+                });
+
+                inclusionsContainer.innerHTML = htmlContent;
+                console.log('Updated tour inclusions with', icons.length, 'items');
+            }
+        } catch (error) {
+            console.error('Error updating tour inclusions:', error);
+        }
+    }
+
+    // Function to update tour information
+    function updateTourInformation(tourInformation) {
+        try {
+            const tourInfoList = document.querySelector('.tourinfo-list');
+            if (tourInfoList) {
+                tourInfoList.innerHTML = `<li>${tourInformation}</li>`;
+                console.log('Updated tour information');
+            }
+        } catch (error) {
+            console.error('Error updating tour information:', error);
+        }
+    }
+
+    // Function to update tour cost
+    function updateTourCost(tourCost) {
+        try {
+            // Add tour cost content to the tour cost tab
+            const tourInfoContent = document.querySelector('.tourinfo-content');
+            if (tourInfoContent) {
+                // Create a separate content area for tour cost
+                let tourCostContent = document.getElementById('tour-cost-content');
+                if (!tourCostContent) {
+                    tourCostContent = document.createElement('div');
+                    tourCostContent.id = 'tour-cost-content';
+                    tourCostContent.style.display = 'none';
+                    tourInfoContent.appendChild(tourCostContent);
+                }
+                
+                tourCostContent.innerHTML = `
+                    <ul class="tourinfo-list">
+                        <li>${tourCost}</li>
+                    </ul>
+                `;
+                console.log('Updated tour cost');
+            }
+        } catch (error) {
+            console.error('Error updating tour cost:', error);
+        }
+    }
+
+    // Function to update payment terms
+    function updatePaymentTerms(paymentTerms) {
+        try {
+            const paymentPane = document.querySelector('[data-pane="payment"]');
+            if (paymentPane) {
+                paymentPane.innerHTML = `<p>${paymentTerms}</p>`;
+                console.log('Updated payment terms');
+            }
+        } catch (error) {
+            console.error('Error updating payment terms:', error);
+        }
+    }
+
+    // Function to update cancellation policy
+    function updateCancellationPolicy(cancellationPolicy) {
+        try {
+            const cancellationPane = document.querySelector('[data-pane="cancellation"]');
+            if (cancellationPane) {
+                cancellationPane.innerHTML = `<p>${cancellationPolicy}</p>`;
+                console.log('Updated cancellation policy');
+            }
+        } catch (error) {
+            console.error('Error updating cancellation policy:', error);
+        }
+    }
+
+    // Function to update terms and conditions
+    function updateTermsAndConditions(termsAndConditions) {
+        try {
+            const generalPane = document.querySelector('[data-pane="general"]');
+            if (generalPane) {
+                generalPane.innerHTML = `<p>${termsAndConditions}</p>`;
+                console.log('Updated terms and conditions');
+            }
+        } catch (error) {
+            console.error('Error updating terms and conditions:', error);
+        }
+    }
+
+    // Test function with sample API response data
+    function testAPIResponseDisplay() {
+        console.log('Testing API response display with sample data...');
+        
+        const sampleAPIResponse = {
+            "backgroundImages": [
+                "uploads/1758279188909.jpg",
+                "uploads/1758279189133.jpg",
+                "uploads/1758279189533.jpg"
+            ],
+            "mainHeading": "Best of New Zealand",
+            "subHeading": "10 Days / 9 Nights  1 Country  10 Cities",
+            "description": "New Zealand Auckland (2N) → Waitomo Caves → Rotorua (1N) → Queenstown (3N) → Milford Sound → Wanaka → Franz Josef (1N) → Arthur's Pass → Christchurch (1N)",
+            "icons": [
+                {
+                    "icon": "path/to/icon.png",
+                    "title": "Guided Tours",
+                    "_id": "68cd3615344e1d1cae78bb1c"
+                },
+                {
+                    "icon": "path/to/icon2.png",
+                    "title": "Luxury Hotels",
+                    "_id": "68cd3615344e1d1cae78bb1d"
+                }
+            ],
+            "highlights": [
+                {
+                    "type": "daywise",
+                    "_id": "68cd3615344e1d1cae78bb1e"
+                },
+                {
+                    "type": "daywise",
+                    "_id": "68cd3615344e1d1cae78bb1f"
+                }
+            ],
+            "tourInformation": "Tour starts at Delhi International Airport",
+            "tourCost": "The tour costs $1999 per person",
+            "paymentTerms": "50% advance payment required",
+            "cancellationPolicy": "Free cancellation up to 30 days before departure",
+            "termsAndConditions": "Standard terms and conditions apply"
+        };
+        
+        // Display the sample data
+        displayCardLandingData(sampleAPIResponse);
+    }
+
+    // Test function for departure city API with sample data
+    function testDepartureCityDisplay() {
+        console.log('Testing departure city API display with sample data...');
+        
+        const sampleDepartureCityResponse = {
+            "departureCities": [
+                {
+                    "name": "Delhi",
+                    "code": "DEL",
+                    "available": true,
+                    "_id": "68cd3615344e1d1cae78bb1e"
+                },
+                {
+                    "name": "Mumbai",
+                    "code": "BOM",
+                    "available": true,
+                    "_id": "68cd3615344e1d1cae78bb1f"
+                },
+                {
+                    "name": "Bangalore",
+                    "code": "BLR",
+                    "available": false,
+                    "_id": "68cd3615344e1d1cae78bb20"
+                },
+                {
+                    "name": "Chennai",
+                    "code": "MAA",
+                    "available": true,
+                    "_id": "68cd3615344e1d1cae78bb21"
+                }
+            ],
+            "departureDates": [
+                {
+                    "date": "2025-01-15",
+                    "price": 199900,
+                    "available": true
+                },
+                {
+                    "date": "2025-02-10",
+                    "price": 189900,
+                    "available": true
+                },
+                {
+                    "date": "2025-03-05",
+                    "price": 179900,
+                    "available": true
+                },
+                {
+                    "date": "2025-04-20",
+                    "price": 199900,
+                    "available": true
+                }
+            ],
+            "pricing": {
+                "basePrice": 199900,
+                "taxes": 15000,
+                "insurance": 5000,
+                "total": 219900
+            }
+        };
+        
+        // Display the sample departure city data
+        displayDepartureCityData(sampleDepartureCityResponse);
+    }
+
+    // Make test functions available globally for debugging
+    window.testAPIResponseDisplay = testAPIResponseDisplay;
+    window.testDepartureCityDisplay = testDepartureCityDisplay;
 
     // Initialize card landing functionality
     async function initializeCardLanding() {
-        // Get URL parameters
-        const itineraryTourId = getURLParameter('itinerary_tour_id');
+        // Get URL parameters - corrected to use countryId instead of itinerary_tour_id
+        const countryId = getURLParameter('countryId');
         const cardId = getURLParameter('card_id');
 
-        console.log('URL Parameters:', { itineraryTourId, cardId });
+        console.log('URL Parameters:', { countryId, cardId });
 
-        if (itineraryTourId && cardId) {
-            console.log('Found URL parameters, fetching card landing data...');
-            const cardLandingData = await fetchCardLandingData(itineraryTourId, cardId);
-            displayCardLandingData(cardLandingData);
+        if (countryId && cardId) {
+            console.log('Found URL parameters, fetching itinerary tour ID first...');
+            
+            // First, get the correct itinerary tour ID from the country ID
+            const itineraryTourId = await fetchItineraryTourId(countryId);
+            
+            if (itineraryTourId) {
+                console.log('Successfully got itinerary tour ID:', itineraryTourId);
+                console.log('Now fetching card landing data...');
+                const cardLandingData = await fetchCardLandingData(itineraryTourId, cardId);
+                displayCardLandingData(cardLandingData);
+                
+                // Also fetch departure city data
+                console.log('Now fetching departure city data...');
+                const departureCityData = await fetchDepartureCityData(itineraryTourId, cardId);
+                displayDepartureCityData(departureCityData);
+            } else {
+                console.error('Failed to get itinerary tour ID from country ID:', countryId);
+                // Still try with the URL if it has the old parameter for fallback
+                const fallbackItineraryTourId = getURLParameter('itinerary_tour_id');
+                if (fallbackItineraryTourId) {
+                    console.log('Using fallback itinerary_tour_id from URL:', fallbackItineraryTourId);
+                    const cardLandingData = await fetchCardLandingData(fallbackItineraryTourId, cardId);
+                    displayCardLandingData(cardLandingData);
+                    
+                    // Also fetch departure city data with fallback ID
+                    const departureCityData = await fetchDepartureCityData(fallbackItineraryTourId, cardId);
+                    displayDepartureCityData(departureCityData);
+                }
+            }
         } else {
-            console.log('No URL parameters found for card landing');
+            console.log('Missing required URL parameters. Expected: countryId and card_id');
+            console.log('Available parameters:', {
+                countryId: getURLParameter('countryId'),
+                card_id: getURLParameter('card_id'),
+                // Also check for legacy parameter
+                itinerary_tour_id: getURLParameter('itinerary_tour_id')
+            });
         }
     }
 

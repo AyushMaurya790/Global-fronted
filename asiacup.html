@@ -2241,9 +2241,9 @@
     // Function to fetch luxury cities data
     async function fetchLuxuryCitiesData() {
       try {
-        console.log('Fetching luxury cities data...');
+        console.log('🏙️ Fetching luxury cities data...');
         
-        const response = await fetch('http://globe.ridealmobility.com/api/luxury-options', {
+        const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -2256,7 +2256,7 @@
         }
 
         const data = await response.json();
-        console.log('Luxury cities data received:', data);
+        console.log('🏙️ Luxury cities data received:', data);
         return data;
       } catch (error) {
         console.error('Error fetching luxury cities data:', error);
@@ -2297,7 +2297,7 @@
         return;
       }
 
-      console.log('Updating luxury menu with cities from API...');
+      console.log('🏙️ Updating luxury menu with cities from API...');
 
       // Handle different API response structures for cities list
       let cities = [];
@@ -2308,6 +2308,8 @@
         cities = luxuryCitiesData.data;
       } else if (luxuryCitiesData.cities && Array.isArray(luxuryCitiesData.cities)) {
         cities = luxuryCitiesData.cities;
+      } else if (luxuryCitiesData.results && Array.isArray(luxuryCitiesData.results)) {
+        cities = luxuryCitiesData.results;
       }
 
       if (cities.length === 0) {
@@ -2315,17 +2317,17 @@
         return;
       }
 
-      console.log('Processing luxury cities:', cities);
+      console.log('🏙️ Processing luxury cities:', cities);
 
       // Update luxury menu left side with cities from API
       const luxuryMenuLeft = document.querySelector('.itinerary-menu .mega-left ul');
       if (luxuryMenuLeft && cities.length > 0) {
-        // Clear existing menu items
+        // Clear existing static menu items
         luxuryMenuLeft.innerHTML = '';
         
         // Add cities from API as menu items
         cities.forEach((cityData, index) => {
-          const cityName = cityData.city || cityData.name || cityData;
+          const cityName = cityData.city || cityData.name || cityData.cityName || cityData;
           const cityId = typeof cityName === 'string' ? cityName.toLowerCase().replace(/\s+/g, '') : `city${index}`;
           
           const listItem = document.createElement('li');
@@ -2347,7 +2349,7 @@
           luxuryMenuLeft.appendChild(listItem);
         });
         
-        console.log(`Added ${cities.length} luxury cities to menu`);
+        console.log(`✅ Added ${cities.length} luxury cities to navbar dropdown`);
       }
 
       // Create or update the mega-right section for luxury content
@@ -2652,122 +2654,140 @@
   });
   </script>
 
-  <!-- Signup Form Section -->
-    <!-- Login Form Section -->
-    <section id="login-section" style="max-width:400px;margin:40px auto 24px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-      <h3 style="color:#007bff;text-align:center;margin-bottom:18px;">Login</h3>
-      <form id="loginForm">
-        <div class="mb-3">
-          <label for="loginFirstName" class="form-label">First Name</label>
-          <input type="text" class="form-control" id="loginFirstName" name="firstName" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginLastName" class="form-label">Last Name</label>
-          <input type="text" class="form-control" id="loginLastName" name="lastName" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginGender" class="form-label">Gender</label>
-          <select class="form-control" id="loginGender" name="gender" required>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="loginDob" class="form-label">Date of Birth</label>
-          <input type="date" class="form-control" id="loginDob" name="dob" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginMobile" class="form-label">Mobile</label>
-          <input type="text" class="form-control" id="loginMobile" name="mobile" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginEmail" class="form-label">Email</label>
-          <input type="email" class="form-control" id="loginEmail" name="email" required>
-        </div>
-        <div class="mb-3">
-          <label for="loginPassword" class="form-label">Password</label>
-          <input type="password" class="form-control" id="loginPassword" name="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-        <div id="loginMessage" style="margin-top:16px;text-align:center;"></div>
-      </form>
-    </section>
-  <section id="signup-section" style="max-width:400px;margin:40px auto;padding:24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
-    <h3 style="color:#e55d17;text-align:center;margin-bottom:18px;">Sign Up</h3>
-    <form id="signupForm">
-      <div class="mb-3">
-        <label for="firstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="firstName" name="firstName" required>
-      </div>
-      <div class="mb-3">
-        <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName" name="lastName" required>
-      </div>
-      <div class="mb-3">
-        <label for="gender" class="form-label">Gender</label>
-        <select class="form-control" id="gender" name="gender" required>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="dob" class="form-label">Date of Birth</label>
-        <input type="date" class="form-control" id="dob" name="dob" required>
-      </div>
-      <div class="mb-3">
-        <label for="mobile" class="form-label">Mobile</label>
-        <input type="text" class="form-control" id="mobile" name="mobile" required>
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-      </div>
-      <button type="submit" class="btn btn-primary w-100" style="background:#e55d17;border:none;">Sign Up</button>
-      <div id="signupMessage" style="margin-top:16px;text-align:center;"></div>
-    </form>
-  </section>
-
   <script>
-  document.getElementById('signupForm').onsubmit = async function(e) {
-    e.preventDefault();
-    const form = e.target;
-    const data = {
-      firstName: form.firstName.value,
-      lastName: form.lastName.value,
-      gender: form.gender.value,
-      dob: form.dob.value,
-      mobile: form.mobile.value,
-      email: form.email.value,
-      password: form.password.value
-    };
-    const messageDiv = document.getElementById('signupMessage');
-    messageDiv.textContent = 'Signing up...';
+  // Cricket Tournament API Integration
+  async function fetchCricketTournaments() {
     try {
-      const response = await fetch('http://globe.ridealmobility.com/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const result = await response.json();
-      if (response.ok) {
-        messageDiv.textContent = 'Signup successful!';
-        messageDiv.style.color = '#28a745';
-        form.reset();
+      console.log('🏏 Fetching cricket tournament data...');
+      const response = await fetch('http://globe.ridealmobility.com/api/sport/cricket-tournament');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('🏏 Cricket tournament data:', data);
+      
+      if (data && Array.isArray(data) && data.length > 0) {
+        populateCricketSchedule(data);
       } else {
-        messageDiv.textContent = result.message || 'Signup failed.';
-        messageDiv.style.color = '#dc3545';
+        console.warn('No cricket tournament data available, keeping static content');
       }
     } catch (error) {
-      messageDiv.textContent = 'Network error. Please try again.';
-      messageDiv.style.color = '#dc3545';
+      console.error('❌ Error fetching cricket tournament data:', error);
+      console.log('🔄 Keeping static cricket schedule content due to API error');
     }
-  };
+  }
+
+  function populateCricketSchedule(tournaments) {
+    const scheduleList = document.querySelector('.schedule-list');
+    if (!scheduleList) return;
+
+    // Clear existing content
+    scheduleList.innerHTML = '';
+
+    tournaments.forEach((tournament, index) => {
+      const scheduleRow = document.createElement('div');
+      scheduleRow.className = `schedule-row ${index === 0 ? 'highlight' : ''}`;
+      
+      // Format date safely
+      const matchDate = tournament.date ? formatDate(tournament.date) : 'TBA';
+      
+      // Format team names and flags
+      const team1 = tournament.team1 || tournament.homeTeam || 'TBA';
+      const team2 = tournament.team2 || tournament.awayTeam || 'TBA';
+      
+      // Get match status
+      const status = tournament.status || tournament.matchStatus || 'Match yet to begin';
+      
+      // Get match time
+      const matchTime = tournament.time || tournament.startTime || '8:00 PM';
+      
+      // Get match description
+      const matchDesc = tournament.description || tournament.matchDesc || 
+        `${tournament.round || 'Group Stage'} - ${tournament.venue || 'TBA'}, ${tournament.tournament || 'Cricket Tournament'}`;
+
+      scheduleRow.innerHTML = `
+        <div class="schedule-date">${matchDate}</div>
+        <div class="schedule-details">
+          <div class="schedule-match-info">
+            <span class="match-desc">${matchDesc}</span>
+            <div class="teams">
+              <span class="team">
+                ${getTeamFlag(team1)}
+                ${team1}
+              </span>
+              <span class="team">
+                ${getTeamFlag(team2)}
+                ${team2}
+              </span>
+            </div>
+            <div class="match-status">${status}</div>
+          </div>
+          <div class="schedule-time">
+            <span class="main-time">${matchTime}</span>
+            <span class="sub-time">${tournament.timezone || '2:30 pm GMT | 6:30 pm Local'}</span>
+          </div>
+          <div class="schedule-type">
+            <button class="book-ticket-btn">Enquire</button>
+          </div>
+        </div>
+      `;
+      
+      scheduleList.appendChild(scheduleRow);
+    });
+
+    console.log(`✅ Populated ${tournaments.length} cricket tournament matches`);
+  }
+
+  function formatDate(dateString) {
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'TBA';
+      
+      const options = { 
+        weekday: 'short', 
+        day: '2-digit', 
+        month: 'short', 
+        year: '2-digit' 
+      };
+      return date.toLocaleDateString('en-GB', options);
+    } catch (error) {
+      return 'TBA';
+    }
+  }
+
+  function getTeamFlag(teamName) {
+    // Country code mapping for team flags
+    const countryFlags = {
+      'India': 'in',
+      'Pakistan': 'pk',
+      'Bangladesh': 'bd',
+      'Sri Lanka': 'lk',
+      'Afghanistan': 'af',
+      'Nepal': 'np',
+      'Hong Kong': 'hk',
+      'UAE': 'ae',
+      'United Arab Emirates': 'ae',
+      'Malaysia': 'my',
+      'Singapore': 'sg',
+      'Thailand': 'th',
+      'Oman': 'om',
+      'Kuwait': 'kw'
+    };
+
+    const countryCode = countryFlags[teamName];
+    if (countryCode) {
+      return `<img src="https://flagcdn.com/16x12/${countryCode}.png" alt="${teamName}" class="team-flag">`;
+    } else {
+      return `<span style="width: 16px; height: 12px; background-color: #ccc; display: inline-block; margin-right: 8px; border-radius: 2px;"></span>`;
+    }
+  }
+
+  // Initialize cricket tournament data
+  document.addEventListener('DOMContentLoaded', function() {
+    fetchCricketTournaments();
+  });
   </script>
 </body>
 
