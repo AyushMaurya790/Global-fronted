@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky.html API Integration Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        button { padding: 10px 15px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Sky.html API Integration Test</h1>
+    
+    <div class="test-section">
+        <h3>API Endpoint Test</h3>
+        <p><strong>Endpoint:</strong> <code>http://globe.ridealmobility.com/api/countries?continentId=68bffc49cd2575bd4c4611f8</code></p>
+        <button onclick="testAPI()">Test API Response</button>
+        <div id="api-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Sky.html Integration Status</h3>
+        <p class="info">Sky.html में पहले से ही complete API integration है:</p>
+        <ul>
+            <li>✅ fetchCountries() function - API call करने के लिए</li>
+            <li>✅ populateCountries() function - Countries display करने के लिए</li>
+            <li>✅ Dynamic continent loading</li>
+            <li>✅ Event listeners for hover/click</li>
+            <li>✅ Manual continent ID test function added</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h3>Manual Integration Test</h3>
+        <p>आपके API endpoint के साथ manual test:</p>
+        <button onclick="testManualIntegration()">Test Manual Integration</button>
+        <div id="manual-results"></div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('api-results');
+            resultsDiv.innerHTML = '<p class="info">Testing API...</p>';
+            
+            try {
+                const response = await fetch('http://globe.ridealmobility.com/api/countries?continentId=68bffc49cd2575bd4c4611f8');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                let html = '<h4 class="success">✅ API Response Successful!</h4>';
+                html += `<p><strong>Countries found:</strong> ${data.length}</p>`;
+                
+                if (data.length > 0) {
+                    html += '<h5>Countries:</h5><ul>';
+                    data.forEach(country => {
+                        html += `<li><strong>${country.name}</strong> - ${country.continent?.name || 'Unknown Continent'}</li>`;
+                    });
+                    html += '</ul>';
+                } else {
+                    html += '<p>No countries found.</p>';
+                }
+                
+                resultsDiv.innerHTML = html;
+                
+            } catch (error) {
+                console.error('API Error:', error);
+                resultsDiv.innerHTML = `<h4 class="error">❌ API Error!</h4><p>${error.message}</p>`;
+            }
+        }
+
+        async function testManualIntegration() {
+            const resultsDiv = document.getElementById('manual-results');
+            resultsDiv.innerHTML = '<p class="info">Testing manual integration...</p>';
+            
+            try {
+                // Simulate the same function that sky.html uses
+                const continentId = '68bffc49cd2575bd4c4611f8';
+                console.log(`Testing countries for continent ID: ${continentId}`);
+                
+                const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const countries = await response.json();
+                console.log('Countries data:', countries);
+                
+                // Simulate population like sky.html does
+                let html = '<h4 class="success">✅ Manual Integration Test Successful!</h4>';
+                html += `<p><strong>Total countries:</strong> ${countries.length}</p>`;
+                
+                if (countries.length > 0) {
+                    // Split into two columns like sky.html
+                    const midPoint = Math.ceil(countries.length / 2);
+                    const firstColumn = countries.slice(0, midPoint);
+                    const secondColumn = countries.slice(midPoint);
+                    
+                    html += '<div style="display: flex; gap: 20px;">';
+                    html += '<div style="flex: 1;"><h5>Column 1:</h5><ul>';
+                    firstColumn.forEach(country => {
+                        html += `<li>${country.name}</li>`;
+                    });
+                    html += '</ul></div>';
+                    
+                    html += '<div style="flex: 1;"><h5>Column 2:</h5><ul>';
+                    secondColumn.forEach(country => {
+                        html += `<li>${country.name}</li>`;
+                    });
+                    html += '</ul></div></div>';
+                    
+                    html += '<p class="success"><strong>✅ यह exactly वही format है जो sky.html में display होगा!</strong></p>';
+                } else {
+                    html += '<p>No countries to display.</p>';
+                }
+                
+                resultsDiv.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Manual integration error:', error);
+                resultsDiv.innerHTML = `<h4 class="error">❌ Manual Integration Error!</h4><p>${error.message}</p>`;
+            }
+        }
+
+        // Auto-run API test on page load
+        window.addEventListener('DOMContentLoaded', testAPI);
+    </script>
+</body>
+</html>

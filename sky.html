@@ -779,14 +779,7 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
             </div>
           </div>
           <div class="content" id="latin">
-            <div class="column">
-              <a href="s3.html">Australia</a>
-              <a href="#">Fiji</a>
-            </div>
-            <div class="column">
-              <a href="#">French Polynesia</a>
-              <a href="s4.html">New Zealand</a>
-            </div>
+            <!-- Dynamic countries will be loaded here via API -->
           </div>
           <div class="content" id="middleeast">
             <div class="column">
@@ -3393,6 +3386,180 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Optional: Refresh continents data every 60 minutes
     setInterval(initializeContinentsNavigation, 3600000);
+
+    // Manual test function for specific continent ID (Oceania)
+    function testSpecificContinent() {
+        console.log('Sky: Testing specific continent ID for Oceania...');
+        const oceaniaId = '68bffc49cd2575bd4c4611f8';
+        
+        // Find the latin/oceania container and populate it immediately
+        console.log('Sky: Looking for latin container...');
+        const latinContainer = document.getElementById('latin');
+        if (latinContainer) {
+            console.log('Sky: Latin container found, populating with Oceania countries...');
+            populateCountries(oceaniaId, 'latin');
+        } else {
+            console.error('Sky: Latin container not found');
+            // Try again after a short delay
+            setTimeout(() => {
+                const latinContainer2 = document.getElementById('latin');
+                if (latinContainer2) {
+                    console.log('Sky: Latin container found on retry, populating...');
+                    populateCountries(oceaniaId, 'latin');
+                } else {
+                    console.error('Sky: Latin container still not found after retry');
+                }
+            }, 1000);
+        }
+    }
+
+    // Test the specific continent
+    testSpecificContinent();
+
+    // Direct API test function
+    async function directAPITest() {
+        console.log('Sky: Direct API test starting...');
+        const oceaniaId = '68bffc49cd2575bd4c4611f8';
+        
+        try {
+            console.log('Sky: Making direct API call...');
+            const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${oceaniaId}`);
+            console.log('Sky: API response received:', response.status);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Sky: API data received:', data);
+            console.log('Sky: Number of countries:', data.length);
+            
+            if (data.length > 0) {
+                console.log('Sky: First country:', data[0]);
+                
+                // Manually populate the latin container
+                const latinContainer = document.getElementById('latin');
+                if (latinContainer) {
+                    console.log('Sky: Manually populating latin container...');
+                    
+                    const firstColumn = data.slice(0, Math.ceil(data.length / 2));
+                    const secondColumn = data.slice(Math.ceil(data.length / 2));
+                    
+                    const column1HTML = firstColumn.map(country => 
+                        `<a href="#" class="country-link" style="display: block; padding: 8px 0; color: #333; text-decoration: none;">${country.name}</a>`
+                    ).join('');
+                    
+                    const column2HTML = secondColumn.map(country => 
+                        `<a href="#" class="country-link" style="display: block; padding: 8px 0; color: #333; text-decoration: none;">${country.name}</a>`
+                    ).join('');
+                    
+                    latinContainer.innerHTML = `
+                        <div class="column">
+                            ${column1HTML}
+                        </div>
+                        <div class="column">
+                            ${column2HTML}
+                        </div>
+                    `;
+                    
+                    console.log('Sky: Successfully populated latin container with countries');
+                } else {
+                    console.error('Sky: Latin container not found for manual population');
+                }
+            } else {
+                console.warn('Sky: No countries returned from API');
+            }
+            
+        } catch (error) {
+            console.error('Sky: Direct API test error:', error);
+        }
+    }
+
+    // Run direct API test
+    setTimeout(directAPITest, 1000);
+
+    // Test container visibility
+    function testContainerVisibility() {
+        console.log('Sky: Testing container visibility...');
+        const latinContainer = document.getElementById('latin');
+        if (latinContainer) {
+            console.log('Sky: Latin container found');
+            console.log('Sky: Latin container display:', window.getComputedStyle(latinContainer).display);
+            console.log('Sky: Latin container visibility:', window.getComputedStyle(latinContainer).visibility);
+            console.log('Sky: Latin container innerHTML:', latinContainer.innerHTML);
+        } else {
+            console.error('Sky: Latin container not found during visibility test');
+        }
+        
+        // Test all continent containers
+        const allContainers = ['africa', 'asia', 'australasia', 'europe', 'indian', 'latin', 'middleeast', 'polar'];
+        allContainers.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            if (container) {
+                console.log(`Sky: Container ${containerId} exists, display: ${window.getComputedStyle(container).display}`);
+            } else {
+                console.warn(`Sky: Container ${containerId} not found`);
+            }
+        });
+    }
+
+    // Test container visibility
+    setTimeout(testContainerVisibility, 2000);
+
+    // Immediate content test - force show content in latin container
+    function immediateContentTest() {
+        console.log('Sky: Immediate content test starting...');
+        const latinContainer = document.getElementById('latin');
+        if (latinContainer) {
+            console.log('Sky: Forcing content in latin container...');
+            latinContainer.innerHTML = `
+                <div class="column">
+                    <a href="#" style="display: block; padding: 8px 0; color: #333; text-decoration: none;">TEST: New Zealand (API)</a>
+                    <a href="#" style="display: block; padding: 8px 0; color: #333; text-decoration: none;">TEST: Loading from API...</a>
+                </div>
+                <div class="column">
+                    <a href="#" style="display: block; padding: 8px 0; color: #333; text-decoration: none;">TEST: API Integration Active</a>
+                    <a href="#" style="display: block; padding: 8px 0; color: #333; text-decoration: none;">TEST: Hover to reload</a>
+                </div>
+            `;
+            
+            // Make sure container is visible
+            latinContainer.style.display = 'block';
+            console.log('Sky: Immediate test content added to latin container');
+        } else {
+            console.error('Sky: Latin container not found for immediate test');
+        }
+    }
+
+    // Run immediate content test
+    immediateContentTest();
+
+    // Also add manual trigger for any continent when hovered
+    function addManualTriggers() {
+        const continentElements = {
+            'asia': document.querySelector('li[data-target="asia"]'),
+            'latin': document.querySelector('li[data-target="latin"]'),
+            'australasia': document.querySelector('li[data-target="australasia"]'),
+            'indian': document.querySelector('li[data-target="indian"]'),
+            'middleeast': document.querySelector('li[data-target="middleeast"]')
+        };
+
+        Object.keys(continentElements).forEach(continent => {
+            const element = continentElements[continent];
+            if (element) {
+                element.addEventListener('mouseenter', () => {
+                    console.log(`Sky: Manual trigger for ${continent}`);
+                    if (continent === 'latin') {
+                        // Use Oceania ID for latin/oceania
+                        populateCountries('68bffc49cd2575bd4c4611f8', 'latin');
+                    }
+                });
+            }
+        });
+    }
+
+    // Add manual triggers after initialization
+    setTimeout(addManualTriggers, 3000);
 });
 </script>
 
