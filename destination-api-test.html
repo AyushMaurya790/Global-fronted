@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destination API Test - Globe Angel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #e55d17;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .test-title {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .api-response {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        .continent-item {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 15px;
+            background: #e55d17;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .continent-item:hover {
+            background: #d14910;
+            transform: translateY(-2px);
+        }
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .country-card {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #e55d17;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.loading {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+        }
+        .status.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Destination API Integration Test</h1>
+        
+        <div class="test-section">
+            <div class="test-title">🏎️ F1 Destinations - Continents API Test</div>
+            <div id="continents-status" class="status loading">Loading continents...</div>
+            <div id="continents-response" class="api-response"></div>
+            <div id="continents-list"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">🌎 Countries API Test</div>
+            <div id="countries-status" class="status">Click on a continent above to load countries</div>
+            <div id="countries-response" class="api-response"></div>
+            <div id="countries-grid" class="countries-grid"></div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">📊 API Integration Summary</div>
+            <div id="integration-summary">
+                <p><strong>Continents API:</strong> <span id="continents-count">-</span> continents loaded</p>
+                <p><strong>Countries API:</strong> <span id="countries-count">-</span> countries loaded</p>
+                <p><strong>Cache Status:</strong> <span id="cache-status">Not implemented</span></p>
+                <p><strong>Last Updated:</strong> <span id="last-updated">-</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL
+        const API_BASE = 'http://globe.ridealmobility.com/api';
+        
+        // Cache for API data
+        const apiCache = {
+            continents: null,
+            countries: {},
+            cacheTime: 10 * 60 * 1000 // 10 minutes
+        };
+
+        // Fetch continents data
+        async function fetchContinentsData() {
+            try {
+                // Check cache first
+                if (apiCache.continents && Date.now() - apiCache.continents.timestamp < apiCache.cacheTime) {
+                    console.log('Using cached continents data');
+                    updateCacheStatus('Continents cached');
+                    return apiCache.continents.data;
+                }
+
+                console.log('Fetching continents from API...');
+                updateStatus('continents-status', 'loading', 'Fetching continents from API...');
+                
+                const response = await fetch(`${API_BASE}/continents`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Cache the data
+                apiCache.continents = {
+                    data: data,
+                    timestamp: Date.now()
+                };
+                
+                updateCacheStatus('Continents cached');
+                return data;
+            } catch (error) {
+                console.error('Error fetching continents:', error);
+                updateStatus('continents-status', 'error', `Error: ${error.message}`);
+                
+                // Return cached data if available
+                if (apiCache.continents) {
+                    updateCacheStatus('Using expired cache due to error');
+                    return apiCache.continents.data;
+                }
+                return null;
+            }
+        }
+
+        // Fetch countries data for a continent
+        async function fetchCountriesData(continentId, continentName) {
+            try {
+                // Check cache first
+                if (apiCache.countries[continentId] && 
+                    Date.now() - apiCache.countries[continentId].timestamp < apiCache.cacheTime) {
+                    console.log(`Using cached countries data for ${continentName}`);
+                    return apiCache.countries[continentId].data;
+                }
+
+                console.log(`Fetching countries for ${continentName}...`);
+                updateStatus('countries-status', 'loading', `Fetching countries for ${continentName}...`);
+                
+                const response = await fetch(`${API_BASE}/countries?continentId=${continentId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Cache the data
+                apiCache.countries[continentId] = {
+                    data: data,
+                    timestamp: Date.now()
+                };
+                
+                return data;
+            } catch (error) {
+                console.error(`Error fetching countries for ${continentName}:`, error);
+                updateStatus('countries-status', 'error', `Error loading countries: ${error.message}`);
+                
+                // Return cached data if available
+                if (apiCache.countries[continentId]) {
+                    return apiCache.countries[continentId].data;
+                }
+                return null;
+            }
+        }
+
+        // Update status display
+        function updateStatus(elementId, type, message) {
+            const element = document.getElementById(elementId);
+            element.className = `status ${type}`;
+            element.textContent = message;
+        }
+
+        // Update cache status
+        function updateCacheStatus(status) {
+            document.getElementById('cache-status').textContent = status;
+        }
+
+        // Display continents
+        function displayContinents(continents) {
+            const responseDiv = document.getElementById('continents-response');
+            const listDiv = document.getElementById('continents-list');
+            
+            // Show API response
+            responseDiv.textContent = JSON.stringify(continents, null, 2);
+            
+            // Create continent buttons
+            listDiv.innerHTML = '';
+            continents.forEach(continent => {
+                const button = document.createElement('div');
+                button.className = 'continent-item';
+                button.textContent = continent.name;
+                button.onclick = () => loadCountries(continent._id, continent.name);
+                listDiv.appendChild(button);
+            });
+            
+            updateStatus('continents-status', 'success', `✅ Loaded ${continents.length} continents`);
+            document.getElementById('continents-count').textContent = continents.length;
+            document.getElementById('last-updated').textContent = new Date().toLocaleString();
+        }
+
+        // Load countries for a continent
+        async function loadCountries(continentId, continentName) {
+            const countries = await fetchCountriesData(continentId, continentName);
+            
+            if (countries && countries.length > 0) {
+                displayCountries(countries, continentName);
+            } else {
+                updateStatus('countries-status', 'error', `No countries found for ${continentName}`);
+                document.getElementById('countries-response').textContent = 'No data';
+                document.getElementById('countries-grid').innerHTML = '';
+            }
+        }
+
+        // Display countries
+        function displayCountries(countries, continentName) {
+            const responseDiv = document.getElementById('countries-response');
+            const gridDiv = document.getElementById('countries-grid');
+            
+            // Show API response
+            responseDiv.textContent = JSON.stringify(countries, null, 2);
+            
+            // Create country cards
+            gridDiv.innerHTML = '';
+            countries.forEach(country => {
+                const card = document.createElement('div');
+                card.className = 'country-card';
+                card.innerHTML = `
+                    <div style="font-weight: bold; color: #e55d17;">${country.name}</div>
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                        ${country.heading || 'No heading available'}
+                    </div>
+                    <div style="font-size: 11px; color: #999; margin-top: 3px;">
+                        Capital: ${country.capital || 'N/A'} | Currency: ${country.currency || 'N/A'}
+                    </div>
+                `;
+                gridDiv.appendChild(card);
+            });
+            
+            updateStatus('countries-status', 'success', `✅ Loaded ${countries.length} countries for ${continentName}`);
+            document.getElementById('countries-count').textContent = countries.length;
+        }
+
+        // Initialize the test
+        async function initializeTest() {
+            console.log('🌍 Starting Destination API Integration Test...');
+            
+            const continents = await fetchContinentsData();
+            
+            if (continents && continents.length > 0) {
+                displayContinents(continents);
+                console.log('✅ Continents loaded successfully');
+            } else {
+                updateStatus('continents-status', 'error', 'Failed to load continents');
+                console.error('❌ Failed to load continents');
+            }
+        }
+
+        // Start the test when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏎️ F1 Destination API Test Page Loaded');
+            initializeTest();
+        });
+
+        // Test function for manual debugging
+        window.testAPI = function() {
+            console.log('🧪 Running manual API test...');
+            initializeTest();
+        };
+
+        // Clear cache function
+        window.clearCache = function() {
+            apiCache.continents = null;
+            apiCache.countries = {};
+            updateCacheStatus('Cache cleared');
+            console.log('🗑️ API cache cleared');
+        };
+    </script>
+</body>
+</html>

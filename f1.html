@@ -2515,7 +2515,7 @@
           <div class="f1-race-desc">${raceName.toUpperCase()}</div>
           <button class="book-now-btn">Enquire</button>
           ${race.results && race.results.length > 0 ? generateF1Results(race.results) : ''}
-          ${race.bannerImage ? `<div class="f1-race-banner" style="background-image: url('http://globe.ridealmobility.com/${race.bannerImage}'); background-size: cover; background-position: center; width: 100%; height: 80px; border-radius: 8px; margin-top: 12px;"></div>` : ''}
+          ${index === 0 && race.bannerImage ? `<div class="f1-race-banner" style="background-image: url('http://globe.ridealmobility.com/${race.bannerImage}'); background-size: cover; background-position: center; width: 100%; height: 80px; border-radius: 8px; margin-top: 12px;"></div>` : ''}
         `;
         
         scheduleGrid.appendChild(raceCard);
@@ -2948,64 +2948,102 @@
 }
 </style>
 
-<!-- CSS for Destinations Menu Hover Functionality -->
+<!-- SIMPLE CSS for Destinations Menu API Integration -->
 <style>
-  /* Hide all content divs by default */
+  /* Basic content display */
   .destinations-menu .mega-right .content {
-    display: none !important;
-  }
-
-  /* Show content when parent has active class or on hover */
-  .destinations-menu .mega-left li.active + .mega-right .content,
-  .destinations-menu .mega-right .content.show {
-    display: flex !important;
-  }
-
-  /* Active state for continent items */
-  .destinations-menu .mega-left li.active {
-    background-color: rgba(229, 93, 23, 0.1);
-    color: #e55d17;
-  }
-
-  /* Hover effect for continent items */
-  .destinations-menu .mega-left li:hover {
-    background-color: rgba(229, 93, 23, 0.05);
-    color: #e55d17;
-    cursor: pointer;
-  }
-
-  /* Ensure proper flex layout for content */
-  .destinations-menu .mega-right .content {
+    display: none;
     flex-direction: row;
     gap: 2rem;
+    width: 100%;
+    min-height: 200px;
   }
 
+  /* Column layout */
   .destinations-menu .mega-right .content .column {
     flex: 1;
     display: flex;
     flex-direction: column;
   }
+
+  /* Country links */
+  .destinations-menu .mega-right .content a:hover {
+    color: #e55d17 !important;
+    padding-left: 10px !important;
+  }
+
+  /* Hover effect for continent items */
+  .destinations-menu .mega-left li:hover {
+    background-color: rgba(229, 93, 23, 0.1);
+    color: #e55d17;
+    cursor: pointer;
+  }
 </style>
 
 <script>
-  // API Integration for Continents and Countries
+  // COMPLETE API Integration - Both Continents and Countries
   document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing continents API integration for navbar destinations...');
-    initializeContinentsData();
+    console.log('🏎️ COMPLETE VERSION - Starting continents & countries API integration...');
     
-    // Auto-refresh every 30 minutes
-    setInterval(initializeContinentsData, 30 * 60 * 1000);
+    // Wait for DOM to be fully ready
+    setTimeout(() => {
+      initializeCompleteDestinationsAPI();
+    }, 1000);
+    
+    // Add global test function
+    window.testDestinationsAPI = async function() {
+      console.log('🧪 TESTING DESTINATIONS API...');
+      
+      // First load continents dynamically
+      await initializeCompleteDestinationsAPI();
+      
+      // Then test countries
+      const continents = ['africa', 'asia', 'latin', 'europe', 'indian', 'australasia', 'middleeast', 'polar'];
+      
+      for (const continent of continents) {
+        if (window[`test_${continent}`]) {
+          console.log(`🔬 Testing ${continent}...`);
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          window[`test_${continent}`]();
+        }
+      }
+      
+      console.log('🎯 All tests completed! Check the destination menu.');
+    };
+    
+    // Add manual trigger function
+    window.triggerDestinationSetup = function() {
+      console.log('🔄 Manually triggering destination setup...');
+      initializeCompleteDestinationsAPI();
+    };
+    
+    // Refresh every 30 minutes
+    setInterval(initializeCompleteDestinationsAPI, 30 * 60 * 1000);
   });
 
-  // Function to fetch continents data from API
+  // Cache for API data to improve performance
+  const apiCache = {
+    continents: null,
+    countries: {},
+    cacheTime: 10 * 60 * 1000 // 10 minutes cache
+  };
+
+  // Function to fetch continents data from API with caching
   async function fetchContinentsData() {
     try {
+      // Check cache first
+      if (apiCache.continents && Date.now() - apiCache.continents.timestamp < apiCache.cacheTime) {
+        console.log('Using cached continents data');
+        return apiCache.continents.data;
+      }
+
       console.log('Fetching continents data from API...');
       
       const response = await fetch('http://globe.ridealmobility.com/api/continents', {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         }
       });
 
@@ -3015,22 +3053,42 @@
 
       const data = await response.json();
       console.log('Continents API response:', data);
+      
+      // Cache the data
+      apiCache.continents = {
+        data: data,
+        timestamp: Date.now()
+      };
+      
       return data;
     } catch (error) {
       console.error('Error fetching continents data:', error);
+      // Return cached data if available, even if expired
+      if (apiCache.continents) {
+        console.log('Using expired cached continents data due to error');
+        return apiCache.continents.data;
+      }
       return null;
     }
   }
 
-  // Function to fetch countries data for a specific continent
+  // Function to fetch countries data for a specific continent with caching
   async function fetchCountriesData(continentId) {
     try {
+      // Check cache first
+      if (apiCache.countries[continentId] && 
+          Date.now() - apiCache.countries[continentId].timestamp < apiCache.cacheTime) {
+        console.log(`Using cached countries data for continent ${continentId}`);
+        return apiCache.countries[continentId].data;
+      }
+
       console.log(`Fetching countries data for continent ID: ${continentId}`);
       
       const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         }
       });
 
@@ -3040,9 +3098,21 @@
 
       const data = await response.json();
       console.log(`Countries API response for continent ${continentId}:`, data);
+      
+      // Cache the data
+      apiCache.countries[continentId] = {
+        data: data,
+        timestamp: Date.now()
+      };
+      
       return data;
     } catch (error) {
       console.error(`Error fetching countries data for continent ${continentId}:`, error);
+      // Return cached data if available, even if expired
+      if (apiCache.countries[continentId]) {
+        console.log(`Using expired cached countries data for continent ${continentId} due to error`);
+        return apiCache.countries[continentId].data;
+      }
       return null;
     }
   }
@@ -3054,7 +3124,7 @@
       return;
     }
 
-    console.log('Updating destinations menu with API data...');
+    console.log('🌍 Updating destinations menu with API data...');
 
     // Handle different API response structures
     let continents = [];
@@ -3072,7 +3142,10 @@
       return;
     }
 
-    console.log('Processing continents:', continents);
+    console.log('🌍 Processing continents:', continents);
+    
+    // F1 DESTINATIONS COUNTRIES API INTEGRATION
+    console.log('🏎️ F1 DESTINATIONS - Setting up continent hover with countries API...');
 
     // Map continent names to menu IDs
     const continentMapping = {
@@ -3189,31 +3262,405 @@
     console.log('Destinations menu updated successfully with continents and countries API data');
   }
 
-  // Initialize continents data on page load
-  async function initializeContinentsData() {
+  // COMPLETE WORKING VERSION - Dynamic continents + countries loading
+  async function initializeCompleteDestinationsAPI() {
+    console.log('🌍 COMPLETE API - Starting destinations integration with dynamic continents...');
+    
+    // First, load continents dynamically
     try {
-      console.log('Initializing continents data...');
       const continentsData = await fetchContinentsData();
-      
-      if (continentsData) {
-        await updateDestinationsWithAPIData(continentsData);
-        // Initialize hover functionality after data is loaded
-        initializeDestinationsHover();
+      if (continentsData && continentsData.length > 0) {
+        console.log('✅ Continents loaded, updating menu...');
+        await updateDestinationsMenuWithContinents(continentsData);
       } else {
-        console.warn('Failed to load continents data, using default menu');
-        // Initialize hover functionality with default menu
-        initializeDestinationsHover();
+        console.warn('⚠️ No continents data, using static menu');
+        initializeSimpleDestinationsAPI();
       }
     } catch (error) {
-      console.error('Error initializing continents data:', error);
-      // Initialize hover functionality even if API fails
-      initializeDestinationsHover();
+      console.error('❌ Error loading continents, falling back to static menu:', error);
+      initializeSimpleDestinationsAPI();
     }
   }
 
-  // Function to initialize destinations menu hover functionality
+  // Function to update destinations menu with dynamic continents
+  async function updateDestinationsMenuWithContinents(continentsData) {
+    console.log('🔄 Updating destinations menu with dynamic continents...');
+    
+    const megaLeft = document.querySelector('.destinations-menu .mega-left ul');
+    const megaRight = document.querySelector('.destinations-menu .mega-right');
+    
+    if (!megaLeft || !megaRight) {
+      console.error('❌ Menu elements not found for continent update');
+      return;
+    }
+    
+    // Clear existing static continents
+    megaLeft.innerHTML = '';
+    megaRight.innerHTML = '';
+    
+    console.log(`📍 Adding ${continentsData.length} continents from API...`);
+    
+    // Add continents from API
+    continentsData.forEach((continent, index) => {
+      const continentName = continent.name || `Continent ${index + 1}`;
+      const continentId = continent._id;
+      const menuId = continentName.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
+      
+      console.log(`📌 Adding continent: ${continentName} (ID: ${continentId}) -> Menu ID: ${menuId}`);
+      
+      // Create menu item
+      const listItem = document.createElement('li');
+      listItem.setAttribute('data-target', menuId);
+      listItem.innerHTML = `${continentName.toUpperCase()} <span class="arrow">&#8250;</span>`;
+      listItem.style.cursor = 'pointer';
+      listItem.style.padding = '10px 15px';
+      listItem.style.transition = 'all 0.3s ease';
+      
+      // Add hover effect
+      listItem.addEventListener('mouseenter', () => {
+        listItem.style.backgroundColor = 'rgba(229, 93, 23, 0.1)';
+        listItem.style.color = '#e55d17';
+        loadCountriesForContinentDynamic(menuId, continentId, continentName, megaRight);
+      });
+      
+      listItem.addEventListener('mouseleave', () => {
+        listItem.style.backgroundColor = 'transparent';
+        listItem.style.color = 'inherit';
+      });
+      
+      // Add click for mobile
+      listItem.addEventListener('click', () => {
+        loadCountriesForContinentDynamic(menuId, continentId, continentName, megaRight);
+      });
+      
+      megaLeft.appendChild(listItem);
+      
+      // Create debug function
+      window[`test_${menuId}`] = () => loadCountriesForContinentDynamic(menuId, continentId, continentName, megaRight);
+    });
+    
+    // Add mouse leave handler for entire menu
+    const megaMenu = document.querySelector('.destinations-menu');
+    if (megaMenu) {
+      megaMenu.addEventListener('mouseleave', () => {
+        megaRight.querySelectorAll('.content').forEach(div => {
+          div.style.display = 'none';
+        });
+      });
+    }
+    
+    console.log('🎉 Dynamic continents menu setup complete!');
+  }
+
+  // Function to load countries for dynamically created continents
+  async function loadCountriesForContinentDynamic(menuId, continentId, continentName, megaRight) {
+    console.log(`🌍 Loading countries for ${continentName} (Menu ID: ${menuId}, API ID: ${continentId})`);
+    
+    // Find or create content div
+    let contentDiv = document.getElementById(menuId);
+    if (!contentDiv) {
+      contentDiv = document.createElement('div');
+      contentDiv.className = 'content';
+      contentDiv.id = menuId;
+      contentDiv.style.display = 'flex';
+      contentDiv.style.flexDirection = 'row';
+      contentDiv.style.gap = '2rem';
+      contentDiv.style.width = '100%';
+      contentDiv.style.minHeight = '200px';
+      megaRight.appendChild(contentDiv);
+    }
+    
+    // Hide all other content
+    megaRight.querySelectorAll('.content').forEach(div => {
+      if (div !== contentDiv) {
+        div.style.display = 'none';
+      }
+    });
+    
+    // Show loading
+    contentDiv.innerHTML = `
+      <div class="column" style="flex: 1; display: flex; flex-direction: column;">
+        <div style="padding: 20px; text-align: center; color: #666;">
+          🔄 Loading countries for ${continentName}...
+        </div>
+      </div>
+    `;
+    contentDiv.style.display = 'flex';
+    
+    try {
+      const countries = await fetchCountriesData(continentId);
+      
+      if (countries && countries.length > 0) {
+        console.log(`✅ Got ${countries.length} countries for ${continentName}:`, countries.map(c => c.name));
+        
+        // Create two columns
+        const midPoint = Math.ceil(countries.length / 2);
+        const col1 = countries.slice(0, midPoint);
+        const col2 = countries.slice(midPoint);
+        
+        const col1HTML = col1.map(country => 
+          `<a href="Destination.html?country=${encodeURIComponent(country.name)}&id=${country._id}" 
+             style="display: block; padding: 8px 0; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: all 0.3s ease;"
+             onmouseover="this.style.color='#e55d17'; this.style.paddingLeft='10px';" 
+             onmouseout="this.style.color='#333'; this.style.paddingLeft='0';"
+             title="${country.heading || country.name}">
+             ${country.name}
+           </a>`
+        ).join('');
+        
+        const col2HTML = col2.map(country => 
+          `<a href="Destination.html?country=${encodeURIComponent(country.name)}&id=${country._id}" 
+             style="display: block; padding: 8px 0; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: all 0.3s ease;"
+             onmouseover="this.style.color='#e55d17'; this.style.paddingLeft='10px';" 
+             onmouseout="this.style.color='#333'; this.style.paddingLeft='0';"
+             title="${country.heading || country.name}">
+             ${country.name}
+           </a>`
+        ).join('');
+        
+        contentDiv.innerHTML = `
+          <div class="column" style="flex: 1; display: flex; flex-direction: column; padding-right: 20px;">
+            ${col1HTML}
+          </div>
+          <div class="column" style="flex: 1; display: flex; flex-direction: column;">
+            ${col2HTML}
+          </div>
+        `;
+        
+        console.log(`🎉 SUCCESS! Displayed ${countries.length} countries for ${continentName}`);
+      } else {
+        contentDiv.innerHTML = `
+          <div class="column" style="flex: 1;">
+            <div style="padding: 20px; text-align: center; color: #666; font-style: italic;">
+              No countries found for ${continentName}
+            </div>
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error(`❌ Error loading countries for ${continentName}:`, error);
+      contentDiv.innerHTML = `
+        <div class="column" style="flex: 1;">
+          <div style="padding: 20px; text-align: center; color: #dc3545;">
+            ❌ Error loading countries<br>
+            <small>${error.message}</small>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  // FALLBACK FUNCTION - Static menu integration (if dynamic fails)
+  async function initializeSimpleDestinationsAPI() {
+    console.log('🚀 FINAL VERSION - Starting destinations integration...');
+    
+    // Wait for elements to be ready
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    const checkAndSetup = () => {
+      const megaMenu = document.querySelector('.destinations-menu');
+      const megaLeft = document.querySelector('.destinations-menu .mega-left ul');
+      const megaRight = document.querySelector('.destinations-menu .mega-right');
+      
+      if (!megaMenu || !megaLeft || !megaRight) {
+        attempts++;
+        if (attempts < maxAttempts) {
+          console.log(`⏳ Attempt ${attempts}: Menu elements not ready, retrying in 500ms...`);
+          setTimeout(checkAndSetup, 500);
+          return;
+        } else {
+          console.error('❌ Failed to find menu elements after maximum attempts');
+          console.log('Available elements:', {
+            megaMenu: !!megaMenu,
+            megaLeft: !!megaLeft, 
+            megaRight: !!megaRight
+          });
+          return;
+        }
+      }
+      
+      console.log('✅ All menu elements found, proceeding with setup...');
+      
+      // Direct continent ID mapping (from API test)
+      const continentMap = {
+        'africa': '68bffbddcd2575bd4c4611ee',      // AFRICA
+        'asia': '68bffbfccd2575bd4c4611f0',        // ASIA  
+        'australasia': '68bffc0dcd2575bd4c4611f2', // AMERICAS
+        'europe': '68bbe26529194a1d11504827',      // EUPORE
+        'indian': '68bffc31cd2575bd4c4611f6',      // INDIAN SUBCONTINENT
+        'latin': '68bffc49cd2575bd4c4611f8',       // OCEANIA
+        'middleeast': '68bffc5ccd2575bd4c4611fa',  // MIDDLE EAST
+        'polar': '68bffc70cd2575bd4c4611fc'        // POLAR
+      };
+      
+      // Get all continent items
+      const continentItems = megaLeft.querySelectorAll('li[data-target]');
+      console.log(`🎯 Found ${continentItems.length} continent items:`, Array.from(continentItems).map(item => item.getAttribute('data-target')));
+      
+      if (continentItems.length === 0) {
+        console.error('❌ No continent items found with data-target attribute');
+        return;
+      }
+      
+      // Add event listeners
+      continentItems.forEach((item, index) => {
+        const target = item.getAttribute('data-target');
+        const continentId = continentMap[target];
+        
+        console.log(`📍 [${index + 1}/${continentItems.length}] Setting up: ${target} -> ${continentId ? 'ID found' : 'NO ID'}`);
+        
+        if (continentId) {
+          // Test function for debugging
+          window[`test_${target}`] = () => loadCountriesForContinent(target, continentId, megaRight);
+          
+          item.addEventListener('mouseenter', () => {
+            console.log(`🔥 HOVER EVENT: ${target} (ID: ${continentId})`);
+            loadCountriesForContinent(target, continentId, megaRight);
+          });
+          
+          item.addEventListener('click', () => {
+            console.log(`👆 CLICK EVENT: ${target} (for mobile/debugging)`);
+            loadCountriesForContinent(target, continentId, megaRight);
+          });
+        } else {
+          console.warn(`⚠️ No continent ID found for: ${target}`);
+        }
+      });
+      
+      // Hide menu on mouse leave
+      megaMenu.addEventListener('mouseleave', () => {
+        console.log('👋 Mouse left menu, hiding all content');
+        megaRight.querySelectorAll('.content').forEach(div => {
+          div.style.display = 'none';
+        });
+      });
+      
+      console.log('🎉 SETUP COMPLETE! Integration ready.');
+      console.log('📝 Debug: You can test individual continents by calling window.test_africa(), window.test_asia(), etc.');
+    };
+    
+    checkAndSetup();
+  }
+  
+  // Separate function to load countries
+  async function loadCountriesForContinent(target, continentId, megaRight) {
+    console.log(`🌍 Loading countries for ${target} (ID: ${continentId})`);
+    
+    // Find or create content div
+    let contentDiv = document.getElementById(target);
+    if (!contentDiv) {
+      console.log(`📦 Creating new content div for ${target}`);
+      contentDiv = document.createElement('div');
+      contentDiv.className = 'content';
+      contentDiv.id = target;
+      contentDiv.style.display = 'flex';
+      contentDiv.style.flexDirection = 'row';
+      contentDiv.style.gap = '2rem';
+      contentDiv.style.width = '100%';
+      contentDiv.style.minHeight = '200px';
+      megaRight.appendChild(contentDiv);
+    }
+    
+    // Hide all other content
+    megaRight.querySelectorAll('.content').forEach(div => {
+      if (div !== contentDiv) {
+        div.style.display = 'none';
+      }
+    });
+    
+    // Show loading state
+    contentDiv.innerHTML = `
+      <div class="column" style="flex: 1; display: flex; flex-direction: column;">
+        <div style="padding: 20px; text-align: center; color: #666; font-style: italic;">
+          🔄 Loading countries for ${target.toUpperCase()}...
+        </div>
+      </div>
+    `;
+    contentDiv.style.display = 'flex';
+    
+    try {
+      console.log(`📡 Fetching: http://globe.ridealmobility.com/api/countries?continentId=${continentId}`);
+      
+      const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+      
+      console.log(`📊 Response status: ${response.status} ${response.statusText}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const countries = await response.json();
+      console.log(`✅ Received ${countries.length} countries:`, countries.map(c => c.name));
+      
+      if (countries && countries.length > 0) {
+        // Create two columns
+        const midPoint = Math.ceil(countries.length / 2);
+        const col1 = countries.slice(0, midPoint);
+        const col2 = countries.slice(midPoint);
+        
+        const col1HTML = col1.map(country => 
+          `<a href="Destination.html?country=${encodeURIComponent(country.name)}&id=${country._id}" 
+             style="display: block; padding: 8px 0; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: all 0.3s ease;"
+             onmouseover="this.style.color='#e55d17'; this.style.paddingLeft='10px';" 
+             onmouseout="this.style.color='#333'; this.style.paddingLeft='0';"
+             title="${country.heading || country.name}">
+             ${country.name}
+           </a>`
+        ).join('');
+        
+        const col2HTML = col2.map(country => 
+          `<a href="Destination.html?country=${encodeURIComponent(country.name)}&id=${country._id}" 
+             style="display: block; padding: 8px 0; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: all 0.3s ease;"
+             onmouseover="this.style.color='#e55d17'; this.style.paddingLeft='10px';" 
+             onmouseout="this.style.color='#333'; this.style.paddingLeft='0';"
+             title="${country.heading || country.name}">
+             ${country.name}
+           </a>`
+        ).join('');
+        
+        contentDiv.innerHTML = `
+          <div class="column" style="flex: 1; display: flex; flex-direction: column; padding-right: 20px;">
+            ${col1HTML}
+          </div>
+          <div class="column" style="flex: 1; display: flex; flex-direction: column;">
+            ${col2HTML}
+          </div>
+        `;
+        
+        console.log(`🎉 SUCCESS! Displayed ${countries.length} countries for ${target}`);
+      } else {
+        contentDiv.innerHTML = `
+          <div class="column" style="flex: 1; display: flex; flex-direction: column;">
+            <div style="padding: 20px; text-align: center; color: #666; font-style: italic;">
+              No countries found for ${target.toUpperCase()}
+            </div>
+          </div>
+        `;
+        console.log(`⚠️ No countries found for ${target}`);
+      }
+    } catch (error) {
+      console.error(`❌ Error loading countries for ${target}:`, error);
+      contentDiv.innerHTML = `
+        <div class="column" style="flex: 1; display: flex; flex-direction: column;">
+          <div style="padding: 20px; text-align: center; color: #dc3545;">
+            ❌ Error loading countries<br>
+            <small>${error.message}</small>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  // F1 DESTINATIONS COUNTRIES API INTEGRATION - WORKING VERSION
   function initializeDestinationsHover() {
-    console.log('Initializing destinations menu hover functionality...');
+    console.log('🏎️ F1 Destinations - Initializing continent hover with countries API...');
     
     const megaLeft = document.querySelector('.destinations-menu .mega-left ul');
     const megaRight = document.querySelector('.destinations-menu .mega-right');
@@ -3223,41 +3670,176 @@
       return;
     }
 
-    // Add hover event listeners to continent items
+    // Fixed continent mapping for API - exact match with your API response
+    const continentMapping = {
+      'africa': 'AFRICA',
+      'asia': 'ASIA', 
+      'australasia': 'AMERICAS',
+      'americas': 'AMERICAS',
+      'america': 'AMERICA',
+      'europe': 'EUPORE', // API has "EUPORE" typo
+      'indian': 'INDIAN SUBCONTINENT',
+      'latin': 'OCEANIA', // OCEANIA shows as "latin" in HTML but API has "OCEANIA"
+      'oceania': 'OCEANIA',
+      'middleeast': 'MIDDLE EAST',
+      'polar': 'POLAR',
+      'antarcatica': 'antarcatica' // API has "antarcatica" typo
+    };
+
+    // FIXED: Add hover event listeners to continent items
     const continentItems = megaLeft.querySelectorAll('li[data-target]');
+    console.log(`🏎️ Found ${continentItems.length} continent items`);
     
     continentItems.forEach(item => {
       const target = item.getAttribute('data-target');
-      const contentDiv = document.getElementById(target);
+      let contentDiv = document.getElementById(target);
       
-      if (contentDiv) {
-        // Mouse enter - show the continent's countries
-        item.addEventListener('mouseenter', () => {
-          console.log(`Hovering over continent: ${target}`);
-          
-          // Hide all content divs
-          const allContentDivs = megaRight.querySelectorAll('.content');
-          allContentDivs.forEach(div => {
-            div.style.display = 'none';
-            div.classList.remove('show');
-          });
-          
-          // Show the target content div
-          contentDiv.style.display = 'flex';
-          contentDiv.classList.add('show');
-          
-          // Add active class to hovered item
-          continentItems.forEach(ci => ci.classList.remove('active'));
-          item.classList.add('active');
-        });
+      // Create content div if it doesn't exist
+      if (!contentDiv) {
+        contentDiv = document.createElement('div');
+        contentDiv.className = 'content';
+        contentDiv.id = target;
+        megaRight.appendChild(contentDiv);
       }
+      
+      console.log(`🏎️ Setting up hover for: ${target}`);
+      
+      // Mouse enter - show the continent's countries
+      item.addEventListener('mouseenter', async () => {
+        console.log(`🏎️ HOVER DETECTED on: ${target}`);
+        
+        // Hide all content divs first
+        const allContentDivs = megaRight.querySelectorAll('.content');
+        allContentDivs.forEach(div => {
+          div.style.display = 'none';
+          div.classList.remove('show');
+        });
+        
+        // Show loading state immediately
+        contentDiv.innerHTML = `
+          <div class="column" style="padding: 20px; text-align: center; color: #666;">
+            <i class="fas fa-spinner fa-spin me-2"></i>
+            Loading countries...
+          </div>
+        `;
+        contentDiv.style.display = 'flex';
+        contentDiv.classList.add('show');
+        
+        // Add active class to hovered item
+        continentItems.forEach(ci => ci.classList.remove('active'));
+        item.classList.add('active');
+        
+        try {
+          // Fetch continents to get the right mapping
+          console.log('🌍 Fetching continents...');
+          const continentsResponse = await fetch('http://globe.ridealmobility.com/api/continents');
+          
+          if (!continentsResponse.ok) {
+            throw new Error(`Continents API failed: ${continentsResponse.status}`);
+          }
+          
+          const continentsData = await continentsResponse.json();
+          console.log('🌍 All continents from API:', continentsData.map(c => c.name));
+          
+          // Try multiple matching strategies
+          let continent = null;
+          
+          // Strategy 1: Direct mapping
+          const targetName = continentMapping[target];
+          if (targetName) {
+            continent = continentsData.find(c => c.name.toUpperCase() === targetName.toUpperCase());
+          }
+          
+          // Strategy 2: Partial matching
+          if (!continent) {
+            continent = continentsData.find(c => {
+              const cName = c.name.toUpperCase();
+              const tName = target.toUpperCase();
+              return cName.includes(tName) || tName.includes(cName) || 
+                     (target === 'latin' && cName === 'OCEANIA') ||
+                     (target === 'australasia' && cName === 'AMERICAS') ||
+                     (target === 'europe' && cName === 'EUPORE');
+            });
+          }
+          
+          console.log(`🏎️ Found continent for ${target}:`, continent);
+          
+          if (continent) {
+            // Fetch countries for this continent
+            console.log(`🌎 Fetching countries for continent ID: ${continent._id}`);
+            const countriesResponse = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continent._id}`);
+            
+            if (!countriesResponse.ok) {
+              throw new Error(`Countries API failed: ${countriesResponse.status}`);
+            }
+            
+            const countries = await countriesResponse.json();
+            console.log(`� Countries received:`, countries);
+            
+            if (countries && countries.length > 0) {
+              // Create two columns for countries
+              const midPoint = Math.ceil(countries.length / 2);
+              const firstColumn = countries.slice(0, midPoint);
+              const secondColumn = countries.slice(midPoint);
+              
+              const column1HTML = firstColumn.map(country => 
+                `<a href="Destination.html?country=${encodeURIComponent(country.name)}&id=${country._id}" 
+                   style="display: block; padding: 8px 0; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: all 0.3s ease;" 
+                   onmouseover="this.style.color='#e55d17';" 
+                   onmouseout="this.style.color='#333';" 
+                   title="${country.heading || country.name}">${country.name}</a>`
+              ).join('');
+              
+              const column2HTML = secondColumn.map(country => 
+                `<a href="Destination.html?country=${encodeURIComponent(country.name)}&id=${country._id}" 
+                   style="display: block; padding: 8px 0; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: all 0.3s ease;" 
+                   onmouseover="this.style.color='#e55d17';" 
+                   onmouseout="this.style.color='#333';" 
+                   title="${country.heading || country.name}">${country.name}</a>`
+              ).join('');
+              
+              contentDiv.innerHTML = `
+                <div class="column" style="flex: 1; padding-right: 20px;">
+                  ${column1HTML}
+                </div>
+                <div class="column" style="flex: 1;">
+                  ${column2HTML}
+                </div>
+              `;
+              
+              console.log(`✅ Successfully loaded ${countries.length} countries for ${continent.name}`);
+            } else {
+              contentDiv.innerHTML = `
+                <div class="column" style="padding: 20px; text-align: center; color: #666; font-style: italic;">
+                  No countries found for ${continent.name}
+                </div>
+              `;
+            }
+          } else {
+            contentDiv.innerHTML = `
+              <div class="column" style="padding: 20px; text-align: center; color: #dc3545;">
+                Continent not found: ${target}
+                <br><small>Available: ${continentsData.map(c => c.name).join(', ')}</small>
+              </div>
+            `;
+          }
+        } catch (error) {
+          console.error(`❌ Error loading countries for ${target}:`, error);
+          contentDiv.innerHTML = `
+            <div class="column" style="padding: 20px; text-align: center; color: #dc3545;">
+              <i class="fas fa-exclamation-triangle"></i><br>
+              Error: ${error.message}
+            </div>
+          `;
+        }
+      });
     });
     
     // Handle mouse leave from the entire destinations menu
     const destinationsMenu = document.querySelector('.destinations-menu');
     if (destinationsMenu) {
       destinationsMenu.addEventListener('mouseleave', () => {
-        console.log('Mouse left destinations menu');
+        console.log('🏎️ Mouse left destinations menu');
         
         // Hide all content divs
         const allContentDivs = megaRight.querySelectorAll('.content');
@@ -3271,7 +3853,7 @@
       });
     }
     
-    console.log(`Destinations hover functionality initialized for ${continentItems.length} continents`);
+    console.log(`🏎️ F1 Destinations hover functionality initialized for ${continentItems.length} continents`);
   }
 
   // Function to fetch luxury cities data
@@ -3300,12 +3882,13 @@
     }
   }
 
-  // Function to fetch specific luxury options data for a city
-  async function fetchLuxuryOptionsData(cityName) {
+  // F1 LUXURY OPTIONS API INTEGRATION
+  async function fetchLuxuryOptionsData(cityId) {
     try {
-      console.log(`Fetching luxury options data for ${cityName}...`);
+      console.log(`🏎️ F1 Luxury: Fetching luxury options data for city ID: ${cityId}...`);
       
-      const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityName}`, {
+      // Use the exact API endpoint you provided
+      const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -3318,10 +3901,10 @@
       }
 
       const data = await response.json();
-      console.log(`Luxury options data for ${cityName}:`, data);
+      console.log(`🏎️ F1 Luxury: Luxury options data for city ${cityId}:`, data);
       return data;
     } catch (error) {
-      console.error(`Error fetching luxury options data for ${cityName}:`, error);
+      console.error(`🏎️ F1 Luxury: Error fetching luxury options data for city ${cityId}:`, error);
       return null;
     }
   }
@@ -3375,10 +3958,54 @@
         link.textContent = typeof cityName === 'string' ? cityName.toUpperCase() : `CITY ${index + 1}`;
         link.title = `Luxury options in ${cityName}`;
         
-        // Add click event to load specific city data
+        // Add click event to navigate to GroupTours.html with luxury options
         link.addEventListener('click', async (e) => {
           e.preventDefault();
-          await loadCityLuxuryOptions(cityName);
+          console.log(`🏙️ F1 Luxury: Clicked on ${cityName}`);
+          
+          // Show loading state
+          link.textContent = 'Loading...';
+          link.style.pointerEvents = 'none';
+          
+          try {
+            // Fetch luxury options for this city using the API
+            const cityId = cityData._id || cityData.id || cityName;
+            const luxuryOptions = await fetchLuxuryOptionsData(cityId);
+            
+            if (luxuryOptions) {
+              // Store luxury options in sessionStorage for GroupTours.html
+              sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+              sessionStorage.setItem('selectedCityId', cityId);
+              sessionStorage.setItem('selectedCityName', cityName);
+              
+              console.log(`🏎️ F1 Luxury: Navigating to GroupTours.html for ${cityName}`);
+              console.log('🏎️ Luxury options stored:', luxuryOptions);
+              
+              // Navigate to GroupTours.html with parameters
+              const params = new URLSearchParams({
+                cityId: cityId,
+                cityName: cityName,
+                type: 'luxury-tour',
+                source: 'f1-page'
+              });
+              
+              window.location.href = `GroupTours.html?${params.toString()}`;
+            } else {
+              // Fallback: navigate to general GroupTours page
+              console.warn(`🏎️ No luxury options found for ${cityName}, navigating to general GroupTours`);
+              window.location.href = 'GroupTours.html';
+            }
+          } catch (error) {
+            console.error(`🏎️ F1 Luxury: Error loading luxury options for ${cityName}:`, error);
+            
+            // Reset button state
+            link.textContent = cityName.toUpperCase();
+            link.style.pointerEvents = 'auto';
+            
+            // Show error and navigate anyway
+            alert(`Sorry, unable to load luxury options for ${cityName}. Redirecting to general tours.`);
+            window.location.href = 'GroupTours.html';
+          }
         });
         
         listItem.appendChild(link);
@@ -3690,31 +4317,157 @@
 </script>
 
 <script>
-// Open modal on Enquire button click
-document.querySelectorAll('.book-now-btn').forEach(function(btn) {
-  btn.onclick = function(e) {
-    // Get race name from the card
-    const card = btn.closest('.f1-race-card, .f1-testing-card, .azerbaijan-card, .singapore-card');
-    let raceName = '';
-    if (card.querySelector('.f1-race-location')) {
-      raceName = card.querySelector('.f1-race-location').textContent;
-    } else if (card.querySelector('.f1-testing-location')) {
-      raceName = card.querySelector('.f1-testing-location').textContent;
+// F1 Race Booking Modal Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🏎️ F1 Modal functionality initializing...');
+  
+  // Function to setup enquire buttons
+  function setupEnquireButtons() {
+    // Use event delegation for dynamically created buttons
+    document.addEventListener('click', function(e) {
+      if (e.target && e.target.classList.contains('book-now-btn')) {
+        console.log('Enquire button clicked!');
+        e.preventDefault();
+        
+        // Get race name from the card
+        const card = e.target.closest('.f1-race-card, .f1-testing-card');
+        let raceName = 'F1 Race';
+        
+        if (card) {
+          // Try to get race location
+          const locationElement = card.querySelector('.f1-race-location');
+          if (locationElement) {
+            raceName = locationElement.textContent.trim();
+            console.log('Race name found:', raceName);
+          }
+        }
+        
+        // Open modal
+        openBookingModal(raceName);
+      }
+    });
+  }
+  
+  // Function to open booking modal
+  function openBookingModal(raceName) {
+    console.log('Opening booking modal for:', raceName);
+    const modal = document.getElementById('bookingModal');
+    const raceInput = document.getElementById('raceName');
+    
+    if (modal && raceInput) {
+      raceInput.value = raceName;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Prevent background scroll
+      console.log('Modal opened successfully');
+    } else {
+      console.error('Modal elements not found');
     }
-    document.getElementById('raceName').value = raceName;
-    document.getElementById('bookingModal').style.display = 'flex';
+  }
+  
+  // Function to close modal
+  function closeBookingModal() {
+    console.log('Closing booking modal');
+    const modal = document.getElementById('bookingModal');
+    if (modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto'; // Restore scroll
+    }
+  }
+  
+  // Setup close modal functionality
+  const closeBtn = document.querySelector('.close-booking-modal');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeBookingModal);
+  }
+  
+  // Close modal when clicking outside
+  const modal = document.getElementById('bookingModal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeBookingModal();
+      }
+    });
+  }
+  
+  // Handle form submission
+  const bookingForm = document.getElementById('bookingForm');
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form data
+      const raceName = document.getElementById('raceName').value;
+      const nameInput = bookingForm.querySelector('input[type="text"]:not(#raceName)');
+      const emailInput = bookingForm.querySelector('input[type="email"]');
+      const mobileInput = bookingForm.querySelector('input[type="text"]:not(#raceName):not([type="email"])');
+      const adultsInput = bookingForm.querySelector('input[type="number"]:nth-of-type(1)');
+      const childrenInput = bookingForm.querySelector('input[type="number"]:nth-of-type(2)');
+      
+      const formData = {
+        race: raceName,
+        name: nameInput ? nameInput.value : '',
+        email: emailInput ? emailInput.value : '',
+        mobile: mobileInput ? mobileInput.value : '',
+        adults: adultsInput ? adultsInput.value : '1',
+        children: childrenInput ? childrenInput.value : '0'
+      };
+      
+      console.log('Form submitted with data:', formData);
+      
+      // Show success message
+      alert(`🏎️ Your F1 Race Ticket enquiry has been submitted successfully!\n\nRace: ${formData.race}\nName: ${formData.name}\nEmail: ${formData.email}\n\nWe will contact you soon!`);
+      
+      // Reset form and close modal
+      bookingForm.reset();
+      closeBookingModal();
+    });
+  }
+  
+  // Initialize enquire buttons setup
+  setupEnquireButtons();
+  
+  // F1 LUXURY CITIES API INTEGRATION
+  console.log('🏎️ F1 Luxury: Initializing luxury cities API integration...');
+  
+  // Initialize luxury cities from API
+  async function initializeF1LuxuryCities() {
+    try {
+      console.log('🏎️ F1 Luxury: Fetching luxury cities...');
+      const luxuryCitiesData = await fetchLuxuryCitiesData();
+      
+      if (luxuryCitiesData && luxuryCitiesData.length > 0) {
+        console.log('🏎️ F1 Luxury: Cities received:', luxuryCitiesData);
+        updateLuxuryMenuWithCities(luxuryCitiesData);
+      } else {
+        console.warn('🏎️ F1 Luxury: No cities data received, keeping static menu');
+      }
+    } catch (error) {
+      console.error('🏎️ F1 Luxury: Error initializing luxury cities:', error);
+    }
+  }
+  
+  // Initialize luxury cities
+  initializeF1LuxuryCities();
+  
+  // Auto-refresh luxury cities every 30 minutes
+  setInterval(initializeF1LuxuryCities, 30 * 60 * 1000);
+  
+  // Test function for debugging
+  window.testF1Modal = function() {
+    console.log('Testing F1 Modal...');
+    openBookingModal('Test Race - Thailand Grand Prix');
   };
+  
+  // Test function for luxury API
+  window.testF1Luxury = function() {
+    console.log('🏎️ Testing F1 Luxury API...');
+    initializeF1LuxuryCities();
+  };
+  
+  console.log('✅ F1 Modal functionality initialized successfully');
+  console.log('✅ F1 Luxury API integration initialized successfully');
 });
-// Close modal
-document.querySelector('.close-booking-modal').onclick = function() {
-  document.getElementById('bookingModal').style.display = 'none';
-};
-// Optional: handle form submit
-document.getElementById('bookingForm').onsubmit = function(e) {
-  e.preventDefault();
-  alert('Your booking request has been submitted!');
-  document.getElementById('bookingModal').style.display = 'none';
-};
 </script>
 </body>
 

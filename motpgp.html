@@ -2628,34 +2628,34 @@
 <div id="bookingModal" class="booking-modal">
   <div class="booking-modal-content">
     <button class="close-booking-modal" title="Close">&times;</button>
-    <h4>Book Your F1 Race Ticket</h4>
+    <h4 style="color: #e67e22; margin-bottom: 20px;">Book Your MotoGP Race Ticket</h4>
     <form id="bookingForm">
       <div class="form-group">
-        <label>Race</label>
-        <input type="text" id="raceName" readonly>
+        <label for="raceName">Race</label>
+        <input type="text" id="raceName" name="raceName" readonly style="background-color: #f8f9fa;">
       </div>
       <div class="form-group">
-        <label>Your Name</label>
-        <input type="text" required>
+        <label for="userName">Your Name</label>
+        <input type="text" id="userName" name="userName" required placeholder="Enter your full name">
       </div>
       <div class="form-group">
-        <label>Email</label>
-        <input type="email" required>
+        <label for="userEmail">Email</label>
+        <input type="email" id="userEmail" name="userEmail" required placeholder="Enter your email address">
       </div>
       <div class="form-group">
-        <label>Mobile</label>
-        <input type="text" required>
+        <label for="userMobile">Mobile</label>
+        <input type="tel" id="userMobile" name="userMobile" required placeholder="Enter your mobile number">
       </div>
-      <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
-        <label>Adults</label>
-        <input type="number" min="1" max="10" required placeholder="Number of Adults">
-        <label>Children</label>
-        <input type="number" min="0" max="10" required placeholder="Number of Children">
+      <div class="form-group" style="display: flex; align-items: center; gap: 15px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <label for="adults">Adults</label>
+          <input type="number" id="adults" name="adults" min="1" max="10" value="1" required placeholder="Number">
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <label for="children">Children</label>
+          <input type="number" id="children" name="children" min="0" max="10" value="0" placeholder="Number">
+        </div>
       </div>
-      <!-- <div class="form-group">
-        <label>Children</label>
-        <input type="number" min="0" max="10" required placeholder="Number of Children">
-      </div> -->
       <button type="submit" class="submit-booking-btn">Enquire Now</button>
     </form>
   </div>
@@ -2674,14 +2674,15 @@
 .booking-modal-content {
   background: #fff;
   border-radius: 16px;
-  max-width: 380px;
+  max-width: 420px;
   width: 95vw;
-  padding: 32px 24px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 32px 28px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid #f0f0f0;
 }
 .close-booking-modal {
   position: absolute;
@@ -2713,22 +2714,37 @@
 }
 .form-group input {
   width: 100%;
-  padding: 7px 10px;
-  border: 1px solid #e55d17;
-  border-radius: 6px;
+  padding: 12px 14px;
+  border: 2px solid #e67e22;
+  border-radius: 8px;
   font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.form-group input:focus {
+  border-color: #d35400;
+  box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+}
+.form-group input[readonly] {
+  background-color: #f8f9fa;
+  color: #6c757d;
 }
 .submit-booking-btn {
   width: 100%;
-  background: #e55d17;
+  background: #e67e22;
   color: #fff;
   font-size: 16px;
   font-weight: 600;
   border: none;
-  border-radius: 6px;
-  padding: 10px 0;
-  margin-top: 8px;
+  border-radius: 8px;
+  padding: 14px 0;
+  margin-top: 12px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.submit-booking-btn:hover {
+  background: #d35400;
+  transform: translateY(-1px);
 }
 @media (max-width: 600px) {
   .booking-modal-content {
@@ -3106,16 +3122,46 @@ document.addEventListener('DOMContentLoaded', function() {
   // Function to fetch luxury options for a specific city
   async function fetchLuxuryOptions(cityId) {
       try {
+          console.log(`🏨 Fetching luxury options for city ID: ${cityId}`);
           const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`);
+          
           if (!response.ok) {
-              throw new Error(`Failed to fetch luxury options for city ${cityId}`);
+              throw new Error(`HTTP error! status: ${response.status} for city ${cityId}`);
           }
+          
           const data = await response.json();
-          console.log('Luxury options loaded for city:', cityId, data);
-          return data;
+          console.log('🏨 Luxury options loaded for city:', cityId, data);
+          
+          // Validate response data
+          if (data && (Array.isArray(data) || typeof data === 'object')) {
+              return data;
+          } else {
+              console.warn('🏨 Invalid luxury options data received:', data);
+              return null;
+          }
       } catch (error) {
-          console.error('Error fetching luxury options:', error);
+          console.error('❌ Error fetching luxury options:', error);
           return null;
+      }
+  }
+
+  // Test function to test the specific luxury options API
+  async function testLuxuryOptionsAPI() {
+      console.log('🧪 Testing Luxury Options API with specific city ID...');
+      const testCityId = '68c95f758955d15262c1a302';
+      
+      try {
+          const luxuryOptions = await fetchLuxuryOptions(testCityId);
+          if (luxuryOptions) {
+              console.log('✅ Luxury Options API is working! Data:', luxuryOptions);
+              return true;
+          } else {
+              console.log('⚠️ Luxury Options API returned no data');
+              return false;
+          }
+      } catch (error) {
+          console.error('❌ Luxury Options API Test Failed:', error);
+          return false;
       }
   }
 
@@ -3687,21 +3733,35 @@ async function initializeLuxuryOptionsData() {
   console.log('Legacy luxury function - now handled by initializeMotpgpLuxuryDropdown');
 }
 
-// Open modal on Enquire button click
-document.querySelectorAll('.book-now-btn').forEach(function(btn) {
-  btn.onclick = function(e) {
-    // Get race name from the card
-    const card = btn.closest('.f1-race-card, .f1-testing-card, .azerbaijan-card, .singapore-card');
-    let raceName = '';
-    if (card.querySelector('.f1-race-location')) {
-      raceName = card.querySelector('.f1-race-location').textContent;
-    } else if (card.querySelector('.f1-testing-location')) {
-      raceName = card.querySelector('.f1-testing-location').textContent;
-    }
-    document.getElementById('raceName').value = raceName;
-    document.getElementById('bookingModal').style.display = 'flex';
-  };
-});
+// Function to initialize enquiry button event listeners
+function initializeEnquiryButtons() {
+  // Remove any existing event listeners first
+  document.querySelectorAll('.book-now-btn').forEach(function(btn) {
+    btn.onclick = null;
+  });
+  
+  // Add click event to all enquiry buttons (static and dynamic)
+  document.querySelectorAll('.book-now-btn').forEach(function(btn) {
+    btn.onclick = function(e) {
+      e.preventDefault();
+      // Get race name from the card
+      const card = btn.closest('.f1-race-card, .f1-testing-card, .azerbaijan-card, .singapore-card');
+      let raceName = '';
+      if (card.querySelector('.f1-race-location')) {
+        raceName = card.querySelector('.f1-race-location').textContent;
+      } else if (card.querySelector('.f1-testing-location')) {
+        raceName = card.querySelector('.f1-testing-location').textContent;
+      }
+      document.getElementById('raceName').value = raceName;
+      document.getElementById('bookingModal').style.display = 'flex';
+    };
+  });
+  
+  console.log(`✅ Initialized ${document.querySelectorAll('.book-now-btn').length} enquiry buttons`);
+}
+
+// Initialize enquiry buttons on page load
+initializeEnquiryButtons();
 // Close modal
 document.querySelector('.close-booking-modal').onclick = function() {
   document.getElementById('bookingModal').style.display = 'none';
@@ -3734,6 +3794,8 @@ async function fetchMotoGPTournamentData() {
   } catch (error) {
     console.error('❌ Error fetching MotoGP tournament data:', error);
     console.log('🔄 Keeping static MotoGP schedule content due to API error');
+    // Ensure enquiry buttons work with static content
+    initializeEnquiryButtons();
   }
 }
 
@@ -3768,6 +3830,9 @@ function updateMotoGPSchedule(apiData) {
       });
     }
   });
+  
+  // Reinitialize enquiry buttons for dynamic cards
+  initializeEnquiryButtons();
   
   console.log('✅ MotoGP schedule updated with API data');
 }
@@ -3894,8 +3959,271 @@ function getCountryCode(country) {
   return countryMap[lowerCountry] || 'th';
 }
 
+// Continent ID mapping for API calls
+const continentMapping = {
+  'africa': 1,
+  'asia': 2, 
+  'australasia': 3, // Americas
+  'europe': 4,
+  'indian': 5, // Indian Subcontinent
+  'latin': 6, // Oceania
+  'middleeast': 7, // Middle East
+  'polar': 8 // Polar
+};
+
+// Function to fetch countries for a continent
+async function fetchCountriesForContinent(continentId) {
+  try {
+    console.log(`🌍 Fetching countries for continent ID: ${continentId}`);
+    const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log(`🌍 Raw API response for continent ${continentId}:`, data);
+    
+    // Your API returns an array directly
+    if (Array.isArray(data)) {
+      console.log(`🌍 Found ${data.length} countries for continent ${continentId}`);
+      return data;
+    } else {
+      console.warn(`🌍 Unexpected response format for continent ${continentId}:`, data);
+      return [];
+    }
+  } catch (error) {
+    console.error('❌ Error fetching countries:', error);
+    return null;
+  }
+}
+
+// Function to update continent content with dynamic countries
+function updateContinentContent(continentKey, countries) {
+  console.log(`Updating content for ${continentKey} with countries:`, countries);
+  
+  const contentDiv = document.getElementById(continentKey);
+  if (!contentDiv) {
+    console.error(`Content div not found for ${continentKey}`);
+    return;
+  }
+  
+  if (!countries || !Array.isArray(countries) || countries.length === 0) {
+    console.warn(`No countries data available for ${continentKey}`);
+    contentDiv.innerHTML = '<div class="column"><p style="color: #e67e22; padding: 20px;">No countries found for this continent.</p></div>';
+    return;
+  }
+  
+  // Clear existing content
+  contentDiv.innerHTML = '';
+  
+  // Create columns for countries
+  const column1 = document.createElement('div');
+  column1.className = 'column';
+  const column2 = document.createElement('div');
+  column2.className = 'column';
+  
+  // Split countries into two columns
+  const midPoint = Math.ceil(countries.length / 2);
+  
+  countries.forEach((country, index) => {
+    const countryLink = document.createElement('a');
+    countryLink.href = 'Destination.html';
+    
+    // Get country name from your API response format
+    const countryName = country.name || 'Unknown Country';
+    countryLink.textContent = countryName;
+    
+    // Add styling similar to existing links
+    countryLink.style.display = 'block';
+    countryLink.style.padding = '8px 0';
+    countryLink.style.textDecoration = 'none';
+    countryLink.style.color = '#333';
+    countryLink.style.fontSize = '14px';
+    
+    // Add hover effect
+    countryLink.addEventListener('mouseenter', function() {
+      this.style.color = '#e67e22';
+    });
+    countryLink.addEventListener('mouseleave', function() {
+      this.style.color = '#333';
+    });
+    
+    console.log(`Adding country: ${countryName} to column ${index < midPoint ? 1 : 2}`);
+    
+    // Add to appropriate column
+    if (index < midPoint) {
+      column1.appendChild(countryLink);
+    } else {
+      column2.appendChild(countryLink);
+    }
+  });
+  
+  contentDiv.appendChild(column1);
+  contentDiv.appendChild(column2);
+  
+  console.log(`✅ Updated ${continentKey} with ${countries.length} countries in DOM`);
+}
+
+// Function to initialize destinations with dynamic countries
+async function initializeDestinationsMenu() {
+  console.log('🌍 Initializing destinations menu with dynamic countries...');
+  
+  // Add event listeners to continent menu items
+  document.querySelectorAll('.destinations-menu .mega-left li[data-target]').forEach(menuItem => {
+    console.log('Adding event listener to:', menuItem.textContent.trim());
+    
+    menuItem.addEventListener('click', async function(e) {
+      e.preventDefault();
+      const continentKey = this.getAttribute('data-target');
+      const continentId = continentMapping[continentKey];
+      
+      console.log(`🌍 Clicked on continent: ${continentKey}, ID: ${continentId}`);
+      
+      if (continentId) {
+        const contentDiv = document.getElementById(continentKey);
+        console.log('Content div found:', contentDiv);
+        
+        if (contentDiv) {
+          // Show loading state
+          contentDiv.innerHTML = '<div class="column"><p style="color: #e67e22; padding: 20px;">Loading countries...</p></div>';
+          
+          // Fetch and update countries
+          const countries = await fetchCountriesForContinent(continentId);
+          console.log('Fetched countries:', countries);
+          
+          if (countries) {
+            updateContinentContent(continentKey, countries);
+          } else {
+            // Show error message
+            contentDiv.innerHTML = '<div class="column"><p style="color: #e67e22; padding: 20px;">Unable to load countries. Using cached data.</p></div>';
+          }
+        }
+      }
+    });
+    
+    // Also add mouseenter for immediate loading
+    menuItem.addEventListener('mouseenter', async function() {
+      const continentKey = this.getAttribute('data-target');
+      const continentId = continentMapping[continentKey];
+      
+      if (continentId) {
+        const contentDiv = document.getElementById(continentKey);
+        if (contentDiv && !contentDiv.dataset.loaded) {
+          console.log(`🌍 Hovering over continent: ${continentKey}, loading countries...`);
+          
+          // Show loading state
+          contentDiv.innerHTML = '<div class="column"><p style="color: #e67e22; padding: 20px;">Loading countries...</p></div>';
+          
+          // Fetch and update countries
+          const countries = await fetchCountriesForContinent(continentId);
+          if (countries) {
+            updateContinentContent(continentKey, countries);
+            contentDiv.dataset.loaded = 'true';
+          } else {
+            // Restore original content or show error
+            contentDiv.innerHTML = '<div class="column"><p style="color: #e67e22; padding: 20px;">Loading failed. Try clicking the continent name.</p></div>';
+          }
+        }
+      }
+    });
+  });
+  
+  console.log('✅ Destinations menu initialized with dynamic loading');
+}
+
+// Test function to check countries API
+async function testCountriesAPI() {
+  console.log('🧪 Testing Countries API...');
+  
+  // Test with Europe (ID: 4)
+  const testContinentId = 4;
+  try {
+    const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${testContinentId}`);
+    console.log('🧪 Response status:', response.status);
+    const data = await response.json();
+    console.log('🧪 Test API Response:', data);
+    
+    if (data && Array.isArray(data) && data.length > 0) {
+      console.log('✅ API is working! Sample country:', data[0].name);
+      console.log('🧪 Sample country object:', data[0]);
+      return true;
+    } else {
+      console.log('⚠️ API returned empty or invalid data');
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ API Test Failed:', error);
+    return false;
+  }
+}
+
+// Manual function to force load countries for Europe (for testing)
+async function forceLoadEuropeCountries() {
+  console.log('🔧 Force loading Europe countries...');
+  const countries = await fetchCountriesForContinent(4); // Europe ID
+  if (countries) {
+    updateContinentContent('europe', countries);
+    alert(`Loaded ${countries.length} European countries! Check the Europe menu.`);
+  } else {
+    alert('Failed to load countries. Check console for errors.');
+  }
+}
+
+// Manual function to test luxury options API (for testing)
+async function testSpecificLuxuryCity() {
+  console.log('🔧 Testing specific luxury city API...');
+  const cityId = '68c95f758955d15262c1a302';
+  
+  try {
+    const luxuryOptions = await fetchLuxuryOptions(cityId);
+    if (luxuryOptions) {
+      // Store in sessionStorage and navigate to GroupTours.html
+      sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+      sessionStorage.setItem('selectedCityId', cityId);
+      sessionStorage.setItem('selectedCityName', 'Test Luxury City');
+      
+      alert(`Luxury options loaded! Navigating to GroupTours.html with ${Array.isArray(luxuryOptions) ? luxuryOptions.length : 'luxury'} options.`);
+      window.location.href = 'GroupTours.html';
+    } else {
+      alert('Failed to load luxury options. Check console for errors.');
+    }
+  } catch (error) {
+    alert('Error testing luxury API: ' + error.message);
+  }
+}
+
+// Add functions to window for manual testing
+window.forceLoadEuropeCountries = forceLoadEuropeCountries;
+window.testSpecificLuxuryCity = testSpecificLuxuryCity;
+
 // Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function () {
+  // Initialize enquiry buttons for existing static cards
+  initializeEnquiryButtons();
+  
+  // Test the countries API first
+  setTimeout(async () => {
+    const apiWorking = await testCountriesAPI();
+    if (apiWorking) {
+      // Initialize destinations menu with dynamic countries
+      initializeDestinationsMenu();
+    } else {
+      console.log('⚠️ Countries API not working, keeping static content');
+    }
+  }, 1000);
+  
+  // Test and initialize luxury options API
+  setTimeout(async () => {
+    const luxuryApiWorking = await testLuxuryOptionsAPI();
+    if (luxuryApiWorking) {
+      console.log('✅ Luxury Options API is working, initializing luxury dropdown...');
+      initializeMotpgpLuxuryDropdown();
+    } else {
+      console.log('⚠️ Luxury Options API not working');
+    }
+  }, 1500);
+  
   // Fetch MotoGP API data after page loads
   fetchMotoGPTournamentData();
 });

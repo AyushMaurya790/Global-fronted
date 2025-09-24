@@ -1867,6 +1867,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Function to fetch luxury options for a specific city
+    async function fetchLuxuryOptions(cityId) {
+        try {
+            console.log(`🏨 Fetching luxury options for city ID: ${cityId}`);
+            const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} for city ${cityId}`);
+            }
+            
+            const data = await response.json();
+            console.log('🏨 Luxury options loaded for city:', cityId, data);
+            
+            // Validate response data
+            if (data && (Array.isArray(data) || typeof data === 'object')) {
+                return data;
+            } else {
+                console.warn('🏨 Invalid luxury options data received:', data);
+                return null;
+            }
+        } catch (error) {
+            console.error('❌ Error fetching luxury options:', error);
+            return null;
+        }
+    }
+
     // Function to update luxury navbar with API data
     function updateLuxuryNavbar(luxuryCities) {
         if (!luxuryCities) {
@@ -1904,14 +1936,51 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear existing content
         luxuryMenu.innerHTML = '';
 
-        // Add cities from API
+        // Add cities from API with luxury-options integration
         cities.forEach((city, index) => {
             const listItem = document.createElement('li');
             listItem.setAttribute('data-target', city.target || 'luxury');
             
             const link = document.createElement('a');
-            link.href = city.link || city.url || '#';
+            link.href = '#';
             link.textContent = (city.name || city.cityName || city.title || `City ${index + 1}`).toUpperCase();
+            
+            // Add click event to handle luxury city selection and call luxury-options API
+            link.addEventListener('click', async function(e) {
+                e.preventDefault();
+                console.log('🏨 Selected luxury city:', city.name, 'ID:', city._id);
+                
+                // Show loading state
+                const originalText = this.textContent;
+                this.textContent = 'Loading...';
+                this.style.pointerEvents = 'none';
+                
+                try {
+                    // Fetch luxury options for this city
+                    const luxuryOptions = await fetchLuxuryOptions(city._id);
+                    
+                    if (luxuryOptions) {
+                        // Store luxury options in sessionStorage for the tour page
+                        sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+                        sessionStorage.setItem('selectedCityId', city._id);
+                        sessionStorage.setItem('selectedCityName', city.name);
+                        
+                        console.log('🏨 Navigating to GroupTours.html with luxury options');
+                        // Navigate to GroupTours.html
+                        window.location.href = 'GroupTours.html';
+                    } else {
+                        // Fallback: navigate to general tour page
+                        console.warn('No luxury options found, navigating to general tour page');
+                        window.location.href = 'GroupTours.html';
+                    }
+                } catch (error) {
+                    console.error('Error loading luxury city:', error);
+                    // Reset button state
+                    this.textContent = originalText;
+                    this.style.pointerEvents = 'auto';
+                    alert('Failed to load luxury options. Please try again.');
+                }
+            });
             
             listItem.appendChild(link);
             luxuryMenu.appendChild(listItem);
@@ -1944,6 +2013,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Optional: Refresh luxury cities data every 60 minutes
     setInterval(initializeLuxuryCities, 3600000);
+    
+    // Manual test function for luxury options API
+    window.testLuxuryOptionsS4 = async function() {
+        console.log('🔧 Testing specific luxury city API from s4.html...');
+        const cityId = '68c95f758955d15262c1a302';
+        
+        try {
+            const luxuryOptions = await fetchLuxuryOptions(cityId);
+            if (luxuryOptions) {
+                // Store in sessionStorage and navigate to GroupTours.html
+                sessionStorage.setItem('selectedCityLuxuryOptions', JSON.stringify(luxuryOptions));
+                sessionStorage.setItem('selectedCityId', cityId);
+                sessionStorage.setItem('selectedCityName', 'Test Luxury City');
+                
+                alert(`Luxury options loaded from s4.html! Navigating to GroupTours.html with ${Array.isArray(luxuryOptions) ? luxuryOptions.length : 'luxury'} options.`);
+                window.location.href = 'GroupTours.html';
+            } else {
+                alert('Failed to load luxury options from s4.html. Check console for errors.');
+            }
+        } catch (error) {
+            alert('Error testing luxury API from s4.html: ' + error.message);
+        }
+    };
     
     console.log('Luxury Cities API integration for navbar initialized successfully');
 });

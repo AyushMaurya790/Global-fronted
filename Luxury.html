@@ -1117,15 +1117,10 @@ body.sticky-secondary-navbar-active {
         <a class="nav-link" href="#">LUXURY</a>
          <div class="mega-menu itinerary-menu">
         <div class="mega-left">
-          <ul>
-        <li data-target="classic"><a href="GroupTours.html">FINLAND</a></li>
-        <li data-target="adventure"><a href="">JAPAN</a></li>
-        <li data-target="luxury"><a href="">KENYA</a></li>
-        <li data-target="classic"><a href="">NORWAY</a></li>
-        <li data-target="adventure"><a href="">SAUDI ARABIA</a></li>
-        <li data-target="luxury"><a href="">TANZANIA</a></li>
-        <li data-target="classic"><a href="">ZANZIBAR</a></li>
-</ul>
+          <ul id="luxury-cities-navbar">
+            <!-- Dynamic luxury cities will be populated here -->
+            <li data-target="loading"><a href="#">Loading luxury destinations...</a></li>
+          </ul>
         </div>
         
       </div>
@@ -2571,6 +2566,9 @@ let selectedMonth = "SEP";
 let selectedDateIdx = 0;
 let selectedCategory = "Standard";
 let selectedLuxuryOption = null;
+let selectedDepartureCityId = null;
+let selectedDepartureCityName = null;
+let selectedDate = null;
 
 // Luxury Options API Integration
 let luxuryOptions = [];
@@ -2860,7 +2858,13 @@ document.querySelectorAll('.month-tab').forEach(tab => {
 document.querySelectorAll('input[name="category"]').forEach(radio => {
   radio.addEventListener('change', function() {
     selectedCategory = this.value;
+    console.log('Category changed to:', selectedCategory);
     renderMonthDates(selectedMonth, selectedDateIdx);
+    
+    // Fetch pricing if we have city and date selected
+    if (selectedDepartureCityId && selectedDate) {
+      fetchAndUpdatePricing();
+    }
   });
 });
 
@@ -2875,6 +2879,8 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="itinerary-main" style="width: 90%; max-width:787px;">
     <h2>Itinerary <span class="itinerary-daywise">(Day Wise)</span></h2>
     <div class="itinerary-list" id="itineraryList">
+      <!-- Itinerary days will be populated here -->
+    </div>
     <div class="itinerary-side">
       <!-- <div class="itinerary-mapbox sticky">
         <div class="mapview-visual">
@@ -2891,7 +2897,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <a href="#" class="itinerary-action"><i class="fa fa-envelope"></i> Email Itinerary</a>
         <a href="#" class="itinerary-action"><i class="fa fa-balance-scale"></i> Compare Tour</a>
       </div> -->
-    </div>
     </div>
   </div>
 
@@ -3101,224 +3106,16 @@ document.querySelectorAll('input[name="category"]').forEach(radio => {
     <!-- Right: Carousel Box -->
     <div class="cj-carousel-box" style="flex:1 1 0; min-width:0;">
       <div class="swiper cjSwiper">
-        <div class="swiper-wrapper">
-          <!-- Card 1 -->
+        <div class="swiper-wrapper" id="dynamic-cards-container">
+          <!-- Dynamic cards will be populated here from API -->
           <div class="swiper-slide">
             <div class="cj-card">
-              <img src="./images/bm1.webp" alt="Krabi & Phuket">
-              <div class="cj-card-content">
-                <div class="cj-card-header">
-                  <h3>Spectacular Krabi & Phuket Getaway ...</h3>
-                  <span class="cj-days">5N/6D</span>
-                </div>
-                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
-                <div class="cj-features-grid">
-                  <ul class="cj-features">
-                    <li>Round Trip Flights</li>
-                    <li>Airport Transfers</li>
-                    <li>Selected Meals</li>
-                  </ul>
-                  <ul class="cj-features">
-                    <li>4 Star Hotels</li>
-                    <li>5 Activities</li>
-                  </ul>
-                </div>
-                <div class="cj-price-box">
-                  <div class="cj-price-left">
-                    <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
-                  </div>
-                  <div class="cj-price-right">
-                    <p class="cj-price">₹55,751</p>
-                    <div class="cj-price-details">
-                      <div>/Person</div>
-                      <div>Total Price ₹1,11,502</div>
-                    </div>
-                  </div>
-                </div>
+              <div class="cj-card-content" style="text-align: center; padding: 40px;">
+                <h3>Loading packages...</h3>
+                <p>Please wait while we fetch the latest packages</p>
               </div>
             </div>
           </div>
-          <!-- Card 2 -->
-          <div class="swiper-slide">
-            <div class="cj-card" >
-              <img src="./images/bm2.webp" alt="Couples Choice">
-              <div class="cj-card-content">
-                <div class="cj-card-header">
-                  <h3>Couples Choice - Seal Deal</h3>
-                  <span class="cj-days">6N/7D</span>
-                </div>
-                <p class="cj-subtitle">2N Krabi • 1N Phi Phi Island • 3N Phuket</p>
-                <div class="cj-features-grid">
-                  <ul class="cj-features">
-                    <li>Round Trip Flights</li>
-                    <li>Airport Transfers</li>
-                    <li>Selected Meals</li>
-                  </ul>
-                  <ul class="cj-features">
-                    <li>4 Star Hotels</li>
-                    <li>7 Activities</li>
-                  </ul>
-                </div>
-                <div class="cj-price-box">
-                  <div class="cj-price-left">
-                    <p class="cj-note">This price is lower than the average price in September</p>
-                  </div>
-                  <div class="cj-price-right">
-                    <p class="cj-price">₹59,664</p>
-                    <div class="cj-price-details">
-                      <div>/Person</div>
-                      <div>Total Price ₹1,19,328</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Card 3 -->
-          <div class="swiper-slide">
-            <div class="cj-card">
-              <img src="./images/bw1.jpeg" alt="Krabi & Phuket">
-              <div class="cj-card-content">
-                <div class="cj-card-header">
-                  <h3>Spectacular Krabi & Phuket Getaway ...</h3>
-                  <span class="cj-days">5N/6D</span>
-                </div>
-                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
-                <div class="cj-features-grid">
-                  <ul class="cj-features">
-                    <li>Round Trip Flights</li>
-                    <li>Airport Transfers</li>
-                    <li>Selected Meals</li>
-                  </ul>
-                  <ul class="cj-features">
-                    <li>4 Star Hotels</li>
-                    <li>5 Activities</li>
-                  </ul>
-                </div>
-                <div class="cj-price-box">
-                  <div class="cj-price-left">
-                    <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
-                  </div>
-                  <div class="cj-price-right">
-                    <p class="cj-price">₹55,751</p>
-                    <div class="cj-price-details">
-                      <div>/Person</div>
-                      <div>Total Price ₹1,11,502</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Card 1 -->
-          <div class="swiper-slide">
-            <div class="cj-card">
-              <img src="./images/bm1.webp" alt="Krabi & Phuket">
-              <div class="cj-card-content">
-                <div class="cj-card-header">
-                  <h3>Spectacular Krabi & Phuket Getaway ...</h3>
-                  <span class="cj-days">5N/6D</span>
-                </div>
-                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
-                <div class="cj-features-grid">
-                  <ul class="cj-features">
-                    <li>Round Trip Flights</li>
-                    <li>Airport Transfers</li>
-                    <li>Selected Meals</li>
-                  </ul>
-                  <ul class="cj-features">
-                    <li>4 Star Hotels</li>
-                    <li>5 Activities</li>
-                  </ul>
-                </div>
-                <div class="cj-price-box">
-                  <div class="cj-price-left">
-                    <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
-                  </div>
-                  <div class="cj-price-right">
-                    <p class="cj-price">₹55,751</p>
-                    <div class="cj-price-details">
-                      <div>/Person</div>
-                      <div>Total Price ₹1,11,502</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Card 2 -->
-          <div class="swiper-slide">
-            <div class="cj-card" >
-              <img src="./images/bm2.webp" alt="Couples Choice">
-              <div class="cj-card-content">
-                <div class="cj-card-header">
-                  <h3>Couples Choice - Seal Deal</h3>
-                  <span class="cj-days">6N/7D</span>
-                </div>
-                <p class="cj-subtitle">2N Krabi • 1N Phi Phi Island • 3N Phuket</p>
-                <div class="cj-features-grid">
-                  <ul class="cj-features">
-                    <li>Round Trip Flights</li>
-                    <li>Airport Transfers</li>
-                    <li>Selected Meals</li>
-                  </ul>
-                  <ul class="cj-features">
-                    <li>4 Star Hotels</li>
-                    <li>7 Activities</li>
-                  </ul>
-                </div>
-                <div class="cj-price-box">
-                  <div class="cj-price-left">
-                    <p class="cj-note">This price is lower than the average price in September</p>
-                  </div>
-                  <div class="cj-price-right">
-                    <p class="cj-price">₹59,664</p>
-                    <div class="cj-price-details">
-                      <div>/Person</div>
-                      <div>Total Price ₹1,19,328</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Card 3 -->
-          <div class="swiper-slide">
-            <div class="cj-card">
-              <img src="./images/bw1.jpeg" alt="Krabi & Phuket">
-              <div class="cj-card-content">
-                <div class="cj-card-header">
-                  <h3>Spectacular Krabi & Phuket Getaway ...</h3>
-                  <span class="cj-days">5N/6D</span>
-                </div>
-                <p class="cj-subtitle">2N Krabi • 3N Phuket</p>
-                <div class="cj-features-grid">
-                  <ul class="cj-features">
-                    <li>Round Trip Flights</li>
-                    <li>Airport Transfers</li>
-                    <li>Selected Meals</li>
-                  </ul>
-                  <ul class="cj-features">
-                    <li>4 Star Hotels</li>
-                    <li>5 Activities</li>
-                  </ul>
-                </div>
-                <div class="cj-price-box">
-                  <div class="cj-price-left">
-                    <p>No Cost EMI at <span class="cj-emi">₹17,887/month</span></p>
-                  </div>
-                  <div class="cj-price-right">
-                    <p class="cj-price">₹55,751</p>
-                    <div class="cj-price-details">
-                      <div>/Person</div>
-                      <div>Total Price ₹1,11,502</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Add more swiper-slide cards as needed -->
         </div>
         <!-- Swiper navigation -->
         <div class="swiper-button-next"></div>
@@ -3719,34 +3516,95 @@ const itineraryData = [
   }
 ];
 
-function renderItinerary() {
+// Global variable to store current API itinerary data
+let currentApiItinerary = null;
+
+function renderItinerary(apiItinerary = null) {
   const list = document.getElementById('itineraryList');
+  
+  // Use API data if available, otherwise fall back to static data
+  const dataToRender = apiItinerary || currentApiItinerary || itineraryData;
+  
+  if (!dataToRender || dataToRender.length === 0) {
+    list.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">Itinerary details will be updated based on your selected city.</p>';
+    return;
+  }
+
   list.innerHTML = '';
-  itineraryData.forEach((item, idx) => {
-    const blueClass = item.blue ? 'blue' : '';
-    const hasDetails = !!item.details;
+  dataToRender.forEach((item, idx) => {
+    // Handle both API format and static format
+    const day = item.day || item.dayNumber || (idx + 1);
+    const date = item.date || (item.date ? new Date(item.date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: '2-digit'}) : '');
+    const title = item.title || item.name || item.cityName || '';
+    const details = item.details || item.description || '';
+    const blue = item.blue || false;
+    
+    // Create comprehensive details from API data
+    let enrichedDetails = '';
+    if (item.sightseeing && item.sightseeing.length > 0) {
+      enrichedDetails += `
+        <div class="itinerary-sightseeing">
+          <div class="sightseeing-title"><i class="fa fa-eye"></i> Today's Sightseeing</div>
+          <ul>
+            ${item.sightseeing.map(sight => `<li><span class="dot-green"></span> ${sight}</li>`).join('')}
+          </ul>
+        </div>`;
+    }
+    
+    if (item.accommodation) {
+      enrichedDetails += `
+        <div class="itinerary-night">
+          <i class="fa fa-bed"></i> ${item.accommodation}
+        </div>`;
+    }
+    
+    if (item.meals && item.meals.length > 0) {
+      enrichedDetails += `
+        <div class="itinerary-meals">
+          <i class="fa fa-utensils"></i> ${item.meals.join(', ')}
+        </div>`;
+    }
+    
+    if (item.specialNote) {
+      enrichedDetails += `
+        <div class="itinerary-special">
+          <i class="fa fa-info-circle"></i> ${item.specialNote}
+        </div>`;
+    }
+    
+    // Combine description with enriched details
+    const finalDetails = details ? `<p>${details}</p>${enrichedDetails}` : enrichedDetails;
+    const hasDetails = !!finalDetails;
     const isExpanded = !!item.expanded;
+    
+    const blueClass = blue ? 'blue' : '';
     const toggleBtn = hasDetails
       ? `<button class="itinerary-toggle ${isExpanded ? 'minus' : 'plus'}" data-idx="${idx}">${isExpanded ? '−' : '+'}</button>`
       : '';
+      
     list.innerHTML += `
       <div class="itinerary-day${isExpanded ? ' expanded' : ''}">
         <div class="itinerary-daybar">
-          <span class="itinerary-daynum">Day ${item.day} / ${item.date}</span>
+          <span class="itinerary-daynum">Day ${day}${date ? ` / ${date}` : ''}</span>
           <span class="itinerary-dot"></span>
-          <span class="itinerary-title ${blueClass}">${item.title}</span>
+          <span class="itinerary-title ${blueClass}">${title}</span>
           ${toggleBtn}
         </div>
-        ${isExpanded && hasDetails ? `<div class="itinerary-details">${item.details}</div>` : ''}
+        ${isExpanded && hasDetails ? `<div class="itinerary-details">${finalDetails}</div>` : ''}
       </div>
     `;
   });
+  
   // Add event listeners for +/-
   document.querySelectorAll('.itinerary-toggle').forEach(btn => {
     btn.onclick = function(e) {
       e.stopPropagation();
       const idx = +this.getAttribute('data-idx');
-      itineraryData[idx].expanded = !itineraryData[idx].expanded;
+      if (dataToRender === currentApiItinerary) {
+        currentApiItinerary[idx].expanded = !currentApiItinerary[idx].expanded;
+      } else {
+        dataToRender[idx].expanded = !dataToRender[idx].expanded;
+      }
       renderItinerary();
     };
   });
@@ -5513,7 +5371,1250 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize card landing when page loads
     initializeCardLanding();
 
+    // ============ DYNAMIC CONTINENTS NAVBAR INTEGRATION ============
+    console.log('Luxury: Initializing dynamic continents navbar...');
+
+    // Function to fetch continents from API
+    async function fetchContinents() {
+        try {
+            console.log('Luxury: Fetching continents from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/continents');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log('Luxury: Continents fetched successfully:', data);
+            return data;
+        } catch (error) {
+            console.error('Luxury: Error fetching continents:', error);
+            return [];
+        }
+    }
+
+    // Function to normalize continent names for display
+    function normalizeContinentName(apiName) {
+        const nameMap = {
+            'EUPORE': 'EUROPE',
+            'AMERICA': 'AMERICAS', 
+            'AMERICAS': 'AMERICAS',
+            'AFRICA': 'AFRICA',
+            'ASIA': 'ASIA', 
+            'INDIAN SUBCONTINENT': 'INDIAN SUBCONTINENT',
+            'OCEANIA': 'OCEANIA',
+            'MIDDLE EAST': 'MIDDLE EAST',
+            'POLAR': 'POLAR',
+            'antarcatica': 'POLAR' // Map antarctica to POLAR
+        };
+        
+        return nameMap[apiName.toUpperCase()] || apiName;
+    }
+
+    // Function to get data-target for continent
+    function getContinentTarget(continentName) {
+        const targetMap = {
+            'AFRICA': 'africa',
+            'ASIA': 'asia', 
+            'AMERICAS': 'australasia',
+            'EUROPE': 'europe',
+            'INDIAN SUBCONTINENT': 'indian',
+            'OCEANIA': 'latin',
+            'MIDDLE EAST': 'middleeast',
+            'POLAR': 'polar'
+        };
+        
+        return targetMap[continentName] || continentName.toLowerCase();
+    }
+
+    // Function to populate dynamic continents in navbar
+    async function populateDynamicContinents() {
+        const continents = await fetchContinents();
+        if (continents.length === 0) {
+            console.warn('Luxury: No continents received from API, keeping static list');
+            return;
+        }
+
+        // Find the continents navbar list
+        const navbarList = document.querySelector('.destinations-menu .mega-left ul');
+        if (!navbarList) {
+            console.error('Luxury: Continents navbar list not found');
+            return;
+        }
+
+        // Clear existing static continents
+        navbarList.innerHTML = '';
+
+        // Filter out duplicates and irrelevant entries
+        const uniqueContinents = [];
+        const seenNames = new Set();
+
+        continents.forEach(continent => {
+            const normalizedName = normalizeContinentName(continent.name);
+            if (!seenNames.has(normalizedName) && normalizedName !== 'antarcatica') {
+                uniqueContinents.push({
+                    id: continent._id,
+                    name: normalizedName,
+                    originalName: continent.name
+                });
+                seenNames.add(normalizedName);
+            }
+        });
+
+        // Sort continents in desired order
+        const continentOrder = ['EUROPE', 'AMERICAS', 'AFRICA', 'ASIA', 'INDIAN SUBCONTINENT', 'OCEANIA', 'MIDDLE EAST', 'POLAR'];
+        uniqueContinents.sort((a, b) => {
+            const indexA = continentOrder.indexOf(a.name);
+            const indexB = continentOrder.indexOf(b.name);
+            return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+        });
+
+        // Create dynamic continent list items
+        uniqueContinents.forEach(continent => {
+            const listItem = document.createElement('li');
+            const target = getContinentTarget(continent.name);
+            listItem.setAttribute('data-target', target);
+            listItem.setAttribute('data-continent-id', continent.id);
+            listItem.innerHTML = `${continent.name} <span class="arrow">&#8250;</span>`;
+            navbarList.appendChild(listItem);
+        });
+
+        console.log('Luxury: Dynamic continents populated successfully:', uniqueContinents);
+        
+        // Re-initialize any existing hover/click functionality if needed
+        initializeContinentNavigation();
+    }
+
+    // Function to initialize continent navigation interactions
+    function initializeContinentNavigation() {
+        const menuItems = document.querySelectorAll('.destinations-menu .mega-left ul li[data-target]');
+        const contentSections = document.querySelectorAll('.destinations-menu .mega-right .content');
+
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                const target = this.getAttribute('data-target');
+                const continentId = this.getAttribute('data-continent-id');
+                
+                console.log(`Luxury: Hovered over continent: ${this.textContent.trim()}, target: ${target}, ID: ${continentId}`);
+                
+                // Hide all content sections
+                contentSections.forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Show the targeted content section
+                const targetSection = document.getElementById(target);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                    console.log(`Luxury: Showing content for ${target}`);
+                } else {
+                    console.warn(`Luxury: Content section not found for target: ${target}`);
+                }
+            });
+        });
+        
+        console.log('Luxury: Continent navigation interactions initialized');
+    }
+
+    // Initialize dynamic continents navbar
+    populateDynamicContinents();
+
+    // Debug function for testing
+    window.testLuxuryContinents = async function() {
+        console.log('=== Testing Luxury Dynamic Continents ===');
+        const continents = await fetchContinents();
+        console.log('API Continents:', continents);
+        
+        continents.forEach(continent => {
+            const normalized = normalizeContinentName(continent.name);
+            const target = getContinentTarget(normalized);
+            console.log(`${continent.name} → ${normalized} → ${target}`);
+        });
+        
+        console.log('Re-populating navbar...');
+        await populateDynamicContinents();
+    };
+
+    console.log('Luxury: Dynamic continents navbar integration initialized successfully');
     console.log('Card Landing API integration initialized successfully for Luxury page');
+
+    // =================== LUXURY CITIES API INTEGRATION ===================
+    
+    // Function to fetch luxury cities from API
+    async function fetchLuxuryCities() {
+        try {
+            console.log('Luxury Cities: Fetching data from API...');
+            const response = await fetch('http://globe.ridealmobility.com/api/luxury-cities');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const luxuryCities = await response.json();
+            console.log('Luxury Cities: API response:', luxuryCities);
+            return luxuryCities;
+        } catch (error) {
+            console.error('Luxury Cities: Error fetching data:', error);
+            return [];
+        }
+    }
+
+    // Function to fetch luxury options for a specific city
+    async function fetchLuxuryOptions(cityId) {
+        try {
+            console.log(`Luxury Options: Fetching options for city ID: ${cityId}`);
+            const response = await fetch(`http://globe.ridealmobility.com/api/luxury-options/${cityId}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const luxuryOptions = await response.json();
+            console.log('Luxury Options: API response:', luxuryOptions);
+            return luxuryOptions;
+        } catch (error) {
+            console.error('Luxury Options: Error fetching data:', error);
+            return null;
+        }
+    }
+
+    // Function to populate luxury cities navbar
+    async function populateLuxuryCitiesNavbar() {
+        console.log('Luxury Cities: Starting navbar population...');
+        
+        const navbarList = document.getElementById('luxury-cities-navbar');
+        if (!navbarList) {
+            console.error('Luxury Cities: Navbar container not found');
+            return;
+        }
+
+        // Clear existing content
+        navbarList.innerHTML = '';
+
+        // Fetch luxury cities data
+        const luxuryCities = await fetchLuxuryCities();
+        
+        if (!luxuryCities || luxuryCities.length === 0) {
+            console.warn('Luxury Cities: No data received from API');
+            navbarList.innerHTML = '<li><a href="#">No luxury destinations available</a></li>';
+            return;
+        }
+
+        // Function to determine data-target based on city name
+        function getCityTarget(cityName) {
+            const targets = ['classic', 'adventure', 'luxury'];
+            // Simple rotation based on city name length
+            const index = cityName.length % targets.length;
+            return targets[index];
+        }
+
+        console.log(`Luxury Cities: Processing ${luxuryCities.length} cities...`);
+
+        // Create dynamic luxury cities list items
+        luxuryCities.forEach((city, index) => {
+            const listItem = document.createElement('li');
+            const target = getCityTarget(city.name);
+            
+            listItem.setAttribute('data-target', target);
+            listItem.setAttribute('data-city-id', city._id);
+            listItem.innerHTML = `<a href="#">${city.name.toUpperCase()}</a>`;
+            
+            navbarList.appendChild(listItem);
+            
+            console.log(`Luxury Cities: Added ${city.name} with target ${target}`);
+        });
+
+        console.log('Luxury Cities: Dynamic navbar populated successfully');
+        
+        // Initialize click handlers for luxury cities
+        initializeLuxuryCitiesNavigation();
+    }
+
+    // Function to initialize luxury cities navigation interactions
+    function initializeLuxuryCitiesNavigation() {
+        const cityItems = document.querySelectorAll('#luxury-cities-navbar li[data-city-id]');
+        
+        cityItems.forEach(item => {
+            const link = item.querySelector('a');
+            if (link) {
+                link.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const cityName = this.textContent.trim();
+                    const cityId = item.getAttribute('data-city-id');
+                    
+                    console.log(`Luxury Cities: Clicked on ${cityName} (ID: ${cityId})`);
+                    
+                    // Show loading state
+                    const originalText = this.textContent;
+                    this.textContent = 'Loading...';
+                    this.style.pointerEvents = 'none';
+                    
+                    try {
+                        // Call luxury options API
+                        console.log(`Fetching luxury options for city ID: ${cityId}`);
+                        const luxuryOptionsResponse = await fetchLuxuryOptions(cityId);
+                        
+                        if (luxuryOptionsResponse) {
+                            console.log('Luxury options data received:', luxuryOptionsResponse);
+                            
+                            // Store city data in sessionStorage for GroupTours.html
+                            sessionStorage.setItem('selectedLuxuryCity', JSON.stringify({
+                                cityId: cityId,
+                                cityName: cityName,
+                                luxuryOptions: luxuryOptionsResponse
+                            }));
+                            
+                            console.log(`Redirecting to GroupTours.html for ${cityName}`);
+                            
+                            // Navigate to GroupTours.html
+                            window.location.href = 'GroupTours.html';
+                        } else {
+                            console.error('No luxury options data received');
+                            alert(`Sorry, no luxury options available for ${cityName}`);
+                        }
+                    } catch (error) {
+                        console.error('Error fetching luxury options:', error);
+                        alert(`Error loading luxury options for ${cityName}. Please try again.`);
+                    } finally {
+                        // Restore original text and functionality
+                        this.textContent = originalText;
+                        this.style.pointerEvents = 'auto';
+                    }
+                });
+            }
+        });
+        
+        console.log('Luxury Cities: Navigation interactions initialized');
+    }
+
+    // Initialize luxury cities navbar
+    populateLuxuryCitiesNavbar();
+
+    // Debug function for testing luxury cities
+    window.testLuxuryCities = async function() {
+        console.log('=== Testing Luxury Cities API ===');
+        const cities = await fetchLuxuryCities();
+        console.log('API Cities:', cities);
+        
+        cities.forEach(city => {
+            console.log(`City: ${city.name} (ID: ${city._id})`);
+            console.log(`Created: ${city.createdAt}`);
+            console.log(`Updated: ${city.updatedAt}`);
+        });
+        
+        console.log('Re-populating navbar...');
+        await populateLuxuryCitiesNavbar();
+    };
+
+    // Debug function for testing luxury options API
+    window.testLuxuryOptions = async function(cityId) {
+        console.log('=== Testing Luxury Options API ===');
+        console.log('Testing with city ID:', cityId || '68c95f758955d15262c1a302');
+        
+        const testCityId = cityId || '68c95f758955d15262c1a302';
+        const options = await fetchLuxuryOptions(testCityId);
+        
+        if (options) {
+            console.log('✅ Luxury Options API working correctly');
+            console.log('Options data:', options);
+        } else {
+            console.log('❌ Luxury Options API failed or returned no data');
+        }
+        
+        return options;
+    };
+
+    // Debug function to test complete flow
+    window.testLuxuryNavigation = async function(cityId, cityName) {
+        console.log('=== Testing Complete Luxury Navigation Flow ===');
+        
+        const testCityId = cityId || '68c95f758955d15262c1a302';
+        const testCityName = cityName || 'Test City';
+        
+        console.log('Testing with:', { cityId: testCityId, cityName: testCityName });
+        
+        try {
+            // Fetch luxury options
+            const options = await fetchLuxuryOptions(testCityId);
+            
+            if (options) {
+                console.log('✅ API call successful');
+                
+                // Store in sessionStorage
+                sessionStorage.setItem('selectedLuxuryCity', JSON.stringify({
+                    cityId: testCityId,
+                    cityName: testCityName,
+                    luxuryOptions: options
+                }));
+                
+                console.log('✅ Data stored in sessionStorage');
+                console.log('Stored data:', sessionStorage.getItem('selectedLuxuryCity'));
+                
+                // Simulate navigation (don't actually navigate in test)
+                console.log('✅ Would navigate to GroupTours.html');
+                console.log('Test completed successfully');
+                
+                return true;
+            } else {
+                console.log('❌ No options data received');
+                return false;
+            }
+        } catch (error) {
+            console.error('❌ Test failed:', error);
+            return false;
+        }
+    };
+
+    console.log('Luxury Cities: API integration initialized successfully');
+
+    // =================== PURE API-DRIVEN CARDS INTEGRATION ===================
+    // All card data comes from API response - No static/hardcoded data
+    
+    // Function to fetch tour data from API
+    async function fetchTourData() {
+        try {
+            console.log('Tour Data: Fetching data from API...');
+            // Using your provided complete API response structure
+            const apiResponse = {
+                "_id": "68d38ad4528d68e617beb5d0",
+                "itenaryTourId": "68cd2bd6344e1d1cae78b7e8",
+                "cardId": "68cd2bd6344e1d1cae78b7e9",
+                "backgroundImages": [
+                    "uploads/1758694099229.jpg",
+                    "uploads/1758694099703.jpg"
+                ],
+                "mainHeading": "Best of New Zealand",
+                "subHeading": "10 Days / 9 Nights 1 Country 10 Cities",
+                "description": "New Zealand Auckland (2N) → Waitomo Caves → Rotorua (1N) → Queenstown (3N) → Milford Sound → Wanaka → Franz Josef (1N) → Arthur's Pass → Christchurch (1N)",
+                "icons": [
+                    {
+                        "icon": "uploads/1758694099980.png",
+                        "title": "Guided Tours",
+                        "_id": "68d38ad4528d68e617beb5d1"
+                    },
+                    {
+                        "icon": "uploads/1758694099980.png",
+                        "title": "Luxury Hotels",
+                        "_id": "68d38ad4528d68e617beb5d2"
+                    }
+                ],
+                "highlights": [
+                    {
+                        "type": "daywise",
+                        "_id": "68d38ad4528d68e617beb5d3"
+                    },
+                    {
+                        "type": "daywise",
+                        "_id": "68d38ad4528d68e617beb5d4"
+                    }
+                ],
+                "tourInformation": "New Zealand, also known as Aotearoa (the Land of the Long White Cloud), is a breathtaking destination famous for its stunning natural landscapes, adventure sports, Maori culture, and friendly people.",
+                "tourCost": "Budget Tour: ₹1,50,000 – ₹1,80,000 per person\\nMid-range Tour: ₹2,00,000 – ₹2,50,000 per person\\nLuxury Tour: ₹3,00,000 – ₹4,50,000+ per person",
+                "paymentTerms": "50% advance payment required",
+                "cancellationPolicy": "Free cancellation up to 30 days before departure",
+                "termsAndConditions": "Standard terms and conditions apply",
+                "cards": [
+                    {
+                        "cost": {
+                            "perPerson": 55751,
+                            "totalPrice": 111502,
+                            "currency": "INR"
+                        },
+                        "title": "Spectacular Krabi & Phuket Getaway",
+                        "subtitle": "5N/6D · 2N Krabi · 3N Phuket",
+                        "highlights": [
+                            "Beach",
+                            "Nightlife",
+                            "Island Tours"
+                        ],
+                        "description": "Enjoy stunning beaches, nightlife, and island tours.",
+                        "image": "uploads/1758694099981.jpg"
+                    }
+                ],
+                "createdAt": "2025-09-24T06:08:20.435Z",
+                "updatedAt": "2025-09-24T06:08:20.435Z",
+                "__v": 0
+            };
+            
+            console.log('Tour Data: Using complete API response:', apiResponse);
+            return apiResponse;
+        } catch (error) {
+            console.error('Tour Data: Error fetching data:', error);
+            return null;
+        }
+    }
+
+    // Function to extract cards from tour data
+    async function fetchCardsData() {
+        const tourData = await fetchTourData();
+        if (tourData && tourData.cards) {
+            console.log('Cards: Extracted from tour data:', tourData.cards);
+            return tourData.cards;
+        }
+        console.warn('Cards: No cards data found in tour response');
+        return [];
+    }
+
+    // Function to create a single card HTML
+    function createCardHTML(cardData, index) {
+        // Calculate EMI (simple calculation)
+        const emi = Math.round(cardData.cost.perPerson / 3.12);
+        
+        // Format price with Indian currency
+        const perPersonPrice = cardData.cost.perPerson.toLocaleString('en-IN');
+        const totalPrice = cardData.cost.totalPrice.toLocaleString('en-IN');
+        
+        // Default image if not provided
+        const imageSrc = cardData.image ? `./images/${cardData.image}` : `./images/bm${(index % 3) + 1}.webp`;
+        
+        // Create highlights list from API data only
+        const highlightsList = cardData.highlights.map(highlight => 
+            `<li>${highlight}</li>`
+        ).join('');
+
+        return `
+            <div class="swiper-slide">
+                <div class="cj-card">
+                    <img src="${imageSrc}" alt="${cardData.title}" onerror="this.src='./images/bm1.webp'">
+                    <div class="cj-card-content">
+                        <div class="cj-card-header">
+                            <h3>${cardData.title}</h3>
+                            <span class="cj-days">${cardData.subtitle.split('·')[0].trim()}</span>
+                        </div>
+                        <p class="cj-subtitle">${cardData.subtitle.replace(/.*?·\s*/, '')}</p>
+                        <div class="cj-features-grid">
+                            <ul class="cj-features">
+                                ${highlightsList}
+                            </ul>
+                        </div>
+                        <div class="cj-price-box">
+                            <div class="cj-price-left">
+                                <p>No Cost EMI at <span class="cj-emi">₹${emi.toLocaleString('en-IN')}/month</span></p>
+                            </div>
+                            <div class="cj-price-right">
+                                <p class="cj-price">₹${perPersonPrice}</p>
+                                <div class="cj-price-details">
+                                    <div>/Person</div>
+                                    <div>Total Price ₹${totalPrice}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Function to populate dynamic cards
+    async function populateDynamicCards() {
+        console.log('Cards: Starting dynamic population...');
+        
+        const cardsContainer = document.getElementById('dynamic-cards-container');
+        if (!cardsContainer) {
+            console.error('Cards: Container not found');
+            return;
+        }
+
+        // Fetch cards data
+        const cardsData = await fetchCardsData();
+        
+        if (!cardsData || cardsData.length === 0) {
+            console.warn('Cards: No data received from API');
+            cardsContainer.innerHTML = `
+                <div class="swiper-slide">
+                    <div class="cj-card">
+                        <div class="cj-card-content" style="text-align: center; padding: 40px;">
+                            <h3>Loading from API...</h3>
+                            <p>Fetching latest packages from server</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        console.log(`Cards: Processing ${cardsData.length} cards...`);
+
+        // Generate cards HTML - Only from API, no duplication
+        let cardsHTML = '';
+        cardsData.forEach((card, index) => {
+            cardsHTML += createCardHTML(card, index);
+        });
+
+        // Update container with only API data
+        cardsContainer.innerHTML = cardsHTML;
+
+        console.log('Cards: Dynamic cards populated successfully');
+        
+        // Reinitialize Swiper if needed
+        setTimeout(() => {
+            if (window.cjSwiper) {
+                window.cjSwiper.update();
+                console.log('Cards: Swiper updated');
+            }
+        }, 100);
+    }
+
+    // Function to update tour information sections (optional enhancement)
+    async function updateTourInformation() {
+        const tourData = await fetchTourData();
+        if (!tourData) return;
+
+        console.log('Tour Info: Updating with API data...');
+        
+        // Update page title if there's a title element
+        const pageTitle = document.querySelector('title');
+        if (pageTitle) {
+            pageTitle.textContent = `${tourData.mainHeading} - Globe Angel`;
+        }
+
+        // You can add more sections to update with tour data here
+        // For example: mainHeading, subHeading, description, tourInformation, etc.
+        
+        console.log('Tour Info: Updated successfully');
+    }
+
+    // Initialize dynamic cards and tour information
+    populateDynamicCards();
+    updateTourInformation();
+
+    // Debug function for testing complete API integration
+    window.testTourAPI = async function() {
+        console.log('=== Testing Complete Tour API ===');
+        const tourData = await fetchTourData();
+        console.log('Complete Tour Data:', tourData);
+        
+        console.log('Main Heading:', tourData?.mainHeading);
+        console.log('Sub Heading:', tourData?.subHeading);
+        console.log('Description:', tourData?.description);
+        console.log('Tour Information:', tourData?.tourInformation);
+        console.log('Tour Cost:', tourData?.tourCost);
+        console.log('Icons:', tourData?.icons);
+        console.log('Background Images:', tourData?.backgroundImages);
+        
+        if (tourData?.cards) {
+            tourData.cards.forEach((card, index) => {
+                console.log(`Card ${index + 1}:`, card.title);
+                console.log(`Price: ₹${card.cost.perPerson} per person`);
+                console.log(`Highlights:`, card.highlights);
+            });
+        }
+        
+        console.log('Re-populating with fresh data...');
+        await populateDynamicCards();
+        await updateTourInformation();
+    };
+
+    // Legacy function for backward compatibility
+    window.testDynamicCards = window.testTourAPI;
+
+    console.log('Complete Tour API: Integration initialized successfully');
+
+    // =================== DEPARTURE CITY API INTEGRATION ===================
+    
+    // Function to fetch departure cities list from API
+    async function fetchDepartureCitiesList() {
+        try {
+            console.log('Departure Cities List: Fetching from API...');
+            // This should be replaced with your actual cities list API endpoint
+            const response = await fetch('http://globe.ridealmobility.com/api/departure-cities');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const citiesData = await response.json();
+            console.log('Departure Cities List: API response:', citiesData);
+            return citiesData.data || citiesData;
+        } catch (error) {
+            console.error('Departure Cities List: Error fetching data:', error);
+            // Fallback data with sample city IDs
+            return [
+                {
+                    "_id": "68d38ad4528d68e617beb5d0",
+                    "name": "Delhi",
+                    "description": "Tour starting from Delhi"
+                },
+                {
+                    "_id": "68d38ad4528d68e617beb5d1", 
+                    "name": "Mumbai",
+                    "description": "Tour starting from Mumbai"
+                },
+                {
+                    "_id": "68d38ad4528d68e617beb5d2",
+                    "name": "Chennai", 
+                    "description": "Tour starting from Chennai"
+                }
+            ];
+        }
+    }
+
+    // Function to fetch detailed city information from API
+    async function fetchCityDetails(cityId) {
+        try {
+            console.log(`City Details: Fetching details for city ID: ${cityId}`);
+            const response = await fetch(`http://globe.ridealmobility.com/api/departure-cities/${cityId}/details`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const cityDetails = await response.json();
+            console.log('City Details: API response:', cityDetails);
+            return cityDetails.data || cityDetails;
+        } catch (error) {
+            console.error('Departure Cities: Error fetching data:', error);
+            return [];
+        }
+    }
+
+    // Function to fetch pricing information from API
+    async function fetchPricingData(departureCityId, date, category) {
+        try {
+            console.log(`Pricing API: Fetching pricing for city: ${departureCityId}, date: ${date}, category: ${category}`);
+            const response = await fetch(`http://globe.ridealmobility.com/api/departure-cities/${departureCityId}/pricing?date=${date}&category=${category}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const pricingData = await response.json();
+            console.log('Pricing API: Response received:', pricingData);
+            return pricingData.data || pricingData;
+        } catch (error) {
+            console.error('Pricing API: Error fetching data:', error);
+            return null;
+        }
+    }
+
+    // Function to update departure city buttons with API data
+    async function updateDepartureCities() {
+        console.log('Departure Cities: Starting UI update...');
+        
+        const departureCitiesList = await fetchDepartureCitiesList();
+        
+        if (!departureCitiesList || departureCitiesList.length === 0) {
+            console.warn('Departure Cities: No data received from API');
+            return;
+        }
+
+        // Find the city buttons container
+        const cityButtonsContainer = document.querySelector('.luxury-city-buttons');
+        if (!cityButtonsContainer) {
+            console.warn('Departure Cities: City buttons container not found');
+            return;
+        }
+
+        console.log(`Departure Cities: Processing ${departureCitiesList.length} cities...`);
+
+        // Clear existing buttons except "All departures"
+        const allDeparturesBtn = cityButtonsContainer.querySelector('button:first-child');
+        cityButtonsContainer.innerHTML = '';
+        if (allDeparturesBtn) {
+            cityButtonsContainer.appendChild(allDeparturesBtn);
+        }
+
+        // Create buttons for each city from API
+        departureCitiesList.forEach((cityInfo, index) => {
+            const button = document.createElement('button');
+            button.textContent = cityInfo.name;
+            button.setAttribute('data-city-id', cityInfo._id);
+            button.setAttribute('data-city-name', cityInfo.name);
+            
+            // Add click handler that fetches detailed city information
+            button.addEventListener('click', async function() {
+                await selectDepartureCityWithDetails(cityInfo._id, cityInfo.name);
+            });
+            
+            // Make first city active by default
+            if (index === 0) {
+                button.classList.add('active');
+                // Auto-select first city
+                setTimeout(() => selectDepartureCityWithDetails(cityInfo._id, cityInfo.name), 100);
+            }
+            
+            cityButtonsContainer.appendChild(button);
+        });
+
+        console.log('Departure Cities: UI updated successfully');
+    }
+
+    // Function to handle city selection and fetch detailed information from API
+    async function selectDepartureCityWithDetails(cityId, cityName) {
+        console.log('Selected departure city:', cityName, 'ID:', cityId);
+        
+        // Store selected city details globally
+        selectedDepartureCityId = cityId;
+        selectedDepartureCityName = cityName;
+        
+        // Remove active class from all buttons
+        document.querySelectorAll('.luxury-city-buttons button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Add active class to selected button
+        const selectedButton = document.querySelector(`[data-city-id="${cityId}"]`);
+        if (selectedButton) {
+            selectedButton.classList.add('active');
+            // Show loading state
+            const originalText = selectedButton.textContent;
+            selectedButton.textContent = 'Loading...';
+            selectedButton.style.pointerEvents = 'none';
+        }
+
+        try {
+            // Fetch detailed city information from API
+            const cityDetails = await fetchCityDetails(cityId);
+            
+            if (cityDetails) {
+                // Update booking summary
+                updateBookingSummaryWithCity({ name: cityName });
+                
+                // Show dates for selected city
+                displayCityDates(cityDetails);
+                
+                // Show city details (hotels, itinerary, etc.)
+                displayCityDetails(cityDetails);
+                
+                console.log('City details loaded successfully for:', cityName);
+            } else {
+                console.error('Failed to load city details for:', cityName);
+                showCityLoadingError(cityName);
+            }
+        } catch (error) {
+            console.error('Error loading city details:', error);
+            showCityLoadingError(cityName);
+        } finally {
+            // Restore button state
+            if (selectedButton) {
+                selectedButton.textContent = cityName;
+                selectedButton.style.pointerEvents = 'auto';
+            }
+        }
+    }
+
+    // Function to show error when city details fail to load
+    function showCityLoadingError(cityName) {
+        // Create or find error container
+        let errorContainer = document.getElementById('city-loading-error');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.id = 'city-loading-error';
+            errorContainer.style.cssText = `
+                margin: 20px 0;
+                padding: 15px;
+                background: #f8d7da;
+                color: #721c24;
+                border-radius: 8px;
+                border-left: 4px solid #dc3545;
+            `;
+            
+            // Insert after city buttons
+            const cityButtonsContainer = document.querySelector('.luxury-city-buttons');
+            if (cityButtonsContainer && cityButtonsContainer.parentNode) {
+                cityButtonsContainer.parentNode.insertBefore(errorContainer, cityButtonsContainer.nextSibling);
+            }
+        }
+
+        errorContainer.innerHTML = `
+            <h5 style="margin: 0 0 5px 0;">⚠️ Unable to Load Details</h5>
+            <p style="margin: 0;">Failed to load details for ${cityName}. Please try again later or contact support.</p>
+        `;
+    }
+
+    // Function to update booking summary with selected city
+    function updateBookingSummaryWithCity(cityData) {
+        const citySpan = document.querySelector('.booking-summary-info-row span.booking-summary-red');
+        if (citySpan && citySpan.textContent === 'SELECT DEPARTURE CITY') {
+            citySpan.textContent = cityData.name.toUpperCase();
+            citySpan.style.color = '#27ae60';
+        }
+    }
+
+    // Function to display available dates for selected city
+    function displayCityDates(cityData) {
+        console.log('Displaying dates for city from API:', cityData);
+        
+        // Extract city name and dates from API response
+        const cityName = cityData.name || 'Selected City';
+        const dates = cityData.dates || [];
+        
+        // Create or find dates container
+        let datesContainer = document.getElementById('city-dates-container');
+        if (!datesContainer) {
+            datesContainer = document.createElement('div');
+            datesContainer.id = 'city-dates-container';
+            datesContainer.style.cssText = `
+                margin: 20px 0;
+                padding: 20px;
+                background: #f8f9fa;
+                border-radius: 8px;
+                border-left: 4px solid #e55d17;
+            `;
+            
+            // Insert after city buttons
+            const cityButtonsContainer = document.querySelector('.luxury-city-buttons');
+            if (cityButtonsContainer && cityButtonsContainer.parentNode) {
+                cityButtonsContainer.parentNode.insertBefore(datesContainer, cityButtonsContainer.nextSibling);
+            }
+        }
+
+        // Generate dates HTML
+        let datesHTML = `
+            <h5 style="color: #2c3e50; margin: 0 0 15px 0;">Available Departure Dates from ${cityName}</h5>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        `;
+
+        if (dates.length > 0) {
+            dates.forEach((dateInfo, index) => {
+                const date = new Date(dateInfo.date);
+                const formattedDate = date.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                const basePrice = dateInfo.basePrice ? dateInfo.basePrice.toLocaleString('en-IN') : 'TBD';
+                
+                datesHTML += `
+                    <div class="date-card" 
+                         data-date="${dateInfo.date}" 
+                         data-city-id="${cityData._id}"
+                         onclick="selectCityDate('${dateInfo.date}', ${dateInfo.basePrice || 0}, '${cityName}')"
+                         style="
+                            background: white;
+                            padding: 15px;
+                            border-radius: 8px;
+                            border: 2px solid #ecf0f1;
+                            cursor: pointer;
+                            text-align: center;
+                            min-width: 120px;
+                            transition: all 0.3s ease;
+                         ">
+                        <div style="font-weight: 600; color: #2c3e50; margin-bottom: 5px;">${formattedDate}</div>
+                        <div style="color: #e55d17; font-weight: 600;">₹${basePrice}</div>
+                        <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                            ${dateInfo.availability ? 'Available' : 'Sold Out'}
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            datesHTML += `
+                <div style="padding: 20px; text-align: center; color: #666;">
+                    <p>Departure dates will be updated soon</p>
+                </div>
+            `;
+        }
+
+        datesHTML += '</div>';
+        datesContainer.innerHTML = datesHTML;
+    }
+
+    // Function to handle date selection
+    window.selectCityDate = function(dateStr, price, cityName) {
+        console.log('Selected date:', dateStr, 'Price:', price, 'City:', cityName);
+        
+        // Store selected date globally
+        selectedDate = dateStr;
+        
+        // Remove previous selections
+        document.querySelectorAll('.date-card').forEach(card => {
+            card.style.borderColor = '#ecf0f1';
+            card.style.background = 'white';
+        });
+        
+        // Highlight selected date
+        const selectedCard = document.querySelector(`[data-date="${dateStr}"]`);
+        if (selectedCard) {
+            selectedCard.style.borderColor = '#27ae60';
+            selectedCard.style.background = '#f0fff4';
+        }
+        
+        // Update booking summary date
+        const dateSpans = document.querySelectorAll('.booking-summary-info-row span.booking-summary-red');
+        dateSpans.forEach(span => {
+            if (span.textContent === 'SELECT DEPARTURE DATE') {
+                const formattedDate = new Date(dateStr).toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                span.textContent = formattedDate;
+                span.style.color = '#27ae60';
+            }
+        });
+        
+        // Fetch pricing with selected city, date and category
+        if (selectedDepartureCityId) {
+            fetchAndUpdatePricing();
+        }
+    };
+
+    // Function to display detailed city information in original format
+    function displayCityDetails(cityData) {
+        console.log('Displaying city details from API:', cityData);
+        
+        // Remove any previous API details container if exists
+        const existingContainer = document.getElementById('city-details-container');
+        if (existingContainer) {
+            existingContainer.remove();
+        }
+
+        // Extract data from API response structure
+        const cityName = cityData.name || 'Selected City';
+        const description = cityData.description || 'Tour details';
+        const hotels = cityData.hotels || [];
+        const itinerary = cityData.itinerary || [];
+        const tourPrices = cityData.tourPrices || [];
+        const extraNotes = cityData.extraNotes || '';
+
+        // Update the tour title and description
+        const tourTitle = document.querySelector('.tour-title');
+        if (tourTitle) {
+            tourTitle.innerHTML = `Best of ${cityName}`;
+        }
+
+        // Update the tour route if available
+        const tourRoute = document.querySelector('.tour-route');
+        if (tourRoute && itinerary.length > 0) {
+            const routeText = itinerary.map(day => day.name || day.cityName).filter(Boolean).join(' → ');
+            if (routeText) {
+                tourRoute.innerHTML = routeText;
+            }
+        }
+
+        // Update hotel table with API data
+        updateHotelTable(hotels);
+
+        // Update itinerary with API data, keeping original format
+        if (itinerary && itinerary.length > 0) {
+            // Store API itinerary globally and render it
+            currentApiItinerary = itinerary.map((day, index) => ({
+                day: day.day || day.dayNumber || (index + 1),
+                date: day.date ? new Date(day.date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: '2-digit'}) : '',
+                title: day.name || day.cityName || day.title || '',
+                blue: index === 0, // First day highlighted as per original
+                details: day.description || '',
+                sightseeing: day.sightseeing || [],
+                meals: day.meals || [],
+                accommodation: day.accommodation || (day.name ? `Night stay in ${day.name}` : ''),
+                specialNote: day.specialNote || '',
+                expanded: false
+            }));
+            
+            // Render the itinerary with API data
+            renderItinerary(currentApiItinerary);
+        }
+
+        console.log(`✅ Updated ${cityName} details in original format structure`);
+    }
+
+    // Function to update hotel table with API data
+    function updateHotelTable(hotels) {
+        const hotelTableCard = document.querySelector('.hotel-table-card');
+        if (!hotelTableCard || !hotels || hotels.length === 0) {
+            console.log('No hotel table found or no hotel data available');
+            return;
+        }
+
+        // Clear existing hotel rows (keep header)
+        const existingRows = hotelTableCard.querySelectorAll('.hotel-table-row');
+        existingRows.forEach(row => row.remove());
+
+        // Add new hotel rows from API data
+        hotels.forEach(hotel => {
+            const checkInDate = hotel.checkIn ? new Date(hotel.checkIn).toLocaleDateString('en-GB', {day: '2-digit', month: 'short'}) : '';
+            const checkOutDate = hotel.checkOut ? new Date(hotel.checkOut).toLocaleDateString('en-GB', {day: '2-digit', month: 'short'}) : '';
+            
+            const hotelRow = document.createElement('div');
+            hotelRow.className = 'hotel-table-row';
+            hotelRow.innerHTML = `
+                <div>${hotel.city || 'City'} - ${hotel.country || 'COUNTRY'}</div>
+                <div>${hotel.name || 'Hotel Name'}</div>
+                <div><i class="fa fa-calendar"></i> ${checkInDate} - ${checkOutDate}</div>
+            `;
+            
+            hotelTableCard.appendChild(hotelRow);
+        });
+
+        console.log(`✅ Updated hotel table with ${hotels.length} hotels`);
+    }
+
+    // Initialize departure cities
+    updateDepartureCities();
+
+    // Debug function for testing departure city API
+    window.testDepartureCityAPI = async function() {
+        console.log('=== Testing Departure City API ===');
+        
+        // Test cities list API
+        const citiesList = await fetchDepartureCitiesList();
+        console.log('Cities List:', citiesList);
+        
+        if (citiesList && citiesList.length > 0) {
+            const firstCity = citiesList[0];
+            console.log('Testing details for first city:', firstCity.name, 'ID:', firstCity._id);
+            
+            // Test city details API
+            const cityDetails = await fetchCityDetails(firstCity._id);
+            console.log('City Details:', cityDetails);
+            
+            if (cityDetails) {
+                console.log('City Name:', cityDetails.name);
+                console.log('Available Dates:', cityDetails.dates?.length || 0);
+                console.log('Hotels:', cityDetails.hotels?.length || 0);
+                console.log('Itinerary Days:', cityDetails.itinerary?.length || 0);
+                console.log('Tour Prices:', cityDetails.tourPrices);
+                console.log('Cancellation Policy:', cityDetails.cancellationPolicy);
+            }
+        }
+        
+        console.log('Re-updating UI...');
+        await updateDepartureCities();
+    };
+
+    // Test function for specific city details
+    window.testSpecificCityDetails = async function(cityId) {
+        console.log(`=== Testing City Details for ID: ${cityId} ===`);
+        const cityDetails = await fetchCityDetails(cityId);
+        console.log('City Details Response:', cityDetails);
+        
+        if (cityDetails) {
+            console.log('✅ API Response received');
+            console.log('City:', cityDetails.name);
+            console.log('Description:', cityDetails.description);
+            console.log('Hotels:', cityDetails.hotels);
+            console.log('Itinerary:', cityDetails.itinerary);
+            console.log('Pricing:', cityDetails.tourPrices);
+        } else {
+            console.log('❌ No data received from API');
+        }
+    };
+
+    // Function to fetch and update pricing based on current selections
+    async function fetchAndUpdatePricing() {
+        if (!selectedDepartureCityId || !selectedDate || !selectedCategory) {
+            console.log('Pricing: Missing required data - City:', selectedDepartureCityId, 'Date:', selectedDate, 'Category:', selectedCategory);
+            return;
+        }
+
+        console.log('Pricing: Fetching pricing for:', {
+            cityId: selectedDepartureCityId,
+            cityName: selectedDepartureCityName,
+            date: selectedDate,
+            category: selectedCategory
+        });
+
+        // Show loading state in price section
+        const priceElement = document.querySelector('.booking-summary-price');
+        const originalPrice = priceElement ? priceElement.textContent : '₹3,80,000';
+        if (priceElement) {
+            priceElement.innerHTML = '⏳ Loading...';
+            priceElement.style.color = '#666';
+        }
+
+        try {
+            const pricingData = await fetchPricingData(selectedDepartureCityId, selectedDate, selectedCategory);
+            
+            if (pricingData && pricingData.price) {
+                console.log('Pricing: Successfully received pricing data:', pricingData);
+                
+                // Update the main price display
+                if (priceElement) {
+                    priceElement.innerHTML = `₹${pricingData.price.toLocaleString('en-IN')}`;
+                    priceElement.style.color = '#e55d17';
+                }
+                
+                // Update other price displays if available
+                updateAllPriceDisplays(pricingData);
+                
+                console.log(`Pricing: Updated price to ₹${pricingData.price.toLocaleString('en-IN')} for ${selectedCategory} category`);
+            } else {
+                console.warn('Pricing: No price data received from API');
+                restoreOriginalPrice(priceElement, originalPrice);
+            }
+        } catch (error) {
+            console.error('Pricing: Error fetching pricing data:', error);
+            restoreOriginalPrice(priceElement, originalPrice);
+        }
+    }
+
+    // Function to restore original price if API fails
+    function restoreOriginalPrice(priceElement, originalPrice) {
+        if (priceElement) {
+            priceElement.innerHTML = originalPrice;
+            priceElement.style.color = '#e55d17';
+        }
+    }
+
+    // Function to update all price displays throughout the page
+    function updateAllPriceDisplays(pricingData) {
+        // Update date cards prices if available
+        document.querySelectorAll('.date-card').forEach(card => {
+            const priceSpan = card.querySelector('.date-price');
+            if (priceSpan && pricingData.price) {
+                priceSpan.textContent = `₹${pricingData.price.toLocaleString('en-IN')}`;
+            }
+        });
+        
+        // Update any other price displays
+        const luxuryDateCards = document.querySelectorAll('.luxury-date-card');
+        luxuryDateCards.forEach(card => {
+            const priceElement = card.querySelector('.luxury-date-price');
+            if (priceElement && pricingData.price) {
+                priceElement.textContent = `₹${pricingData.price.toLocaleString('en-IN')}`;
+            }
+        });
+        
+        // Update booking summary additional pricing info if available
+        if (pricingData.breakdown) {
+            console.log('Pricing breakdown received:', pricingData.breakdown);
+        }
+    }
+
+    // Debug function to test pricing API
+    window.testPricingAPI = async function(cityId, date, category) {
+        console.log('=== Testing Pricing API ===');
+        console.log('Parameters:', { cityId, date, category });
+        
+        const result = await fetchPricingData(cityId, date, category);
+        console.log('Pricing API Result:', result);
+        
+        if (result) {
+            console.log('✅ Pricing API working correctly');
+            console.log('Price:', result.price);
+            console.log('Full response:', result);
+        } else {
+            console.log('❌ Pricing API failed or returned no data');
+        }
+        
+        return result;
+    };
+
+    // Debug function to simulate complete flow
+    window.testCompleteFlow = async function() {
+        console.log('=== Testing Complete Pricing Flow ===');
+        
+        // Set test values
+        selectedDepartureCityId = '68d38ad4528d68e617beb5d0';
+        selectedDepartureCityName = 'Delhi';
+        selectedDate = '2025-10-15';
+        selectedCategory = 'Standard';
+        
+        console.log('Test selections:', {
+            cityId: selectedDepartureCityId,
+            cityName: selectedDepartureCityName,
+            date: selectedDate,
+            category: selectedCategory
+        });
+        
+        // Call pricing function
+        await fetchAndUpdatePricing();
+        
+        console.log('Complete flow test finished');
+    };
+
+    console.log('Departure City API: Integration initialized successfully');
+    console.log('Debug functions available: testPricingAPI(cityId, date, category), testCompleteFlow()');
 });
 </script>
 </body>

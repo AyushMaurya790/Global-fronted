@@ -657,10 +657,10 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
         <!-- Left Side -->
         <div class="mega-left">
           <ul>
+            <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
+            <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
             <li data-target="africa">AFRICA <span class="arrow">&#8250;</span></li>
             <li data-target="asia">ASIA <span class="arrow">&#8250;</span></li>
-            <li data-target="australasia">AMERICAS <span class="arrow">&#8250;</span></li>
-            <li data-target="europe">EUROPE <span class="arrow">&#8250;</span></li>
             <li data-target="indian">INDIAN SUBCONTINENT <span class="arrow">&#8250;</span></li>
             <li data-target="latin">OCEANIA<span class="arrow">&#8250;</span></li>
             <li data-target="middleeast">MIDDLE EAST <span class="arrow">&#8250;</span></li>
@@ -670,141 +670,28 @@ body { font-family: 'Montserrat', Arial, sans-serif; }
         <!-- Right Side -->
        <div class="mega-right">
           <div class="content" id="africa">
-            <div class="column">
-              <a href="#">Ascension Island</a>
-              <a href="#">Botswana</a>
-              <a href="#">Ethiopia</a>
-              <a href="#">Kenya</a>
-              <a href="#">Madagascar</a>
-              <a href="s10.html">Mauritius</a>
-              <a href="#">Morocco</a>
-              <a href="#">Namibia</a>
-              <a href="#">ReUnion Island</a>
-            </div>
-            <div class="column">
-              <a href="#">Saint Helena Island</a>
-              <a href="#">Seychelles</a>
-              <a href="#">South Africa</a>
-              <a href="#">TanZania</a>
-              <a href="#">Zanzibar</a>
-              <a href="#">Tristan Da Cunha</a>
-              <a href="#">Zimbabwe</a>
-            </div>
+            <!-- Dynamic countries will be loaded here via API -->
           </div>
           <div class="content" id="asia">
-            <div class="column">
-              <a href="#">Armenia</a>
-              <a href="#">Azerbaijan</a>
-              <a href="#">Cambodia</a>
-              <a href="#">Georgia</a>
-              <a href="#">Hong Kong & Macau</a>
-              <a href="s9.html">Indonesia</a>
-              <a href="Destination.html">Japan</a>
-              <a href="#">Kazakhstan</a>
-              <a href="#">Laos</a>
-              <a href="#">Malaysia</a>
-            </div>
-            <div class="column">
-              <a href="#">Maldives</a>
-              <a href="#">Mongolia</a>
-              <a href="#">Philippines</a>
-              <a href="#">Russia</a>
-              <a href="#">Singapore</a>
-              <a href="#">Taiwan</a>
-              <a href="#">South Korea</a>
-              <a href="s6.html">Thailand</a>
-              <a href="#">Uzbekistan</a>
-              <a href="s1.html">Vietnam</a>
-            </div>
+            <!-- Dynamic countries will be loaded here via API -->
           </div>
           <div class="content" id="australasia">
-            <div class="column">
-              <a href="#">Argentina</a>
-              <a href="#">Brazil</a>
-              <a href="#">Canada</a>
-              <a href="#">Caribbean</a>
-              <a href="#">Chile</a>
-              <a href="#">Colombia</a>
-            </div>
-            <div class="column">
-              <a href="#">Equador</a>
-              <a href="#">Mexico</a>
-              <a href="#">Peru</a>
-              <a href="#">Uruguay</a>
-              <a href="#">USA</a>
-            </div>
+            <!-- Dynamic countries will be loaded here via API -->
           </div>
           <div class="content" id="europe">
-            <div class="column">
-              <a href="#">Austria</a>
-              <a href="#">Belgium</a>
-              <a href="#">Bosnia & Herzegovinia</a>
-              <a href="#">Croatia</a>
-              <a href="#">Cyprus</a>
-              <a href="#">Czechia</a>
-              <a href="#">Denmark</a>
-              <a href="s2.html">Finland</a>
-              <a href="#">France</a>
-              <a href="#">Germany</a>
-              <a href="#">Greece</a>
-              <a href="#">Hungary</a>
-              <a href="#">Iceland</a>
-              <a href="#">Ireland</a>
-            </div>
-            <div class="column">
-              <a href="#">Italy</a>
-              <a href="#">Netherlands</a>
-              <a href="#">Norway</a>
-              <a href="#">Poland</a>
-              <a href="#">Portugal</a>
-              <a href="#">Romania</a>
-              <a href="#">Scotland</a>
-              <a href="#">Slovakia</a>
-              <a href="#">Slovenia</a>
-              <a href="#">Spain</a>
-              <a href="#">Sweden</a>
-              <a href="#">Switzerland</a>
-              <a href="#">United Kingdom</a>
-            </div>
+            <!-- Dynamic countries will be loaded here via API -->
           </div>
           <div class="content" id="indian">
-            <div class="column">
-              <a href="#">India</a>
-              <a href="#">Nepal</a>
-              <a href="s8.html">Sri Lanka</a>
-            </div>
-            <div class="column">
-              <a href="s5.html">Bhutan</a>
-              <a href="s7.html">Maldives</a>
-            </div>
+            <!-- Dynamic countries will be loaded here via API -->
           </div>
           <div class="content" id="latin">
             <!-- Dynamic countries will be loaded here via API -->
           </div>
           <div class="content" id="middleeast">
-            <div class="column">
-              <a href="#">Bahrain</a>
-              <a href="#">Egypt</a>
-              <a href="#">Jordan</a>
-              <a href="s11.html">Oman</a>
-            </div>
-            <div class="column">
-              <a href="#">Qatar</a>
-              <a href="#">Saudi Arabia</a>
-              <a href="#">Turkey</a>
-              <a href="#">UAE</a>
-            </div>
+            <!-- Dynamic countries will be loaded here via API -->
           </div>
           <div class="content" id="polar">
-            <div class="column">
-              <a href="#">Antarctica</a>
-              <a href="#">Arctic</a>
-              <a href="#">Greenland</a>
-            </div>
-            <div class="column">
-              <a href="#">Iceland</a>
-              <a href="#">Norway</a>
-            </div>
+            <!-- Dynamic countries will be loaded here via API -->
           </div>
         </div>
       </div>
@@ -2216,8 +2103,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Initialize the dropdown
-    initializeDestinationsDropdown();
+    // Initialize the dropdown - DISABLED for simple integration
+    // initializeDestinationsDropdown();
 
     // Luxury Cities API Integration
     // Function to fetch luxury cities from API
@@ -3381,11 +3268,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Initialize continents navigation
-    initializeContinentsNavigation();
+    // Initialize continents navigation - DISABLED for simple integration
+    // initializeContinentsNavigation();
 
-    // Optional: Refresh continents data every 60 minutes
-    setInterval(initializeContinentsNavigation, 3600000);
+    // Optional: Refresh continents data every 60 minutes - DISABLED
+    // setInterval(initializeContinentsNavigation, 3600000);
 
     // Manual test function for specific continent ID (Oceania)
     function testSpecificContinent() {
@@ -3561,6 +3448,219 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add manual triggers after initialization
     setTimeout(addManualTriggers, 3000);
 });
+
+// Business.html style simple API integration for Sky
+async function fetchContinentsSimple() {
+    try {
+        console.log('Sky: Fetching continents from API...');
+        const response = await fetch('http://globe.ridealmobility.com/api/continents');
+        const data = await response.json();
+        console.log('Sky: Continents loaded:', data);
+        return data;
+    } catch (error) {
+        console.error('Sky: Error fetching continents:', error);
+        return [];
+    }
+}
+
+async function fetchCountriesSimple(continentId) {
+    try {
+        console.log(`Sky: Fetching countries for continent ${continentId}`);
+        const response = await fetch(`http://globe.ridealmobility.com/api/countries?continentId=${continentId}`);
+        const data = await response.json();
+        console.log(`Sky: Countries loaded for ${continentId}:`, data);
+        return data;
+    } catch (error) {
+        console.error(`Sky: Error fetching countries for ${continentId}:`, error);
+        return [];
+    }
+}
+
+async function populateCountriesSimple(continentId, targetId) {
+    console.log(`Sky: Populating countries for continent ${continentId} in target ${targetId}`);
+    
+    const contentDiv = document.getElementById(targetId);
+    if (!contentDiv) {
+        console.error(`Sky: Content div ${targetId} not found in DOM`);
+        return;
+    }
+
+    // Show loading state
+    contentDiv.style.display = 'block';
+    contentDiv.innerHTML = '<div class="column"><div style="padding: 20px; color: #666; background: #f0f8ff; border-radius: 4px;"><i class="fas fa-spinner fa-spin"></i> Loading sky destinations...</div></div>';
+
+    try {
+        console.log(`Sky: Making API call for continent ID: ${continentId}`);
+        const countries = await fetchCountriesSimple(continentId);
+        console.log(`Sky: API returned ${countries.length} countries:`, countries);
+        
+        if (!countries || countries.length === 0) {
+            console.warn(`Sky: No countries found for continent ${continentId}`);
+            contentDiv.innerHTML = '<div class="column"><div style="padding: 20px; color: #666; font-style: italic; background: #fff3cd; border-radius: 4px;">No sky destinations available for this continent yet.</div></div>';
+            return;
+        }
+
+        // Create country links
+        let countryHTML = '';
+        countries.forEach(country => {
+            countryHTML += `<a href="#" onclick="handleSkyCountryClick('${country.name.replace(/'/g, "\\'")}');return false;" style="display: block; padding: 8px 12px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: background 0.2s;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background=''">${country.name}</a>`;
+        });
+
+        // Split into columns if more than 3 countries
+        if (countries.length > 3) {
+            const midPoint = Math.ceil(countries.length / 2);
+            const firstColumn = countries.slice(0, midPoint);
+            const secondColumn = countries.slice(midPoint);
+
+            const column1HTML = firstColumn.map(country => 
+                `<a href="#" onclick="handleSkyCountryClick('${country.name.replace(/'/g, "\\'")}');return false;" style="display: block; padding: 8px 12px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: background 0.2s;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background=''">${country.name}</a>`
+            ).join('');
+
+            const column2HTML = secondColumn.map(country => 
+                `<a href="#" onclick="handleSkyCountryClick('${country.name.replace(/'/g, "\\'")}');return false;" style="display: block; padding: 8px 12px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; transition: background 0.2s;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background=''">${country.name}</a>`
+            ).join('');
+
+            contentDiv.innerHTML = `
+                <div class="column" style="padding: 10px;">${column1HTML}</div>
+                <div class="column" style="padding: 10px;">${column2HTML}</div>
+            `;
+        } else {
+            contentDiv.innerHTML = `
+                <div class="column" style="padding: 10px;">${countryHTML}</div>
+                <div class="column" style="padding: 10px;"></div>
+            `;
+        }
+
+        console.log(`Sky: Successfully populated ${countries.length} countries in ${targetId}`);
+    } catch (error) {
+        console.error(`Sky: Error populating countries for ${targetId}:`, error);
+        contentDiv.innerHTML = '<div class="column"><div style="padding: 20px; color: #dc3545; background: #f8d7da; border-radius: 4px;">Error loading destinations. Please try again later.</div></div>';
+    }
+}
+
+function handleSkyCountryClick(countryName) {
+    console.log(`Sky: Country clicked: ${countryName}`);
+    
+    if (countryName.toLowerCase().includes('new zealand')) {
+        alert('Welcome to New Zealand Sky Adventures! Experience breathtaking aerial tours and luxury aviation services.');
+        window.location.href = 's4.html';
+    } else {
+        alert(`${countryName} sky adventures coming soon! We're expanding our premium aviation services worldwide.`);
+    }
+}
+
+// Initialize navigation with API data - Wait for complete page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Sky: DOM loaded, waiting for complete initialization...');
+    
+    // Wait for other scripts to complete, then initialize our simple approach
+    setTimeout(async function() {
+        console.log('Sky: Starting simple navigation initialization...');
+        
+        try {
+            const continents = await fetchContinentsSimple();
+            console.log('Sky: Continents data loaded:', continents.map(c => c.name));
+            
+            // Create continent mapping
+            const continentMap = {};
+            continents.forEach(continent => {
+                const targetId = getTargetIdFromName(continent.name);
+                continentMap[targetId] = continent._id;
+                console.log(`Sky: Mapped ${continent.name} -> ${targetId} -> ${continent._id}`);
+            });
+
+            // Remove any existing event listeners by cloning elements
+            const menuItems = document.querySelectorAll('.destinations-menu .mega-left li');
+            console.log(`Sky: Found ${menuItems.length} menu items to update`);
+            
+            menuItems.forEach((item, index) => {
+                const targetId = item.getAttribute('data-target');
+                console.log(`Sky: Processing menu item ${index}: ${targetId}`);
+                
+                // Clone the element to remove all existing event listeners
+                const newItem = item.cloneNode(true);
+                item.parentNode.replaceChild(newItem, item);
+                
+                // Add our simple hover event
+                newItem.addEventListener('mouseenter', function() {
+                    console.log(`Sky Simple: Hovering over ${targetId}`);
+                    
+                    // Hide all content sections first
+                    const allContent = document.querySelectorAll('.destinations-menu .mega-right .content');
+                    console.log(`Sky Simple: Hiding ${allContent.length} content sections`);
+                    allContent.forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    
+                    // Show and populate target content
+                    const continentId = continentMap[targetId];
+                    if (continentId) {
+                        console.log(`Sky Simple: Found continent ID ${continentId} for ${targetId}`);
+                        populateCountriesSimple(continentId, targetId);
+                    } else {
+                        console.warn(`Sky Simple: No continent ID found for ${targetId}, available mappings:`, Object.keys(continentMap));
+                        const contentDiv = document.getElementById(targetId);
+                        if (contentDiv) {
+                            contentDiv.style.display = 'block';
+                            contentDiv.innerHTML = '<div class="column"><div style="padding: 20px; color: #666;">Destinations loading...</div></div>';
+                        }
+                    }
+                });
+            });
+
+            console.log('Sky Simple: Navigation initialized successfully!');
+            
+            // Show OCEANIA by default since it has data (New Zealand)
+            const oceaniaId = continentMap['latin']; // OCEANIA maps to latin
+            if (oceaniaId) {
+                console.log(`Sky Simple: Showing OCEANIA by default with ID: ${oceaniaId}`);
+                setTimeout(() => {
+                    // Hide all content first
+                    const allContent = document.querySelectorAll('.destinations-menu .mega-right .content');
+                    allContent.forEach(content => content.style.display = 'none');
+                    // Show OCEANIA with New Zealand
+                    populateCountriesSimple(oceaniaId, 'latin');
+                }, 1000);
+            }
+            
+        } catch (error) {
+            console.error('Sky Simple: Failed to initialize navigation:', error);
+        }
+    }, 3000); // Wait 3 seconds for all other scripts to complete
+});
+
+function getTargetIdFromName(continentName) {
+    const mapping = {
+        'AFRICA': 'africa',
+        'ASIA': 'asia', 
+        'AMERICAS': 'australasia',
+        'AMERICA': 'australasia',
+        'EUROPE': 'europe',
+        'EUPORE': 'europe', // Handle API typo
+        'INDIAN SUBCONTINENT': 'indian',
+        'OCEANIA': 'latin', // OCEANIA maps to latin content div
+        'MIDDLE EAST': 'middleeast',
+        'POLAR': 'polar'
+    };
+    const result = mapping[continentName.toUpperCase()] || continentName.toLowerCase().replace(/\s+/g, '');
+    console.log(`Sky: Mapping continent "${continentName}" to target "${result}"`);
+    return result;
+}
+
+// Test function that can be called from browser console
+window.testOceania = function() {
+    console.log('Testing OCEANIA manually...');
+    populateCountriesSimple('68bffc49cd2575bd4c4611f8', 'latin');
+};
+
+// Expose functions for debugging
+window.skyDebug = {
+    fetchContinents: fetchContinentsSimple,
+    fetchCountries: fetchCountriesSimple,
+    populateCountries: populateCountriesSimple,
+    testOceania: () => populateCountriesSimple('68bffc49cd2575bd4c4611f8', 'latin')
+};
+
 </script>
 
 <!-- Luxury Options API Integration -->
